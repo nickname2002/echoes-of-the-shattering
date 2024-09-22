@@ -5,8 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MonoZenith;
 
-namespace MonoZenith.Classes.Card
+namespace MonoZenith.Card
 {
     internal abstract class Card
     {
@@ -18,15 +19,20 @@ namespace MonoZenith.Classes.Card
         protected Texture2D _texture;
         protected string _name;
 
-        public Card(Game game, GameState state, Vector2 position, int width, int height, Texture2D texture, string name)
+        public Card(Game game, GameState state, Vector2 position, Texture2D texture, string name)
         {
             _game = game;
             _state = state;
             _position = position;
-            _width = width;
-            _height = height;
+            _width = 0;
+            _height = 0;
             _texture = texture;
             _name = name;
+        }
+
+        public override string ToString()
+        {
+            return _name;
         }
 
         /// <summary>

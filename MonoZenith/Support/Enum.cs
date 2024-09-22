@@ -19,7 +19,8 @@ namespace MonoZenith
         LIMGRAVE,
         LIURNIA,
         CAELID,
-        LEYNDELL
+        LEYNDELL,
+        ALL
     }
 
     internal enum CardLabel
@@ -32,6 +33,9 @@ namespace MonoZenith
         SIX,
         SEVEN,
         EIGHT,
-        NINE
+        NINE,
+        JOKER,
+        GRACE,
+        POWER
     }
 }

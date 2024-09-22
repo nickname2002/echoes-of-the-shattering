@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace MonoZenith.Classes.Card
+namespace MonoZenith.Card
 {
     internal abstract class EffectCard : RegionCard
     {
@@ -10,13 +10,11 @@ namespace MonoZenith.Classes.Card
             Game game,
             GameState state,
             Vector2 position,
-            int width,
-            int height,
             Texture2D texture,
             string name,
             CardLabel label,
             Region region)
-            : base(game, state, position, width, height, texture, name, label, region)
+            : base(game, state, position, texture, name, label, region)
         {
         }
 
@@ -27,19 +25,17 @@ namespace MonoZenith.Classes.Card
         public abstract void PerformEffect(GameState state);
     }
 
-    internal class Joker : EffectCard
+    internal class JokerCard : EffectCard
     {
-        public Joker(
+        public JokerCard(
             Game game,
             GameState state,
             Vector2 position,
-            int width,
-            int height,
             Texture2D texture,
             string name,
             Region region,
             CardLabel label)
-            : base(game, state, position, width, height, texture, name, label, region)
+            : base(game, state, position, texture, name, label, region)
         {
         }
 
@@ -60,13 +56,11 @@ namespace MonoZenith.Classes.Card
             Game game,
             GameState state,
             Vector2 position,
-            int width,
-            int height,
             Texture2D texture,
             string name,
             Region region,
             CardLabel label)
-            : base(game, state, position, width, height, texture, name, label, region)
+            : base(game, state, position, texture, name, label, region)
         {
         }
 
@@ -82,13 +76,11 @@ namespace MonoZenith.Classes.Card
             Game game,
             GameState state,
             Vector2 position,
-            int width,
-            int height,
             Texture2D texture,
             string name,
             Region region,
             CardLabel label)
-            : base(game, state, position, width, height, texture, name, label, region)
+            : base(game, state, position, texture, name, label, region)
         {
         }
 
@@ -104,13 +96,11 @@ namespace MonoZenith.Classes.Card
             Game game,
             GameState state,
             Vector2 position,
-            int width,
-            int height,
             Texture2D texture,
             string name,
             Region region,
             CardLabel label)
-            : base(game, state, position, width, height, texture, name, label, region)
+            : base(game, state, position, texture, name, label, region)
         {
         }
 
@@ -126,13 +116,11 @@ namespace MonoZenith.Classes.Card
             Game game,
             GameState state,
             Vector2 position,
-            int width,
-            int height,
             Texture2D texture,
             string name,
             Region region,
             CardLabel label)
-            : base(game, state, position, width, height, texture, name, label, region)
+            : base(game, state, position, texture, name, label, region)
         {
         }
 
@@ -148,13 +136,11 @@ namespace MonoZenith.Classes.Card
             Game game,
             GameState state,
             Vector2 position,
-            int width,
-            int height,
             Texture2D texture,
             string name,
             Region region,
             CardLabel label)
-            : base(game, state, position, width, height, texture, name, label, region)
+            : base(game, state, position, texture, name, label, region)
         {
         }
 
@@ -170,13 +156,11 @@ namespace MonoZenith.Classes.Card
             Game game,
             GameState state,
             Vector2 position,
-            int width,
-            int height,
             Texture2D texture,
             string name,
             Region region,
             CardLabel label)
-            : base(game, state, position, width, height, texture, name, label, region)
+            : base(game, state, position, texture, name, label, region)
         {
         }
 
@@ -192,13 +176,11 @@ namespace MonoZenith.Classes.Card
             Game game,
             GameState state,
             Vector2 position,
-            int width,
-            int height,
             Texture2D texture,
             string name,
             Region region,
             CardLabel label)
-            : base(game, state, position, width, height, texture, name, label, region)
+            : base(game, state, position, texture, name, label, region)
         {
         }
 
@@ -208,19 +190,17 @@ namespace MonoZenith.Classes.Card
         }
     }
 
-    internal class DeathRootDecayMoonCard : EffectCard
+    internal class DeathRootDecayCard : EffectCard
     {
-        public DeathRootDecayMoonCard(
+        public DeathRootDecayCard(
             Game game,
             GameState state,
             Vector2 position,
-            int width,
-            int height,
             Texture2D texture,
             string name,
             Region region,
             CardLabel label)
-            : base(game, state, position, width, height, texture, name, label, region)
+            : base(game, state, position, texture, name, label, region)
         {
         }
 
@@ -236,13 +216,11 @@ namespace MonoZenith.Classes.Card
             Game game,
             GameState state,
             Vector2 position,
-            int width,
-            int height,
             Texture2D texture,
             string name,
             Region region,
             CardLabel label)
-            : base(game, state, position, width, height, texture, name, label, region)
+            : base(game, state, position, texture, name, label, region)
         {
         }
 
@@ -258,13 +236,11 @@ namespace MonoZenith.Classes.Card
             Game game,
             GameState state,
             Vector2 position,
-            int width,
-            int height,
             Texture2D texture,
             string name,
             Region region,
             CardLabel label)
-            : base(game, state, position, width, height, texture, name, label, region)
+            : base(game, state, position, texture, name, label, region)
         {
         }
 

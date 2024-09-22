@@ -3,16 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 
-namespace MonoZenith.Classes.Card
+namespace MonoZenith.Card
 {
     internal class CardStack
     {
-        private List<Card> _cards = new List<Card>();
+        protected Game _game;
+        protected GameState _state;
+        protected Vector2 _position;
+        protected List<Card> _cards = new List<Card>();
         public List<Card> Cards => _cards;
+        public int Count => _cards.Count;
 
-        public CardStack()
+        public CardStack(Game game, GameState state)
         {
+            _game = game;
+            _state = state;
+        }
+
+        public override string ToString()
+        {
+            return string.Join(",\n", _cards);
         }
 
         /// <summary>
@@ -67,7 +79,17 @@ namespace MonoZenith.Classes.Card
         /// </summary>
         public void Shuffle()
         {
-            throw new NotImplementedException();
+            Random rng = new Random();
+            int n = _cards.Count;
+
+            while (n > 1)
+            {
+                n--;
+                int k = rng.Next(n + 1);
+                Card value = _cards[k];
+                _cards[k] = _cards[n];
+                _cards[n] = value;
+            }
         }
     }
 }

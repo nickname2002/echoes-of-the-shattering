@@ -6,22 +6,23 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace MonoZenith.Classes.Card
+namespace MonoZenith.Card
 {
     internal class RegionCard : Card
     {
         public readonly CardLabel Label; 
         public readonly Region Region;
-        private Vector2 position;
-        private int width;
-        private int height;
-        private string name;
 
-        public RegionCard(Game game, GameState state, Vector2 position, int width, int height, Texture2D texture, string name, CardLabel label, Region region)
-            : base(game, state, position, width, height, texture, name)
+        public RegionCard(Game game, GameState state, Vector2 position, Texture2D texture, string name, CardLabel label, Region region)
+            : base(game, state, position, texture, name)
         {
             Label = label;
             Region = region; 
+        }
+
+        public override string ToString()
+        {
+            return $"{_name} ({Region}) - {Label}";
         }
 
         public override bool ValidNextCard(Card previousCard)
