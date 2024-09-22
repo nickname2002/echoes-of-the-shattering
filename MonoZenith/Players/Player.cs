@@ -1,5 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using MonoZenith.Classes.Card;
+using MonoZenith.Card;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -20,7 +20,7 @@ namespace MonoZenith.Classes.Players
         {
             _game = game;
             _state = state;
-            Hand = new CardStack();
+            Hand = new CardStack(_game, _state);
             Name = name;
         }
 

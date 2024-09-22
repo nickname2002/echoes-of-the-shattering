@@ -1,6 +1,6 @@
 ﻿#nullable enable
 using Microsoft.Xna.Framework;
-using MonoZenith.Classes.Card;
+using MonoZenith.Card;
 using MonoZenith.Classes.Players;
 using System;
 using System.Collections.Generic;
@@ -8,25 +8,65 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MonoZenith.Classes
+namespace MonoZenith
 {
     internal class GameState
     {
         Game _game;
+        private Player? _currentPlayer;
+        private Player? _currentWinner;
         private HumanPlayer _player;
         private NpcPlayer _npc;
-        private CardStack _drawableCards;
+        private DrawableCardsStack _drawableCards;
         private CardStack _playedCards;
         private Region _currentRegion;
 
         public GameState(Game game)
         {
             _game = game;
-            _player = new HumanPlayer(game, this, "Player");
-            _npc = new NpcPlayer(game, this, "NPC");
-            _drawableCards = new CardStack();
-            _playedCards = new CardStack();
+            _player = new HumanPlayer(_game, this, "Player");
+            _npc = new NpcPlayer(_game, this, "NPC");
+            _currentPlayer = null;
+            _drawableCards = new DrawableCardsStack(_game, this);
+            _playedCards = new CardStack(_game, this);
             _currentRegion = Region.LIMGRAVE;   // TODO: Set to random region.
+            InitializeState();
+        }
+
+        /// <summary>
+        /// Initialize the game state.
+        /// </summary>
+        private void InitializeState()
+        {
+            _drawableCards = new DrawableCardsStack(_game, this);
+            _player.Hand = _drawableCards.GetSevenCards();
+            _npc.Hand = _drawableCards.GetSevenCards();
+            DetermineStartingPlayer();
+        }
+
+        /// <summary>
+        /// Determine the starting player.
+        /// </summary>
+        private void DetermineStartingPlayer()
+        {
+            // If there is a winner from the previous game, they go first.
+            if (_currentWinner != null)
+            {
+                _currentPlayer = _currentWinner;
+                return;
+            }
+
+            // Otherwise, randomly select a player to go first.
+            Random rand = new Random();
+            
+            if (rand.Next(0, 2) == 0)
+            {
+                _currentPlayer = _player;
+            }
+            else
+            {
+                _currentPlayer = _npc;
+            }
         }
 
         /// <summary>
@@ -35,7 +75,18 @@ namespace MonoZenith.Classes
         /// <returns>The winning player, or null if there is no winner.</returns>
         public Player? HasWinner()
         {
-            throw new NotImplementedException();
+            if (_player.Hand.Count == 0)
+            {
+                _currentWinner = _player;
+                return _player;
+            }
+            else if (_npc.Hand.Count == 0)
+            {
+                _currentWinner = _npc;
+                return _npc;
+            }
+            
+            return null;
         }
 
         /// <summary>
