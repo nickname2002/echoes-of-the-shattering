@@ -9,6 +9,13 @@ namespace MonoZenith.Classes.Screen
 {
     internal abstract class Screen
     {
+        protected Game _game;
+
+        public Screen(Game game)
+        {
+            _game = game;
+        }
+
         /// <summary>
         /// Update state.
         /// </summary>

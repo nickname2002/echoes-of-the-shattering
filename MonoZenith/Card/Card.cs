@@ -11,15 +11,17 @@ namespace MonoZenith.Classes.Card
     internal abstract class Card
     {
         protected Game _game;
+        protected GameState _state;
         protected Vector2 _position;
         protected int _width;
         protected int _height;
         protected Texture2D _texture;
         protected string _name;
 
-        public Card(Game game, Vector2 position, int width, int height, Texture2D texture, string name)
+        public Card(Game game, GameState state, Vector2 position, int width, int height, Texture2D texture, string name)
         {
             _game = game;
+            _state = state;
             _position = position;
             _width = width;
             _height = height;

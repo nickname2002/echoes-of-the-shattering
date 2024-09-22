@@ -12,11 +12,22 @@ namespace MonoZenith.Classes
 {
     internal class GameState
     {
+        Game _game;
         private HumanPlayer _player;
         private NpcPlayer _npc;
         private CardStack _drawableCards;
         private CardStack _playedCards;
         private Region _currentRegion;
+
+        public GameState(Game game)
+        {
+            _game = game;
+            _player = new HumanPlayer(game, this, "Player");
+            _npc = new NpcPlayer(game, this, "NPC");
+            _drawableCards = new CardStack();
+            _playedCards = new CardStack();
+            _currentRegion = Region.LIMGRAVE;   // TODO: Set to random region.
+        }
 
         /// <summary>
         /// Check if there is a winner.
@@ -25,15 +36,6 @@ namespace MonoZenith.Classes
         public Player? HasWinner()
         {
             throw new NotImplementedException();
-        }
-
-        public void Init()
-        {
-            _player = new HumanPlayer("player1");
-            _npc = new NpcPlayer("cpu");
-            _drawableCards = new CardStack();
-            _playedCards = new CardStack();
-            _currentRegion = Region.LIMGRAVE;   // TODO: Set to random region.
         }
 
         /// <summary>

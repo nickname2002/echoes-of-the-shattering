@@ -16,9 +16,9 @@ public partial class Game
     /* Initialize game vars and load assets. */
     public void Init()
     {
-        _activeScreen = Screens.NONE;   // TODO: Set to game later.
-        _gameScreen = new GameScreen();
-        _pauseScreen = new PauseScreen();
+        _activeScreen = Screens.GAME;  
+        _gameScreen = new GameScreen(this);
+        _pauseScreen = new PauseScreen(this);
     }
 
     /* Update game logic. */

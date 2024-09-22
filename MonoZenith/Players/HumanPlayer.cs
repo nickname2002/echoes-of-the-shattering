@@ -9,7 +9,7 @@ namespace MonoZenith.Classes.Players
 {
     internal class HumanPlayer : Player
     {
-        public HumanPlayer(string name) : base(name)
+        public HumanPlayer(Game game, GameState state, string name) : base(game, state, name)
         {
         }
 

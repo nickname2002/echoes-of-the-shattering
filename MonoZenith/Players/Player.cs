@@ -2,6 +2,7 @@
 using MonoZenith.Classes.Card;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,11 +11,15 @@ namespace MonoZenith.Classes.Players
 {
     internal abstract class Player
     {
+        private Game _game;
+        private GameState _state;
         public CardStack Hand;
         public string Name;
 
-        public Player(string name)
+        public Player(Game game, GameState state, string name)
         {
+            _game = game;
+            _state = state;
             Hand = new CardStack();
             Name = name;
         }

@@ -9,6 +9,10 @@ namespace MonoZenith.Classes.Screen
 {
     internal class PauseScreen : Screen
     {
+        public PauseScreen(Game game) : base(game)
+        {
+        }
+
         public override void Update(GameTime deltaTime)
         {
             throw new NotImplementedException();

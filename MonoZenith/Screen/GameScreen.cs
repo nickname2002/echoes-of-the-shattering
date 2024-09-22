@@ -11,9 +11,9 @@ namespace MonoZenith.Classes.Screen
     {
         private GameState _gameState;
 
-        public GameScreen()
+        public GameScreen(Game game) : base(game)
         {
-            _gameState = new GameState();
+            _gameState = new GameState(game);
         }
 
         /// <summary>

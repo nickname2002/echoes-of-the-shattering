@@ -9,7 +9,7 @@ namespace MonoZenith.Classes.Players
 {
     internal class NpcPlayer : Player
     {
-        public NpcPlayer(string name) : base(name)
+        public NpcPlayer(Game game, GameState state, string name) : base(game, state, name)
         {
         }
 
