@@ -175,7 +175,8 @@ namespace MonoZenith.Engine
             
             if (_splashScreenTimer > 0)
             {
-                ShowSplashScreen();
+                // TODO: Show splash screen when development is done.
+                // ShowSplashScreen();
                 _spriteBatch.End();
                 return;
             }
