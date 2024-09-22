@@ -6,8 +6,17 @@ namespace MonoZenith.Classes.Card
 {
     internal abstract class EffectCard : RegionCard
     {
-        public EffectCard(Game game, Vector2 position, int width, int height, Texture2D texture, string name, CardLabel label, Region region)
-            : base(game, position, width, height, texture, name, label, region)
+        public EffectCard(
+            Game game,
+            GameState state,
+            Vector2 position,
+            int width,
+            int height,
+            Texture2D texture,
+            string name,
+            CardLabel label,
+            Region region)
+            : base(game, state, position, width, height, texture, name, label, region)
         {
         }
 
@@ -20,8 +29,17 @@ namespace MonoZenith.Classes.Card
 
     internal class Joker : EffectCard
     {
-        public Joker(Game game, Vector2 position, int width, int height, Texture2D texture, string name, Region region, CardLabel label)
-            : base(game, position, width, height, texture, name, label, region)
+        public Joker(
+            Game game,
+            GameState state,
+            Vector2 position,
+            int width,
+            int height,
+            Texture2D texture,
+            string name,
+            Region region,
+            CardLabel label)
+            : base(game, state, position, width, height, texture, name, label, region)
         {
         }
 
@@ -29,7 +47,7 @@ namespace MonoZenith.Classes.Card
         {
             return true;
         }
-        
+
         public override void PerformEffect(GameState state)
         {
             throw new NotImplementedException();
@@ -38,8 +56,17 @@ namespace MonoZenith.Classes.Card
 
     internal class GraceCard : EffectCard
     {
-        public GraceCard(Game game, Vector2 position, int width, int height, Texture2D texture, string name, Region region, CardLabel label)
-            : base(game, position, width, height, texture, name, label, region)
+        public GraceCard(
+            Game game,
+            GameState state,
+            Vector2 position,
+            int width,
+            int height,
+            Texture2D texture,
+            string name,
+            Region region,
+            CardLabel label)
+            : base(game, state, position, width, height, texture, name, label, region)
         {
         }
 
@@ -51,8 +78,17 @@ namespace MonoZenith.Classes.Card
 
     internal class LunarQueenRebirthCard : EffectCard
     {
-        public LunarQueenRebirthCard(Game game, Vector2 position, int width, int height, Texture2D texture, string name, Region region, CardLabel label)
-            : base(game, position, width, height, texture, name, label, region)
+        public LunarQueenRebirthCard(
+            Game game,
+            GameState state,
+            Vector2 position,
+            int width,
+            int height,
+            Texture2D texture,
+            string name,
+            Region region,
+            CardLabel label)
+            : base(game, state, position, width, height, texture, name, label, region)
         {
         }
 
@@ -64,8 +100,17 @@ namespace MonoZenith.Classes.Card
 
     internal class ScarletBloomCard : EffectCard
     {
-        public ScarletBloomCard(Game game, Vector2 position, int width, int height, Texture2D texture, string name, Region region, CardLabel label)
-            : base(game, position, width, height, texture, name, label, region)
+        public ScarletBloomCard(
+            Game game,
+            GameState state,
+            Vector2 position,
+            int width,
+            int height,
+            Texture2D texture,
+            string name,
+            Region region,
+            CardLabel label)
+            : base(game, state, position, width, height, texture, name, label, region)
         {
         }
 
@@ -77,8 +122,17 @@ namespace MonoZenith.Classes.Card
 
     internal class GravityPullCard : EffectCard
     {
-        public GravityPullCard(Game game, Vector2 position, int width, int height, Texture2D texture, string name, Region region, CardLabel label)
-            : base(game, position, width, height, texture, name, label, region)
+        public GravityPullCard(
+            Game game,
+            GameState state,
+            Vector2 position,
+            int width,
+            int height,
+            Texture2D texture,
+            string name,
+            Region region,
+            CardLabel label)
+            : base(game, state, position, width, height, texture, name, label, region)
         {
         }
 
@@ -90,8 +144,17 @@ namespace MonoZenith.Classes.Card
 
     internal class ErdtreeBlessingCard : EffectCard
     {
-        public ErdtreeBlessingCard(Game game, Vector2 position, int width, int height, Texture2D texture, string name, Region region, CardLabel label)
-            : base(game, position, width, height, texture, name, label, region)
+        public ErdtreeBlessingCard(
+            Game game,
+            GameState state,
+            Vector2 position,
+            int width,
+            int height,
+            Texture2D texture,
+            string name,
+            Region region,
+            CardLabel label)
+            : base(game, state, position, width, height, texture, name, label, region)
         {
         }
 
@@ -103,8 +166,17 @@ namespace MonoZenith.Classes.Card
 
     internal class MargitShacklesCard : EffectCard
     {
-        public MargitShacklesCard(Game game, Vector2 position, int width, int height, Texture2D texture, string name, Region region, CardLabel label)
-            : base(game, position, width, height, texture, name, label, region)
+        public MargitShacklesCard(
+            Game game,
+            GameState state,
+            Vector2 position,
+            int width,
+            int height,
+            Texture2D texture,
+            string name,
+            Region region,
+            CardLabel label)
+            : base(game, state, position, width, height, texture, name, label, region)
         {
         }
 
@@ -116,8 +188,17 @@ namespace MonoZenith.Classes.Card
 
     internal class RennalaFullMoonCard : EffectCard
     {
-        public RennalaFullMoonCard(Game game, Vector2 position, int width, int height, Texture2D texture, string name, Region region, CardLabel label)
-            : base(game, position, width, height, texture, name, label, region)
+        public RennalaFullMoonCard(
+            Game game,
+            GameState state,
+            Vector2 position,
+            int width,
+            int height,
+            Texture2D texture,
+            string name,
+            Region region,
+            CardLabel label)
+            : base(game, state, position, width, height, texture, name, label, region)
         {
         }
 
@@ -129,8 +210,17 @@ namespace MonoZenith.Classes.Card
 
     internal class DeathRootDecayMoonCard : EffectCard
     {
-        public DeathRootDecayMoonCard(Game game, Vector2 position, int width, int height, Texture2D texture, string name, Region region, CardLabel label)
-            : base(game, position, width, height, texture, name, label, region)
+        public DeathRootDecayMoonCard(
+            Game game,
+            GameState state,
+            Vector2 position,
+            int width,
+            int height,
+            Texture2D texture,
+            string name,
+            Region region,
+            CardLabel label)
+            : base(game, state, position, width, height, texture, name, label, region)
         {
         }
 
@@ -142,8 +232,17 @@ namespace MonoZenith.Classes.Card
 
     internal class WaterFlowDanceCard : EffectCard
     {
-        public WaterFlowDanceCard(Game game, Vector2 position, int width, int height, Texture2D texture, string name, Region region, CardLabel label)
-            : base(game, position, width, height, texture, name, label, region)
+        public WaterFlowDanceCard(
+            Game game,
+            GameState state,
+            Vector2 position,
+            int width,
+            int height,
+            Texture2D texture,
+            string name,
+            Region region,
+            CardLabel label)
+            : base(game, state, position, width, height, texture, name, label, region)
         {
         }
 
@@ -155,8 +254,17 @@ namespace MonoZenith.Classes.Card
 
     internal class MiquellaBlessingCard : EffectCard
     {
-        public MiquellaBlessingCard(Game game, Vector2 position, int width, int height, Texture2D texture, string name, Region region, CardLabel label)
-            : base(game, position, width, height, texture, name, label, region)
+        public MiquellaBlessingCard(
+            Game game,
+            GameState state,
+            Vector2 position,
+            int width,
+            int height,
+            Texture2D texture,
+            string name,
+            Region region,
+            CardLabel label)
+            : base(game, state, position, width, height, texture, name, label, region)
         {
         }
 

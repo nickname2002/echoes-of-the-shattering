@@ -17,8 +17,8 @@ namespace MonoZenith.Classes.Card
         private int height;
         private string name;
 
-        public RegionCard(Game game, Vector2 position, int width, int height, Texture2D texture, string name, CardLabel label, Region region)
-            : base(game, position, width, height, texture, name)
+        public RegionCard(Game game, GameState state, Vector2 position, int width, int height, Texture2D texture, string name, CardLabel label, Region region)
+            : base(game, state, position, width, height, texture, name)
         {
             Label = label;
             Region = region; 
