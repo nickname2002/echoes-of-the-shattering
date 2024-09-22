@@ -30,6 +30,11 @@ namespace MonoZenith.Card
             _name = name;
         }
 
+        public override string ToString()
+        {
+            return _name;
+        }
+
         /// <summary>
         /// Draw the card.
         /// </summary>

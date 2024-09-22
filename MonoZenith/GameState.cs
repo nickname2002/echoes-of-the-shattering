@@ -31,6 +31,9 @@ namespace MonoZenith
             _playedCards = new CardStack(_game, this);
             _currentRegion = Region.LIMGRAVE;   // TODO: Set to random region.
             InitializeState();
+
+            Console.WriteLine(_player);
+            Console.WriteLine(_npc);
         }
 
         /// <summary>
@@ -85,7 +88,7 @@ namespace MonoZenith
                 _currentWinner = _npc;
                 return _npc;
             }
-            
+
             return null;
         }
 

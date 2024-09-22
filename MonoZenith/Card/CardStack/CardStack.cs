@@ -22,6 +22,11 @@ namespace MonoZenith.Card
             _state = state;
         }
 
+        public override string ToString()
+        {
+            return string.Join(",\n", _cards);
+        }
+
         /// <summary>
         /// Add a card to the top of the stack.
         /// </summary>

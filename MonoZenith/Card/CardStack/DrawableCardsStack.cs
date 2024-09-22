@@ -69,9 +69,9 @@ namespace MonoZenith.Card
 
             // Grace cards
             AddToFront(new GraceCard(_game, _state, _position, null, "Grace of Gold", Region.ALL, CardLabel.GRACE));
-            AddToFront(new GraceCard(_game, _state, _position, null, "Grace of Silver", Region.ALL, CardLabel.GRACE));
-            AddToFront(new GraceCard(_game, _state, _position, null, "Grace of Steel", Region.ALL, CardLabel.GRACE));
-            AddToFront(new GraceCard(_game, _state, _position, null, "Grace of Light", Region.ALL, CardLabel.GRACE));
+            AddToFront(new GraceCard(_game, _state, _position, null, "Grace of Gold", Region.ALL, CardLabel.GRACE));
+            AddToFront(new GraceCard(_game, _state, _position, null, "Grace of Gold", Region.ALL, CardLabel.GRACE));
+            AddToFront(new GraceCard(_game, _state, _position, null, "Grace of Gold", Region.ALL, CardLabel.GRACE));
 
             // Power cards
             AddToFront(new LunarQueenRebirthCard(_game, _state, _position, null, "Lunar Queen Rebirth", Region.LIURNIA, CardLabel.POWER));
@@ -97,7 +97,7 @@ namespace MonoZenith.Card
             {
                 sevenCards.AddToBottom(Pop());
             }
-            
+
             return sevenCards;
         }
     }

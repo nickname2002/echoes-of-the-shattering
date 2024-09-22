@@ -24,6 +24,11 @@ namespace MonoZenith.Classes.Players
             Name = name;
         }
 
+        public override string ToString()
+        {
+            return $"==== {Name} ====\n{Hand}\n";
+        }
+
         /// <summary>
         /// Perform the player's turn.
         /// </summary>
