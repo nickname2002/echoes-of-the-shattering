@@ -14,6 +14,7 @@ namespace MonoZenith.Card
         public DrawableCardsStack(Game game, GameState state) : base(game, state)
         {
             CardBack = DataManager.GetInstance(game).CardBack;
+            // TODO: Ensure cards are able to show both back and front sides
             InitializeCards();
             Shuffle();
         }

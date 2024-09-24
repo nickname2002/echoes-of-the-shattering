@@ -13,7 +13,7 @@ namespace MonoZenith.Classes.Players
         public NpcPlayer(Game game, GameState state, string name) : base(game, state, name)
         {
             width = game.ScreenWidth / 2;
-            height = game.ScreenHeight / 5;
+            height = game.ScreenHeight / 5f;
         }
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace MonoZenith.Classes.Players
             foreach (Card.Card card in Hand.Cards)
             {
                 float currentWidth = width - (width / 2) + (widthStep * count);
-                card.Draw(currentWidth, height, 180);
+                card.Draw(currentWidth, height, 180, false);
                 count--;
             }
         }

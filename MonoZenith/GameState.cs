@@ -50,7 +50,7 @@ namespace MonoZenith
             _drawableCards.ChangePosition(widthDrawable, height);
             _playedCards.ChangePosition(widthPlayed, height);
 
-            // For visualisation debugging, remove later
+            // TODO: Remove later. For visualisation debugging.
             _playedCards.AddToFront(_drawableCards.Pop());
 
             // Initialize player hands

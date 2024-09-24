@@ -13,7 +13,7 @@ namespace MonoZenith.Classes.Players
         public HumanPlayer(Game game, GameState state, string name) : base(game, state, name)
         {
             width = game.ScreenWidth / 2;
-            height = game.ScreenHeight / 1.3f;
+            height = game.ScreenHeight / 1.25f;
         }
     
         /// <summary>
@@ -22,11 +22,12 @@ namespace MonoZenith.Classes.Players
         public override void Draw()
         {
             int count = Hand.Count;
+            float scale = 0.2f;
             float widthStep = width / count;
             foreach(Card.Card card in Hand.Cards)
             {
                 float currentWidth = width + (width/2) - (widthStep * count); 
-                card.Draw(currentWidth, height);
+                card.Draw(currentWidth, height, 0, false);
                 count--;
             }
         }
