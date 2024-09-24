@@ -43,8 +43,11 @@ namespace MonoZenith.Card
         public abstract bool ValidNextCard(Card previousCard);
 
         /// <summary>
-        /// Draw the card.
+        /// Draw the Card
         /// </summary>
+        /// <param name="width">Width Position</param>
+        /// <param name="height">Height Position</param>
+        /// <param name="angle">Rotational Angle</param>
         public void Draw(float width, float height, float angle = 0)
         {
             Vector2 currentPos = _position + new Vector2(width, height);

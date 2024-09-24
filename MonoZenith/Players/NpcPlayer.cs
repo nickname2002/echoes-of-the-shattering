@@ -16,14 +16,17 @@ namespace MonoZenith.Classes.Players
             height = game.ScreenHeight / 5;
         }
 
+        /// <summary>
+        /// Draw the Hand of the Npc Player
+        /// </summary>
         public override void Draw()
         {
             int count = Hand.Count;
             float widthStep = width / count;
             foreach (Card.Card card in Hand.Cards)
             {
-                float currentWidth = width + (width / 2) - (widthStep * count);
-                card.Draw(currentWidth, 0);
+                float currentWidth = width - (width / 2) + (widthStep * count);
+                card.Draw(currentWidth, height, 180);
                 count--;
             }
         }

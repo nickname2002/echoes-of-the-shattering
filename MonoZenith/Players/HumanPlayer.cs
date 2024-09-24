@@ -13,7 +13,7 @@ namespace MonoZenith.Classes.Players
         public HumanPlayer(Game game, GameState state, string name) : base(game, state, name)
         {
             width = game.ScreenWidth / 2;
-            height = game.ScreenHeight / 1.2f;
+            height = game.ScreenHeight / 1.3f;
         }
     
         /// <summary>

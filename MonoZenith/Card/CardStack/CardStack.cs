@@ -91,5 +91,19 @@ namespace MonoZenith.Card
                 _cards[n] = value;
             }
         }
+
+        public void ChangePosition(float width, float height)
+        {
+            this._position = new Vector2(width, height);
+        }
+
+        public void Draw()
+        {
+            if (_cards.Any())
+            {
+                Card currentCard = _cards[0];
+                currentCard.Draw(_position.X, _position.Y);
+            }   
+        }
     }
 }

@@ -41,7 +41,19 @@ namespace MonoZenith
         /// </summary>
         private void InitializeState()
         {
+            // Calculate positions of the decks
+            // TODO: Fix deck and card positions
             _drawableCards = new DrawableCardsStack(_game, this);
+            float widthDrawable = _game.ScreenWidth / 2.2f;
+            float widthPlayed = _game.ScreenWidth / 1.8f;
+            float height = _game.ScreenHeight / 2;
+            _drawableCards.ChangePosition(widthDrawable, height);
+            _playedCards.ChangePosition(widthPlayed, height);
+
+            // For visualisation debugging, remove later
+            _playedCards.AddToFront(_drawableCards.Pop());
+
+            // Initialize player hands
             _player.Hand = _drawableCards.GetSevenCards();
             _npc.Hand = _drawableCards.GetSevenCards();
             DetermineStartingPlayer();
@@ -107,6 +119,9 @@ namespace MonoZenith
         /// </summary>
         public void Draw()
         {
+            _drawableCards.Draw();
+            _playedCards.Draw();
+
             _player.Draw();
             _npc.Draw();
         }
