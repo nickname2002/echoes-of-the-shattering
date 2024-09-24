@@ -21,14 +21,20 @@ namespace MonoZenith.Classes.Players
         /// </summary>
         public override void Draw()
         {
+            //TODO: Possibly add angle for cards (Hearthstone ref)
+
+            // Checks the current cound of cards in the hand in order
+            // to determine the drawing placement of the cards
             int count = Hand.Count;
-            float scale = 0.2f;
-            float widthStep = width / count;
-            foreach(Card.Card card in Hand.Cards)
+            if (count != 0)
             {
-                float currentWidth = width + (width/2) - (widthStep * count); 
-                card.Draw(currentWidth, height, 0, false);
-                count--;
+                float widthStep = width / count;
+                foreach (Card.Card card in Hand.Cards)
+                {
+                    float currentWidth = width + (width / 2) - (widthStep * count);
+                    card.Draw(currentWidth, height, 0, false);
+                    count--;
+                }
             }
         }
 

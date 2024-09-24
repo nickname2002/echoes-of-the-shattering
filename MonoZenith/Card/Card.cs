@@ -38,18 +38,20 @@ namespace MonoZenith.Card
         }
 
         /// <summary>
-        /// Draw the card.
+        /// Checks if the card is valid card.
         /// </summary>
         /// <param name="previousCard">The card that was played before this one.</param>
         /// <returns>Whether the card is a valid next card.</returns>
         public abstract bool ValidNextCard(Card previousCard);
 
         /// <summary>
-        /// Draw the Card
+        /// Draw the card.
         /// </summary>
-        /// <param name="width">Width Position</param>
-        /// <param name="height">Height Position</param>
+        /// <param name="width">Positional Width</param>
+        /// <param name="height">Positional Height</param>
         /// <param name="angle">Rotational Angle</param>
+        /// <param name="offset">Offset Bool, determines whether the card is
+        /// drawn starting at (0,0) or in the middle as offset.</param>
         public void Draw(float width, float height, float angle = 0, bool offset = true)
         {
             float scale = 0.2f;
