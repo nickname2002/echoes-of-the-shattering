@@ -107,8 +107,8 @@ namespace MonoZenith
         /// </summary>
         public void Draw()
         {
-            // _player.Draw();
-            // _npc.Draw();
+            _player.Draw();
+            _npc.Draw();
         }
     }
 }

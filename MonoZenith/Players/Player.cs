@@ -15,6 +15,8 @@ namespace MonoZenith.Classes.Players
         private GameState _state;
         public CardStack Hand;
         public string Name;
+        public float width;
+        public float height;
 
         public Player(Game game, GameState state, string name)
         {

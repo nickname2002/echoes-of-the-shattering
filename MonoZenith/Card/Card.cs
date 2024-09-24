@@ -45,9 +45,11 @@ namespace MonoZenith.Card
         /// <summary>
         /// Draw the card.
         /// </summary>
-        public void Draw()
+        public void Draw(float width, float height, float angle = 0)
         {
-            _game.DrawImage(_texture, _position, _width, _height);
+            Vector2 currentPos = _position + new Vector2(width, height);
+            float scale = 0.2f;
+            _game.DrawImage(_texture, currentPos, scale, angle);
         }
     }
 }

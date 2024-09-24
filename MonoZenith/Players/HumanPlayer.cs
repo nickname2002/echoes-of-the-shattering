@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using MonoZenith.Card;
 
 namespace MonoZenith.Classes.Players
 {
@@ -11,11 +12,23 @@ namespace MonoZenith.Classes.Players
     {
         public HumanPlayer(Game game, GameState state, string name) : base(game, state, name)
         {
+            width = game.ScreenWidth / 2;
+            height = game.ScreenHeight / 1.2f;
         }
-
+    
+        /// <summary>
+        /// Draw the hand of the Human Player
+        /// </summary>
         public override void Draw()
         {
-            throw new NotImplementedException();
+            int count = Hand.Count;
+            float widthStep = width / count;
+            foreach(Card.Card card in Hand.Cards)
+            {
+                float currentWidth = width + (width/2) - (widthStep * count); 
+                card.Draw(currentWidth, height);
+                count--;
+            }
         }
 
         public override void PerformTurn(GameState state)

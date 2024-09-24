@@ -16,6 +16,11 @@ public partial class Game
     /* Initialize game vars and load assets. */
     public void Init()
     {
+        // Screen Setup
+        SetScreenSize(800, 600);
+        SetBackgroundColor(Color.Black);
+        SetWindowTitle("Echoes of the Shattering");
+
         _activeScreen = Screens.GAME;  
         _gameScreen = new GameScreen(this);
         _pauseScreen = new PauseScreen(this);
