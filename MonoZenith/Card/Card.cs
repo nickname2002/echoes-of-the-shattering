@@ -53,7 +53,8 @@ namespace MonoZenith.Card
         /// <param name="angle">Rotational Angle</param>
         /// <param name="offset">Offset Bool, determines whether the card is
         /// drawn starting at (0,0) or in the middle as offset.</param>
-        public void Draw(float width, float height, float angle = 0, bool offset = true)
+        /// <param name="active">Boolean to determine if active or back texture should be drawn</param>
+        public void Draw(float width, float height, float angle = 0, bool offset = true, bool active = false)
         {
             float scale = 0.2f;
             float newWidth = 0;
@@ -70,7 +71,8 @@ namespace MonoZenith.Card
             }
             
             Vector2 currentPos = _position + new Vector2(newWidth, newHeight);
-            _game.DrawImage(_texture, currentPos, scale, angle);
+            Texture2D currentTexture = active ? _activeTexture : _texture;
+            _game.DrawImage(currentTexture, currentPos, scale, angle);
         }
     }
 }

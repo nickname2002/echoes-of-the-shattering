@@ -47,5 +47,10 @@ namespace MonoZenith.Classes.Players
         /// Draw the player.
         /// </summary>
         public abstract void Draw();
+
+        /// <summary>
+        /// Draw tha hand of the player.
+        /// </summary>
+        public abstract void DrawHand();
     }
 }

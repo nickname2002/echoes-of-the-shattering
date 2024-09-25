@@ -17,9 +17,17 @@ namespace MonoZenith.Classes.Players
         }
     
         /// <summary>
-        /// Draw the hand of the Human Player
+        /// Draw all assets of the HumanPlayer.
         /// </summary>
         public override void Draw()
+        {
+            DrawHand();
+        }
+
+        /// <summary>
+        /// Draw the Hand of the HumanPlayer.
+        /// </summary>
+        public override void DrawHand()
         {
             //TODO: Possibly add angle for cards (Hearthstone ref)
 
@@ -32,7 +40,7 @@ namespace MonoZenith.Classes.Players
                 foreach (Card.Card card in Hand.Cards)
                 {
                     float currentWidth = width + (width / 2) - (widthStep * count);
-                    card.Draw(currentWidth, height, 0, false);
+                    card.Draw(currentWidth, height, 0, false, true);
                     count--;
                 }
             }
