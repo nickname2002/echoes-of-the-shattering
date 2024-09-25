@@ -11,10 +11,11 @@ namespace MonoZenith.Card
             GameState state,
             Vector2 position,
             Texture2D texture,
+            Texture2D activeTexture,
             string name,
             CardLabel label,
             Region region)
-            : base(game, state, position, texture, name, label, region)
+            : base(game, state, position, texture, activeTexture, name, label, region)
         {
         }
 
@@ -32,10 +33,11 @@ namespace MonoZenith.Card
             GameState state,
             Vector2 position,
             Texture2D texture,
+            Texture2D activeTexture,
             string name,
             Region region,
             CardLabel label)
-            : base(game, state, position, texture, name, label, region)
+            : base(game, state, position, texture, activeTexture, name, label, region)
         {
         }
 
@@ -57,10 +59,11 @@ namespace MonoZenith.Card
             GameState state,
             Vector2 position,
             Texture2D texture,
+            Texture2D activeTexture,
             string name,
             Region region,
             CardLabel label)
-            : base(game, state, position, texture, name, label, region)
+            : base(game, state, position, texture, activeTexture, name, label, region)
         {
         }
 
@@ -77,10 +80,11 @@ namespace MonoZenith.Card
             GameState state,
             Vector2 position,
             Texture2D texture,
+            Texture2D activeTexture,
             string name,
             Region region,
             CardLabel label)
-            : base(game, state, position, texture, name, label, region)
+            : base(game, state, position, texture, activeTexture, name, label, region)
         {
         }
 
@@ -97,10 +101,11 @@ namespace MonoZenith.Card
             GameState state,
             Vector2 position,
             Texture2D texture,
+            Texture2D activeTexture,
             string name,
             Region region,
             CardLabel label)
-            : base(game, state, position, texture, name, label, region)
+            : base(game, state, position, texture, activeTexture, name, label, region)
         {
         }
 
@@ -117,10 +122,11 @@ namespace MonoZenith.Card
             GameState state,
             Vector2 position,
             Texture2D texture,
+            Texture2D activeTexture,
             string name,
             Region region,
             CardLabel label)
-            : base(game, state, position, texture, name, label, region)
+            : base(game, state, position, texture, activeTexture, name, label, region)
         {
         }
 
@@ -137,10 +143,11 @@ namespace MonoZenith.Card
             GameState state,
             Vector2 position,
             Texture2D texture,
+            Texture2D activeTexture,
             string name,
             Region region,
             CardLabel label)
-            : base(game, state, position, texture, name, label, region)
+            : base(game, state, position, texture, activeTexture, name, label, region)
         {
         }
 
@@ -157,10 +164,11 @@ namespace MonoZenith.Card
             GameState state,
             Vector2 position,
             Texture2D texture,
+            Texture2D activeTexture,
             string name,
             Region region,
             CardLabel label)
-            : base(game, state, position, texture, name, label, region)
+            : base(game, state, position, texture, activeTexture, name, label, region)
         {
         }
 
@@ -177,10 +185,11 @@ namespace MonoZenith.Card
             GameState state,
             Vector2 position,
             Texture2D texture,
+            Texture2D activeTexture,
             string name,
             Region region,
             CardLabel label)
-            : base(game, state, position, texture, name, label, region)
+            : base(game, state, position, texture, activeTexture, name, label, region)
         {
         }
 
@@ -197,10 +206,11 @@ namespace MonoZenith.Card
             GameState state,
             Vector2 position,
             Texture2D texture,
+            Texture2D activeTexture,
             string name,
             Region region,
             CardLabel label)
-            : base(game, state, position, texture, name, label, region)
+            : base(game, state, position, texture, activeTexture, name, label, region)
         {
         }
 
@@ -217,10 +227,11 @@ namespace MonoZenith.Card
             GameState state,
             Vector2 position,
             Texture2D texture,
+            Texture2D activeTexture,
             string name,
             Region region,
             CardLabel label)
-            : base(game, state, position, texture, name, label, region)
+            : base(game, state, position, texture, activeTexture, name, label, region)
         {
         }
 
@@ -237,10 +248,11 @@ namespace MonoZenith.Card
             GameState state,
             Vector2 position,
             Texture2D texture,
+            Texture2D activeTexture,
             string name,
             Region region,
             CardLabel label)
-            : base(game, state, position, texture, name, label, region)
+            : base(game, state, position, texture, activeTexture, name, label, region)
         {
         }
 

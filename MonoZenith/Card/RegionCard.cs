@@ -13,8 +13,16 @@ namespace MonoZenith.Card
         public readonly CardLabel Label; 
         public readonly Region Region;
 
-        public RegionCard(Game game, GameState state, Vector2 position, Texture2D texture, string name, CardLabel label, Region region)
-            : base(game, state, position, texture, name)
+        public RegionCard(
+            Game game,
+            GameState state,
+            Vector2 position,
+            Texture2D texture,
+            Texture2D activeTexture,
+            string name,
+            CardLabel label,
+            Region region)
+            : base(game, state, position, texture, activeTexture, name)
         {
             Label = label;
             Region = region; 

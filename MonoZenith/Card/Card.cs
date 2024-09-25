@@ -18,15 +18,16 @@ namespace MonoZenith.Card
         protected int _width;
         protected int _height;
         protected Texture2D _texture;
+        protected Texture2D _activeTexture;
         protected string _name;
-        // TODO: Ensure cards are able to show both back and front sides
 
-        public Card(Game game, GameState state, Vector2 position, Texture2D texture, string name)
+        public Card(Game game, GameState state, Vector2 position, Texture2D texture, Texture2D activeTexture, string name)
         {
             _game = game;
             _state = state;
             _position = position;
             _texture = texture;
+            _activeTexture = activeTexture;
             _width = texture.Width;
             _height = texture.Height;
             _name = name;

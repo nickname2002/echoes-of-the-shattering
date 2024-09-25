@@ -11,10 +11,13 @@ namespace MonoZenith.Card
     internal class DrawableCardsStack : CardStack
     {
         public Texture2D CardBack;
+        public Texture2D CardFront;
         public DrawableCardsStack(Game game, GameState state) : base(game, state)
         {
+            // Load in Textures
             CardBack = DataManager.GetInstance(game).CardBack;
-            // TODO: Ensure cards are able to show both back and front sides
+            CardFront = DataManager.GetInstance(game).CardFront;
+
             InitializeCards();
             Shuffle();
         }
@@ -25,69 +28,69 @@ namespace MonoZenith.Card
         private void InitializeCards()
         {
             // Limgrave cards
-            AddToFront(new RegionCard(_game, _state, _position, CardBack, "Wandering Noble", CardLabel.TWO, Region.LIMGRAVE));
-            AddToFront(new RegionCard(_game, _state, _position, CardBack, "Demi-Human", CardLabel.THREE, Region.LIMGRAVE));
-            AddToFront(new RegionCard(_game, _state, _position, CardBack, "Godrick Soldier", CardLabel.FOUR, Region.LIMGRAVE));
-            AddToFront(new RegionCard(_game, _state, _position, CardBack, "Godrick Knight", CardLabel.FIVE, Region.LIMGRAVE));
-            AddToFront(new RegionCard(_game, _state, _position, CardBack, "Warhawk", CardLabel.SIX, Region.LIMGRAVE));
-            AddToFront(new RegionCard(_game, _state, _position, CardBack, "Erdtree Avatar", CardLabel.SEVEN, Region.LIMGRAVE));
-            AddToFront(new RegionCard(_game, _state, _position, CardBack, "Tree Sentinel", CardLabel.EIGHT, Region.LIMGRAVE));
-            AddToFront(new RegionCard(_game, _state, _position, CardBack, "Margit the Fell Omen", CardLabel.NINE, Region.LIMGRAVE));
-            AddToFront(new RegionCard(_game, _state, _position, CardBack, "Godrick the Grafted", CardLabel.A, Region.LIMGRAVE));
+            AddToFront(new RegionCard(_game, _state, _position, CardBack, CardFront, "Wandering Noble", CardLabel.TWO, Region.LIMGRAVE));
+            AddToFront(new RegionCard(_game, _state, _position, CardBack, CardFront, "Demi-Human", CardLabel.THREE, Region.LIMGRAVE));
+            AddToFront(new RegionCard(_game, _state, _position, CardBack, CardFront, "Godrick Soldier", CardLabel.FOUR, Region.LIMGRAVE));
+            AddToFront(new RegionCard(_game, _state, _position, CardBack, CardFront, "Godrick Knight", CardLabel.FIVE, Region.LIMGRAVE));
+            AddToFront(new RegionCard(_game, _state, _position, CardBack, CardFront, "Warhawk", CardLabel.SIX, Region.LIMGRAVE));
+            AddToFront(new RegionCard(_game, _state, _position, CardBack, CardFront, "Erdtree Avatar", CardLabel.SEVEN, Region.LIMGRAVE));
+            AddToFront(new RegionCard(_game, _state, _position, CardBack, CardFront, "Tree Sentinel", CardLabel.EIGHT, Region.LIMGRAVE));
+            AddToFront(new RegionCard(_game, _state, _position, CardBack, CardFront, "Margit the Fell Omen", CardLabel.NINE, Region.LIMGRAVE));
+            AddToFront(new RegionCard(_game, _state, _position, CardBack, CardFront, "Godrick the Grafted", CardLabel.A, Region.LIMGRAVE));
 
             // Liurnia cards
-            AddToFront(new RegionCard(_game, _state, _position, CardBack, "Raya Lucaria Sorcerer", CardLabel.TWO, Region.LIURNIA));
-            AddToFront(new RegionCard(_game, _state, _position, CardBack, "Marionette Soldier", CardLabel.THREE, Region.LIURNIA));
-            AddToFront(new RegionCard(_game, _state, _position, CardBack, "Raya Lucaria Scholar", CardLabel.FOUR, Region.LIURNIA));
-            AddToFront(new RegionCard(_game, _state, _position, CardBack, "Caria Knight", CardLabel.FIVE, Region.LIURNIA));
-            AddToFront(new RegionCard(_game, _state, _position, CardBack, "Crystallian", CardLabel.SIX, Region.LIURNIA));
-            AddToFront(new RegionCard(_game, _state, _position, CardBack, "Red Wolf of Radagon", CardLabel.SEVEN, Region.LIURNIA));
-            AddToFront(new RegionCard(_game, _state, _position, CardBack, "Royal Revenant", CardLabel.EIGHT, Region.LIURNIA));
-            AddToFront(new RegionCard(_game, _state, _position, CardBack, "Bloodhound Knight", CardLabel.NINE, Region.LIURNIA));
-            AddToFront(new RegionCard(_game, _state, _position, CardBack, "Rennala, Queen of the Full Moon", CardLabel.A, Region.LIURNIA));
+            AddToFront(new RegionCard(_game, _state, _position, CardBack, CardFront, "Raya Lucaria Sorcerer", CardLabel.TWO, Region.LIURNIA));
+            AddToFront(new RegionCard(_game, _state, _position, CardBack, CardFront, "Marionette Soldier", CardLabel.THREE, Region.LIURNIA));
+            AddToFront(new RegionCard(_game, _state, _position, CardBack, CardFront, "Raya Lucaria Scholar", CardLabel.FOUR, Region.LIURNIA));
+            AddToFront(new RegionCard(_game, _state, _position, CardBack, CardFront, "Caria Knight", CardLabel.FIVE, Region.LIURNIA));
+            AddToFront(new RegionCard(_game, _state, _position, CardBack, CardFront, "Crystallian", CardLabel.SIX, Region.LIURNIA));
+            AddToFront(new RegionCard(_game, _state, _position, CardBack, CardFront, "Red Wolf of Radagon", CardLabel.SEVEN, Region.LIURNIA));
+            AddToFront(new RegionCard(_game, _state, _position, CardBack, CardFront, "Royal Revenant", CardLabel.EIGHT, Region.LIURNIA));
+            AddToFront(new RegionCard(_game, _state, _position, CardBack, CardFront, "Bloodhound Knight", CardLabel.NINE, Region.LIURNIA));
+            AddToFront(new RegionCard(_game, _state, _position, CardBack, CardFront, "Rennala, Queen of the Full Moon", CardLabel.A, Region.LIURNIA));
 
             // Leyndell cards
-            AddToFront(new RegionCard(_game, _state, _position, CardBack, "Golden Foot Soldier", CardLabel.TWO, Region.LEYNDELL));
-            AddToFront(new RegionCard(_game, _state, _position, CardBack, "Crucible Knight", CardLabel.THREE, Region.LEYNDELL));
-            AddToFront(new RegionCard(_game, _state, _position, CardBack, "Oracle Envoy", CardLabel.FOUR, Region.LEYNDELL));
-            AddToFront(new RegionCard(_game, _state, _position, CardBack, "Gargoyle", CardLabel.FIVE, Region.LEYNDELL));
-            AddToFront(new RegionCard(_game, _state, _position, CardBack, "Tree Sentinel", CardLabel.SIX, Region.LEYNDELL));
-            AddToFront(new RegionCard(_game, _state, _position, CardBack, "Omenkiller", CardLabel.SEVEN, Region.LEYNDELL));
-            AddToFront(new RegionCard(_game, _state, _position, CardBack, "Draconic Tree Sentinel", CardLabel.EIGHT, Region.LEYNDELL));
-            AddToFront(new RegionCard(_game, _state, _position, CardBack, "Leyndell Knight", CardLabel.NINE, Region.LEYNDELL));
-            AddToFront(new RegionCard(_game, _state, _position, CardBack, "Morgott, the Omen King", CardLabel.A, Region.LEYNDELL));
+            AddToFront(new RegionCard(_game, _state, _position, CardBack, CardFront, "Golden Foot Soldier", CardLabel.TWO, Region.LEYNDELL));
+            AddToFront(new RegionCard(_game, _state, _position, CardBack, CardFront, "Crucible Knight", CardLabel.THREE, Region.LEYNDELL));
+            AddToFront(new RegionCard(_game, _state, _position, CardBack, CardFront, "Oracle Envoy", CardLabel.FOUR, Region.LEYNDELL));
+            AddToFront(new RegionCard(_game, _state, _position, CardBack, CardFront, "Gargoyle", CardLabel.FIVE, Region.LEYNDELL));
+            AddToFront(new RegionCard(_game, _state, _position, CardBack, CardFront, "Tree Sentinel", CardLabel.SIX, Region.LEYNDELL));
+            AddToFront(new RegionCard(_game, _state, _position, CardBack, CardFront, "Omenkiller", CardLabel.SEVEN, Region.LEYNDELL));
+            AddToFront(new RegionCard(_game, _state, _position, CardBack, CardFront, "Draconic Tree Sentinel", CardLabel.EIGHT, Region.LEYNDELL));
+            AddToFront(new RegionCard(_game, _state, _position, CardBack, CardFront, "Leyndell Knight", CardLabel.NINE, Region.LEYNDELL));
+            AddToFront(new RegionCard(_game, _state, _position, CardBack, CardFront, "Morgott, the Omen King", CardLabel.A, Region.LEYNDELL));
 
             // Caelid cards
-            AddToFront(new RegionCard(_game, _state, _position, CardBack, "Dogs of Caelid", CardLabel.TWO, Region.CAELID));
-            AddToFront(new RegionCard(_game, _state, _position, CardBack, "Kindred of Rot", CardLabel.THREE, Region.CAELID));
-            AddToFront(new RegionCard(_game, _state, _position, CardBack, "Radahn Soldier", CardLabel.FOUR, Region.CAELID));
-            AddToFront(new RegionCard(_game, _state, _position, CardBack, "Radahn Beast", CardLabel.FIVE, Region.CAELID));
-            AddToFront(new RegionCard(_game, _state, _position, CardBack, "Giant Crows", CardLabel.SIX, Region.CAELID));
-            AddToFront(new RegionCard(_game, _state, _position, CardBack, "Cleanrot Knight", CardLabel.SEVEN, Region.CAELID));
-            AddToFront(new RegionCard(_game, _state, _position, CardBack, "Putrid Tree Spirit", CardLabel.EIGHT, Region.CAELID));
-            AddToFront(new RegionCard(_game, _state, _position, CardBack, "Radahn’s Cavalry", CardLabel.NINE, Region.CAELID));
-            AddToFront(new RegionCard(_game, _state, _position, CardBack, "Starscourge Radahn", CardLabel.A, Region.CAELID));
+            AddToFront(new RegionCard(_game, _state, _position, CardBack, CardFront, "Dogs of Caelid", CardLabel.TWO, Region.CAELID));
+            AddToFront(new RegionCard(_game, _state, _position, CardBack, CardFront, "Kindred of Rot", CardLabel.THREE, Region.CAELID));
+            AddToFront(new RegionCard(_game, _state, _position, CardBack, CardFront, "Radahn Soldier", CardLabel.FOUR, Region.CAELID));
+            AddToFront(new RegionCard(_game, _state, _position, CardBack, CardFront, "Radahn Beast", CardLabel.FIVE, Region.CAELID));
+            AddToFront(new RegionCard(_game, _state, _position, CardBack, CardFront, "Giant Crows", CardLabel.SIX, Region.CAELID));
+            AddToFront(new RegionCard(_game, _state, _position, CardBack, CardFront, "Cleanrot Knight", CardLabel.SEVEN, Region.CAELID));
+            AddToFront(new RegionCard(_game, _state, _position, CardBack, CardFront, "Putrid Tree Spirit", CardLabel.EIGHT, Region.CAELID));
+            AddToFront(new RegionCard(_game, _state, _position, CardBack, CardFront, "Radahn’s Cavalry", CardLabel.NINE, Region.CAELID));
+            AddToFront(new RegionCard(_game, _state, _position, CardBack, CardFront, "Starscourge Radahn", CardLabel.A, Region.CAELID));
         
             // Joker cards
-            AddToFront(new JokerCard(_game, _state, _position, CardBack, "Queen Marika the Eternal", Region.ALL, CardLabel.JOKER));
-            AddToFront(new JokerCard(_game, _state, _position, CardBack, "Radagon of the Golden Order", Region.ALL, CardLabel.JOKER));
+            AddToFront(new JokerCard(_game, _state, _position, CardBack, CardFront, "Queen Marika the Eternal", Region.ALL, CardLabel.JOKER));
+            AddToFront(new JokerCard(_game, _state, _position, CardBack, CardFront, "Radagon of the Golden Order", Region.ALL, CardLabel.JOKER));
 
             // Grace cards
-            AddToFront(new GraceCard(_game, _state, _position, CardBack, "Grace of Gold", Region.ALL, CardLabel.GRACE));
-            AddToFront(new GraceCard(_game, _state, _position, CardBack, "Grace of Gold", Region.ALL, CardLabel.GRACE));
-            AddToFront(new GraceCard(_game, _state, _position, CardBack, "Grace of Gold", Region.ALL, CardLabel.GRACE));
-            AddToFront(new GraceCard(_game, _state, _position, CardBack, "Grace of Gold", Region.ALL, CardLabel.GRACE));
+            AddToFront(new GraceCard(_game, _state, _position, CardBack, CardFront, "Grace of Gold", Region.ALL, CardLabel.GRACE));
+            AddToFront(new GraceCard(_game, _state, _position, CardBack, CardFront, "Grace of Gold", Region.ALL, CardLabel.GRACE));
+            AddToFront(new GraceCard(_game, _state, _position, CardBack, CardFront, "Grace of Gold", Region.ALL, CardLabel.GRACE));
+            AddToFront(new GraceCard(_game, _state, _position, CardBack, CardFront, "Grace of Gold", Region.ALL, CardLabel.GRACE));
 
             // Power cards
-            AddToFront(new LunarQueenRebirthCard(_game, _state, _position, CardBack, "Lunar Queen Rebirth", Region.LIURNIA, CardLabel.POWER));
-            AddToFront(new ScarletBloomCard(_game, _state, _position, CardBack, "Scarlet Bloom", Region.CAELID, CardLabel.POWER));
-            AddToFront(new GravityPullCard(_game, _state, _position, CardBack, "Gravity Pull", Region.CAELID, CardLabel.POWER));
-            AddToFront(new ErdtreeBlessingCard(_game, _state, _position, CardBack, "Erdtree Blessing", Region.LEYNDELL, CardLabel.POWER));
-            AddToFront(new MargitShacklesCard(_game, _state, _position, CardBack, "Margit Shackles", Region.LIMGRAVE, CardLabel.POWER));
-            AddToFront(new RennalaFullMoonCard(_game, _state, _position, CardBack, "Rennala's Full Moon", Region.LIURNIA, CardLabel.POWER));
-            AddToFront(new DeathRootDecayCard(_game, _state, _position, CardBack, "Godwyn's Deathroot Decay", Region.LEYNDELL, CardLabel.POWER));
-            AddToFront(new WaterFlowDanceCard(_game, _state, _position, CardBack, "Malenia's Waterflow Dance", Region.CAELID, CardLabel.POWER));
-            AddToFront(new MiquellaBlessingCard(_game, _state, _position, CardBack, "Miquella's Blessing", Region.LIMGRAVE, CardLabel.POWER));
+            AddToFront(new LunarQueenRebirthCard(_game, _state, _position, CardBack, CardFront, "Lunar Queen Rebirth", Region.LIURNIA, CardLabel.POWER));
+            AddToFront(new ScarletBloomCard(_game, _state, _position, CardBack, CardFront, "Scarlet Bloom", Region.CAELID, CardLabel.POWER));
+            AddToFront(new GravityPullCard(_game, _state, _position, CardBack, CardFront, "Gravity Pull", Region.CAELID, CardLabel.POWER));
+            AddToFront(new ErdtreeBlessingCard(_game, _state, _position, CardBack, CardFront, "Erdtree Blessing", Region.LEYNDELL, CardLabel.POWER));
+            AddToFront(new MargitShacklesCard(_game, _state, _position, CardBack, CardFront, "Margit Shackles", Region.LIMGRAVE, CardLabel.POWER));
+            AddToFront(new RennalaFullMoonCard(_game, _state, _position, CardBack, CardFront, "Rennala's Full Moon", Region.LIURNIA, CardLabel.POWER));
+            AddToFront(new DeathRootDecayCard(_game, _state, _position, CardBack, CardFront, "Godwyn's Deathroot Decay", Region.LEYNDELL, CardLabel.POWER));
+            AddToFront(new WaterFlowDanceCard(_game, _state, _position, CardBack, CardFront, "Malenia's Waterflow Dance", Region.CAELID, CardLabel.POWER));
+            AddToFront(new MiquellaBlessingCard(_game, _state, _position, CardBack, CardFront, "Miquella's Blessing", Region.LIMGRAVE, CardLabel.POWER));
         }
 
         /// <summary>
