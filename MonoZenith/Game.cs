@@ -17,8 +17,8 @@ public partial class Game
     public void Init()
     {
         // Screen Setup
-        SetScreenSize(800, 600);
-        SetBackgroundColor(Color.Black);
+        SetScreenSize(1600, 900);
+        SetBackgroundColor(Color.Gray);
         SetWindowTitle("Echoes of the Shattering");
 
         _activeScreen = Screens.GAME;  

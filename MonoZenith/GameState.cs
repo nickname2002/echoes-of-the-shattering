@@ -52,7 +52,7 @@ namespace MonoZenith
 
             // TODO: Remove later. For visualisation debugging.
             _playedCards.AddToFront(_drawableCards.Pop());
-
+            
             // Initialize player hands
             _player.Hand = _drawableCards.GetSevenCards();
             _npc.Hand = _drawableCards.GetSevenCards();

@@ -56,7 +56,7 @@ namespace MonoZenith.Card
         /// <param name="active">Boolean to determine if active or back texture should be drawn</param>
         public void Draw(float width, float height, float angle = 0, bool offset = true, bool active = false)
         {
-            float scale = 0.2f;
+            float scale = 0.4f;
             float newWidth = 0;
             float newHeight = 0;
             if (offset)
