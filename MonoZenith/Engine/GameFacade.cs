@@ -187,7 +187,7 @@ public class GameFacade
     public void DrawText(string content, Vector2 pos, SpriteFont font, Color c, float scale=1, float angle=0)
     {
         float rotationAngle = MathHelper.ToRadians(angle);
-        _spriteBatch.DrawString(font, content, pos, c, rotationAngle, pos, scale, SpriteEffects.None, 0);
+        _spriteBatch.DrawString(font, content, pos, c, rotationAngle, Vector2.Zero, scale, SpriteEffects.None, 0);
     }
     
     /* Source: https://community.monogame.net/t/loading-png-jpg-etc-directly/7403 */

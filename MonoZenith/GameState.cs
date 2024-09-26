@@ -128,7 +128,10 @@ namespace MonoZenith
             _player.Draw();
             _npc.Draw();
 
-            _game.DrawText($"Current player: {_currentPlayer.Name}", new Vector2(0,0), _componentFont, Color.White);
+            _game.DrawText(
+                $"Current player: {_currentPlayer.Name}", 
+                new Vector2(_game.ScreenWidth - 400, _game.ScreenHeight / 2 - 25), 
+                _componentFont, Color.White);
         }
     }
 }
