@@ -29,10 +29,11 @@ namespace MonoZenith.Classes.Players
         /// </summary>
         public override void DrawHand()
         {
-            //TODO: Possibly add angle for cards (Hearthstone ref)
-
             // Checks the current cound of cards in the hand in order
             // to determine the drawing placement of the cards
+            // TODO: Later, add max widthStep when count gets too high
+            // In that case increase the hand width instead of reducing the distance
+            // between the cards
             int count = Hand.Count;
             if (count != 0)
             {

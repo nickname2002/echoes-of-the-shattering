@@ -92,17 +92,35 @@ namespace MonoZenith.Card
             }
         }
 
+        /// <summary>
+        /// Changes the position of the stack.
+        /// </summary>
+        /// <param name="width">Positional Width</param>
+        /// <param name="height">Positional Height</param>
         public void ChangePosition(float width, float height)
         {
             this._position = new Vector2(width, height);
         }
 
+        /// <summary>
+        /// Draw the stack.
+        /// </summary>
         public void Draw()
         {
             if (_cards.Any())
             {
-                Card currentCard = _cards[0];
-                currentCard.Draw(_position.X, _position.Y);
+                // If the deck is a DrawableCardsStack type,
+                // draw the cards face down
+                if (this.GetType().IsSubclassOf(typeof(CardStack)))
+                {
+                    Card currentCard = _cards[0];
+                    currentCard.Draw(_position.X, _position.Y);
+                }
+                else
+                {
+                    Card currentCard = _cards.Last();
+                    currentCard.Draw(_position.X, _position.Y, 0, true, true);
+                }
             }   
         }
     }
