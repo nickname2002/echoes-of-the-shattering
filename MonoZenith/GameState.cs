@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework.Graphics;
+using MonoZenith.Engine.Support;
 
 namespace MonoZenith
 {
@@ -20,6 +22,7 @@ namespace MonoZenith
         private DrawableCardsStack _drawableCards;
         private CardStack _playedCards;
         private Region _currentRegion;
+        private SpriteFont _componentFont;
 
         public GameState(Game game)
         {
@@ -30,6 +33,7 @@ namespace MonoZenith
             _drawableCards = new DrawableCardsStack(_game, this);
             _playedCards = new CardStack(_game, this);
             _currentRegion = Region.LIMGRAVE;   // TODO: Set to random region.
+            _componentFont = DataManager.GetInstance(game).ComponentFont;
             InitializeState();
 
             Console.WriteLine(_player);
@@ -123,6 +127,8 @@ namespace MonoZenith
 
             _player.Draw();
             _npc.Draw();
+
+            _game.DrawText($"Current player: {_currentPlayer.Name}", new Vector2(0,0), _componentFont, Color.White);
         }
     }
 }

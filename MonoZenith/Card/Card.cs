@@ -73,6 +73,7 @@ namespace MonoZenith.Card
             
             Vector2 currentPos = _position + new Vector2(newWidth, newHeight);
             Texture2D currentTexture = active ? _activeTexture : _texture;
+
             _game.DrawImage(currentTexture, currentPos, scale, angle);
         }
     }
