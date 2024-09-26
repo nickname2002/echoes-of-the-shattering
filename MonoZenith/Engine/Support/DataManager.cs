@@ -13,6 +13,8 @@ namespace MonoZenith.Engine.Support
         
         // Textures
         public Texture2D MonoZenithLogo;
+        public Texture2D CardBack;
+        public Texture2D CardFront;
         
         // Audio
 
@@ -42,6 +44,8 @@ namespace MonoZenith.Engine.Support
             
             // Load textures
             MonoZenithLogo = _game.LoadImage("Images/monozenith.png");
+            CardBack = _game.LoadImage("Images/Cards/back-card-design.png");
+            CardFront = _game.LoadImage("Images/Cards/front-card-design.png");
             
             // Load audio
         }

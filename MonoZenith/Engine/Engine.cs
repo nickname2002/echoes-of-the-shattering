@@ -170,16 +170,17 @@ namespace MonoZenith.Engine
         /// <param name="gameTime">Game time.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(_splashScreenTimer > 0 ? Color.White : _game.BackgroundColor);
+            // GraphicsDevice.Clear(_splashScreenTimer > 0 ? Color.White : _game.BackgroundColor);
+            GraphicsDevice.Clear(_game.BackgroundColor);
             _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
             
-            if (_splashScreenTimer > 0)
-            {
-                // TODO: Show splash screen when development is done.
-                // ShowSplashScreen();
-                _spriteBatch.End();
-                return;
-            }
+            // TODO: Show splash screen when development is done.
+            // if (_splashScreenTimer > 0)
+            // {
+            //     ShowSplashScreen();
+            //     _spriteBatch.End();
+            //     return;
+            // }
             
             _game.Draw();
             _spriteBatch.End();

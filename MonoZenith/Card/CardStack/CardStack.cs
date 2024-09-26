@@ -91,5 +91,37 @@ namespace MonoZenith.Card
                 _cards[n] = value;
             }
         }
+
+        /// <summary>
+        /// Changes the position of the stack.
+        /// </summary>
+        /// <param name="x">Positional X</param>
+        /// <param name="y">Positional Y</param>
+        public void ChangePosition(float x, float y)
+        {
+            this._position = new Vector2(x, y);
+        }
+
+        /// <summary>
+        /// Draw the stack.
+        /// </summary>
+        public void Draw()
+        {
+            if (_cards.Any())
+            {
+                // If the deck is a subclass of CardStack,
+                // draw the cards face down
+                if (this.GetType().IsSubclassOf(typeof(CardStack)))
+                {
+                    Card currentCard = _cards[0];
+                    currentCard.Draw(_position.X, _position.Y);
+                }
+                else
+                {
+                    Card currentCard = _cards.Last();
+                    currentCard.Draw(_position.X, _position.Y, 0, true, true);
+                }
+            }   
+        }
     }
 }
