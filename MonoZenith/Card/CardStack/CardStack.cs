@@ -95,11 +95,11 @@ namespace MonoZenith.Card
         /// <summary>
         /// Changes the position of the stack.
         /// </summary>
-        /// <param name="width">Positional Width</param>
-        /// <param name="height">Positional Height</param>
-        public void ChangePosition(float width, float height)
+        /// <param name="x">Positional X</param>
+        /// <param name="y">Positional Y</param>
+        public void ChangePosition(float x, float y)
         {
-            this._position = new Vector2(width, height);
+            this._position = new Vector2(x, y);
         }
 
         /// <summary>

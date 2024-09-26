@@ -48,7 +48,10 @@ namespace MonoZenith
             float height = _game.ScreenHeight / 2;
             _drawableCards.ChangePosition(widthDrawable, height);
             _playedCards.ChangePosition(widthPlayed, height);
-            
+
+            // Play the first card in the game
+            _playedCards.AddToFront(_drawableCards.Pop());
+
             // Initialize player hands
             _player.Hand = _drawableCards.GetSevenCards();
             _npc.Hand = _drawableCards.GetSevenCards();

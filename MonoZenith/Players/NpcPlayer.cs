@@ -29,18 +29,21 @@ namespace MonoZenith.Classes.Players
         /// </summary>
         public override void DrawHand()
         {
-            // Checks the current cound of cards in the hand in order
+            // Checks the current count of cards in the hand in order
             // to determine the drawing placement of the cards
             // TODO: Later, add max widthStep when count gets too high
             // In that case increase the hand width instead of reducing the distance
             // between the cards
             int count = Hand.Count;
+
             if (count != 0)
             {
                 float widthStep = width / count;
+
                 foreach (Card.Card card in Hand.Cards)
                 {
                     float currentWidth = width - (width / 2) + (widthStep * count);
+
                     card.Draw(currentWidth, height, 180, false, false);
                     count--;
                 }

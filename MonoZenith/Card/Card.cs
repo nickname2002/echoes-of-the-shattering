@@ -59,6 +59,7 @@ namespace MonoZenith.Card
             float scale = 0.4f;
             float newWidth;
             float newHeight;
+
             if (offset)
             {
                 newWidth = width - (_width * scale / 2);

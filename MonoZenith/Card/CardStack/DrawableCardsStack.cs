@@ -12,6 +12,7 @@ namespace MonoZenith.Card
     {
         public Texture2D CardBack;
         public Texture2D CardFront;
+
         public DrawableCardsStack(Game game, GameState state) : base(game, state)
         {
             // Load in Textures
