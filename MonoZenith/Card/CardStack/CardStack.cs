@@ -109,7 +109,7 @@ namespace MonoZenith.Card
         {
             if (_cards.Any())
             {
-                // If the deck is a DrawableCardsStack type,
+                // If the deck is a subclass of CardStack,
                 // draw the cards face down
                 if (this.GetType().IsSubclassOf(typeof(CardStack)))
                 {

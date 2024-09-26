@@ -42,16 +42,12 @@ namespace MonoZenith
         private void InitializeState()
         {
             // Calculate positions of the decks
-            // TODO: Fix deck and card positions
             _drawableCards = new DrawableCardsStack(_game, this);
             float widthDrawable = _game.ScreenWidth / 2.2f;
             float widthPlayed = _game.ScreenWidth / 1.8f;
             float height = _game.ScreenHeight / 2;
             _drawableCards.ChangePosition(widthDrawable, height);
             _playedCards.ChangePosition(widthPlayed, height);
-
-            // TODO: Remove later. For visualisation debugging.
-            _playedCards.AddToFront(_drawableCards.Pop());
             
             // Initialize player hands
             _player.Hand = _drawableCards.GetSevenCards();

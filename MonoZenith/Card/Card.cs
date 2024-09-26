@@ -57,8 +57,8 @@ namespace MonoZenith.Card
         public void Draw(float width, float height, float angle = 0, bool offset = true, bool active = false)
         {
             float scale = 0.4f;
-            float newWidth = 0;
-            float newHeight = 0;
+            float newWidth;
+            float newHeight;
             if (offset)
             {
                 newWidth = width - (_width * scale / 2);
