@@ -105,9 +105,29 @@ namespace MonoZenith.Classes.Players
             lastHoveredCard.Draw(lastHoveredCardPosition, height - verticalMoveOffset, 0, false, true);
         }
 
+        /// <summary>
+        /// Get the selected card from the hand.
+        /// </summary>
+        /// <returns>Selected card, or null if no card is hovered.</returns>
+        public Card.Card GetSelectedCard()
+        {
+            List<Card.Card> clickedCards = Hand.Cards.Where(c => c.IsClicked()).ToList();
+            return clickedCards.Count switch
+            {
+                0 => null,
+                > 1 => clickedCards[^1],
+                _ => clickedCards[0]
+            };
+        }
+        
         public override void PerformTurn(GameState state)
         {
-            throw new NotImplementedException();
+            // Print selected card if any
+            Card.Card selectedCard = GetSelectedCard();
+            if (selectedCard!= null)
+            {
+                Console.WriteLine($"Human player played: {selectedCard}");
+            }
         }
 
         public override void Update(GameTime deltaTime)

@@ -62,7 +62,7 @@ namespace MonoZenith.Card
         /// Checks if the player clicked on the card with the left mouse button.
         /// </summary>
         /// <returns>If the card is clicked.</returns>
-        protected bool IsClicked()
+        public bool IsClicked()
         {
             return IsHovered() && _game.GetMouseButtonDown(MouseButtons.Left);
         }
@@ -85,10 +85,7 @@ namespace MonoZenith.Card
         /// <param name="deltaTime">The delta time.</param>
         public void Update(GameTime deltaTime)
         {
-            if (IsClicked())
-            {
-                Console.WriteLine(_name);
-            }
+            
         }
         
         /// <summary>
