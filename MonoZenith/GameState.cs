@@ -59,7 +59,10 @@ namespace MonoZenith
             // Initialize player hands
             _player.Hand = _drawableCards.GetSevenCards();
             _npc.Hand = _drawableCards.GetSevenCards();
-            DetermineStartingPlayer();
+            
+            // For debugging purposes, make sure the human player starts
+            _currentPlayer = _player;
+            // DetermineStartingPlayer();
         }
 
         /// <summary>
@@ -113,8 +116,12 @@ namespace MonoZenith
         /// <param name="deltaTime">The time since the last update.</param>
         public void Update(GameTime deltaTime)
         {
-            // _player.Update(deltaTime);
-            // _npc.Update(deltaTime);
+            if (_currentPlayer is NpcPlayer)
+            {
+                return;
+            }
+            
+            _currentPlayer?.PerformTurn(this);
         }
 
         /// <summary>
@@ -122,12 +129,15 @@ namespace MonoZenith
         /// </summary>
         public void Draw()
         {
+            // Draw cards in play
             _drawableCards.Draw();
             _playedCards.Draw();
 
+            // Draw player cards
             _player.Draw();
             _npc.Draw();
 
+            // Draw text data
             _game.DrawText(
                 $"Current player: {_currentPlayer.Name}", 
                 new Vector2(_game.ScreenWidth - 400, _game.ScreenHeight / 2 - 25), 
