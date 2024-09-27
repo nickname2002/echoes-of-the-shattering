@@ -16,17 +16,21 @@ namespace MonoZenith.Card
         protected Game _game;
         protected GameState _state;
         protected Vector2 _position;
+        protected Vector2 _originalPosition;
         protected int _width;
         protected int _height;
+        protected float _scale;
         protected Texture2D _texture;
         protected Texture2D _activeTexture;
         protected string _name;
 
-        public Card(Game game, GameState state, Vector2 position, Texture2D texture, Texture2D activeTexture, string name)
+        protected Card(Game game, GameState state, Vector2 position, Texture2D texture, Texture2D activeTexture, string name)
         {
             _game = game;
             _state = state;
             _position = position;
+            _originalPosition = position;
+            _scale = 0.4f;
             _texture = texture;
             _activeTexture = activeTexture;
             _width = texture.Width;
@@ -40,6 +44,30 @@ namespace MonoZenith.Card
         }
 
         /// <summary>
+        /// Checks if the player is hovering over the card with the mouse pointer.
+        /// </summary>
+        /// <returns>Returns if the player is hovering over the card.</returns>
+        public bool IsHovered()
+        {
+            // Clicked is using the _position value, while it should be using _currentPos.
+            // TODO: Check how to refactor this properly.
+            
+            Point mousePosition = _game.GetMousePosition();
+            bool inXRange = mousePosition.X >= _position.X && mousePosition.X <= _position.X + _width * _scale;
+            bool inYRange = mousePosition.Y >= _position.Y && mousePosition.Y <= _position.Y + _height * _scale;
+            return inXRange && inYRange;
+        }
+
+        /// <summary>
+        /// Checks if the player clicked on the card with the left mouse button.
+        /// </summary>
+        /// <returns>If the card is clicked.</returns>
+        public bool IsClicked()
+        {
+            return IsHovered() && _game.GetMouseButtonDown(MouseButtons.Left);
+        }
+
+        /// <summary>
         /// Checks if the card is valid card.
         /// </summary>
         /// <param name="previousCard">The card that was played before this one.</param>
@@ -49,42 +77,50 @@ namespace MonoZenith.Card
         /// <summary>
         /// Draw the metadata of the card onto the front side of the card.
         /// </summary>
-        protected abstract void DrawMetaData(Vector2 position);
+        protected abstract void DrawMetaData();
+
+        /// <summary>
+        /// Update the state of the card.
+        /// </summary>
+        /// <param name="deltaTime">The delta time.</param>
+        public void Update(GameTime deltaTime)
+        {
+            
+        }
         
         /// <summary>
         /// Draw the card.
         /// </summary>
-        /// <param name="width">Positional Width</param>
-        /// <param name="height">Positional Height</param>
+        /// <param name="x">Positional x</param>
+        /// <param name="y">Positional y</param>
         /// <param name="angle">Rotational Angle</param>
         /// <param name="offset">Offset Bool, determines whether the card is
         /// drawn starting at (0,0) or in the middle as offset.</param>
         /// <param name="active">Boolean to determine if active or back texture should be drawn</param>
-        public void Draw(float width, float height, float angle = 0, bool offset = true, bool active = false)
+        public void Draw(float x, float y, float angle = 0, bool offset = true, bool active = false)
         {
-            float scale = 0.4f;
-            float newWidth;
-            float newHeight;
+            float newX;
+            float newY;
 
             if (offset)
             {
-                newWidth = width - (_width * scale / 2);
-                newHeight = height - (_height * scale / 2);
+                newX = x - (_width * _scale / 2);
+                newY = y - (_height * _scale / 2);
             }
             else
             {
-                newWidth = width;
-                newHeight = height;
+                newX = x;
+                newY = y;
             }
             
-            Vector2 currentPos = _position + new Vector2(newWidth, newHeight);
+            _position = _originalPosition + new Vector2(newX, newY);
             Texture2D currentTexture = active ? _activeTexture : _texture;
-            _game.DrawImage(currentTexture, currentPos, scale, angle);
+            _game.DrawImage(currentTexture, _position, _scale, angle);
 
             if (!active)
                 return; 
             
-            DrawMetaData(currentPos);
+            DrawMetaData();
         }
     }
 }

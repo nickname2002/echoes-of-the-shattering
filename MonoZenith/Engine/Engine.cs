@@ -146,11 +146,11 @@ namespace MonoZenith.Engine
             }
             
             // If splash screen is still showing, wait
-            if (_splashScreenTimer > 0)
-            {
-                _splashScreenTimer -= gameTime.ElapsedGameTime.Milliseconds;
-                return;
-            }
+            // if (_splashScreenTimer > 0)
+            // {
+            //     _splashScreenTimer -= gameTime.ElapsedGameTime.Milliseconds;
+            //     return;
+            // }
 
             // Exit game
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed
