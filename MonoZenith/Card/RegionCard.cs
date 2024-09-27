@@ -39,14 +39,14 @@ namespace MonoZenith.Card
             throw new NotImplementedException();
         }
 
-        protected override void DrawMetaData(Vector2 position)
+        protected override void DrawMetaData()
         {
             float cardOffset = 15;
             
             // Draw card label
             _game.DrawText(
                 $"{Label.ToString()}", 
-                position, 
+                _position, 
                 DataManager.GetInstance(_game).ComponentFont, 
                 Color.Black, 
                 0.5f);
@@ -54,7 +54,7 @@ namespace MonoZenith.Card
             // Draw card region
             _game.DrawText(
                 $"{Region.ToString()}",
-                position + new Vector2(0, cardOffset * 1),
+                _position + new Vector2(0, cardOffset * 1),
                 DataManager.GetInstance(_game).ComponentFont,
                 Color.Black, 
                 0.5f);
@@ -62,7 +62,7 @@ namespace MonoZenith.Card
             // Draw card name
             _game.DrawText(
                 $"{_name}",
-                position + new Vector2(0, cardOffset * 2),
+                _position + new Vector2(0, cardOffset * 2),
                 DataManager.GetInstance(_game).ComponentFont,
                 Color.Black, 
                 0.5f);
