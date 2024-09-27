@@ -47,7 +47,7 @@ namespace MonoZenith.Card
         /// Checks if the player is hovering over the card with the mouse pointer.
         /// </summary>
         /// <returns>Returns if the player is hovering over the card.</returns>
-        protected bool IsHovered()
+        public bool IsHovered()
         {
             // Clicked is using the _position value, while it should be using _currentPos.
             // TODO: Check how to refactor this properly.
