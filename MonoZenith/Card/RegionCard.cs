@@ -36,7 +36,22 @@ namespace MonoZenith.Card
 
         public override bool ValidNextCard(Card previousCard)
         {
-            throw new NotImplementedException();
+            if (previousCard is RegionCard)
+            {
+                RegionCard regionCard = (RegionCard)previousCard;
+                if (regionCard.Label == this.Label || regionCard.Region == this.Region)
+                {
+                    return true;
+                }
+            } else if (previousCard is GraceCard)
+            {
+                GraceCard graceCard = (GraceCard)previousCard;
+                if (graceCard.Region == this.Region)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         protected override void DrawMetaData(Vector2 position)
