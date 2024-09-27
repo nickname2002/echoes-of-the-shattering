@@ -40,6 +40,30 @@ namespace MonoZenith.Card
         }
 
         /// <summary>
+        /// Checks if the player is hovering over the card with the mouse pointer.
+        /// </summary>
+        /// <returns>Returns if the player is hovering over the card.</returns>
+        protected bool IsHovered()
+        {
+            // Clicked is using the _position value, while it should be using _currentPos.
+            // TODO: Check how to refactor this properly.
+            
+            Point mousePosition = _game.GetMousePosition();
+            bool inXRange = mousePosition.X >= _position.X && mousePosition.X <= _position.X + _width;
+            bool inYRange = mousePosition.Y >= _position.Y && mousePosition.Y <= _position.Y + _height;
+            return inXRange && inYRange;
+        }
+
+        /// <summary>
+        /// Checks if the player clicked on the card with the left mouse button.
+        /// </summary>
+        /// <returns>If the card is clicked.</returns>
+        protected bool IsClicked()
+        {
+            return IsHovered() && _game.GetMouseButtonDown(MouseButtons.Left);
+        }
+
+        /// <summary>
         /// Checks if the card is valid card.
         /// </summary>
         /// <param name="previousCard">The card that was played before this one.</param>
@@ -50,6 +74,18 @@ namespace MonoZenith.Card
         /// Draw the metadata of the card onto the front side of the card.
         /// </summary>
         protected abstract void DrawMetaData(Vector2 position);
+
+        /// <summary>
+        /// Update the state of the card.
+        /// </summary>
+        /// <param name="deltaTime">The delta time.</param>
+        public void Update(GameTime deltaTime)
+        { 
+            if (IsClicked())
+            {
+                Console.WriteLine(_name);
+            }
+        }
         
         /// <summary>
         /// Draw the card.

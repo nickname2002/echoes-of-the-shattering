@@ -54,7 +54,11 @@ namespace MonoZenith.Classes.Players
 
         public override void Update(GameTime deltaTime)
         {
-            throw new NotImplementedException();
+            // Update every card in hand
+            foreach (var card in Hand.Cards)
+            {
+                card.Update(deltaTime);
+            }
         }
     }
 }

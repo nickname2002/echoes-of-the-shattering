@@ -113,7 +113,7 @@ namespace MonoZenith
         /// <param name="deltaTime">The time since the last update.</param>
         public void Update(GameTime deltaTime)
         {
-            // _player.Update(deltaTime);
+            _player.Update(deltaTime);
             // _npc.Update(deltaTime);
         }
 
