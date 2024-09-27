@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MonoZenith;
+using MonoZenith.Engine.Support;
 using static System.Formats.Asn1.AsnWriter;
 
 namespace MonoZenith.Card
@@ -46,6 +47,11 @@ namespace MonoZenith.Card
         public abstract bool ValidNextCard(Card previousCard);
 
         /// <summary>
+        /// Draw the metadata of the card onto the front side of the card.
+        /// </summary>
+        protected abstract void DrawMetaData(Vector2 position);
+        
+        /// <summary>
         /// Draw the card.
         /// </summary>
         /// <param name="width">Positional Width</param>
@@ -73,8 +79,12 @@ namespace MonoZenith.Card
             
             Vector2 currentPos = _position + new Vector2(newWidth, newHeight);
             Texture2D currentTexture = active ? _activeTexture : _texture;
-
             _game.DrawImage(currentTexture, currentPos, scale, angle);
+
+            if (!active)
+                return; 
+            
+            DrawMetaData(currentPos);
         }
     }
 }
