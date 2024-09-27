@@ -92,6 +92,14 @@ namespace MonoZenith.Card
             AddToFront(new DeathRootDecayCard(_game, _state, _position, CardBack, CardFront, "Godwyn's Deathroot Decay", Region.LEYNDELL, CardLabel.POWER));
             AddToFront(new WaterFlowDanceCard(_game, _state, _position, CardBack, CardFront, "Malenia's Waterflow Dance", Region.CAELID, CardLabel.POWER));
             AddToFront(new MiquellaBlessingCard(_game, _state, _position, CardBack, CardFront, "Miquella's Blessing", Region.LIMGRAVE, CardLabel.POWER));
+
+            // DEBUG REMOVE LATER
+            RegionCard test = new RegionCard(_game, _state, _position, CardBack, CardFront, "Dogs of Caelid", CardLabel.TWO, Region.CAELID);
+            Console.WriteLine(test.ValidNextCard(new RegionCard(_game, _state, _position, CardBack, CardFront, "Kindred of Rot", CardLabel.TWO, Region.LIURNIA)));
+            Console.WriteLine(test.ValidNextCard(new RegionCard(_game, _state, _position, CardBack, CardFront, "Rennala, Queen of the Full Moon", CardLabel.A, Region.LIURNIA)));
+            Console.WriteLine(test.ValidNextCard(new GraceCard(_game, _state, _position, CardBack, CardFront, "Grace of Gold", Region.LIURNIA, CardLabel.GRACE)));
+            Console.WriteLine(test.ValidNextCard(new JokerCard(_game, _state, _position, CardBack, CardFront, "Queen Marika the Eternal", Region.CAELID, CardLabel.JOKER)));
+            Console.WriteLine(test.ValidNextCard(new GravityPullCard(_game, _state, _position, CardBack, CardFront, "Gravity Pull", Region.LIURNIA, CardLabel.POWER)));
         }
 
         /// <summary>

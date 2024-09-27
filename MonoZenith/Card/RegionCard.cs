@@ -36,17 +36,31 @@ namespace MonoZenith.Card
 
         public override bool ValidNextCard(Card previousCard)
         {
-            if (previousCard is RegionCard)
+            Type type = previousCard.GetType();
+
+            if (previousCard is RegionCard regionCard)
             {
-                RegionCard regionCard = (RegionCard)previousCard;
                 if (regionCard.Label == this.Label || regionCard.Region == this.Region)
                 {
                     return true;
                 }
-            } else if (previousCard is GraceCard)
+            }
+            else if (previousCard is GraceCard graceCard)
             {
-                GraceCard graceCard = (GraceCard)previousCard;
                 if (graceCard.Region == this.Region)
+                {
+                    return true;
+                }
+            }
+            else if (type.IsSubclassOf(typeof(EffectCard)))
+            {
+                EffectCard effectCard = (EffectCard)previousCard;
+
+                if (this._state.Combo == 0)
+                {
+                    return false;
+                }
+                else if (effectCard.Region == this.Region)
                 {
                     return true;
                 }
