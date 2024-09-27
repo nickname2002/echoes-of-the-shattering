@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoZenith.Engine.Support;
 
 namespace MonoZenith.Card
 {
@@ -36,6 +37,35 @@ namespace MonoZenith.Card
         public override bool ValidNextCard(Card previousCard)
         {
             throw new NotImplementedException();
+        }
+
+        protected override void DrawMetaData(Vector2 position)
+        {
+            float cardOffset = 15;
+            
+            // Draw card label
+            _game.DrawText(
+                $"{Label.ToString()}", 
+                position, 
+                DataManager.GetInstance(_game).ComponentFont, 
+                Color.Black, 
+                0.5f);
+            
+            // Draw card region
+            _game.DrawText(
+                $"{Region.ToString()}",
+                position + new Vector2(0, cardOffset * 1),
+                DataManager.GetInstance(_game).ComponentFont,
+                Color.Black, 
+                0.5f);
+            
+            // Draw card name
+            _game.DrawText(
+                $"{_name}",
+                position + new Vector2(0, cardOffset * 2),
+                DataManager.GetInstance(_game).ComponentFont,
+                Color.Black, 
+                0.5f);
         }
     }
 }
