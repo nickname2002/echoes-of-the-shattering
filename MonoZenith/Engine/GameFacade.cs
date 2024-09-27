@@ -20,6 +20,8 @@ public class GameFacade
     private readonly SpriteBatch _spriteBatch;
     private readonly GraphicsDeviceManager _graphicsDeviceManager;
     private readonly ContentManager _content;
+    private const float ClickCooldown = 250f;
+    public float CurrentClickCooldown;
 
     public Color BackgroundColor => this._backgroundColor;
     public int ScreenWidth => this._screenDimensions.Item1;
@@ -53,6 +55,7 @@ public class GameFacade
         this._screenFullScreen = false;
         this._windowTitle = "MonoZenith";
         this._content = content;
+        this.CurrentClickCooldown = 0.0f;
     }
     
     /// <summary>
@@ -113,20 +116,31 @@ public class GameFacade
     }
     
     /// <summary>
-    /// Get whether a mouse button is pressed.
+    /// Get whether a mouse button is pressed and set cooldown if so.
     /// </summary>
     /// <param name="button">The button that is checked.</param>
     /// <returns>Whether a mouse button is pressed.</returns>
     public bool GetMouseButtonDown(MouseButtons button)
     {
+        // If there is still cooldown active, return false
+        if (CurrentClickCooldown > 0.0f) return false;
+        
         var mouseState = Mouse.GetState();
-        return button switch
+        bool isButtonPressed = button switch
         {
             MouseButtons.Left => mouseState.LeftButton == ButtonState.Pressed,
             MouseButtons.Middle => mouseState.MiddleButton == ButtonState.Pressed,
             MouseButtons.Right => mouseState.RightButton == ButtonState.Pressed,
             _ => false
         };
+
+        // If any mouse button is pressed, set the cooldown value
+        if (isButtonPressed)
+        {
+            CurrentClickCooldown = ClickCooldown;
+        }
+
+        return isButtonPressed;
     }
     
     /// <summary>

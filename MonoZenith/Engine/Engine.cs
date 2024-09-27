@@ -159,6 +159,10 @@ namespace MonoZenith.Engine
                 Exit();
             }
 
+            // Update mouse click cooldown timer
+            if (_gameFacade.CurrentClickCooldown > 0.0f)
+                _gameFacade.CurrentClickCooldown -= gameTime.ElapsedGameTime.Milliseconds;
+            
             HandleControllerSupport();
             _game.Update(gameTime);
             base.Update(gameTime);
