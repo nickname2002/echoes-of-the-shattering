@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using MonoZenith;
@@ -23,6 +24,10 @@ namespace MonoZenith.Card
         protected Texture2D _texture;
         protected Texture2D _activeTexture;
         protected string _name;
+        
+        public int Width => _width;
+        public int Height => _height;
+        public float Scale => _scale;
 
         protected Card(Game game, GameState state, Vector2 position, Texture2D texture, Texture2D activeTexture, string name)
         {
@@ -79,6 +84,16 @@ namespace MonoZenith.Card
         /// </summary>
         protected abstract void DrawMetaData();
 
+        /// <summary>
+        /// Changes the position of the card.
+        /// </summary>
+        /// <param name="x">X coordinate</param>
+        /// <param name="y">Y coordinate</param>
+        public void ChangePosition(float x, float y)
+        {
+            _position = new Vector2(x, y);
+        }
+        
         /// <summary>
         /// Update the state of the card.
         /// </summary>

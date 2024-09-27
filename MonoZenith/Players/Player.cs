@@ -12,13 +12,13 @@ namespace MonoZenith.Classes.Players
     internal abstract class Player
     {
         private Game _game;
-        private GameState _state;
+        protected GameState _state;
         public CardStack Hand;
         public string Name;
         public float width;
         public float height;
 
-        public Player(Game game, GameState state, string name)
+        protected Player(Game game, GameState state, string name)
         {
             _game = game;
             _state = state;

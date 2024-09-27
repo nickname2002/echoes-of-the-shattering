@@ -12,7 +12,7 @@ namespace MonoZenith.Card
         protected Game _game;
         protected GameState _state;
         protected Vector2 _position;
-        protected List<Card> _cards = new List<Card>();
+        protected List<Card> _cards = new();
         public List<Card> Cards => _cards;
         public int Count => _cards.Count;
 
@@ -100,6 +100,23 @@ namespace MonoZenith.Card
         public void ChangePosition(float x, float y)
         {
             this._position = new Vector2(x, y);
+            
+            // Update the position of the contained cards
+            foreach (var card in _cards)
+            {
+                card.ChangePosition(
+                    _position.X - _cards[0].Width / 2 * _cards[0].Scale, 
+                    _position.Y - _cards[0].Height / 2 * _cards[0].Scale);
+            }
+        }
+
+        /// <summary>
+        /// Get all but the last card in the stack.
+        /// </summary>
+        /// <returns>A list of all but the last cards in the stack.</returns>
+        protected List<Card> GetAllButLastCards()
+        {
+            return _cards.Count < 2 ? new List<Card>() : _cards.Take(_cards.Count - 1).ToList();
         }
 
         /// <summary>
@@ -107,21 +124,21 @@ namespace MonoZenith.Card
         /// </summary>
         public void Draw()
         {
-            if (_cards.Any())
+            if (!_cards.Any()) 
+                return;
+            
+            // If the deck is a subclass of CardStack,
+            // draw the cards face down
+            if (this.GetType().IsSubclassOf(typeof(CardStack)))
             {
-                // If the deck is a subclass of CardStack,
-                // draw the cards face down
-                if (this.GetType().IsSubclassOf(typeof(CardStack)))
-                {
-                    Card currentCard = _cards[0];
-                    currentCard.Draw(_position.X, _position.Y);
-                }
-                else
-                {
-                    Card currentCard = _cards.Last();
-                    currentCard.Draw(_position.X, _position.Y, 0, true, true);
-                }
-            }   
+                Card currentCard = _cards[0];
+                currentCard.Draw(_position.X, _position.Y);
+            }
+            else
+            {
+                Card currentCard = _cards.Last();
+                currentCard.Draw(_position.X, _position.Y, 0, true, true);
+            }
         }
     }
 }

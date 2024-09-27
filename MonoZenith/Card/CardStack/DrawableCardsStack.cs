@@ -5,14 +5,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 
 namespace MonoZenith.Card
 {
+    /// <summary>
+    /// Index ^1: First card to draw
+    /// Index 0: Last card to draw
+    /// </summary>
     internal class DrawableCardsStack : CardStack
     {
-        public Texture2D CardBack;
-        public Texture2D CardFront;
-
+        public readonly Texture2D CardBack;
+        public readonly Texture2D CardFront;
+        
         public DrawableCardsStack(Game game, GameState state) : base(game, state)
         {
             // Load in Textures
@@ -94,6 +99,33 @@ namespace MonoZenith.Card
             AddToFront(new MiquellaBlessingCard(_game, _state, _position, CardBack, CardFront, "Miquella's Blessing", Region.LIMGRAVE, CardLabel.POWER));
         }
 
+        /// <summary>
+        /// If the top card is clicked, return it. Otherwise, return null.
+        /// </summary>
+        /// <returns>The clicked card or null.</returns>
+        public Card GetSelectCard()
+        {
+            // Shuffle whenever the deck is empty
+            if (_cards.Count == 0)
+            {
+                // TODO: Uncomment after implementing playing cards feature
+                // List<Card> cardsToAdd = _state.DrawableCards.GetAllButLastCards();
+                // _cards.AddRange(cardsToAdd);
+                // Shuffle();
+                return null;
+            }
+            
+            if (!_cards[^1].IsClicked())
+            {
+                return null;
+            }
+            
+            // Draw card
+            Card cardToDraw = _cards[^1];
+            _cards.Remove(cardToDraw);
+            return cardToDraw;
+        }
+        
         /// <summary>
         /// Return seven cards from the stack.
         /// </summary>
