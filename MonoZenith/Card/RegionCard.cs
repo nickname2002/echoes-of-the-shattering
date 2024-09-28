@@ -54,7 +54,12 @@ namespace MonoZenith.Card
                 {
                     return false;
                 }
-                else if (effectCard.Region == this.Region)
+                
+                if (Label == effectCard.Label 
+                    || Region == _state.CurrentRegion
+                    
+                    // TODO: Not true for power cards, but override in PowerCard classes later
+                    || Region == Region.ALL)
                 {
                     return true;
                 }
@@ -62,7 +67,12 @@ namespace MonoZenith.Card
             else if (previousCard is RegionCard regionCard)
             {
                 // RegionCards matches on the same label or region.
-                if (regionCard.Label == this.Label || regionCard.Region == this.Region)
+                if (regionCard.Label == this.Label 
+                    || this.Region == _state.CurrentRegion
+                    || regionCard.Region == Region.ALL
+                    
+                    // TODO: Not true for power cards, but override in PowerCard classes later
+                    || Region == Region.ALL)  
                 {
                     return true;
                 }

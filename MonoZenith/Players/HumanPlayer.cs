@@ -128,9 +128,18 @@ namespace MonoZenith.Classes.Players
             // Playing a card
             if (selectedCard != null)
             {
-                if (selectedCard.ValidNextCard(_state.PlayedCards.Cards[0]))
+                if (selectedCard.ValidNextCard(_state.PlayedCards.Cards[^1]))
                 {
                     Console.WriteLine($"Human player played: {selectedCard}");
+                    
+                    if (selectedCard is RegionCard regionCard)
+                    {
+                        if (regionCard.Region != Region.ALL)
+                        {
+                            _state.CurrentRegion = regionCard.Region;
+                        }
+                    }
+                    
                     _state.PlayedCards.AddToBottom(selectedCard);
                     Hand.Cards.Remove(selectedCard);   
                     return;

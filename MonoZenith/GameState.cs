@@ -21,7 +21,7 @@ namespace MonoZenith
         private readonly NpcPlayer _npc;
         public DrawableCardsStack DrawableCards;
         public CardStack PlayedCards;
-        private Region _currentRegion;
+        public Region CurrentRegion;
         private readonly SpriteFont _componentFont;
         public int Combo;
 
@@ -33,7 +33,7 @@ namespace MonoZenith
             _currentPlayer = null;
             DrawableCards = new DrawableCardsStack(_game, this);
             PlayedCards = new CardStack(_game, this);
-            _currentRegion = Region.LIMGRAVE;   // TODO: Set to random region.
+            CurrentRegion = Region.LIMGRAVE;   // TODO: Set to random region.
             _componentFont = DataManager.GetInstance(game).ComponentFont;
             Combo = 0;
             InitializeState();
@@ -59,6 +59,7 @@ namespace MonoZenith
 
             // Play the first card in the game
             PlayedCards.AddToFront(DrawableCards.Pop());
+            CurrentRegion = ((RegionCard)PlayedCards.Cards.First()).Region;
 
             // Initialize player hands
             _player.Hand = DrawableCards.GetSevenCards();
@@ -147,7 +148,11 @@ namespace MonoZenith
             // Draw text data
             _game.DrawText(
                 $"Current player: {_currentPlayer.Name}", 
-                new Vector2(_game.ScreenWidth - 400, _game.ScreenHeight / 2 - 25), 
+                new Vector2(_game.ScreenWidth - 450, _game.ScreenHeight / 2 - 25), 
+                _componentFont, Color.White);
+            _game.DrawText(
+                $"Current region: {CurrentRegion}", 
+                new Vector2(_game.ScreenWidth - 450, _game.ScreenHeight / 2), 
                 _componentFont, Color.White);
         }
     }
