@@ -23,6 +23,7 @@ namespace MonoZenith
         private CardStack _playedCards;
         private Region _currentRegion;
         private readonly SpriteFont _componentFont;
+        public int Combo;
 
         public GameState(Game game)
         {
@@ -34,8 +35,9 @@ namespace MonoZenith
             _playedCards = new CardStack(_game, this);
             _currentRegion = Region.LIMGRAVE;   // TODO: Set to random region.
             _componentFont = DataManager.GetInstance(game).ComponentFont;
+            Combo = 0;
             InitializeState();
-
+            
             Console.WriteLine(_player);
             Console.WriteLine(_npc);
         }
