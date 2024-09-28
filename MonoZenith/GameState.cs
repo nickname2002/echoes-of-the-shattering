@@ -14,15 +14,15 @@ namespace MonoZenith
 {
     internal class GameState
     {
-        Game _game;
+        private readonly Game _game;
         private Player? _currentPlayer;
         private Player? _currentWinner;
-        private HumanPlayer _player;
-        private NpcPlayer _npc;
-        private DrawableCardsStack _drawableCards;
+        private readonly HumanPlayer _player;
+        private readonly NpcPlayer _npc;
+        public DrawableCardsStack DrawableCards;
         private CardStack _playedCards;
         private Region _currentRegion;
-        private SpriteFont _componentFont;
+        private readonly SpriteFont _componentFont;
         public int Combo;
 
         public GameState(Game game)
@@ -31,7 +31,7 @@ namespace MonoZenith
             _player = new HumanPlayer(_game, this, "Player");
             _npc = new NpcPlayer(_game, this, "NPC");
             _currentPlayer = null;
-            _drawableCards = new DrawableCardsStack(_game, this);
+            DrawableCards = new DrawableCardsStack(_game, this);
             _playedCards = new CardStack(_game, this);
             _currentRegion = Region.LIMGRAVE;   // TODO: Set to random region.
             _componentFont = DataManager.GetInstance(game).ComponentFont;
@@ -48,19 +48,21 @@ namespace MonoZenith
         private void InitializeState()
         {
             // Calculate positions of the decks
-            _drawableCards = new DrawableCardsStack(_game, this);
-            float widthDrawable = _game.ScreenWidth / 2.2f;
-            float widthPlayed = _game.ScreenWidth / 1.8f;
+            float drawableX = _game.ScreenWidth / 2.2f;
+            float playedX = _game.ScreenWidth / 1.8f;
             float height = _game.ScreenHeight / 2;
-            _drawableCards.ChangePosition(widthDrawable, height);
-            _playedCards.ChangePosition(widthPlayed, height);
+            
+            DrawableCards = new DrawableCardsStack(_game, this);
+            _playedCards.ChangePosition(playedX, height);
+            DrawableCards.ChangePosition(drawableX, height);
+            _playedCards.ChangePosition(playedX, height);
 
             // Play the first card in the game
-            _playedCards.AddToFront(_drawableCards.Pop());
+            _playedCards.AddToFront(DrawableCards.Pop());
 
             // Initialize player hands
-            _player.Hand = _drawableCards.GetSevenCards();
-            _npc.Hand = _drawableCards.GetSevenCards();
+            _player.Hand = DrawableCards.GetSevenCards();
+            _npc.Hand = DrawableCards.GetSevenCards();
             
             // For debugging purposes, make sure the human player starts
             _currentPlayer = _player;
@@ -132,7 +134,7 @@ namespace MonoZenith
         public void Draw()
         {
             // Draw cards in play
-            _drawableCards.Draw();
+            DrawableCards.Draw();
             _playedCards.Draw();
 
             // Draw player cards

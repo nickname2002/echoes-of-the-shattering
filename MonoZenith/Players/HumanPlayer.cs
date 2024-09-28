@@ -122,12 +122,22 @@ namespace MonoZenith.Classes.Players
         
         public override void PerformTurn(GameState state)
         {
-            // Print selected card if any
             Card.Card selectedCard = GetSelectedCard();
-            if (selectedCard!= null)
+            Card.Card drawnCard = _state.DrawableCards.GetSelectCard();
+            
+            // Playing a card
+            if (selectedCard != null)
             {
                 Console.WriteLine($"Human player played: {selectedCard}");
+                return;
             }
+
+            // Drawing cards
+            if (drawnCard == null) 
+                return;
+            
+            Console.WriteLine($"Human player drew: {drawnCard}");
+            Hand.AddToFront(drawnCard);
         }
 
         public override void Update(GameTime deltaTime)
