@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
+using MonoZenith.Card;
 
 namespace MonoZenith.Players
 {
@@ -40,14 +43,62 @@ namespace MonoZenith.Players
             }
         }
 
-        public override void PerformTurn(GameState state)
+        /// <summary>
+        /// Strategy to play when the opposing player has less than 4 cards.
+        /// </summary>
+        /// <exception cref="NotImplementedException"></exception>
+        private void OffensiveStrategy()
         {
             throw new NotImplementedException();
         }
 
-        public override void Update(GameTime deltaTime)
+        /// <summary>
+        /// Strategy to play when the opposing player has more than 3 cards.
+        /// </summary>
+        /// <exception cref="NotImplementedException"></exception>
+        private void NormalStrategy()
         {
             throw new NotImplementedException();
+        }
+            
+        public override void PerformTurn(GameState state)
+        {
+            if (Hand.Cards.Any(card => TryPlayCard()))
+            {
+                return;
+            }
+
+            TryDrawCard();
+        }
+
+        protected override bool TryPlayCard()
+        {
+            foreach (var card in Hand.Cards)
+            {
+                if (!IsValidPlay(card)) 
+                    continue;
+                
+                PlayCard(card);
+                return true;
+            }
+
+            return false;
+        }
+
+        protected override void TryDrawCard()
+        {
+            var drawnCard = _state.DrawableCards.GetCard();
+            Console.WriteLine($"{Name} drew: {drawnCard}");
+            Hand.AddToFront(drawnCard);
+            _state.SwitchTurn();    // TODO: may not be true in every situation
+        }
+
+        public override void Update(GameTime deltaTime)
+        {
+            foreach (var card in Hand.Cards)
+            {
+                card.Update(deltaTime);
+            }
         }
     }
 }

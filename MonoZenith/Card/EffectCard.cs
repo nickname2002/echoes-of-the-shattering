@@ -5,29 +5,7 @@ using MonoZenith.Support;
 
 namespace MonoZenith.Card
 {
-    internal abstract class EffectCard : RegionCard
-    {
-        protected EffectCard(
-            Game game,
-            GameState state,
-            Vector2 position,
-            Texture2D texture,
-            Texture2D activeTexture,
-            string name,
-            CardLabel label,
-            Region region)
-            : base(game, state, position, texture, activeTexture, name, label, region)
-        {
-        }
-
-        /// <summary>
-        /// Perform the effect of the card.
-        /// </summary>
-        /// <param name="state">The current game state.</param>
-        public abstract void PerformEffect(GameState state);
-    }
-
-    internal class JokerCard : EffectCard
+    internal class JokerCard : RegionCard
     {
         public JokerCard(
             Game game,
@@ -49,11 +27,14 @@ namespace MonoZenith.Card
 
         public override void PerformEffect(GameState state)
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < 5; i++)
+                state.OpposingPlayer.DrawCard();
+
+            state.SwitchTurn();
         }
     }
 
-    internal class GraceCard : EffectCard
+    internal class GraceCard : RegionCard
     {
         public GraceCard(
             Game game,
@@ -67,14 +48,9 @@ namespace MonoZenith.Card
             : base(game, state, position, texture, activeTexture, name, label, region)
         {
         }
-        
-        public override void PerformEffect(GameState state)
-        {
-            throw new NotImplementedException();
-        }
     }
 
-    internal class LunarQueenRebirthCard : EffectCard
+    internal class LunarQueenRebirthCard : RegionCard
     {
         public LunarQueenRebirthCard(
             Game game,
@@ -88,14 +64,9 @@ namespace MonoZenith.Card
             : base(game, state, position, texture, activeTexture, name, label, region)
         {
         }
-
-        public override void PerformEffect(GameState state)
-        {
-            throw new NotImplementedException();
-        }
     }
 
-    internal class ScarletBloomCard : EffectCard
+    internal class ScarletBloomCard : RegionCard
     {
         public ScarletBloomCard(
             Game game,
@@ -109,14 +80,9 @@ namespace MonoZenith.Card
             : base(game, state, position, texture, activeTexture, name, label, region)
         {
         }
-
-        public override void PerformEffect(GameState state)
-        {
-            throw new NotImplementedException();
-        }
     }
 
-    internal class GravityPullCard : EffectCard
+    internal class GravityPullCard : RegionCard
     {
         public GravityPullCard(
             Game game,
@@ -130,14 +96,9 @@ namespace MonoZenith.Card
             : base(game, state, position, texture, activeTexture, name, label, region)
         {
         }
-
-        public override void PerformEffect(GameState state)
-        {
-            throw new NotImplementedException();
-        }
     }
 
-    internal class ErdtreeBlessingCard : EffectCard
+    internal class ErdtreeBlessingCard : RegionCard
     {
         public ErdtreeBlessingCard(
             Game game,
@@ -151,14 +112,9 @@ namespace MonoZenith.Card
             : base(game, state, position, texture, activeTexture, name, label, region)
         {
         }
-
-        public override void PerformEffect(GameState state)
-        {
-            throw new NotImplementedException();
-        }
     }
 
-    internal class MargitShacklesCard : EffectCard
+    internal class MargitShacklesCard : RegionCard
     {
         public MargitShacklesCard(
             Game game,
@@ -172,14 +128,9 @@ namespace MonoZenith.Card
             : base(game, state, position, texture, activeTexture, name, label, region)
         {
         }
-
-        public override void PerformEffect(GameState state)
-        {
-            throw new NotImplementedException();
-        }
     }
 
-    internal class RennalaFullMoonCard : EffectCard
+    internal class RennalaFullMoonCard : RegionCard
     {
         public RennalaFullMoonCard(
             Game game,
@@ -193,14 +144,9 @@ namespace MonoZenith.Card
             : base(game, state, position, texture, activeTexture, name, label, region)
         {
         }
-
-        public override void PerformEffect(GameState state)
-        {
-            throw new NotImplementedException();
-        }
     }
 
-    internal class DeathRootDecayCard : EffectCard
+    internal class DeathRootDecayCard : RegionCard
     {
         public DeathRootDecayCard(
             Game game,
@@ -214,14 +160,9 @@ namespace MonoZenith.Card
             : base(game, state, position, texture, activeTexture, name, label, region)
         {
         }
-
-        public override void PerformEffect(GameState state)
-        {
-            throw new NotImplementedException();
-        }
     }
 
-    internal class WaterFlowDanceCard : EffectCard
+    internal class WaterFlowDanceCard : RegionCard
     {
         public WaterFlowDanceCard(
             Game game,
@@ -235,14 +176,9 @@ namespace MonoZenith.Card
             : base(game, state, position, texture, activeTexture, name, label, region)
         {
         }
-
-        public override void PerformEffect(GameState state)
-        {
-            throw new NotImplementedException();
-        }
     }
 
-    internal class MiquellaBlessingCard : EffectCard
+    internal class MiquellaBlessingCard : RegionCard
     {
         public MiquellaBlessingCard(
             Game game,
@@ -255,11 +191,6 @@ namespace MonoZenith.Card
             CardLabel label)
             : base(game, state, position, texture, activeTexture, name, label, region)
         {
-        }
-
-        public override void PerformEffect(GameState state)
-        {
-            throw new NotImplementedException();
         }
     }
 }

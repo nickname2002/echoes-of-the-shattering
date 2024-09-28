@@ -120,14 +120,31 @@ namespace MonoZenith.Card.CardStack
             _cards.Remove(cardToDraw);
             return cardToDraw;
         }
+
+        public Card GetCard()
+        {
+            // Shuffle whenever the deck is empty
+            if (_cards.Count == 0)
+            {
+                // TODO: Uncomment after implementing playing cards feature
+                // List<Card> cardsToAdd = _state.DrawableCards.GetAllButLastCards();
+                // _cards.AddRange(cardsToAdd);
+                // Shuffle();
+                return null;
+            }
+            
+            Card cardToDraw = _cards[^1];
+            _cards.Remove(cardToDraw);
+            return cardToDraw;
+        }
         
         /// <summary>
         /// Return seven cards from the stack.
         /// </summary>
         /// <returns>The seven cards.</returns>
-        public MonoZenith.Card.CardStack.CardStack GetSevenCards()
+        public CardStack GetSevenCards()
         {
-            MonoZenith.Card.CardStack.CardStack sevenCards = new MonoZenith.Card.CardStack.CardStack(_game, _state);
+            CardStack sevenCards = new MonoZenith.Card.CardStack.CardStack(_game, _state);
 
             for (int i = 0; i < 7; i++)
             {

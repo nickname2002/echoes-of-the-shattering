@@ -26,6 +26,9 @@ namespace MonoZenith
         public Region CurrentRegion;
         private readonly SpriteFont _componentFont;
         public int Combo;
+        
+        public Player CurrentPlayer => _currentPlayer?? _player;
+        public Player OpposingPlayer => _currentPlayer == _player? _npc : _player;
 
         public GameState(Game game)
         {
@@ -67,9 +70,8 @@ namespace MonoZenith
             _player.Hand = DrawableCards.GetSevenCards();
             _npc.Hand = DrawableCards.GetSevenCards();
             
-            // For debugging purposes, make sure the human player starts
-            _currentPlayer = _player;
-            // DetermineStartingPlayer();
+            // Determine the starting player
+            DetermineStartingPlayer();
         }
 
         /// <summary>
@@ -108,29 +110,32 @@ namespace MonoZenith
                 _currentWinner = _player;
                 return _player;
             }
-            else if (_npc.Hand.Count == 0)
-            {
-                _currentWinner = _npc;
-                return _npc;
-            }
 
-            return null;
+            if (_npc.Hand.Count != 0) 
+                return null;
+            
+            _currentWinner = _npc;
+            return _npc;
         }
 
+        /// <summary>
+        /// Switches the turn to the next player.
+        /// </summary>
+        public void SwitchTurn()
+        {
+            _currentPlayer = _currentPlayer == _player? _npc : _player;
+            Console.WriteLine($"Turn: {_currentPlayer.Name}");
+        }
+        
         /// <summary>
         /// Update the game state.
         /// </summary>
         /// <param name="deltaTime">The time since the last update.</param>
         public void Update(GameTime deltaTime)
         {
-            if (_currentPlayer is NpcPlayer)
-            {
-                return;
-            }
-            
             _currentPlayer?.PerformTurn(this);
         }
-
+        
         /// <summary>
         /// Draw the game state.
         /// </summary>
