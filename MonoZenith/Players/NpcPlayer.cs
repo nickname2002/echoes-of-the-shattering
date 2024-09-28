@@ -134,7 +134,7 @@ namespace MonoZenith.Players
         {
             OrderHand();
             int cardsInOpponentHand = state.OpposingPlayer.Hand.Count;
-            
+
             // If the opponent has less than 4 cards, try to play offensive cards.
             if (cardsInOpponentHand < 4)
             {
@@ -143,14 +143,20 @@ namespace MonoZenith.Players
                     return;
                 }
             }
-            
+
             // If the situation is stable, play the first card available.
-            if (TryPlayCard()) 
+            if (TryPlayCard())
                 return;
-            
+
             // If no card can be played, draw a card.
             TryDrawCard();
+
+            // If there is a power effect in play,
+            // draw cards equal to the current combo amount.
+            DrawCombo(state);
         }
+
+
 
         public override void Update(GameTime deltaTime)
         {

@@ -22,14 +22,15 @@ namespace MonoZenith.Card
 
         public override bool ValidNextCard(Card previousCard)
         {
+            PerformEffect(_state);
             return true;
         }
 
         public override void PerformEffect(GameState state)
         {
-            for (int i = 0; i < 5; i++)
-                state.OpposingPlayer.DrawCard();
-
+            // Opposing player needs to draw two cards unless
+            // they can play another joker card.
+            state.Combo += 5;
             state.SwitchTurn();
         }
     }
@@ -64,6 +65,34 @@ namespace MonoZenith.Card
             : base(game, state, position, texture, activeTexture, name, label, region)
         {
         }
+
+        public override bool ValidNextCard(Card previousCard)
+        {
+            var prevCard = previousCard as RegionCard;
+
+            // Powercards matches on the same label or region.
+            if (prevCard != null
+                && prevCard.Label != Label
+                && Region != _state.CurrentRegion
+                && prevCard.Region != Region.ALL ||
+                _state.Combo >= 1)
+            {
+                return false;
+            }
+
+            PerformEffect(_state);
+            return true;
+        }
+
+
+        public override void PerformEffect(GameState state)
+        {
+            // Switches hands between the players.
+            CardStack.CardStack currenthand = state.CurrentPlayer.Hand;
+            state.CurrentPlayer.Hand = state.OpposingPlayer.Hand;
+            state.OpposingPlayer.Hand = currenthand;
+            state.SwitchTurn();
+        }
     }
 
     internal class ScarletBloomCard : RegionCard
@@ -79,6 +108,25 @@ namespace MonoZenith.Card
             CardLabel label)
             : base(game, state, position, texture, activeTexture, name, label, region)
         {
+        }
+
+        public override bool ValidNextCard(Card previousCard)
+        {
+            var prevCard = previousCard as RegionCard;
+
+            // Powercards matches on the same label or region.
+            if (prevCard != null
+                && prevCard.Label != Label
+                && Region != _state.CurrentRegion
+                && prevCard.Region != Region.ALL ||
+                _state.Combo >= 1)
+            {
+                return false;
+            }
+
+            // Opposing player skips one turns.
+            // TODO: Add counter for skipping in gamestate
+            return true;
         }
     }
 
@@ -96,6 +144,25 @@ namespace MonoZenith.Card
             : base(game, state, position, texture, activeTexture, name, label, region)
         {
         }
+
+        public override bool ValidNextCard(Card previousCard)
+        {
+            var prevCard = previousCard as RegionCard;
+
+            // Powercards matches on the same label or region.
+            if (prevCard != null
+                && prevCard.Label != Label
+                && Region != _state.CurrentRegion
+                && prevCard.Region != Region.ALL ||
+                _state.Combo >= 1)
+            {
+                return false;
+            }
+
+            // Opposing player skips two turns.
+            // TODO: Add counter for skipping in gamestate
+            return true;
+        }
     }
 
     internal class ErdtreeBlessingCard : RegionCard
@@ -111,6 +178,25 @@ namespace MonoZenith.Card
             CardLabel label)
             : base(game, state, position, texture, activeTexture, name, label, region)
         {
+        }
+
+        public override bool ValidNextCard(Card previousCard)
+        {
+            var prevCard = previousCard as RegionCard;
+
+            // Powercards matches on the same label or region.
+            if (prevCard != null
+                && prevCard.Label != Label
+                && Region != _state.CurrentRegion
+                && prevCard.Region != Region.ALL ||
+                _state.Combo >= 1)
+            {
+                return false;
+            }
+
+            // Opposing player skips one turn.
+            // TODO: Add counter for skipping in gamestate
+            return true;
         }
     }
 
@@ -128,6 +214,25 @@ namespace MonoZenith.Card
             : base(game, state, position, texture, activeTexture, name, label, region)
         {
         }
+
+        public override bool ValidNextCard(Card previousCard)
+        {
+            var prevCard = previousCard as RegionCard;
+
+            // Powercards matches on the same label or region.
+            if (prevCard != null
+                && prevCard.Label != Label
+                && Region != _state.CurrentRegion
+                && prevCard.Region != Region.ALL ||
+                _state.Combo >= 1)
+            {
+                return false;
+            }
+
+            // Opposing player skips one turn.
+            // TODO: Add counter for skipping in gamestate
+            return true;
+        }
     }
 
     internal class RennalaFullMoonCard : RegionCard
@@ -143,6 +248,32 @@ namespace MonoZenith.Card
             CardLabel label)
             : base(game, state, position, texture, activeTexture, name, label, region)
         {
+        }
+
+        public override bool ValidNextCard(Card previousCard)
+        {
+            var prevCard = previousCard as RegionCard;
+
+            // Powercards matches on the same label or region.
+            if (prevCard != null
+                && prevCard.Label != Label
+                && Region != _state.CurrentRegion
+                && prevCard.Region != Region.ALL
+                && prevCard is not JokerCard)
+            {
+                return false;
+            }
+
+            PerformEffect(_state);
+            return true;
+        }
+
+        public override void PerformEffect(GameState state)
+        {
+            // Opposing player needs to draw two cards unless
+            // they can play another power card.
+            state.Combo += 2;
+            state.SwitchTurn();
         }
     }
 
@@ -160,6 +291,32 @@ namespace MonoZenith.Card
             : base(game, state, position, texture, activeTexture, name, label, region)
         {
         }
+
+        public override bool ValidNextCard(Card previousCard)
+        {
+            var prevCard = previousCard as RegionCard;
+
+            // Powercards matches on the same label or region.
+            if (prevCard != null
+                && prevCard.Label != Label
+                && Region != _state.CurrentRegion
+                && prevCard.Region != Region.ALL
+                && prevCard is not JokerCard)
+            {
+                return false;
+            }
+
+            PerformEffect(_state);
+            return true;
+        }
+
+        public override void PerformEffect(GameState state)
+        {
+            // Opposing player needs to draw two cards unless
+            // they can play another power card.
+            state.Combo += 2;
+            state.SwitchTurn();
+        }
     }
 
     internal class WaterFlowDanceCard : RegionCard
@@ -176,6 +333,32 @@ namespace MonoZenith.Card
             : base(game, state, position, texture, activeTexture, name, label, region)
         {
         }
+
+        public override bool ValidNextCard(Card previousCard)
+        {
+            var prevCard = previousCard as RegionCard;
+
+            // Powercards matches on the same label or region.
+            if (prevCard != null
+                && prevCard.Label != Label
+                && Region != _state.CurrentRegion
+                && prevCard.Region != Region.ALL
+                && prevCard is not JokerCard)
+            {
+                return false;
+            }
+
+            PerformEffect(_state);
+            return true;
+        }
+
+        public override void PerformEffect(GameState state)
+        {
+            // Opposing player needs to draw two cards unless
+            // they can play another power card.
+            state.Combo += 2;
+            state.SwitchTurn();
+        }
     }
 
     internal class MiquellaBlessingCard : RegionCard
@@ -191,6 +374,32 @@ namespace MonoZenith.Card
             CardLabel label)
             : base(game, state, position, texture, activeTexture, name, label, region)
         {
+        }
+
+        public override bool ValidNextCard(Card previousCard)
+        {
+            var prevCard = previousCard as RegionCard;
+
+            // Powercards matches on the same label or region.
+            if (prevCard != null
+                && prevCard.Label != Label
+                && Region != _state.CurrentRegion
+                && prevCard.Region != Region.ALL
+                && prevCard is not JokerCard)
+            {
+                return false;
+            }
+
+            PerformEffect(_state);
+            return true;
+        }
+
+        public override void PerformEffect(GameState state)
+        {
+            // Opposing player needs to draw two cards unless
+            // they can play another power card.
+            state.Combo += 2;
+            state.SwitchTurn();
         }
     }
 }

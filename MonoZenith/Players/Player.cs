@@ -43,6 +43,25 @@ namespace MonoZenith.Players
         }
 
         /// <summary>
+        /// Draw cards equal to the current card combo amount
+        /// </summary>
+        /// <param name="state">The current gamestate</param>
+        public void DrawCombo(GameState state)
+        {
+            // If there is a power effect in play,
+            // draw cards equal to the current combo amount.
+            if (state.Combo >= 1)
+            {
+                for (int i = 0; i < state.Combo; i++)
+                {
+                    DrawCard();
+                }
+
+                state.Combo = 0;
+            }
+        }
+
+        /// <summary>
         /// Attempt to play the selected card.
         /// </summary>
         /// <returns>Whether a valid card was played.</returns>

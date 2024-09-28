@@ -51,7 +51,8 @@ namespace MonoZenith.Card
                 && prevCard.Region != Region.ALL &&
 
                 // TODO: Not true for power cards, but override in PowerCard classes later
-                Region != Region.ALL)
+                Region != Region.ALL ||
+                _state.Combo >= 1)
             {
                 return false;
             }
