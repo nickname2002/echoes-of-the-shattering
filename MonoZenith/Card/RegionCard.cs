@@ -34,11 +34,45 @@ namespace MonoZenith.Card
             return $"{_name} ({Region}) - {Label}";
         }
 
+        /// <summary>
+        /// Checks if the card is valid card.
+        /// </summary>
+        /// <param name="previousCard">The card that was played before this one.</param>
+        /// <returns>Whether the card is a valid next card.</returns>
         public override bool ValidNextCard(Card previousCard)
         {
-            throw new NotImplementedException();
+            // Checks the typing in order to determine what rule it needs to apply.
+            Type cardType = previousCard.GetType();
+
+            if (cardType.IsSubclassOf(typeof(EffectCard)))
+            {
+                EffectCard effectCard = (EffectCard)previousCard;
+
+                // If there is an ongoing effect, only power cards can be played.
+                // Else, it matches on the same region, as no label can be matched.
+                if (this._state.Combo != 0)
+                {
+                    return false;
+                }
+                else if (effectCard.Region == this.Region)
+                {
+                    return true;
+                }
+            }
+            else if (previousCard is RegionCard regionCard)
+            {
+                // RegionCards matches on the same label or region.
+                if (regionCard.Label == this.Label || regionCard.Region == this.Region)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
+        /// <summary>
+        /// Draw the card metadata.
+        /// </summary>
         protected override void DrawMetaData()
         {
             float cardOffset = 15;
