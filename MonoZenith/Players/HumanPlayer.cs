@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using MonoZenith.Card;
+using MonoZenith.Support;
 
-namespace MonoZenith.Classes.Players
+namespace MonoZenith.Players
 {
     internal class HumanPlayer : Player
     {
@@ -119,30 +118,49 @@ namespace MonoZenith.Classes.Players
                 _ => clickedCards[0]
             };
         }
-        
+
         public override void PerformTurn(GameState state)
         {
-            Card.Card selectedCard = GetSelectedCard();
-            Card.Card drawnCard = _state.DrawableCards.GetSelectCard();
-            
-            // Playing a card
-            if (selectedCard != null)
-            {
-                Console.WriteLine($"Human player played: {selectedCard}");
+            if (TryPlayCard()) 
                 return;
-            }
 
-            // Drawing cards
+            TryDrawCard();
+        }
+
+        /// <summary>
+        /// Attempt to play the selected card.
+        /// </summary>
+        /// <returns>Whether a valid card was played.</returns>
+        protected override bool TryPlayCard()
+        {
+            var selectedCard = GetSelectedCard();
+
+            // If no card is selected or the card is not valid, return false.
+            if (selectedCard == null || !IsValidPlay(selectedCard)) 
+                return false;
+
+            PlayCard(selectedCard);
+            return true;
+        }
+
+        /// <summary>
+        /// Draw a card from the deck and add it to the player's hand.
+        /// </summary>
+        protected override void TryDrawCard()
+        {
+            var drawnCard = _state.DrawableCards.GetSelectCard();
+
+            // If no card was drawn, return
             if (drawnCard == null) 
                 return;
-            
-            Console.WriteLine($"Human player drew: {drawnCard}");
+
+            Console.WriteLine($"{Name} drew: {drawnCard}");
             Hand.AddToFront(drawnCard);
+            _state.SwitchTurn();    // TODO: may not be true in every situation
         }
 
         public override void Update(GameTime deltaTime)
         {
-            // Update every card in hand
             foreach (var card in Hand.Cards)
             {
                 card.Update(deltaTime);

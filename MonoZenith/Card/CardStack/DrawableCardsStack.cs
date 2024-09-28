@@ -1,13 +1,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Engine.Support;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
+using MonoZenith.Support;
 
-namespace MonoZenith.Card
+namespace MonoZenith.Card.CardStack
 {
     /// <summary>
     /// Index ^1: First card to draw
@@ -125,6 +120,23 @@ namespace MonoZenith.Card
             _cards.Remove(cardToDraw);
             return cardToDraw;
         }
+
+        public Card GetCard()
+        {
+            // Shuffle whenever the deck is empty
+            if (_cards.Count == 0)
+            {
+                // TODO: Uncomment after implementing playing cards feature
+                // List<Card> cardsToAdd = _state.DrawableCards.GetAllButLastCards();
+                // _cards.AddRange(cardsToAdd);
+                // Shuffle();
+                return null;
+            }
+            
+            Card cardToDraw = _cards[^1];
+            _cards.Remove(cardToDraw);
+            return cardToDraw;
+        }
         
         /// <summary>
         /// Return seven cards from the stack.
@@ -132,7 +144,7 @@ namespace MonoZenith.Card
         /// <returns>The seven cards.</returns>
         public CardStack GetSevenCards()
         {
-            CardStack sevenCards = new CardStack(_game, _state);
+            CardStack sevenCards = new MonoZenith.Card.CardStack.CardStack(_game, _state);
 
             for (int i = 0; i < 7; i++)
             {
