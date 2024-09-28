@@ -139,14 +139,14 @@ namespace MonoZenith.Players
             if (TryPlayCard()) 
                 return;
 
-            DrawCard();
+            TryDrawCard();
         }
 
         /// <summary>
         /// Attempt to play the selected card.
         /// </summary>
         /// <returns>Whether a valid card was played.</returns>
-        private bool TryPlayCard()
+        protected override bool TryPlayCard()
         {
             var selectedCard = GetSelectedCard();
 
@@ -159,39 +159,9 @@ namespace MonoZenith.Players
         }
 
         /// <summary>
-        /// Check if the selected card is a valid play based on the last played card.
-        /// </summary>
-        /// <param name="card">The card to check.</param>
-        /// <returns>True if the card can be played, false otherwise.</returns>
-        private bool IsValidPlay(Card.Card card)
-        {
-            var lastPlayedCard = _state.PlayedCards.Cards[^1]; 
-            return card.ValidNextCard(lastPlayedCard);
-        }
-
-        /// <summary>
-        /// Play the selected card and update the game state.
-        /// </summary>
-        /// <param name="card">The card to play.</param>
-        private void PlayCard(Card.Card card)
-        {
-            Console.WriteLine($"Human player played: {card}");
-
-            // Update the current region if the card is a RegionCard and region is not "ALL"
-            if (card is RegionCard regionCard && regionCard.Region != Region.ALL)
-            {
-                _state.CurrentRegion = regionCard.Region;
-            }
-
-            // Add the card to the played pile and remove it from the player's hand
-            _state.PlayedCards.AddToBottom(card);
-            Hand.Cards.Remove(card);
-        }
-
-        /// <summary>
         /// Draw a card from the deck and add it to the player's hand.
         /// </summary>
-        private void DrawCard()
+        protected override void TryDrawCard()
         {
             var drawnCard = _state.DrawableCards.GetSelectCard();
 
@@ -199,8 +169,9 @@ namespace MonoZenith.Players
             if (drawnCard == null) 
                 return;
 
-            Console.WriteLine($"Human player drew: {drawnCard}");
+            Console.WriteLine($"{Name} drew: {drawnCard}");
             Hand.AddToFront(drawnCard);
+            _state.SwitchTurn();    // TODO: may not be true in every situation
         }
 
         public override void Update(GameTime deltaTime)

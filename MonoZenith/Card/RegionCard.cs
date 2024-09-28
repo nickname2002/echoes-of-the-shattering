@@ -42,45 +42,33 @@ namespace MonoZenith.Card
         /// <returns>Whether the card is a valid next card.</returns>
         public override bool ValidNextCard(Card previousCard)
         {
-            // Checks the typing in order to determine what rule it needs to apply.
-            Type cardType = previousCard.GetType();
+            var prevCard = previousCard as RegionCard;
+            
+            // RegionCards matches on the same label or region.
+            if (prevCard != null
+                && prevCard.Label != Label
+                && Region != _state.CurrentRegion
+                && prevCard.Region != Region.ALL &&
 
-            if (cardType.IsSubclassOf(typeof(EffectCard)))
+                // TODO: Not true for power cards, but override in PowerCard classes later
+                Region != Region.ALL)
             {
-                EffectCard effectCard = (EffectCard)previousCard;
+                return false;
+            }
 
-                // If there is an ongoing effect, only power cards can be played.
-                // Else, it matches on the same region, as no label can be matched.
-                if (this._state.Combo != 0)
-                {
-                    return false;
-                }
-                
-                if (Label == effectCard.Label 
-                    || Region == _state.CurrentRegion
-                    
-                    // TODO: Not true for power cards, but override in PowerCard classes later
-                    || Region == Region.ALL)
-                {
-                    return true;
-                }
-            }
-            else if (previousCard is RegionCard regionCard)
-            {
-                // RegionCards matches on the same label or region.
-                if (regionCard.Label == this.Label 
-                    || this.Region == _state.CurrentRegion
-                    || regionCard.Region == Region.ALL
-                    
-                    // TODO: Not true for power cards, but override in PowerCard classes later
-                    || Region == Region.ALL)  
-                {
-                    return true;
-                }
-            }
-            return false;
+            _state.SwitchTurn(); // TODO: not true in all cases, change later
+            return true;
         }
-
+        
+        /// <summary>
+        /// Perform the effect of the card.
+        /// </summary>
+        /// <param name="state">The current game state.</param>
+        public virtual void PerformEffect(GameState state)
+        {
+            state.SwitchTurn(); // TODO: not true in all cases, change later
+        }
+        
         /// <summary>
         /// Draw the card metadata.
         /// </summary>
