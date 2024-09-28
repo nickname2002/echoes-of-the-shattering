@@ -1,12 +1,13 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoZenith.Support;
 
 namespace MonoZenith.Card
 {
     internal abstract class EffectCard : RegionCard
     {
-        public EffectCard(
+        protected EffectCard(
             Game game,
             GameState state,
             Vector2 position,
@@ -66,7 +67,7 @@ namespace MonoZenith.Card
             : base(game, state, position, texture, activeTexture, name, label, region)
         {
         }
-
+        
         public override void PerformEffect(GameState state)
         {
             throw new NotImplementedException();

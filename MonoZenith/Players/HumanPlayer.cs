@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using MonoZenith.Card;
+using MonoZenith.Support;
 
-namespace MonoZenith.Classes.Players
+namespace MonoZenith.Players
 {
     internal class HumanPlayer : Player
     {
+        private Card.Card _lastHoveredCard = null;  
+        
         public HumanPlayer(Game game, GameState state, string name) : base(game, state, name)
         {
             width = game.ScreenWidth / 2;
@@ -73,16 +74,12 @@ namespace MonoZenith.Classes.Players
                 currentIndex++;
             }
         }
-
-        /// <summary>
-        /// Draws all hovered cards, with the last hovered card drawn on top.
-        /// </summary>
-        /// <param name="hoveredCards">List of hovered cards.</param>
-        /// <param name="cardPositions">Dictionary storing the positions of each card.</param>
+        
         private void DrawHoveredCards(List<Card.Card> hoveredCards, Dictionary<Card.Card, float> cardPositions)
         {
             const int verticalMoveOffset = 20;
-            
+            _lastHoveredCard = null;
+
             // Draw hovered cards, except the last one, in their original positions
             for (int i = 0; i < hoveredCards.Count; i++)
             {
@@ -96,53 +93,118 @@ namespace MonoZenith.Classes.Players
                 }
             }
 
-            // Draw the last hovered card (if any), move it slightly up, and draw it last to ensure it is on top
+            // Draw the last hovered card (if any), move it slightly up, and store it
             if (hoveredCards.Count <= 0) 
                 return;
             
-            Card.Card lastHoveredCard = hoveredCards[^1];
-            float lastHoveredCardPosition = cardPositions[lastHoveredCard];
-            lastHoveredCard.Draw(lastHoveredCardPosition, height - verticalMoveOffset, 0, false, true);
+            _lastHoveredCard = hoveredCards[^1];  
+            float lastHoveredCardPosition = cardPositions[_lastHoveredCard];
+            _lastHoveredCard.Draw(lastHoveredCardPosition, height - verticalMoveOffset, 0, false, true);
         }
 
         /// <summary>
         /// Get the selected card from the hand.
         /// </summary>
-        /// <returns>Selected card, or null if no card is hovered.</returns>
+        /// <returns>Selected card, or null if no card is hovered or clicked.</returns>
         public Card.Card GetSelectedCard()
         {
+            // Check if the last hovered card was clicked and return it if true
+            if (_lastHoveredCard != null && _lastHoveredCard.IsClicked())
+            {
+                Console.WriteLine($"Hovered card selected: {_lastHoveredCard}");
+                return _lastHoveredCard;
+            }
+
+            // If no hovered card was clicked, check for any other clicked cards
             List<Card.Card> clickedCards = Hand.Cards.Where(c => c.IsClicked()).ToList();
+    
+            // Print names of all clicked cards
+            Console.WriteLine("Clicked cards:");
+            foreach (var card in clickedCards)
+            {
+                Console.WriteLine($"- {card}");
+            }
+
+            // Return the first clicked card, or null if no cards were clicked
             return clickedCards.Count switch
             {
                 0 => null,
-                > 1 => clickedCards[^1],
-                _ => clickedCards[0]
+                >= 1 => clickedCards[0],
+                _ => throw new ArgumentOutOfRangeException()
             };
         }
-        
+
         public override void PerformTurn(GameState state)
         {
-            Card.Card selectedCard = GetSelectedCard();
-            Card.Card drawnCard = _state.DrawableCards.GetSelectCard();
-            
-            // Playing a card
-            if (selectedCard != null)
-            {
-                Console.WriteLine($"Human player played: {selectedCard}");
+            if (TryPlayCard()) 
                 return;
+
+            DrawCard();
+        }
+
+        /// <summary>
+        /// Attempt to play the selected card.
+        /// </summary>
+        /// <returns>Whether a valid card was played.</returns>
+        private bool TryPlayCard()
+        {
+            var selectedCard = GetSelectedCard();
+
+            // If no card is selected or the card is not valid, return false.
+            if (selectedCard == null || !IsValidPlay(selectedCard)) 
+                return false;
+
+            PlayCard(selectedCard);
+            return true;
+        }
+
+        /// <summary>
+        /// Check if the selected card is a valid play based on the last played card.
+        /// </summary>
+        /// <param name="card">The card to check.</param>
+        /// <returns>True if the card can be played, false otherwise.</returns>
+        private bool IsValidPlay(Card.Card card)
+        {
+            var lastPlayedCard = _state.PlayedCards.Cards[^1]; 
+            return card.ValidNextCard(lastPlayedCard);
+        }
+
+        /// <summary>
+        /// Play the selected card and update the game state.
+        /// </summary>
+        /// <param name="card">The card to play.</param>
+        private void PlayCard(Card.Card card)
+        {
+            Console.WriteLine($"Human player played: {card}");
+
+            // Update the current region if the card is a RegionCard and region is not "ALL"
+            if (card is RegionCard regionCard && regionCard.Region != Region.ALL)
+            {
+                _state.CurrentRegion = regionCard.Region;
             }
 
-            // Drawing cards
+            // Add the card to the played pile and remove it from the player's hand
+            _state.PlayedCards.AddToBottom(card);
+            Hand.Cards.Remove(card);
+        }
+
+        /// <summary>
+        /// Draw a card from the deck and add it to the player's hand.
+        /// </summary>
+        private void DrawCard()
+        {
+            var drawnCard = _state.DrawableCards.GetSelectCard();
+
+            // If no card was drawn, return
             if (drawnCard == null) 
                 return;
-            
+
             Console.WriteLine($"Human player drew: {drawnCard}");
             Hand.AddToFront(drawnCard);
         }
 
         public override void Update(GameTime deltaTime)
         {
-            // Update every card in hand
             foreach (var card in Hand.Cards)
             {
                 card.Update(deltaTime);

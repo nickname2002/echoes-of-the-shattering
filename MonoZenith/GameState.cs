@@ -1,14 +1,16 @@
 ﻿#nullable enable
 using Microsoft.Xna.Framework;
 using MonoZenith.Card;
-using MonoZenith.Classes.Players;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
+using MonoZenith.Card.CardStack;
 using MonoZenith.Engine.Support;
+using MonoZenith.Players;
+using MonoZenith.Support;
 
 namespace MonoZenith
 {
@@ -20,8 +22,8 @@ namespace MonoZenith
         private readonly HumanPlayer _player;
         private readonly NpcPlayer _npc;
         public DrawableCardsStack DrawableCards;
-        private CardStack _playedCards;
-        private Region _currentRegion;
+        public CardStack PlayedCards;
+        public Region CurrentRegion;
         private readonly SpriteFont _componentFont;
         public int Combo;
 
@@ -32,8 +34,8 @@ namespace MonoZenith
             _npc = new NpcPlayer(_game, this, "NPC");
             _currentPlayer = null;
             DrawableCards = new DrawableCardsStack(_game, this);
-            _playedCards = new CardStack(_game, this);
-            _currentRegion = Region.LIMGRAVE;   // TODO: Set to random region.
+            PlayedCards = new CardStack(_game, this);
+            CurrentRegion = Region.LIMGRAVE;   // TODO: Set to random region.
             _componentFont = DataManager.GetInstance(game).ComponentFont;
             Combo = 0;
             InitializeState();
@@ -53,12 +55,13 @@ namespace MonoZenith
             float height = _game.ScreenHeight / 2;
             
             DrawableCards = new DrawableCardsStack(_game, this);
-            _playedCards.ChangePosition(playedX, height);
+            PlayedCards.ChangePosition(playedX, height);
             DrawableCards.ChangePosition(drawableX, height);
-            _playedCards.ChangePosition(playedX, height);
+            PlayedCards.ChangePosition(playedX, height);
 
             // Play the first card in the game
-            _playedCards.AddToFront(DrawableCards.Pop());
+            PlayedCards.AddToFront(DrawableCards.Pop());
+            CurrentRegion = ((RegionCard)PlayedCards.Cards.First()).Region;
 
             // Initialize player hands
             _player.Hand = DrawableCards.GetSevenCards();
@@ -133,9 +136,12 @@ namespace MonoZenith
         /// </summary>
         public void Draw()
         {
+            // Draw backdrop
+            _game.DrawImage(DataManager.GetInstance(_game).Backdrop, Vector2.Zero);
+
             // Draw cards in play
             DrawableCards.Draw();
-            _playedCards.Draw();
+            PlayedCards.Draw();
 
             // Draw player cards
             _player.Draw();
@@ -144,7 +150,11 @@ namespace MonoZenith
             // Draw text data
             _game.DrawText(
                 $"Current player: {_currentPlayer.Name}", 
-                new Vector2(_game.ScreenWidth - 400, _game.ScreenHeight / 2 - 25), 
+                new Vector2(_game.ScreenWidth - 450, _game.ScreenHeight / 2 - 25), 
+                _componentFont, Color.White);
+            _game.DrawText(
+                $"Current region: {CurrentRegion}", 
+                new Vector2(_game.ScreenWidth - 450, _game.ScreenHeight / 2), 
                 _componentFont, Color.White);
         }
     }
