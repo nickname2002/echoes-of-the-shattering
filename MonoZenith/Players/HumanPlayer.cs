@@ -119,7 +119,6 @@ namespace MonoZenith.Players
             List<Card.Card> clickedCards = Hand.Cards.Where(c => c.IsClicked()).ToList();
     
             // Print names of all clicked cards
-            Console.WriteLine("Clicked cards:");
             foreach (var card in clickedCards)
             {
                 Console.WriteLine($"- {card}");

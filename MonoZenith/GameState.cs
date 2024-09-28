@@ -110,8 +110,8 @@ namespace MonoZenith
                 _currentWinner = _player;
                 return _player;
             }
-
-            if (_npc.Hand.Count != 0) 
+            
+            if (_npc.Hand.Count != 0)
                 return null;
             
             _currentWinner = _npc;
@@ -126,6 +126,24 @@ namespace MonoZenith
             _currentPlayer = _currentPlayer == _player? _npc : _player;
             Console.WriteLine($"Turn: {_currentPlayer.Name}");
         }
+
+        private void DisplayWinnerMessage()
+        {
+            // Text to be displayed
+            string winnerText = $"{_currentWinner?.Name} wins!";
+
+            // Measure the size of the text
+            Vector2 textSize = _componentFont.MeasureString(winnerText);
+
+            // Calculate the position to center the text
+            Vector2 position = new Vector2(
+                (_game.ScreenWidth / 2) - (textSize.X / 2),  // Center horizontally
+                (_game.ScreenHeight / 2) - (textSize.Y / 2)  // Center vertically
+            );
+
+            // Draw the text at the calculated position
+            _game.DrawText(winnerText, position, _componentFont, Color.White);
+        }
         
         /// <summary>
         /// Update the game state.
@@ -133,6 +151,11 @@ namespace MonoZenith
         /// <param name="deltaTime">The time since the last update.</param>
         public void Update(GameTime deltaTime)
         {
+            if (HasWinner() != null)
+            {
+                return;
+            }
+            
             _currentPlayer?.PerformTurn(this);
         }
         
@@ -144,6 +167,12 @@ namespace MonoZenith
             // Draw backdrop
             _game.DrawImage(DataManager.GetInstance(_game).Backdrop, Vector2.Zero);
 
+            if (HasWinner() != null)
+            {
+                DisplayWinnerMessage();
+                return;
+            }
+            
             // Draw cards in play
             DrawableCards.Draw();
             PlayedCards.Draw();
