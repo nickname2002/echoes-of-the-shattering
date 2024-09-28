@@ -128,8 +128,15 @@ namespace MonoZenith.Classes.Players
             // Playing a card
             if (selectedCard != null)
             {
-                Console.WriteLine($"Human player played: {selectedCard}");
-                return;
+                if (selectedCard.ValidNextCard(_state.PlayedCards.Cards[0]))
+                {
+                    Console.WriteLine($"Human player played: {selectedCard}");
+                    _state.PlayedCards.AddToBottom(selectedCard);
+                    Hand.Cards.Remove(selectedCard);   
+                    return;
+                }
+                
+                PerformTurn(_state);
             }
 
             // Drawing cards

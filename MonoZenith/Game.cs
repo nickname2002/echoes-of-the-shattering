@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoZenith.Classes.Screen;
 using MonoZenith.Components;
+using MonoZenith.Engine.Support;
 
 namespace MonoZenith;
 

@@ -13,6 +13,7 @@ namespace MonoZenith.Engine.Support
         
         // Textures
         public Texture2D MonoZenithLogo;
+        public Texture2D Backdrop;
         public Texture2D CardBack;
         public Texture2D CardFront;
         
@@ -44,6 +45,7 @@ namespace MonoZenith.Engine.Support
             
             // Load textures
             MonoZenithLogo = _game.LoadImage("Images/monozenith.png");
+            Backdrop = _game.LoadImage("Images/Backdrops/backdrop.png");
             CardBack = _game.LoadImage("Images/Cards/back-card-design.png");
             CardFront = _game.LoadImage("Images/Cards/front-card-design.png");
             
