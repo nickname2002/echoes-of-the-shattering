@@ -41,10 +41,10 @@ namespace MonoZenith.Card
         /// <returns>Whether the card is a valid next card.</returns>
         public override bool ValidNextCard(Card previousCard)
         {
-            //Checks the typing in order to determine what rule it needs to apply.
-            Type type = previousCard.GetType();
+            // Checks the typing in order to determine what rule it needs to apply.
+            Type cardType = previousCard.GetType();
 
-            if (type.IsSubclassOf(typeof(EffectCard)))
+            if (cardType.IsSubclassOf(typeof(EffectCard)))
             {
                 EffectCard effectCard = (EffectCard)previousCard;
 
@@ -70,6 +70,9 @@ namespace MonoZenith.Card
             return false;
         }
 
+        /// <summary>
+        /// Draw the card metadata.
+        /// </summary>
         protected override void DrawMetaData()
         {
             float cardOffset = 15;
