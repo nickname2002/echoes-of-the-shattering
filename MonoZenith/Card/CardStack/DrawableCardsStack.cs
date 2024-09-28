@@ -1,13 +1,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Engine.Support;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
+using MonoZenith.Support;
 
-namespace MonoZenith.Card
+namespace MonoZenith.Card.CardStack
 {
     /// <summary>
     /// Index ^1: First card to draw
@@ -130,9 +125,9 @@ namespace MonoZenith.Card
         /// Return seven cards from the stack.
         /// </summary>
         /// <returns>The seven cards.</returns>
-        public CardStack GetSevenCards()
+        public MonoZenith.Card.CardStack.CardStack GetSevenCards()
         {
-            CardStack sevenCards = new CardStack(_game, _state);
+            MonoZenith.Card.CardStack.CardStack sevenCards = new MonoZenith.Card.CardStack.CardStack(_game, _state);
 
             for (int i = 0; i < 7; i++)
             {

@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using MonoZenith.Card;
+using MonoZenith.Support;
 
-namespace MonoZenith.Classes.Players
+namespace MonoZenith.Players
 {
     internal class HumanPlayer : Player
     {
