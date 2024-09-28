@@ -9,6 +9,8 @@ namespace MonoZenith.Players
 {
     internal class HumanPlayer : Player
     {
+        private Card.Card _lastHoveredCard = null;  
+        
         public HumanPlayer(Game game, GameState state, string name) : base(game, state, name)
         {
             width = game.ScreenWidth / 2;
@@ -72,16 +74,12 @@ namespace MonoZenith.Players
                 currentIndex++;
             }
         }
-
-        /// <summary>
-        /// Draws all hovered cards, with the last hovered card drawn on top.
-        /// </summary>
-        /// <param name="hoveredCards">List of hovered cards.</param>
-        /// <param name="cardPositions">Dictionary storing the positions of each card.</param>
+        
         private void DrawHoveredCards(List<Card.Card> hoveredCards, Dictionary<Card.Card, float> cardPositions)
         {
             const int verticalMoveOffset = 20;
-            
+            _lastHoveredCard = null;
+
             // Draw hovered cards, except the last one, in their original positions
             for (int i = 0; i < hoveredCards.Count; i++)
             {
@@ -95,27 +93,44 @@ namespace MonoZenith.Players
                 }
             }
 
-            // Draw the last hovered card (if any), move it slightly up, and draw it last to ensure it is on top
+            // Draw the last hovered card (if any), move it slightly up, and store it
             if (hoveredCards.Count <= 0) 
                 return;
             
-            Card.Card lastHoveredCard = hoveredCards[^1];
-            float lastHoveredCardPosition = cardPositions[lastHoveredCard];
-            lastHoveredCard.Draw(lastHoveredCardPosition, height - verticalMoveOffset, 0, false, true);
+            _lastHoveredCard = hoveredCards[^1];  
+            float lastHoveredCardPosition = cardPositions[_lastHoveredCard];
+            _lastHoveredCard.Draw(lastHoveredCardPosition, height - verticalMoveOffset, 0, false, true);
         }
 
         /// <summary>
         /// Get the selected card from the hand.
         /// </summary>
-        /// <returns>Selected card, or null if no card is hovered.</returns>
+        /// <returns>Selected card, or null if no card is hovered or clicked.</returns>
         public Card.Card GetSelectedCard()
         {
+            // Check if the last hovered card was clicked and return it if true
+            if (_lastHoveredCard != null && _lastHoveredCard.IsClicked())
+            {
+                Console.WriteLine($"Hovered card selected: {_lastHoveredCard}");
+                return _lastHoveredCard;
+            }
+
+            // If no hovered card was clicked, check for any other clicked cards
             List<Card.Card> clickedCards = Hand.Cards.Where(c => c.IsClicked()).ToList();
+    
+            // Print names of all clicked cards
+            Console.WriteLine("Clicked cards:");
+            foreach (var card in clickedCards)
+            {
+                Console.WriteLine($"- {card}");
+            }
+
+            // Return the first clicked card, or null if no cards were clicked
             return clickedCards.Count switch
             {
                 0 => null,
-                > 1 => clickedCards[^1],
-                _ => clickedCards[0]
+                >= 1 => clickedCards[0],
+                _ => throw new ArgumentOutOfRangeException()
             };
         }
 
