@@ -84,6 +84,10 @@ namespace MonoZenith.Players
             // Add the card to the played pile and remove it from the player's hand
             _state.PlayedCards.AddToBottom(card);
             Hand.Cards.Remove(card);
+
+            // Perform the effect of the card
+            RegionCard effectCard = card as RegionCard;
+            effectCard.PerformEffect(_state);
         }
         
         /// <summary>
