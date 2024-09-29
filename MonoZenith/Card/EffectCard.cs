@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoZenith.Players;
 using MonoZenith.Support;
 
 namespace MonoZenith.Card
@@ -47,6 +49,58 @@ namespace MonoZenith.Card
             CardLabel label)
             : base(game, state, position, texture, activeTexture, name, label, region)
         {
+        }
+
+        /// <summary>
+        /// Check which region occurs most frequently in the player's hand.
+        /// </summary>
+        /// <param name="player">The player to check.</param>
+        /// <returns>Most frequently occuring region in the player's hand.</returns>
+        private Region MostFrequentRegion(Player player)
+        {
+            var regionCounts = new int[Enum.GetNames(typeof(Region)).Length];
+            
+            foreach (var card in player.Hand.Cards)
+            {
+                if (card is RegionCard regionCard)
+                {
+                    regionCounts[(int)regionCard.Region]++;
+                }
+            }
+
+            return (Region)Array.IndexOf(regionCounts, regionCounts.Max());
+        }
+
+        /// <summary>
+        /// Return a random region from the available regions.
+        /// </summary>
+        /// <returns>A random region from the available regions.</returns>
+        private Region ChooseRandomRegion()
+        {
+            Random rand = new Random();
+            return (Region)rand.Next(Enum.GetNames(typeof(Region)).Length);
+        }
+        
+        public override void PerformEffect(GameState state)
+        {
+            Player player = state.CurrentPlayer;
+            Console.WriteLine($"Player is NPC: {player is NpcPlayer}");
+            
+            // If the player is an NPC, choose a region that occurs most frequently in their hand.
+            if (player is NpcPlayer npc)
+            {
+                Region mostOccuringRegion = MostFrequentRegion(npc);
+                
+                if (mostOccuringRegion == Region.ALL)
+                    state.CurrentRegion = ChooseRandomRegion();
+                
+                Console.WriteLine($"NPC chose region: {mostOccuringRegion}");
+                state.SwitchTurn();
+                return;
+            }
+            
+            // If the player is a human player, choose a random region.
+            state.SwitchTurn();
         }
     }
 
