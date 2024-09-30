@@ -74,6 +74,11 @@ namespace MonoZenith
             
             // Determine the starting player
             DetermineStartingPlayer();
+            
+            // Perform the effect of the first card played
+            RegionCard firstCard = (RegionCard)PlayedCards.Cards.First();
+            Console.WriteLine($"The first card played is: {firstCard}");
+            firstCard.PerformEffect(this);
         }
 
         /// <summary>
