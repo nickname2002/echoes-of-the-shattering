@@ -12,8 +12,8 @@ namespace MonoZenith.Players
         protected GameState _state;
         public CardStack Hand;
         public string Name;
-        public float width;
-        public float height;
+        protected float width;
+        protected float height;
 
         protected Player(Game game, GameState state, string name)
         {
