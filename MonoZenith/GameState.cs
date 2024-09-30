@@ -26,6 +26,7 @@ namespace MonoZenith
         public Region CurrentRegion;
         private readonly SpriteFont _componentFont;
         public int Combo;
+        public int Skip;
         
         public Player CurrentPlayer => _currentPlayer?? _player;
         public Player OpposingPlayer => _currentPlayer == _player? _npc : _player;
@@ -41,6 +42,7 @@ namespace MonoZenith
             CurrentRegion = Region.LIMGRAVE;   // TODO: Set to random region.
             _componentFont = DataManager.GetInstance(game).ComponentFont;
             Combo = 0;
+            Skip = 0;
             InitializeState();
             
             Console.WriteLine(_player);
@@ -123,6 +125,14 @@ namespace MonoZenith
         /// </summary>
         public void SwitchTurn()
         {
+            // Turn does not get switched if the opposing player
+            // has to skip turns
+            if (Skip != 0)
+            {
+                Skip--;
+                return;
+            }
+
             _currentPlayer = _currentPlayer == _player? _npc : _player;
             Console.WriteLine($"Turn: {_currentPlayer.Name}");
         }

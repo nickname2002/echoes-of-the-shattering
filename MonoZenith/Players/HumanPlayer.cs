@@ -138,7 +138,12 @@ namespace MonoZenith.Players
             if (TryPlayCard()) 
                 return;
 
+            // If no card can be played, draw a card.
             TryDrawCard();
+
+            // If there is a power effect in play,
+            // draw cards equal to the current combo amount.
+            DrawCombo(state);
         }
 
         /// <summary>
