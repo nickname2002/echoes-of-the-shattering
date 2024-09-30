@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Engine.Support;
 using MonoZenith.Support;
@@ -100,15 +103,7 @@ namespace MonoZenith.Card.CardStack
         /// <returns>The clicked card or null.</returns>
         public Card GetSelectCard()
         {
-            // Shuffle whenever the deck is empty
-            if (_cards.Count == 0)
-            {
-                // TODO: Uncomment after implementing playing cards feature
-                // List<Card> cardsToAdd = _state.DrawableCards.GetAllButLastCards();
-                // _cards.AddRange(cardsToAdd);
-                // Shuffle();
-                return null;
-            }
+            RefillIfEmpty();
             
             if (!_cards[^1].IsClicked())
             {
@@ -121,18 +116,31 @@ namespace MonoZenith.Card.CardStack
             return cardToDraw;
         }
 
+        /// <summary>
+        /// Refills the deck if empty.
+        /// </summary>
+        private void RefillIfEmpty()
+        {
+            if (_cards.Count > 1) 
+                return;
+            
+            Console.WriteLine("Refilling deck...");
+            List<Card> cardsToAdd = _state.PlayedCards.GetAllButLastCards();
+            
+            // Shuffle the cards
+            Shuffle();
+            
+            // Add the cards to the deck
+            _cards.AddRange(cardsToAdd);
+            
+            // Make sure all cards have the same position as the deck
+            ChangePosition(_game.ScreenWidth / 2.2f, _game.ScreenHeight / 2);
+            Shuffle();
+        }
+        
         public Card GetCard()
         {
-            // Shuffle whenever the deck is empty
-            if (_cards.Count == 0)
-            {
-                // TODO: Uncomment after implementing playing cards feature
-                // List<Card> cardsToAdd = _state.DrawableCards.GetAllButLastCards();
-                // _cards.AddRange(cardsToAdd);
-                // Shuffle();
-                return null;
-            }
-            
+            RefillIfEmpty();
             Card cardToDraw = _cards[^1];
             _cards.Remove(cardToDraw);
             return cardToDraw;
@@ -144,11 +152,11 @@ namespace MonoZenith.Card.CardStack
         /// <returns>The seven cards.</returns>
         public CardStack GetSevenCards()
         {
-            CardStack sevenCards = new MonoZenith.Card.CardStack.CardStack(_game, _state);
+            CardStack sevenCards = new CardStack(_game, _state);
 
             for (int i = 0; i < 7; i++)
             {
-                sevenCards.AddToBottom(Pop());
+                sevenCards.AddToBottom(GetCard());
             }
 
             return sevenCards;
