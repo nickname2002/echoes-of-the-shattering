@@ -112,7 +112,7 @@ namespace MonoZenith.Card.CardStack
         /// Get all but the last card in the stack.
         /// </summary>
         /// <returns>A list of all but the last cards in the stack.</returns>
-        protected List<Card> GetAllButLastCards()
+        public List<Card> GetAllButLastCards()
         {
             return _cards.Count < 2 ? new List<Card>() : _cards.Take(_cards.Count - 1).ToList();
         }
@@ -136,6 +136,14 @@ namespace MonoZenith.Card.CardStack
             {
                 Card currentCard = _cards.Last();
                 currentCard.Draw(_position.X, _position.Y, 0, true, true);
+            }
+        }
+
+        public virtual void Update(GameTime gameTime)
+        {
+            foreach (var card in _cards)
+            {
+                card.Update(gameTime);
             }
         }
     }
