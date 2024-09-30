@@ -30,7 +30,6 @@ namespace MonoZenith.Card
             // Opposing player needs to draw five cards unless
             // they can play another joker card.
             state.Combo += 5;
-
             state.SwitchTurn();
         }
     }
@@ -70,27 +69,20 @@ namespace MonoZenith.Card
         {
             var prevCard = previousCard as RegionCard;
 
-            // Powercards matches on the same label or region.
-            if (prevCard != null
-                && prevCard.Label != Label
-                && Region != _state.CurrentRegion
-                && prevCard.Region != Region.ALL ||
-                _state.Combo >= 1)
-            {
-                return false;
-            }
-
-            return true;
+            // Power cards matches on the same label or region.
+            return (prevCard == null
+                    || prevCard.Label == Label
+                    || Region == _state.CurrentRegion
+                    || prevCard.Region == Region.ALL) &&
+                   _state.Combo < 1;
         }
 
 
         public override void PerformEffect(GameState state)
         {
             // Switches hands between the players.
-            CardStack.CardStack currenthand = state.CurrentPlayer.Hand;
-            state.CurrentPlayer.Hand = state.OpposingPlayer.Hand;
-            state.OpposingPlayer.Hand = currenthand;
-
+            (state.CurrentPlayer.Hand, state.OpposingPlayer.Hand) = 
+                (state.OpposingPlayer.Hand, state.CurrentPlayer.Hand);
             state.SwitchTurn();
         }
     }
@@ -114,17 +106,12 @@ namespace MonoZenith.Card
         {
             var prevCard = previousCard as RegionCard;
 
-            // Powercards matches on the same label or region
-            if (prevCard != null
-                && prevCard.Label != Label
-                && Region != _state.CurrentRegion
-                && prevCard.Region != Region.ALL ||
-                _state.Combo >= 1)
-            {
-                return false;
-            }
-
-            return true;
+            // Power cards matches on the same label or region
+            return (prevCard == null
+                    || prevCard.Label == Label
+                    || Region == _state.CurrentRegion
+                    || prevCard.Region == Region.ALL) &&
+                   _state.Combo < 1;
         }
 
         public override void PerformEffect(GameState state)
@@ -172,7 +159,6 @@ namespace MonoZenith.Card
         {
             // Opposing player needs to skip two turns.
             state.Skip += 2;
-
             state.SwitchTurn();
         }
     }
@@ -196,24 +182,18 @@ namespace MonoZenith.Card
         {
             var prevCard = previousCard as RegionCard;
 
-            // Powercards matches on the same label or region.
-            if (prevCard != null
-                && prevCard.Label != Label
-                && Region != _state.CurrentRegion
-                && prevCard.Region != Region.ALL ||
-                _state.Combo >= 1)
-            {
-                return false;
-            }
-
-            return true;
+            // Power cards matches on the same label or region.
+            return (prevCard == null
+                    || prevCard.Label == Label
+                    || Region == _state.CurrentRegion
+                    || prevCard.Region == Region.ALL) &&
+                   _state.Combo < 1;
         }
 
         public override void PerformEffect(GameState state)
         {
             // Opposing player needs to skip one turn.
             state.Skip++;
-
             state.SwitchTurn();
         }
     }
@@ -278,17 +258,12 @@ namespace MonoZenith.Card
         {
             var prevCard = previousCard as RegionCard;
 
-            // Powercards matches on the same label or region.
-            if (prevCard != null
-                && prevCard.Label != Label
-                && Region != _state.CurrentRegion
-                && prevCard.Region != Region.ALL
-                && prevCard is not JokerCard)
-            {
-                return false;
-            }
-
-            return true;
+            // Power cards matches on the same label or region.
+            return prevCard == null
+                   || prevCard.Label == Label
+                   || Region == _state.CurrentRegion
+                   || prevCard.Region == Region.ALL
+                   || prevCard is JokerCard;
         }
 
         public override void PerformEffect(GameState state)
@@ -296,7 +271,6 @@ namespace MonoZenith.Card
             // Opposing player needs to draw two cards unless
             // they can play another power card.
             state.Combo += 2;
-
             state.SwitchTurn();
         }
     }
@@ -320,17 +294,12 @@ namespace MonoZenith.Card
         {
             var prevCard = previousCard as RegionCard;
 
-            // Powercards matches on the same label or region.
-            if (prevCard != null
-                && prevCard.Label != Label
-                && Region != _state.CurrentRegion
-                && prevCard.Region != Region.ALL
-                && prevCard is not JokerCard)
-            {
-                return false;
-            }
-
-            return true;
+            // Power cards matches on the same label or region.
+            return prevCard == null
+                   || prevCard.Label == Label
+                   || Region == _state.CurrentRegion
+                   || prevCard.Region == Region.ALL
+                   || prevCard is JokerCard;
         }
 
         public override void PerformEffect(GameState state)
@@ -338,7 +307,6 @@ namespace MonoZenith.Card
             // Opposing player needs to draw two cards unless
             // they can play another power card.
             state.Combo += 2;
-
             state.SwitchTurn();
         }
     }
@@ -362,17 +330,12 @@ namespace MonoZenith.Card
         {
             var prevCard = previousCard as RegionCard;
 
-            // Powercards matches on the same label or region.
-            if (prevCard != null
-                && prevCard.Label != Label
-                && Region != _state.CurrentRegion
-                && prevCard.Region != Region.ALL
-                && prevCard is not JokerCard)
-            {
-                return false;
-            }
-
-            return true;
+            // Power cards matches on the same label or region.
+            return prevCard == null
+                   || prevCard.Label == Label
+                   || Region == _state.CurrentRegion
+                   || prevCard.Region == Region.ALL
+                   || prevCard is JokerCard;
         }
 
         public override void PerformEffect(GameState state)
@@ -380,7 +343,6 @@ namespace MonoZenith.Card
             // Opposing player needs to draw two cards unless
             // they can play another power card.
             state.Combo += 2;
-
             state.SwitchTurn();
         }
     }
@@ -404,17 +366,12 @@ namespace MonoZenith.Card
         {
             var prevCard = previousCard as RegionCard;
 
-            // Powercards matches on the same label or region.
-            if (prevCard != null
-                && prevCard.Label != Label
-                && Region != _state.CurrentRegion
-                && prevCard.Region != Region.ALL
-                && prevCard is not JokerCard)
-            {
-                return false;
-            }
-
-            return true;
+            // Power cards matches on the same label or region.
+            return prevCard == null
+                   || prevCard.Label == Label
+                   || Region == _state.CurrentRegion
+                   || prevCard.Region == Region.ALL
+                   || prevCard is JokerCard;
         }
 
         public override void PerformEffect(GameState state)
@@ -422,7 +379,6 @@ namespace MonoZenith.Card
             // Opposing player needs to draw two cards unless
             // they can play another power card.
             state.Combo += 2;
-
             state.SwitchTurn();
         }
     }
