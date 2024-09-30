@@ -48,15 +48,13 @@ namespace MonoZenith.Card
             if (prevCard != null
                 && prevCard.Label != Label
                 && Region != _state.CurrentRegion
-                && prevCard.Region != Region.ALL &&
-
-                // TODO: Not true for power cards, but override in PowerCard classes later
-                Region != Region.ALL)
+                && prevCard.Region != Region.ALL 
+                && Region != Region.ALL 
+                || _state.Combo >= 1)
             {
                 return false;
             }
 
-            _state.SwitchTurn(); // TODO: not true in all cases, change later
             return true;
         }
         
@@ -66,7 +64,7 @@ namespace MonoZenith.Card
         /// <param name="state">The current game state.</param>
         public virtual void PerformEffect(GameState state)
         {
-            state.SwitchTurn(); // TODO: not true in all cases, change later
+            state.SwitchTurn();
         }
         
         /// <summary>
