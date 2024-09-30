@@ -6,7 +6,7 @@ using MonoZenith.Support;
 
 namespace MonoZenith.Players
 {
-    internal abstract class Player
+    public abstract class Player
     {
         private Game _game;
         protected GameState _state;
@@ -46,7 +46,7 @@ namespace MonoZenith.Players
         /// Draw cards equal to the current card combo amount
         /// </summary>
         /// <param name="state">The current gamestate</param>
-        public void DrawCombo(GameState state)
+        protected void DrawCombo(GameState state)
         {
             // If there is a power effect in play,
             // draw cards equal to the current combo amount.

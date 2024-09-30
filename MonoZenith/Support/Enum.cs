@@ -8,7 +8,7 @@
         MAIN_MENU
     }
 
-    internal enum Region
+    public enum Region
     {
         LIMGRAVE,
         LIURNIA,

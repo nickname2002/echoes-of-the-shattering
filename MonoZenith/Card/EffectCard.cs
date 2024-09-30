@@ -100,7 +100,7 @@ namespace MonoZenith.Card
             }
             
             // If the player is a human player, choose a random region.
-            state.SwitchTurn();
+            state.GraceMenu.Hidden = false;
         }
     }
 
@@ -126,8 +126,7 @@ namespace MonoZenith.Card
             // Power cards matches on the same label or region.
             return (prevCard == null
                     || prevCard.Label == Label
-                    || Region == _state.CurrentRegion
-                    || prevCard.Region == Region.ALL) &&
+                    || Region == _state.CurrentRegion) &&
                    _state.Combo < 1;
         }
 
@@ -163,8 +162,7 @@ namespace MonoZenith.Card
             // Power cards matches on the same label or region
             return (prevCard == null
                     || prevCard.Label == Label
-                    || Region == _state.CurrentRegion
-                    || prevCard.Region == Region.ALL) &&
+                    || Region == _state.CurrentRegion) &&
                    _state.Combo < 1;
         }
 
@@ -198,8 +196,7 @@ namespace MonoZenith.Card
             // Power cards matches on the same label or region.
             return (prevCard == null
                     || prevCard.Label == Label
-                    || Region == _state.CurrentRegion
-                    || prevCard.Region == Region.ALL) &&
+                    || Region == _state.CurrentRegion) &&
                    _state.Combo < 1;
         }
 
@@ -233,8 +230,7 @@ namespace MonoZenith.Card
             // Power cards matches on the same label or region.
             return (prevCard == null
                     || prevCard.Label == Label
-                    || Region == _state.CurrentRegion
-                    || prevCard.Region == Region.ALL) &&
+                    || Region == _state.CurrentRegion) &&
                    _state.Combo < 1;
         }
 
@@ -268,8 +264,7 @@ namespace MonoZenith.Card
             // Power cards matches on the same label or region.
             return (prevCard == null
                     || prevCard.Label == Label
-                    || Region == _state.CurrentRegion
-                    || prevCard.Region == Region.ALL) &&
+                    || Region == _state.CurrentRegion) &&
                    _state.Combo < 1;
         }
 
@@ -304,7 +299,6 @@ namespace MonoZenith.Card
             return prevCard == null
                    || prevCard.Label == Label
                    || Region == _state.CurrentRegion
-                   || prevCard.Region == Region.ALL
                    || prevCard is JokerCard;
         }
 
@@ -340,7 +334,6 @@ namespace MonoZenith.Card
             return prevCard == null
                    || prevCard.Label == Label
                    || Region == _state.CurrentRegion
-                   || prevCard.Region == Region.ALL
                    || prevCard is JokerCard;
         }
 
@@ -376,7 +369,6 @@ namespace MonoZenith.Card
             return prevCard == null
                    || prevCard.Label == Label
                    || Region == _state.CurrentRegion
-                   || prevCard.Region == Region.ALL
                    || prevCard is JokerCard;
         }
 
@@ -412,7 +404,6 @@ namespace MonoZenith.Card
             return prevCard == null
                    || prevCard.Label == Label
                    || Region == _state.CurrentRegion
-                   || prevCard.Region == Region.ALL
                    || prevCard is JokerCard;
         }
 

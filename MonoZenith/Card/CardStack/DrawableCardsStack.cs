@@ -8,7 +8,7 @@ namespace MonoZenith.Card.CardStack
     /// Index ^1: First card to draw
     /// Index 0: Last card to draw
     /// </summary>
-    internal class DrawableCardsStack : CardStack
+    public class DrawableCardsStack : CardStack
     {
         public readonly Texture2D CardBack;
         public readonly Texture2D CardFront;

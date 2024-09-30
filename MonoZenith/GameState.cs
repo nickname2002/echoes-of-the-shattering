@@ -15,10 +15,10 @@ using MonoZenith.Support;
 
 namespace MonoZenith
 {
-    internal class GameState
+    public class GameState
     {
         private readonly Game _game;
-        private GraceMenu _graceMenu;
+        public GraceMenu GraceMenu;
         private Player? _currentPlayer;
         private Player? _currentWinner;
         private readonly HumanPlayer _player;
@@ -36,8 +36,7 @@ namespace MonoZenith
         public GameState(Game game)
         {
             _game = game;
-            _graceMenu = new GraceMenu(_game);
-            _graceMenu.Hidden = false;  // TODO: Hide default later
+            GraceMenu = new GraceMenu(_game, this);
             _player = new HumanPlayer(_game, this, "Player");
             _npc = new NpcPlayer(_game, this, "NPC");
             _currentPlayer = null;
@@ -169,9 +168,11 @@ namespace MonoZenith
             {
                 return;
             }
+
+            Console.WriteLine("Current regiion: " + CurrentRegion);
             
-            _graceMenu.Update(deltaTime);
             _currentPlayer?.PerformTurn(this);
+            GraceMenu.Update(deltaTime);
         }
         
         /// <summary>
@@ -188,7 +189,7 @@ namespace MonoZenith
                 return;
             }
             
-            _graceMenu.Draw();
+            GraceMenu.Draw();
             
             // Draw cards in play
             DrawableCards.Draw();

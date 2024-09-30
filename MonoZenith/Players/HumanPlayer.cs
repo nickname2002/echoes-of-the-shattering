@@ -135,6 +135,11 @@ namespace MonoZenith.Players
 
         public override void PerformTurn(GameState state)
         {
+            if (!_state.GraceMenu.Hidden)
+            {
+                return;
+            }
+            
             if (TryPlayCard()) 
                 return;
 

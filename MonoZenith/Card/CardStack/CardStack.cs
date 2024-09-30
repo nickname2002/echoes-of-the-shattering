@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace MonoZenith.Card.CardStack
 {
-    internal class CardStack
+    public class CardStack
     {
         protected Game _game;
         protected GameState _state;
