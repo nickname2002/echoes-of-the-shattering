@@ -28,7 +28,7 @@ namespace MonoZenith.Card
         public override void PerformEffect(GameState state)
         {
             // Opposing player needs to draw five cards unless
-            // they can play another joker card.
+            // they can play another power card.
             state.Combo += 5;
             state.SwitchTurn();
         }
