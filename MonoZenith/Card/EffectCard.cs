@@ -84,15 +84,15 @@ namespace MonoZenith.Card
         public override void PerformEffect(GameState state)
         {
             Player player = state.CurrentPlayer;
-            Console.WriteLine($"Player is NPC: {player is NpcPlayer}");
             
             // If the player is an NPC, choose a region that occurs most frequently in their hand.
             if (player is NpcPlayer npc)
             {
                 Region mostOccuringRegion = MostFrequentRegion(npc);
-                
-                if (mostOccuringRegion == Region.ALL)
-                    state.CurrentRegion = ChooseRandomRegion();
+
+                state.CurrentRegion = mostOccuringRegion == Region.ALL ? 
+                    ChooseRandomRegion() : 
+                    mostOccuringRegion;
                 
                 Console.WriteLine($"NPC chose region: {mostOccuringRegion}");
                 state.SwitchTurn();
