@@ -118,7 +118,6 @@ namespace MonoZenith.Card
         {
             // Opposing player needs to skip two turns.
             state.Skip += 2;
-
             state.SwitchTurn();
         }
     }
@@ -142,17 +141,12 @@ namespace MonoZenith.Card
         {
             var prevCard = previousCard as RegionCard;
 
-            // Powercards matches on the same label or region.
-            if (prevCard != null
-                && prevCard.Label != Label
-                && Region != _state.CurrentRegion
-                && prevCard.Region != Region.ALL ||
-                _state.Combo >= 1)
-            {
-                return false;
-            }
-
-            return true;
+            // Power cards matches on the same label or region.
+            return (prevCard == null
+                    || prevCard.Label == Label
+                    || Region == _state.CurrentRegion
+                    || prevCard.Region == Region.ALL) &&
+                   _state.Combo < 1;
         }
 
         public override void PerformEffect(GameState state)
@@ -217,24 +211,18 @@ namespace MonoZenith.Card
         {
             var prevCard = previousCard as RegionCard;
 
-            // Powercards matches on the same label or region.
-            if (prevCard != null
-                && prevCard.Label != Label
-                && Region != _state.CurrentRegion
-                && prevCard.Region != Region.ALL ||
-                _state.Combo >= 1)
-            {
-                return false;
-            }
-
-            return true;
+            // Power cards matches on the same label or region.
+            return (prevCard == null
+                    || prevCard.Label == Label
+                    || Region == _state.CurrentRegion
+                    || prevCard.Region == Region.ALL) &&
+                   _state.Combo < 1;
         }
 
         public override void PerformEffect(GameState state)
         {
             // Opposing player needs to skip one turn.
             state.Skip++;
-
             state.SwitchTurn();
         }
     }
