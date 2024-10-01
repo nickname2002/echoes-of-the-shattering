@@ -39,8 +39,6 @@ namespace MonoZenith.Players
             List<Card.Card> hoveredCards = new List<Card.Card>();  
             Dictionary<Card.Card, float> cardPositions = new Dictionary<Card.Card, float>(); 
 
-            // TODO: Update position of cards
-
             // Draw cards
             DrawNonHoveredCards(Hand.Cards, hoveredCards, cardPositions, widthStep);
             DrawHoveredCards(hoveredCards, cardPositions);

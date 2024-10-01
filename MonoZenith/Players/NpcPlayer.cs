@@ -33,8 +33,6 @@ namespace MonoZenith.Players
                 return;
 
             float widthStep = width / count;
-
-            // TODO: Update positions of cards
             
             foreach (Card.Card card in Hand.Cards)
             {
