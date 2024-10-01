@@ -17,7 +17,7 @@
         ALL
     }
 
-    internal enum CardLabel
+    public enum CardLabel
     {
         A,
         TWO,
