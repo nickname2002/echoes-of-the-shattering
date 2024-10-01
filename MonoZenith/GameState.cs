@@ -168,8 +168,6 @@ namespace MonoZenith
             {
                 return;
             }
-
-            Console.WriteLine("Current regiion: " + CurrentRegion);
             
             _currentPlayer?.PerformTurn(this);
             GraceMenu.Update(deltaTime);
