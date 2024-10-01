@@ -56,8 +56,6 @@ namespace MonoZenith.Players
         /// <param name="state">The current gamestate</param>
         protected void DrawCombo(GameState state)
         {
-            Console.WriteLine($"{Name} drew {state.Combo} combo cards.");
-            
             // If there is a power effect in play,
             // draw cards equal to the current combo amount.
             if (state.Combo >= 1)
