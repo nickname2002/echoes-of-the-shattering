@@ -1,4 +1,5 @@
 
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace MonoZenith.Engine.Support
@@ -30,6 +31,7 @@ namespace MonoZenith.Engine.Support
         public Texture2D LeyndellButtonHoverTexture;
         
         // Audio
+        public SoundEffectInstance MainMenuMusic;
 
         private DataManager(Game game)
         {
@@ -74,6 +76,7 @@ namespace MonoZenith.Engine.Support
             LeyndellButtonHoverTexture = _game.LoadImage("Images/GraceMenu/buttons/leyndell-button-border.png");
             
             // Load audio
+            MainMenuMusic = _game.LoadAudio("Audio/Music/main-menu-music.wav");
         }
     }
 }

@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Components;
 using MonoZenith.Engine.Support;
@@ -13,6 +14,7 @@ public class MainMenuScreen : Screen
     private Button _startButton;
     private Texture2D _hoverIndicator;
     private float _hoverIndicatorScale;
+    private SoundEffectInstance _mainMenuMusic;
     
     public MainMenuScreen(Game game) : base(game)
     {
@@ -20,6 +22,7 @@ public class MainMenuScreen : Screen
         _hoverIndicator = DataManager.GetInstance(game).MainMenuHoverIndicator;
         _mainMenuScale = 0.7f;
         _hoverIndicatorScale = 0.2f;
+        
         _startButton = new Button(
             game,
             new Vector2(_game.ScreenWidth / 2 - 125 / 2, _game.ScreenHeight / 2 + 300),
@@ -27,7 +30,20 @@ public class MainMenuScreen : Screen
             "Start Game", 1, Color.White,
             Color.Black, 0, Color.Black);
         _startButton.Font = DataManager.GetInstance(game).StartMenuFont;
-        _startButton.SetOnClickAction(() => _game.ActiveScreen = Screens.GAME);
+        _startButton.SetOnClickAction(StartGame);
+        
+        _mainMenuMusic = DataManager.GetInstance(game).MainMenuMusic;
+        _mainMenuMusic.IsLooped = true;
+        _mainMenuMusic.Play();
+    }
+
+    /// <summary>
+    /// Start the game when the start button is clicked.
+    /// </summary>
+    private void StartGame()
+    {
+        _mainMenuMusic.Stop();
+        _game.ActiveScreen = Screens.GAME;
     }
 
     public override void Update(GameTime deltaTime)
