@@ -14,7 +14,7 @@ public class Button : Component
     private readonly Color _originalButtonColor;
     private readonly Color _buttonHoverColor;
 
-    private readonly SpriteFont _font;
+    public SpriteFont Font;
     private Action _callbackMethod;
     
     private readonly float _buttonDelay;
@@ -44,7 +44,7 @@ public class Button : Component
         _buttonColor = buttonColor;
         _originalButtonColor = _buttonColor;
         _buttonHoverColor = new Color(buttonColor.R + 50, buttonColor.G + 50, buttonColor.B + 50);
-        _font = DataManager.GetInstance(g).ComponentFont;
+        Font = DataManager.GetInstance(g).ComponentFont;
         _callbackMethod = () => Game.DebugLog("");
         
         // Border properties 
@@ -61,7 +61,7 @@ public class Button : Component
         _callbackMethod = a;
     }
 
-    protected bool IsHovered()
+    public bool IsHovered()
     {
         Point mousePos = Game.GetMousePosition();
 
@@ -125,13 +125,13 @@ public class Button : Component
     
     private void DrawBorderContent()
     {
-        Game.DrawText(Content, Position, _font, ContentColor, _contentScale);
+        Game.DrawText(Content, Position, Font, ContentColor, _contentScale);
     }
     
     public override void Draw()
     {
-        DrawBorder();
-        Game.DrawRectangle(ButtonColor, Position, Width, Height);
+        // DrawBorder();
+        // Game.DrawRectangle(ButtonColor, Position, Width, Height);
         DrawBorderContent();
     }
 }

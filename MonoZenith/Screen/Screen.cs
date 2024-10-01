@@ -2,7 +2,7 @@
 
 namespace MonoZenith.Screen
 {
-    internal abstract class Screen
+    public abstract class Screen
     {
         protected Game _game;
 

@@ -1,6 +1,6 @@
 ﻿namespace MonoZenith.Support
 {
-    internal enum Screens
+    public enum Screens
     {
         NONE,
         GAME,

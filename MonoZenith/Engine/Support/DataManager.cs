@@ -10,9 +10,12 @@ namespace MonoZenith.Engine.Support
         
         // Fonts
         public SpriteFont ComponentFont;
+        public SpriteFont StartMenuFont;
         
         // Textures
         public Texture2D MonoZenithLogo;
+        public Texture2D MainMenuBackdrop;
+        public Texture2D MainMenuHoverIndicator;
         public Texture2D Backdrop;
         public Texture2D CardBack;
         public Texture2D CardFront;
@@ -51,9 +54,12 @@ namespace MonoZenith.Engine.Support
         {
             // Load fonts
             ComponentFont = _game.LoadFont("Fonts/pixel.ttf", 1);
+            StartMenuFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1.5f);
             
             // Load textures
             MonoZenithLogo = _game.LoadImage("Images/monozenith.png");
+            MainMenuBackdrop = _game.LoadImage("Images/MainMenu/main-menu-backdrop.png");
+            MainMenuHoverIndicator = _game.LoadImage("Images/MainMenu/menu-item-indicator.png");
             Backdrop = _game.LoadImage("Images/Backdrops/backdrop.png");
             CardBack = _game.LoadImage("Images/Cards/back-card-design.png");
             CardFront = _game.LoadImage("Images/Cards/front-card-design.png");
