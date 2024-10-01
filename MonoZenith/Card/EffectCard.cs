@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoZenith.Players;
 using MonoZenith.Support;
 
 namespace MonoZenith.Card
@@ -48,6 +50,58 @@ namespace MonoZenith.Card
             : base(game, state, position, texture, activeTexture, name, label, region)
         {
         }
+
+        /// <summary>
+        /// Check which region occurs most frequently in the player's hand.
+        /// </summary>
+        /// <param name="player">The player to check.</param>
+        /// <returns>Most frequently occuring region in the player's hand.</returns>
+        private Region MostFrequentRegion(Player player)
+        {
+            var regionCounts = new int[Enum.GetNames(typeof(Region)).Length];
+            
+            foreach (var card in player.Hand.Cards)
+            {
+                if (card is RegionCard regionCard)
+                {
+                    regionCounts[(int)regionCard.Region]++;
+                }
+            }
+
+            return (Region)Array.IndexOf(regionCounts, regionCounts.Max());
+        }
+
+        /// <summary>
+        /// Return a random region from the available regions.
+        /// </summary>
+        /// <returns>A random region from the available regions.</returns>
+        private Region ChooseRandomRegion()
+        {
+            Random rand = new Random();
+            return (Region)rand.Next(Enum.GetNames(typeof(Region)).Length);
+        }
+        
+        public override void PerformEffect(GameState state)
+        {
+            Player player = state.CurrentPlayer;
+            
+            // If the player is an NPC, choose a region that occurs most frequently in their hand.
+            if (player is NpcPlayer npc)
+            {
+                Region mostOccuringRegion = MostFrequentRegion(npc);
+
+                state.CurrentRegion = mostOccuringRegion == Region.ALL ? 
+                    ChooseRandomRegion() : 
+                    mostOccuringRegion;
+                
+                Console.WriteLine($"NPC chose region: {mostOccuringRegion}");
+                state.SwitchTurn();
+                return;
+            }
+            
+            // If the player is a human player, choose a random region.
+            state.GraceMenu.Hidden = false;
+        }
     }
 
     internal class LunarQueenRebirthCard : RegionCard
@@ -72,8 +126,7 @@ namespace MonoZenith.Card
             // Power cards matches on the same label or region.
             return (prevCard == null
                     || prevCard.Label == Label
-                    || Region == _state.CurrentRegion
-                    || prevCard.Region == Region.ALL) &&
+                    || Region == _state.CurrentRegion) &&
                    _state.Combo < 1;
         }
 
@@ -109,8 +162,7 @@ namespace MonoZenith.Card
             // Power cards matches on the same label or region
             return (prevCard == null
                     || prevCard.Label == Label
-                    || Region == _state.CurrentRegion
-                    || prevCard.Region == Region.ALL) &&
+                    || Region == _state.CurrentRegion) &&
                    _state.Combo < 1;
         }
 
@@ -144,8 +196,7 @@ namespace MonoZenith.Card
             // Power cards matches on the same label or region.
             return (prevCard == null
                     || prevCard.Label == Label
-                    || Region == _state.CurrentRegion
-                    || prevCard.Region == Region.ALL) &&
+                    || Region == _state.CurrentRegion) &&
                    _state.Combo < 1;
         }
 
@@ -179,8 +230,7 @@ namespace MonoZenith.Card
             // Power cards matches on the same label or region.
             return (prevCard == null
                     || prevCard.Label == Label
-                    || Region == _state.CurrentRegion
-                    || prevCard.Region == Region.ALL) &&
+                    || Region == _state.CurrentRegion) &&
                    _state.Combo < 1;
         }
 
@@ -214,8 +264,7 @@ namespace MonoZenith.Card
             // Power cards matches on the same label or region.
             return (prevCard == null
                     || prevCard.Label == Label
-                    || Region == _state.CurrentRegion
-                    || prevCard.Region == Region.ALL) &&
+                    || Region == _state.CurrentRegion) &&
                    _state.Combo < 1;
         }
 
@@ -250,7 +299,6 @@ namespace MonoZenith.Card
             return prevCard == null
                    || prevCard.Label == Label
                    || Region == _state.CurrentRegion
-                   || prevCard.Region == Region.ALL
                    || prevCard is JokerCard;
         }
 
@@ -286,7 +334,6 @@ namespace MonoZenith.Card
             return prevCard == null
                    || prevCard.Label == Label
                    || Region == _state.CurrentRegion
-                   || prevCard.Region == Region.ALL
                    || prevCard is JokerCard;
         }
 
@@ -322,7 +369,6 @@ namespace MonoZenith.Card
             return prevCard == null
                    || prevCard.Label == Label
                    || Region == _state.CurrentRegion
-                   || prevCard.Region == Region.ALL
                    || prevCard is JokerCard;
         }
 
@@ -358,7 +404,6 @@ namespace MonoZenith.Card
             return prevCard == null
                    || prevCard.Label == Label
                    || Region == _state.CurrentRegion
-                   || prevCard.Region == Region.ALL
                    || prevCard is JokerCard;
         }
 

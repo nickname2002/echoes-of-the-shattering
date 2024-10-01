@@ -61,15 +61,15 @@ public class Button : Component
         _callbackMethod = a;
     }
 
-    private bool IsHovered()
+    protected bool IsHovered()
     {
         Point mousePos = Game.GetMousePosition();
 
         // In X range
-        if (mousePos.X > Position.X - Width / 2 - BorderWidth && mousePos.X < Position.X + Width / 2 + BorderWidth)
+        if (mousePos.X > Position.X && mousePos.X < Position.X + Width)
         {
             // In Y range
-            if (mousePos.Y > Position.Y - Height / 2 - BorderWidth && mousePos.Y < Position.Y + Height / 2 + BorderWidth)
+            if (mousePos.Y > Position.Y && mousePos.Y < Position.Y + Height)
             {
                 return true;
             }

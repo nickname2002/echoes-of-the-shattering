@@ -43,19 +43,13 @@ namespace MonoZenith.Card
         public override bool ValidNextCard(Card previousCard)
         {
             var prevCard = previousCard as RegionCard;
-            
-            // RegionCards matches on the same label or region.
-            if (prevCard != null
-                && prevCard.Label != Label
-                && Region != _state.CurrentRegion
-                && prevCard.Region != Region.ALL 
-                && Region != Region.ALL 
-                || _state.Combo >= 1)
-            {
-                return false;
-            }
 
-            return true;
+            // RegionCards matches on the same label or region.
+            return (prevCard == null
+                    || prevCard.Label == Label
+                    || Region == _state.CurrentRegion
+                    || Region == Region.ALL)
+                   && _state.Combo < 1;
         }
         
         /// <summary>

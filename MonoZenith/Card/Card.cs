@@ -12,7 +12,7 @@ using static System.Formats.Asn1.AsnWriter;
 
 namespace MonoZenith.Card
 {
-    internal abstract class Card
+    public abstract class Card
     {
         protected Game _game;
         protected GameState _state;

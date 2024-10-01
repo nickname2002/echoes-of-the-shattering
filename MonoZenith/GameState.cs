@@ -8,15 +8,17 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Card.CardStack;
+using MonoZenith.Components;
 using MonoZenith.Engine.Support;
 using MonoZenith.Players;
 using MonoZenith.Support;
 
 namespace MonoZenith
 {
-    internal class GameState
+    public class GameState
     {
         private readonly Game _game;
+        public GraceMenu GraceMenu;
         private Player? _currentPlayer;
         private Player? _currentWinner;
         private readonly HumanPlayer _player;
@@ -34,6 +36,7 @@ namespace MonoZenith
         public GameState(Game game)
         {
             _game = game;
+            GraceMenu = new GraceMenu(_game, this);
             _player = new HumanPlayer(_game, this, "Player");
             _npc = new NpcPlayer(_game, this, "NPC");
             _currentPlayer = null;
@@ -172,6 +175,7 @@ namespace MonoZenith
             }
             
             _currentPlayer?.PerformTurn(this);
+            GraceMenu.Update(deltaTime);
         }
         
         /// <summary>
@@ -187,6 +191,8 @@ namespace MonoZenith
                 DisplayWinnerMessage();
                 return;
             }
+            
+            GraceMenu.Draw();
             
             // Draw cards in play
             DrawableCards.Draw();
