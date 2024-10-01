@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -304,6 +305,7 @@ namespace MonoZenith.Card
             // Opposing player needs to draw two cards unless
             // they can play another power card.
             state.Combo += 2;
+            state.CurrentRegion = Region;
             state.SwitchTurn();
         }
     }
@@ -340,6 +342,7 @@ namespace MonoZenith.Card
             // Opposing player needs to draw two cards unless
             // they can play another power card.
             state.Combo += 2;
+            state.CurrentRegion = Region;
             state.SwitchTurn();
         }
     }
@@ -376,6 +379,7 @@ namespace MonoZenith.Card
             // Opposing player needs to draw two cards unless
             // they can play another power card.
             state.Combo += 2;
+            state.CurrentRegion = Region;
             state.SwitchTurn();
         }
     }
@@ -412,6 +416,7 @@ namespace MonoZenith.Card
             // Opposing player needs to draw two cards unless
             // they can play another power card.
             state.Combo += 2;
+            state.CurrentRegion = Region;
             state.SwitchTurn();
         }
     }

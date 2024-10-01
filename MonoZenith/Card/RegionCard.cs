@@ -63,8 +63,6 @@ namespace MonoZenith.Card
             state.SwitchTurn();
         }
         
-        // TODO: Add card for changing region for power card when in combo mode.
-        
         /// <summary>
         /// Draw the card metadata.
         /// </summary>
