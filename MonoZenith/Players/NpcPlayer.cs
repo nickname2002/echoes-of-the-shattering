@@ -34,6 +34,8 @@ namespace MonoZenith.Players
 
             float widthStep = width / count;
 
+            // TODO: Update positions of cards
+            
             foreach (Card.Card card in Hand.Cards)
             {
                 float currentWidth = width - (width / 2) + (widthStep * count);
