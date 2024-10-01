@@ -17,7 +17,6 @@ namespace MonoZenith.Card
         protected Game _game;
         protected GameState _state;
         protected Vector2 _position;
-        protected Vector2 _originalPosition;
         protected int _width;
         protected int _height;
         protected float _scale;
@@ -34,7 +33,6 @@ namespace MonoZenith.Card
             _game = game;
             _state = state;
             _position = position;
-            _originalPosition = position;
             _scale = 0.4f;
             _texture = texture;
             _activeTexture = activeTexture;
@@ -128,7 +126,7 @@ namespace MonoZenith.Card
                 newY = y;
             }
             
-            _position = _originalPosition + new Vector2(newX, newY);
+            _position = new Vector2(newX, newY);
             Texture2D currentTexture = active ? _activeTexture : _texture;
             _game.DrawImage(currentTexture, _position, _scale, angle);
 
