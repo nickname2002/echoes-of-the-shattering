@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using MonoZenith.Card;
@@ -85,14 +86,15 @@ namespace MonoZenith.Players
         /// <returns></returns>
         protected bool NoValidCardsWithActiveCombo()
         {
-            bool anyValidCards = Hand.Cards.Any(IsValidPlay);
-            
-            if (!anyValidCards && _state.Combo > 0)
-            {
-                return true;
-            }
+            List<RegionCard> comboCards = new List<RegionCard>();
+            comboCards.AddRange(Hand.Cards.OfType<RegionCard>().
+                Where(card => card.IsComboCard));
 
-            return false;
+            if (comboCards.Count != 0 || _state.Combo <= 0) 
+                return false;
+            
+            DrawCombo(_state);
+            return true;
         }
         
         /// <summary>
