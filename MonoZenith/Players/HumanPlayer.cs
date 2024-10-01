@@ -135,6 +135,7 @@ namespace MonoZenith.Players
 
         public override void PerformTurn(GameState state)
         {
+            base.PerformTurn(state);
             if (!_state.GraceMenu.Hidden)
             {
                 return;
@@ -145,10 +146,6 @@ namespace MonoZenith.Players
 
             // If no card can be played, draw a card.
             TryDrawCard();
-
-            // If there is a power effect in play,
-            // draw cards equal to the current combo amount.
-            DrawCombo(state);
         }
 
         /// <summary>
@@ -172,6 +169,11 @@ namespace MonoZenith.Players
         /// </summary>
         protected override void TryDrawCard()
         {
+            if (_state.Combo >= 1)
+            {
+                return;
+            }
+            
             var drawnCard = _state.DrawableCards.GetSelectCard();
 
             // If no card was drawn, return

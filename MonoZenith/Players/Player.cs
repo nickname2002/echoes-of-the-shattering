@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using MonoZenith.Card;
 using MonoZenith.Card.CardStack;
@@ -32,7 +33,13 @@ namespace MonoZenith.Players
         /// Perform the player's turn.
         /// </summary>
         /// <param name="state">The current game state.</param>
-        public abstract void PerformTurn(GameState state);
+        public virtual void PerformTurn(GameState state)
+        {
+            if (!NoValidCardsWithActiveCombo()) 
+                return;
+            
+            DrawCombo(_state);
+        }
 
         /// <summary>
         /// Draw a card from the drawable cards stack and add it to the player's hand.
@@ -48,6 +55,8 @@ namespace MonoZenith.Players
         /// <param name="state">The current gamestate</param>
         protected void DrawCombo(GameState state)
         {
+            Console.WriteLine($"{Name} drew {state.Combo} combo cards.");
+            
             // If there is a power effect in play,
             // draw cards equal to the current combo amount.
             if (state.Combo >= 1)
@@ -59,6 +68,8 @@ namespace MonoZenith.Players
 
                 state.Combo = 0;
             }
+            
+            _state.SwitchTurn();
         }
 
         /// <summary>
@@ -68,11 +79,50 @@ namespace MonoZenith.Players
         protected abstract bool TryPlayCard();
 
         /// <summary>
+        /// Returns whether the player has no valid cards, but there
+        /// is an active combo.
+        /// </summary>
+        /// <returns></returns>
+        protected bool NoValidCardsWithActiveCombo()
+        {
+            bool anyValidCards = Hand.Cards.Any(IsValidPlay);
+            
+            if (!anyValidCards && _state.Combo > 0)
+            {
+                return true;
+            }
+
+            return false;
+        }
+        
+        /// <summary>
+        /// If there is an active combo that cannot be blocked with the played card,
+        /// the combo will be drawn by the player.
+        /// </summary>
+        /// <param name="card">The card chosen by the player to play.</param>
+        /// <returns>Whether there was an unblockable active combo.</returns>
+        protected bool UnblockableActiveCombo(RegionCard card)
+        {
+            if (_state.Combo < 1 ||
+                card.IsComboCard) 
+                return false;
+         
+            Console.WriteLine("Card is not powerful enough.");
+            DrawCombo(_state);
+            return true;
+        }
+        
+        /// <summary>
         /// Play the selected card and update the game state.
         /// </summary>
         /// <param name="card">The card to play.</param>
         protected void PlayCard(Card.Card card)
         {
+            if (UnblockableActiveCombo((RegionCard)card))
+            {
+                return;
+            }
+            
             Console.WriteLine($"{Name} played: {card}");
 
             // Update the current region if the card is a RegionCard and region is not "ALL"
@@ -86,8 +136,8 @@ namespace MonoZenith.Players
             Hand.Cards.Remove(card);
 
             // Perform the effect of the card
-            RegionCard effectCard = card as RegionCard;
-            effectCard.PerformEffect(_state);
+            RegionCard effectCard = (RegionCard)card;
+            effectCard?.PerformEffect(_state);
         }
         
         /// <summary>
@@ -105,7 +155,7 @@ namespace MonoZenith.Players
             var lastPlayedCard = _state.PlayedCards.Cards[^1]; 
             return card.ValidNextCard(lastPlayedCard);
         }
-        
+
         /// <summary>
         /// Update the player.
         /// </summary>

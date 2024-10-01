@@ -20,6 +20,7 @@ namespace MonoZenith.Card
             CardLabel label)
             : base(game, state, position, texture, activeTexture, name, label, region)
         {
+            _isComboCard = true;
         }
 
         public override bool ValidNextCard(Card previousCard)
@@ -126,8 +127,7 @@ namespace MonoZenith.Card
             // Power cards matches on the same label or region.
             return (prevCard == null
                     || prevCard.Label == Label
-                    || Region == _state.CurrentRegion) &&
-                   _state.Combo < 1;
+                    || Region == _state.CurrentRegion);
         }
 
 
@@ -162,8 +162,7 @@ namespace MonoZenith.Card
             // Power cards matches on the same label or region
             return (prevCard == null
                     || prevCard.Label == Label
-                    || Region == _state.CurrentRegion) &&
-                   _state.Combo < 1;
+                    || Region == _state.CurrentRegion);
         }
 
         public override void PerformEffect(GameState state)
@@ -196,8 +195,7 @@ namespace MonoZenith.Card
             // Power cards matches on the same label or region.
             return (prevCard == null
                     || prevCard.Label == Label
-                    || Region == _state.CurrentRegion) &&
-                   _state.Combo < 1;
+                    || Region == _state.CurrentRegion);
         }
 
         public override void PerformEffect(GameState state)
@@ -230,8 +228,7 @@ namespace MonoZenith.Card
             // Power cards matches on the same label or region.
             return (prevCard == null
                     || prevCard.Label == Label
-                    || Region == _state.CurrentRegion) &&
-                   _state.Combo < 1;
+                    || Region == _state.CurrentRegion);
         }
 
         public override void PerformEffect(GameState state)
@@ -264,8 +261,7 @@ namespace MonoZenith.Card
             // Power cards matches on the same label or region.
             return (prevCard == null
                     || prevCard.Label == Label
-                    || Region == _state.CurrentRegion) &&
-                   _state.Combo < 1;
+                    || Region == _state.CurrentRegion);
         }
 
         public override void PerformEffect(GameState state)
@@ -289,6 +285,7 @@ namespace MonoZenith.Card
             CardLabel label)
             : base(game, state, position, texture, activeTexture, name, label, region)
         {
+            _isComboCard = true;
         }
 
         public override bool ValidNextCard(Card previousCard)
@@ -324,6 +321,7 @@ namespace MonoZenith.Card
             CardLabel label)
             : base(game, state, position, texture, activeTexture, name, label, region)
         {
+            _isComboCard = true;
         }
 
         public override bool ValidNextCard(Card previousCard)
@@ -359,6 +357,7 @@ namespace MonoZenith.Card
             CardLabel label)
             : base(game, state, position, texture, activeTexture, name, label, region)
         {
+            _isComboCard = true;
         }
 
         public override bool ValidNextCard(Card previousCard)
@@ -394,6 +393,7 @@ namespace MonoZenith.Card
             CardLabel label)
             : base(game, state, position, texture, activeTexture, name, label, region)
         {
+            _isComboCard = true;
         }
 
         public override bool ValidNextCard(Card previousCard)

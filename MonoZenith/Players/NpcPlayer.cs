@@ -124,6 +124,11 @@ namespace MonoZenith.Players
 
         protected override void TryDrawCard()
         {
+            if (_state.Combo >= 1)
+            {
+                return;
+            }
+            
             var drawnCard = _state.DrawableCards.GetCard();
             Console.WriteLine($"{Name} drew: {drawnCard}");
             Hand.AddToFront(drawnCard);
@@ -132,6 +137,7 @@ namespace MonoZenith.Players
         
         public override void PerformTurn(GameState state)
         {
+            base.PerformTurn(_state);
             OrderHand();
             int cardsInOpponentHand = state.OpposingPlayer.Hand.Count;
 
@@ -150,14 +156,8 @@ namespace MonoZenith.Players
 
             // If no card can be played, draw a card.
             TryDrawCard();
-
-            // If there is a power effect in play,
-            // draw cards equal to the current combo amount.
-            DrawCombo(state);
         }
-
-
-
+        
         public override void Update(GameTime deltaTime)
         {
             foreach (var card in Hand.Cards)

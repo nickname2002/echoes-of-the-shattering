@@ -10,10 +10,12 @@ using MonoZenith.Support;
 
 namespace MonoZenith.Card
 {
-    internal class RegionCard : Card
+    public class RegionCard : Card
     {
         public readonly CardLabel Label; 
         public readonly Region Region;
+        protected bool _isComboCard;
+        public bool IsComboCard => _isComboCard;
 
         public RegionCard(
             Game game,
@@ -27,7 +29,8 @@ namespace MonoZenith.Card
             : base(game, state, position, texture, activeTexture, name)
         {
             Label = label;
-            Region = region; 
+            Region = region;
+            _isComboCard = false;
         }
 
         public override string ToString()
@@ -48,8 +51,7 @@ namespace MonoZenith.Card
             return (prevCard == null
                     || prevCard.Label == Label
                     || Region == _state.CurrentRegion
-                    || Region == Region.ALL)
-                   && _state.Combo < 1;
+                    || Region == Region.ALL);
         }
         
         /// <summary>
@@ -60,6 +62,8 @@ namespace MonoZenith.Card
         {
             state.SwitchTurn();
         }
+        
+        // TODO: Add card for changing region for power card when in combo mode.
         
         /// <summary>
         /// Draw the card metadata.
