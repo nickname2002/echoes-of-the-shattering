@@ -1,4 +1,5 @@
 
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace MonoZenith.Engine.Support
@@ -10,9 +11,12 @@ namespace MonoZenith.Engine.Support
         
         // Fonts
         public SpriteFont ComponentFont;
+        public SpriteFont StartMenuFont;
         
         // Textures
         public Texture2D MonoZenithLogo;
+        public Texture2D MainMenuBackdrop;
+        public Texture2D MainMenuHoverIndicator;
         public Texture2D Backdrop;
         public Texture2D CardBack;
         public Texture2D CardFront;
@@ -27,6 +31,11 @@ namespace MonoZenith.Engine.Support
         public Texture2D LeyndellButtonHoverTexture;
         
         // Audio
+        
+        /// <summary>
+        /// Credits: Arcane Bard Audio - https://www.youtube.com/watch?v=WNm0TaVTGWo
+        /// </summary>
+        public SoundEffectInstance MainMenuMusic;
 
         private DataManager(Game game)
         {
@@ -51,9 +60,12 @@ namespace MonoZenith.Engine.Support
         {
             // Load fonts
             ComponentFont = _game.LoadFont("Fonts/pixel.ttf", 1);
+            StartMenuFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1.75f);
             
             // Load textures
             MonoZenithLogo = _game.LoadImage("Images/monozenith.png");
+            MainMenuBackdrop = _game.LoadImage("Images/MainMenu/main-menu-backdrop.png");
+            MainMenuHoverIndicator = _game.LoadImage("Images/MainMenu/menu-item-indicator.png");
             Backdrop = _game.LoadImage("Images/Backdrops/backdrop.png");
             CardBack = _game.LoadImage("Images/Cards/back-card-design.png");
             CardFront = _game.LoadImage("Images/Cards/front-card-design.png");
@@ -68,6 +80,7 @@ namespace MonoZenith.Engine.Support
             LeyndellButtonHoverTexture = _game.LoadImage("Images/GraceMenu/buttons/leyndell-button-border.png");
             
             // Load audio
+            MainMenuMusic = _game.LoadAudio("Audio/Music/main-menu-music.wav");
         }
     }
 }

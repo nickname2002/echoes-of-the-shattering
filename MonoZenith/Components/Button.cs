@@ -8,14 +8,14 @@ namespace MonoZenith.Components;
 public class Button : Component
 {
     // Members
-    private readonly float _contentScale;
+    protected readonly float _contentScale;
     
-    private Color _buttonColor;
-    private readonly Color _originalButtonColor;
-    private readonly Color _buttonHoverColor;
+    protected Color _buttonColor;
+    protected readonly Color _originalButtonColor;
+    protected readonly Color _buttonHoverColor;
 
-    private readonly SpriteFont _font;
-    private Action _callbackMethod;
+    protected SpriteFont _font;
+    protected Action _callbackMethod;
     
     private readonly float _buttonDelay;
     private float _currentButtonDelay;
@@ -123,7 +123,7 @@ public class Button : Component
         Game.DrawRectangle(BorderColor, borderPos, (int)borderRectWidth, (int)borderRectHeight);
     }
     
-    private void DrawBorderContent()
+    protected void DrawBorderContent()
     {
         Game.DrawText(Content, Position, _font, ContentColor, _contentScale);
     }
