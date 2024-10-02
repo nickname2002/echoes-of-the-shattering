@@ -31,6 +31,10 @@ namespace MonoZenith.Engine.Support
         public Texture2D LeyndellButtonHoverTexture;
         
         // Audio
+        
+        /// <summary>
+        /// Credits: Arcane Bard Audio - https://www.youtube.com/watch?v=WNm0TaVTGWo
+        /// </summary>
         public SoundEffectInstance MainMenuMusic;
 
         private DataManager(Game game)
