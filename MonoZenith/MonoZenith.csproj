@@ -29,7 +29,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\Debug\net6.0" />
-    <Folder Include="Content\Images\MainMenu\Music\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="bin\Debug\net6.0\Content\Audio\placeholder.txt" />
