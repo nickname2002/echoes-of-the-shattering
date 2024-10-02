@@ -11,9 +11,9 @@ namespace MonoZenith.Players
     {
         public NpcPlayer(Game game, GameState state, string name) : base(game, state, name)
         {
-            width = game.ScreenWidth / 2;
-            height = game.ScreenHeight / 5f;
-            playerPosition = new Vector2(game.ScreenWidth * 0.05f, game.ScreenHeight * 0.1f);
+            _handxPos = game.ScreenWidth / 2;
+            _handyPos = game.ScreenHeight / 5f;
+            PlayerPosition = new Vector2(game.ScreenWidth * 0.05f, game.ScreenHeight * 0.1f);
             PlayerIcon = DataManager.GetInstance(game).Npc;
         }
 
@@ -36,13 +36,13 @@ namespace MonoZenith.Players
             if (count == 0)
                 return;
 
-            float widthStep = width / count;
+            float widthStep = _handxPos / count;
             
             foreach (Card.Card card in Hand.Cards)
             {
-                float currentWidth = width - (width / 2) + (widthStep * count);
+                float currentWidth = _handxPos - (_handxPos / 2) + (widthStep * count);
 
-                card.Draw(currentWidth, height, 180, false, false);
+                card.Draw(currentWidth, _handyPos, 180, false, false);
                 count--;
             }
         }

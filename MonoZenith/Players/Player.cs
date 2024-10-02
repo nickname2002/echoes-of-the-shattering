@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Card;
 using MonoZenith.Card.CardStack;
+using MonoZenith.Engine.Support;
 using MonoZenith.Support;
 
 namespace MonoZenith.Players
@@ -15,10 +16,12 @@ namespace MonoZenith.Players
         protected GameState _state;
         public CardStack Hand;
         public string Name;
-        protected float width;
-        protected float height;
-        protected Vector2 playerPosition;
+        protected float _handxPos;
+        protected float _handyPos;
+        public Vector2 PlayerPosition;
         public Texture2D PlayerIcon;
+        public readonly Texture2D PlayerCurrent;
+        public readonly Texture2D PlayerWaiting;
 
         protected Player(Game game, GameState state, string name)
         {
@@ -26,6 +29,8 @@ namespace MonoZenith.Players
             _state = state;
             Hand = new CardStack(_game, _state);
             Name = name;
+            PlayerCurrent = DataManager.GetInstance(game).PlayerCurrent;
+            PlayerWaiting = DataManager.GetInstance(game).PlayerWaiting;
         }
 
         public override string ToString()
@@ -176,16 +181,35 @@ namespace MonoZenith.Players
         public abstract void DrawHand();
 
         /// <summary>
-        /// Draw the Player UI Assets
+        /// Draw the Player UI Assets.
         /// </summary>
         public void DrawPlayerUI()
         {
+            // Setup properties of UI assets
             float scale = 0.15f;
-            float widthOffset = PlayerIcon.Width * scale * 0.5f;
-            float heightOffset = PlayerIcon.Height * scale * 0.5f;
-            Vector2 offset = new Vector2(widthOffset, heightOffset);
+            Vector2 iconOffset = GetOffset(PlayerIcon, scale);
+            Vector2 borderOffset = GetOffset(PlayerCurrent, scale);
 
-            _game.DrawImage(PlayerIcon, playerPosition - offset, scale, 0);
+            // Check if the player is the current playing player
+            bool currentPlayer = _state.CurrentPlayer == this;
+            Texture2D playerBorder = currentPlayer ? PlayerCurrent : PlayerWaiting;
+
+            // Draw the assets
+            _game.DrawImage(PlayerIcon, PlayerPosition - iconOffset, scale, 0);
+            _game.DrawImage(playerBorder, PlayerPosition - borderOffset, scale, 0);
+        }
+
+        /// <summary>
+        /// Gets the positional offset of the texture in order to
+        /// draw the texture in the middle instead of (0,0).
+        /// </summary>
+        /// <param name="texture">The given texture.</param>
+        /// <param name="scale">The scale in which the texture will be drawn.</param>
+        public Vector2 GetOffset(Texture2D texture, float scale)
+        {
+            float widthOffset = texture.Width * scale * 0.5f;
+            float heightOffset = texture.Height * scale * 0.5f;
+            return new Vector2(widthOffset, heightOffset);
         }
     }
 }

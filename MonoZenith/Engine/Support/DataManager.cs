@@ -25,8 +25,8 @@ namespace MonoZenith.Engine.Support
         public Texture2D Backdrop;
         public Texture2D Player;
         public Texture2D Npc;
-        public Texture2D PlayerSelected;
-        public Texture2D PlayerUnselected;
+        public Texture2D PlayerCurrent;
+        public Texture2D PlayerWaiting;
 
         // Textures: Card 
         public Texture2D CardBack;
@@ -81,8 +81,8 @@ namespace MonoZenith.Engine.Support
             MainMenuHoverIndicator = _game.LoadImage("Images/MainMenu/menu-item-indicator.png");
             Player = _game.LoadImage("Images/Player/vargram.png");
             Npc = _game.LoadImage("Images/Player/varre.png");
-            PlayerSelected = _game.LoadImage("Images/Player/player-selected.png");
-            PlayerUnselected = _game.LoadImage("Images/Player/player-unselected.png");
+            PlayerCurrent = _game.LoadImage("Images/Player/player-current.png");
+            PlayerWaiting = _game.LoadImage("Images/Player/player-waiting.png");
             Backdrop = _game.LoadImage("Images/Backdrops/backdrop.png");
             CardBack = _game.LoadImage("Images/Cards/back-card-design.png");
             CardFront = _game.LoadImage("Images/Cards/front-card-design.png");

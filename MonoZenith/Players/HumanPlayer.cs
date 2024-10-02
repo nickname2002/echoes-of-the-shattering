@@ -16,9 +16,9 @@ namespace MonoZenith.Players
         
         public HumanPlayer(Game game, GameState state, string name) : base(game, state, name)
         {
-            width = game.ScreenWidth / 2;
-            height = game.ScreenHeight / 1.25f;
-            playerPosition = new Vector2(game.ScreenWidth * 0.05f, game.ScreenHeight * 0.9f);
+            _handxPos = game.ScreenWidth / 2;
+            _handyPos = game.ScreenHeight / 1.25f;
+            PlayerPosition = new Vector2(game.ScreenWidth * 0.05f, game.ScreenHeight * 0.9f);
             PlayerIcon = DataManager.GetInstance(game).Player;
         }
     
@@ -41,7 +41,7 @@ namespace MonoZenith.Players
                 return;
             
             // Variables and buffers
-            float widthStep = width / count;
+            float widthStep = _handxPos / count;
             List<Card.Card> hoveredCards = new List<Card.Card>();  
             Dictionary<Card.Card, float> cardPositions = new Dictionary<Card.Card, float>(); 
 
@@ -56,16 +56,16 @@ namespace MonoZenith.Players
         /// <param name="cards">List of cards to process.</param>
         /// <param name="hoveredCards">List to store hovered cards.</param>
         /// <param name="cardPositions">Dictionary to store card positions.</param>
-        /// <param name="widthStep">Step for card positioning.</param>
+        /// <param name="xPosStep">Step for card positioning.</param>
         private void DrawNonHoveredCards(List<Card.Card> cards, List<Card.Card> hoveredCards, 
-                                         Dictionary<Card.Card, float> cardPositions, float widthStep)
+                                         Dictionary<Card.Card, float> cardPositions, float xPosStep)
         {
             int count = cards.Count();
             int currentIndex = 0;
             
             foreach (Card.Card card in cards)
             {
-                float currentWidth = width + (width / 2) - (widthStep * count) + (widthStep * currentIndex);
+                float currentWidth = _handxPos + (_handxPos / 2) - (xPosStep * count) + (xPosStep * currentIndex);
 
                 if (card.IsHovered())
                 {
@@ -74,7 +74,7 @@ namespace MonoZenith.Players
                 }
                 else
                 {
-                    card.Draw(currentWidth, height, 0, false, true);
+                    card.Draw(currentWidth, _handyPos, 0, false, true);
                 }
                 
                 currentIndex++;
@@ -95,7 +95,7 @@ namespace MonoZenith.Players
                 // Draw all hovered cards except the last one first
                 if (i < hoveredCards.Count - 1)
                 {
-                    hoveredCard.Draw(hoveredCardPosition, height, 0, false, true);
+                    hoveredCard.Draw(hoveredCardPosition, _handyPos, 0, false, true);
                 }
             }
 
@@ -105,7 +105,7 @@ namespace MonoZenith.Players
             
             _lastHoveredCard = hoveredCards[^1];  
             float lastHoveredCardPosition = cardPositions[_lastHoveredCard];
-            _lastHoveredCard.Draw(lastHoveredCardPosition, height - verticalMoveOffset, 0, false, true);
+            _lastHoveredCard.Draw(lastHoveredCardPosition, _handyPos - verticalMoveOffset, 0, false, true);
         }
 
         /// <summary>
