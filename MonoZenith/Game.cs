@@ -23,8 +23,8 @@ public partial class Game
         SetScreenSize(1600, 900);
         SetWindowTitle("Echoes of the Shattering");
 
-        ActiveScreen = Screens.GAME;  
-        // _mainMenuScreen = new MainMenuScreen(this);
+        ActiveScreen = Screens.MAIN_MENU;  
+        _mainMenuScreen = new MainMenuScreen(this);
         _gameScreen = new GameScreen(this);
         _pauseScreen = new PauseScreen(this);
     }
