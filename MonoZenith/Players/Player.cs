@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Card;
 using MonoZenith.Card.CardStack;
 using MonoZenith.Support;
@@ -16,6 +17,8 @@ namespace MonoZenith.Players
         public string Name;
         protected float width;
         protected float height;
+        protected Vector2 playerPosition;
+        public Texture2D PlayerIcon;
 
         protected Player(Game game, GameState state, string name)
         {
@@ -171,5 +174,18 @@ namespace MonoZenith.Players
         /// Draw the hand of the player.
         /// </summary>
         public abstract void DrawHand();
+
+        /// <summary>
+        /// Draw the Player UI Assets
+        /// </summary>
+        public void DrawPlayerUI()
+        {
+            float scale = 0.15f;
+            float widthOffset = PlayerIcon.Width * scale * 0.5f;
+            float heightOffset = PlayerIcon.Height * scale * 0.5f;
+            Vector2 offset = new Vector2(widthOffset, heightOffset);
+
+            _game.DrawImage(PlayerIcon, playerPosition - offset, scale, 0);
+        }
     }
 }

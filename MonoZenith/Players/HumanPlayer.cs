@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
+using System.Xml.Linq;
 using Microsoft.Xna.Framework;
 using MonoZenith.Card;
+using MonoZenith.Engine.Support;
 using MonoZenith.Support;
 
 namespace MonoZenith.Players
@@ -15,6 +18,8 @@ namespace MonoZenith.Players
         {
             width = game.ScreenWidth / 2;
             height = game.ScreenHeight / 1.25f;
+            playerPosition = new Vector2(game.ScreenWidth * 0.05f, game.ScreenHeight * 0.9f);
+            PlayerIcon = DataManager.GetInstance(game).Player;
         }
     
         /// <summary>
@@ -23,6 +28,7 @@ namespace MonoZenith.Players
         public override void Draw()
         {
             DrawHand();
+            DrawPlayerUI();
         }
 
         /// <summary>

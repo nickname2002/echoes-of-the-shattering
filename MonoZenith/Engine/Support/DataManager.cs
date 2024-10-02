@@ -14,12 +14,25 @@ namespace MonoZenith.Engine.Support
         public SpriteFont StartMenuFont;
         
         // Textures
+        // Textures: MonoZenith
         public Texture2D MonoZenithLogo;
+
+        // Textures: Main Menu
         public Texture2D MainMenuBackdrop;
         public Texture2D MainMenuHoverIndicator;
+
+        // Textures: Game UI
         public Texture2D Backdrop;
+        public Texture2D Player;
+        public Texture2D Npc;
+        public Texture2D PlayerSelected;
+        public Texture2D PlayerUnselected;
+
+        // Textures: Card 
         public Texture2D CardBack;
         public Texture2D CardFront;
+
+        // Textures: Grace Menu 
         public Texture2D GraceMenuBackdrop;
         public Texture2D LimgraveButtonTexture;
         public Texture2D LimgraveButtonHoverTexture;
@@ -66,6 +79,10 @@ namespace MonoZenith.Engine.Support
             MonoZenithLogo = _game.LoadImage("Images/monozenith.png");
             MainMenuBackdrop = _game.LoadImage("Images/MainMenu/main-menu-backdrop.png");
             MainMenuHoverIndicator = _game.LoadImage("Images/MainMenu/menu-item-indicator.png");
+            Player = _game.LoadImage("Images/Player/vargram.png");
+            Npc = _game.LoadImage("Images/Player/varre.png");
+            PlayerSelected = _game.LoadImage("Images/Player/player-selected.png");
+            PlayerUnselected = _game.LoadImage("Images/Player/player-unselected.png");
             Backdrop = _game.LoadImage("Images/Backdrops/backdrop.png");
             CardBack = _game.LoadImage("Images/Cards/back-card-design.png");
             CardFront = _game.LoadImage("Images/Cards/front-card-design.png");
