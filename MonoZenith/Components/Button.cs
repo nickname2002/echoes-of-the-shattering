@@ -8,14 +8,14 @@ namespace MonoZenith.Components;
 public class Button : Component
 {
     // Members
-    private readonly float _contentScale;
+    protected readonly float _contentScale;
     
-    private Color _buttonColor;
-    private readonly Color _originalButtonColor;
-    private readonly Color _buttonHoverColor;
+    protected Color _buttonColor;
+    protected readonly Color _originalButtonColor;
+    protected readonly Color _buttonHoverColor;
 
-    public SpriteFont Font;
-    private Action _callbackMethod;
+    protected SpriteFont _font;
+    protected Action _callbackMethod;
     
     private readonly float _buttonDelay;
     private float _currentButtonDelay;
@@ -44,7 +44,7 @@ public class Button : Component
         _buttonColor = buttonColor;
         _originalButtonColor = _buttonColor;
         _buttonHoverColor = new Color(buttonColor.R + 50, buttonColor.G + 50, buttonColor.B + 50);
-        Font = DataManager.GetInstance(g).ComponentFont;
+        _font = DataManager.GetInstance(g).ComponentFont;
         _callbackMethod = () => Game.DebugLog("");
         
         // Border properties 
@@ -61,7 +61,7 @@ public class Button : Component
         _callbackMethod = a;
     }
 
-    public bool IsHovered()
+    protected bool IsHovered()
     {
         Point mousePos = Game.GetMousePosition();
 
@@ -123,15 +123,15 @@ public class Button : Component
         Game.DrawRectangle(BorderColor, borderPos, (int)borderRectWidth, (int)borderRectHeight);
     }
     
-    private void DrawBorderContent()
+    protected void DrawBorderContent()
     {
-        Game.DrawText(Content, Position, Font, ContentColor, _contentScale);
+        Game.DrawText(Content, Position, _font, ContentColor, _contentScale);
     }
     
     public override void Draw()
     {
-        // DrawBorder();
-        // Game.DrawRectangle(ButtonColor, Position, Width, Height);
+        DrawBorder();
+        Game.DrawRectangle(ButtonColor, Position, Width, Height);
         DrawBorderContent();
     }
 }

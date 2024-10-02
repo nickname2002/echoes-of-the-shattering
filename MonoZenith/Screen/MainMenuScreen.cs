@@ -1,7 +1,9 @@
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Components;
+using MonoZenith.Components.MainMenuScreen;
 using MonoZenith.Engine.Support;
 using MonoZenith.Support;
 
@@ -11,26 +13,31 @@ public class MainMenuScreen : Screen
 {
     private Texture2D _mainMenuBackdrop;
     private float _mainMenuScale;
-    private Button _startButton;
-    private Texture2D _hoverIndicator;
-    private float _hoverIndicatorScale;
     private SoundEffectInstance _mainMenuMusic;
-    
+
+    // TODO: Create special MainMenuButton class (subclass of Button) 
+    private MainMenuOptionButton _startButton;
+    private MainMenuOptionButton _settingsButton;
+        
     public MainMenuScreen(Game game) : base(game)
     {
         _mainMenuBackdrop = DataManager.GetInstance(game).MainMenuBackdrop;  
-        _hoverIndicator = DataManager.GetInstance(game).MainMenuHoverIndicator;
         _mainMenuScale = 0.7f;
-        _hoverIndicatorScale = 0.2f;
         
-        _startButton = new Button(
-            game,
-            new Vector2(_game.ScreenWidth / 2 - 125 / 2, _game.ScreenHeight / 2 + 300),
-            125, 40,
-            "Start Game", 1, Color.White,
-            Color.Black, 0, Color.Black);
-        _startButton.Font = DataManager.GetInstance(game).StartMenuFont;
-        _startButton.SetOnClickAction(StartGame);
+        // Start button
+        _startButton = new MainMenuOptionButton(
+            _game, 
+            _game.ScreenHeight / 2 + 250, 
+            "Start Game",
+            StartGame);
+        
+        // Settings dummy button
+        _settingsButton = new MainMenuOptionButton(
+            _game, 
+            _game.ScreenHeight / 2 + 325, 
+            "Settings",
+            () => Console.WriteLine("Settings button clicked")
+        );
         
         _mainMenuMusic = DataManager.GetInstance(game).MainMenuMusic;
         _mainMenuMusic.IsLooped = true;
@@ -49,6 +56,7 @@ public class MainMenuScreen : Screen
     public override void Update(GameTime deltaTime)
     {
         _startButton.Update(deltaTime);
+        _settingsButton.Update(deltaTime);
     }
 
     public override void Draw()
@@ -58,21 +66,11 @@ public class MainMenuScreen : Screen
            _mainMenuBackdrop,
            new Vector2(
                _game.ScreenWidth / 2 - _mainMenuBackdrop.Width / 2 * _mainMenuScale,
-               _game.ScreenHeight / 2 - _mainMenuBackdrop.Height / 2 * _mainMenuScale - 50 * _mainMenuScale),
+               _game.ScreenHeight / 2 - _mainMenuBackdrop.Height / 2 * _mainMenuScale - 100 * _mainMenuScale),
            _mainMenuScale);
-       
-       // Draw start button hover indicator
-       if (_startButton.IsHovered())
-       {
-           _game.DrawImage(
-               _hoverIndicator,
-               new Vector2(
-                   _game.ScreenWidth / 2 - _hoverIndicator.Width / 2 * _hoverIndicatorScale,
-                   _game.ScreenHeight / 2 + 1150 * _hoverIndicatorScale),
-               _hoverIndicatorScale);
-       }
        
        // Draw start button
        _startButton.Draw();
+       _settingsButton.Draw();
     }
 }
