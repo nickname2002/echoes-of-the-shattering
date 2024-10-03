@@ -138,6 +138,20 @@ namespace MonoZenith.Players
             Hand.AddToFront(drawnCard);
             _state.SwitchTurn();    // TODO: may not be true in every situation
         }
+
+        /// <summary>
+        /// Checks if the given card can be played.
+        /// </summary>
+        private void PlayComboCard()
+        {
+            RegionCard comboCard = Hand.Cards.Cast<RegionCard>().
+                FirstOrDefault(regionCard => regionCard.IsComboCard);
+
+            if (comboCard == null)
+                return;
+            
+            PlayCard(comboCard);
+        }
         
         public override void PerformTurn(GameState state)
         {
@@ -145,6 +159,12 @@ namespace MonoZenith.Players
             OrderHand();
             int cardsInOpponentHand = state.OpposingPlayer.Hand.Count;
 
+            if (((RegionCard)state.PlayedCards.Cards.First()).IsComboCard)
+            {
+                PlayComboCard();
+                return;
+            }
+            
             // If the opponent has less than 4 cards, try to play offensive cards.
             if (cardsInOpponentHand < 4)
             {
