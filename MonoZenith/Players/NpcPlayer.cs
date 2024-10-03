@@ -24,6 +24,15 @@ namespace MonoZenith.Players
         {
             DrawHand();
             DrawPlayerUI();
+            DrawPlayerName();
+        }
+
+        public override void DrawPlayerName()
+        {
+            Vector2 Offset = GetOffset(PlayerCurrent, _scale);
+            Vector2 textPosition = PlayerPosition + new Vector2(Offset.X * 1.2f, -Offset.Y * 0.75f);
+            _game.DrawText(Name, textPosition + new Vector2(1.5f, 1.5f), PlayerFont, Color.DarkGray);
+            _game.DrawText(Name, textPosition, PlayerFont, Color.White);
         }
 
         /// <summary>

@@ -12,6 +12,7 @@ namespace MonoZenith.Engine.Support
         // Fonts
         public SpriteFont ComponentFont;
         public SpriteFont StartMenuFont;
+        public SpriteFont PlayerFont;
         
         // Textures
         // Textures: MonoZenith
@@ -74,7 +75,8 @@ namespace MonoZenith.Engine.Support
             // Load fonts
             ComponentFont = _game.LoadFont("Fonts/pixel.ttf", 1);
             StartMenuFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1.75f);
-            
+            PlayerFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1);
+
             // Load textures
             MonoZenithLogo = _game.LoadImage("Images/monozenith.png");
             MainMenuBackdrop = _game.LoadImage("Images/MainMenu/main-menu-backdrop.png");

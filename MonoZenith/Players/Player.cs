@@ -12,7 +12,7 @@ namespace MonoZenith.Players
 {
     public abstract class Player
     {
-        private Game _game;
+        protected Game _game;
         protected GameState _state;
         public CardStack Hand;
         public string Name;
@@ -22,6 +22,8 @@ namespace MonoZenith.Players
         public Texture2D PlayerIcon;
         public readonly Texture2D PlayerCurrent;
         public readonly Texture2D PlayerWaiting;
+        protected SpriteFont PlayerFont;
+        protected float _scale;
 
         protected Player(Game game, GameState state, string name)
         {
@@ -29,8 +31,10 @@ namespace MonoZenith.Players
             _state = state;
             Hand = new CardStack(_game, _state);
             Name = name;
+            _scale = 0.15f;
             PlayerCurrent = DataManager.GetInstance(game).PlayerCurrent;
             PlayerWaiting = DataManager.GetInstance(game).PlayerWaiting;
+            PlayerFont = DataManager.GetInstance(game).PlayerFont;
         }
 
         public override string ToString()
@@ -186,18 +190,22 @@ namespace MonoZenith.Players
         public void DrawPlayerUI()
         {
             // Setup properties of UI assets
-            float scale = 0.15f;
-            Vector2 iconOffset = GetOffset(PlayerIcon, scale);
-            Vector2 borderOffset = GetOffset(PlayerCurrent, scale);
+            Vector2 iconOffset = GetOffset(PlayerIcon, _scale);
+            Vector2 borderOffset = GetOffset(PlayerCurrent, _scale);
 
             // Check if the player is the current playing player
             bool currentPlayer = _state.CurrentPlayer == this;
             Texture2D playerBorder = currentPlayer ? PlayerCurrent : PlayerWaiting;
 
             // Draw the assets
-            _game.DrawImage(PlayerIcon, PlayerPosition - iconOffset, scale, 0);
-            _game.DrawImage(playerBorder, PlayerPosition - borderOffset, scale, 0);
+            _game.DrawImage(PlayerIcon, PlayerPosition - iconOffset, _scale, 0);
+            _game.DrawImage(playerBorder, PlayerPosition - borderOffset, _scale, 0);
         }
+
+        /// <summary>
+        /// Draw the Player's name.
+        /// </summary>
+        public abstract void DrawPlayerName();
 
         /// <summary>
         /// Gets the positional offset of the texture in order to
