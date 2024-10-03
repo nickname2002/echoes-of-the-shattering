@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection.Metadata;
 using System.Xml.Linq;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Card;
 using MonoZenith.Engine.Support;
 using MonoZenith.Support;
@@ -18,7 +19,7 @@ namespace MonoZenith.Players
         {
             _handxPos = game.ScreenWidth / 2;
             _handyPos = game.ScreenHeight / 1.25f;
-            PlayerPosition = new Vector2(game.ScreenWidth * 0.05f, game.ScreenHeight * 0.9f);
+            PlayerPosition = new Vector2(game.ScreenWidth * 0.06f, game.ScreenHeight * 0.9f);
             PlayerIcon = DataManager.GetInstance(game).Player;
         }
     
@@ -26,18 +27,33 @@ namespace MonoZenith.Players
         /// Draw all assets of the HumanPlayer.
         /// </summary>
         public override void Draw()
-        {
-            DrawHand();
+        {          
+            DrawPlayerHealthAndName();
             DrawPlayerUI();
-            DrawPlayerName();
+            DrawHand();
         }
 
-        public override void DrawPlayerName()
+        public override void DrawPlayerHealthAndName()
         {
+            // TODO: Refactor later
+            // Setup offsets and positions for text and healthbar
             Vector2 Offset = GetOffset(PlayerCurrent, _scale);
             Vector2 textPosition = PlayerPosition + new Vector2(Offset.X * 1.2f, Offset.Y * 0.25f);
-            _game.DrawText(Name, textPosition + new Vector2(1.5f, 1.5f), PlayerFont, Color.DarkGray);
+            Vector2 shadowPosition = new Vector2(1.25f, 1.25f);
+            Vector2 healthOffset = new Vector2(1, 1);
+            int healthHeight = (int)(PlayerCurrent.Height * _scale * 0.05f);
+            int healthWidth = (int)(_game.ScreenWidth * 0.9f);
+            Vector2 healthPosition = PlayerPosition + new Vector2(0, Offset.Y - healthHeight) - healthOffset;
+            
+            // Draw text and healthbar
+            _game.DrawText(Name, textPosition + shadowPosition, PlayerFont, Color.DarkGray);
             _game.DrawText(Name, textPosition, PlayerFont, Color.White);
+
+            _game.DrawRectangle(Color.Gold, healthPosition - healthOffset, healthWidth + 2, healthHeight + 2);
+            _game.DrawRectangle(Color.DarkGray, healthPosition, healthWidth, healthHeight);
+
+            // TODO: Update current health bar through different method
+            _game.DrawRectangle(Color.Red, healthPosition, healthWidth, healthHeight);
         }
 
         /// <summary>

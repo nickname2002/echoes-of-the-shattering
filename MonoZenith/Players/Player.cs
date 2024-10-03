@@ -205,7 +205,7 @@ namespace MonoZenith.Players
         /// <summary>
         /// Draw the Player's name.
         /// </summary>
-        public abstract void DrawPlayerName();
+        public abstract void DrawPlayerHealthAndName();
 
         /// <summary>
         /// Gets the positional offset of the texture in order to
