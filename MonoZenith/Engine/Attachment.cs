@@ -109,6 +109,7 @@ public partial class Game
     public Game(GameFacade f)
     {
         _facade = f;
+        _fadeEffect = new FadeEffectManager(1, 0.01f);
         IsFadingIn = false;
         IsFadingOut = false;
     }

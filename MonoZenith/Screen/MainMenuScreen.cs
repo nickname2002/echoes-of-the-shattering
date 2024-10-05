@@ -13,21 +13,28 @@ public class MainMenuScreen : Screen
 {
     private Texture2D _mainMenuBackdrop;
     private float _mainMenuScale;
-    public SoundEffectInstance MainMenuMusic;
+    private SoundEffectInstance _mainMenuMusic;
     private MainMenuOptionButton _startButton;
     private MainMenuOptionButton _settingsButton;
-        
+
     public MainMenuScreen(Game game) : base(game)
     {
         _mainMenuBackdrop = DataManager.GetInstance(game).MainMenuBackdrop;  
         _mainMenuScale = 0.7f;
+        var startButtonSound = DataManager.GetInstance(game).StartButtonSound;
+        _mainMenuMusic = DataManager.GetInstance(game).MainMenuMusic;
+        _mainMenuMusic.IsLooped = true;
+        _mainMenuMusic.Play();
+        
+        Console.WriteLine(_mainMenuMusic.State);
         
         // Start button
         _startButton = new MainMenuOptionButton(
             _game, 
             _game.ScreenHeight / 2 + 250, 
             "Start Game",
-            StartGame);
+            StartGame,
+            startButtonSound);
         
         // Settings dummy button
         _settingsButton = new MainMenuOptionButton(
@@ -36,10 +43,6 @@ public class MainMenuScreen : Screen
             "Settings",
             () => Console.WriteLine("Settings button clicked")
         );
-        
-        MainMenuMusic = DataManager.GetInstance(game).MainMenuMusic;
-        MainMenuMusic.IsLooped = true;
-        MainMenuMusic.Play();
     }
 
     /// <summary>
@@ -47,13 +50,14 @@ public class MainMenuScreen : Screen
     /// </summary>
     private void StartGame()
     {
+        _game.StartFadeOut(OnFadeOutComplete);
+        return;
+
         void OnFadeOutComplete()
         {
             _game.StartFadeIn();
             _game.ActiveScreen = Screens.GAME;
         }
-        
-        _game.StartFadeOut(OnFadeOutComplete);
     }
 
     /// <summary>
@@ -63,13 +67,13 @@ public class MainMenuScreen : Screen
     {
         float musicFadeOutSpeed = 0.015f;
 
-        if (MainMenuMusic.Volume >= musicFadeOutSpeed)
+        if (_mainMenuMusic.Volume >= musicFadeOutSpeed)
         {
-            MainMenuMusic.Volume -= musicFadeOutSpeed;
+            _mainMenuMusic.Volume -= musicFadeOutSpeed;
         }
         else
         {
-            MainMenuMusic.Stop();
+            _mainMenuMusic.Stop();
         }
     }
     

@@ -56,7 +56,7 @@ public class Button : Component
         _currentButtonDelay = 0;
     }
     
-    public void SetOnClickAction(Action a)
+    public virtual void SetOnClickAction(Action a)
     {
         _callbackMethod = a;
     }

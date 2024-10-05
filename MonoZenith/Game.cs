@@ -29,9 +29,6 @@ public partial class Game
         _gameScreen = new GameScreen(this);
         _pauseScreen = new PauseScreen(this);
 
-        // Initialize the FadeEffect with starting alpha at 1 (fully visible)
-        _fadeEffect = new FadeEffectManager(1, 0.01f);
-
         // Start with a fade-in when the game starts
         StartFadeIn();
     }

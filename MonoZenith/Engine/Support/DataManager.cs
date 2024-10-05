@@ -42,6 +42,8 @@ namespace MonoZenith.Engine.Support
         /// </summary>
         public SoundEffectInstance LimgraveMusic;
 
+        public SoundEffectInstance StartButtonSound;
+
         private DataManager(Game game)
         {
             _game = game;
@@ -87,6 +89,7 @@ namespace MonoZenith.Engine.Support
             // Load audio
             MainMenuMusic = _game.LoadAudio("Audio/Music/main-menu-music.wav");
             LimgraveMusic = _game.LoadAudio("Audio/Music/limgrave-music.wav");
+            StartButtonSound = _game.LoadAudio("Audio/SoundEffects/start-button-sound.wav");
         }
     }
 }
