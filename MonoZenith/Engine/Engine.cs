@@ -176,7 +176,7 @@ namespace MonoZenith.Engine
         {
             // GraphicsDevice.Clear(_splashScreenTimer > 0 ? Color.White : _game.BackgroundColor);
             GraphicsDevice.Clear(_game.BackgroundColor);
-            _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
+            _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied);
             
             // TODO: Show splash screen when development is done.
             // if (_splashScreenTimer > 0)

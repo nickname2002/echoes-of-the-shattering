@@ -19,6 +19,7 @@ namespace MonoZenith
     {
         private readonly Game _game;
         public GraceMenu GraceMenu;
+        public GameTime GameTime;
         private Player? _currentPlayer;
         private Player? _currentWinner;
         private readonly HumanPlayer _player;
@@ -169,6 +170,8 @@ namespace MonoZenith
         /// <param name="deltaTime">The time since the last update.</param>
         public void Update(GameTime deltaTime)
         {
+            GameTime = deltaTime;
+            
             if (HasWinner() != null)
             {
                 return;
