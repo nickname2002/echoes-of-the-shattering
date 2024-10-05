@@ -16,10 +16,6 @@ public partial class Game
     private GameScreen _gameScreen;
     private PauseScreen _pauseScreen; 
 
-    // Add the FadeEffect instance
-    private FadeEffectManager _fadeEffect;
-    private bool _isFadingIn;
-
     /* Initialize game vars and load assets. */
     public void Init()
     {
@@ -33,46 +29,50 @@ public partial class Game
         _pauseScreen = new PauseScreen(this);
 
         // Initialize the FadeEffect with starting alpha at 1 (fully visible)
-        _fadeEffect = new FadeEffectManager(1.0f, 0.005f);
+        _fadeEffect = new FadeEffectManager(1, 0.01f);
 
         // Start with a fade-in when the game starts
         StartFadeIn();
     }
 
-    // Trigger a fade-in effect
-    public void StartFadeIn()
+    private void UnloadOnFadeOut(Screen.Screen screenToUnload)
     {
-        _isFadingIn = true;
-        _fadeEffect.StartFadeIn(() => _isFadingIn = false); 
+        if (IsFadingOut)
+            screenToUnload.Unload();
     }
-
+    
     /* Update game logic. */
     public void Update(GameTime deltaTime)
     {
+        // Update fade effect if active
+        if (IsFadingIn || IsFadingOut)
+        {
+            _fadeEffect.Update();
+        }
+        
         // Update the active screen
         switch (ActiveScreen)
         {
             case Screens.GAME:
+                UnloadOnFadeOut(_gameScreen);
+                _mainMenuScreen.Unload();
                 _gameScreen.Update(deltaTime);
                 break;
 
             case Screens.MAIN_MENU:
+                UnloadOnFadeOut(_mainMenuScreen);
+                _gameScreen.Unload();
                 _mainMenuScreen.Update(deltaTime);
                 break;
 
             case Screens.PAUSE:
+                _mainMenuScreen.Unload();
                 _pauseScreen.Update(deltaTime);
                 break;
 
             default:
                 _gameScreen.Update(deltaTime);
                 break;
-        }
-
-        // Update fade effect if active
-        if (_isFadingIn)
-        {
-            _fadeEffect.Update();
         }
     }
     
@@ -98,11 +98,11 @@ public partial class Game
                 _gameScreen.Draw();
                 break;
         }
-
+        
         // Draw fade-in effect if it's still fading
-        if (_isFadingIn)
+        if (IsFadingIn || IsFadingOut)
         {
-            _fadeEffect.DrawFadeEffect(_facade, Color.Black);  // Use a black fade
+            _fadeEffect.DrawFadeEffect(_facade, Color.Black);
         }
     }
 }

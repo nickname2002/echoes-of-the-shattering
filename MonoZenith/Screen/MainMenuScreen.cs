@@ -13,9 +13,7 @@ public class MainMenuScreen : Screen
 {
     private Texture2D _mainMenuBackdrop;
     private float _mainMenuScale;
-    private SoundEffectInstance _mainMenuMusic;
-
-    // TODO: Create special MainMenuButton class (subclass of Button) 
+    public SoundEffectInstance MainMenuMusic;
     private MainMenuOptionButton _startButton;
     private MainMenuOptionButton _settingsButton;
         
@@ -39,9 +37,9 @@ public class MainMenuScreen : Screen
             () => Console.WriteLine("Settings button clicked")
         );
         
-        _mainMenuMusic = DataManager.GetInstance(game).MainMenuMusic;
-        _mainMenuMusic.IsLooped = true;
-        _mainMenuMusic.Play();
+        MainMenuMusic = DataManager.GetInstance(game).MainMenuMusic;
+        MainMenuMusic.IsLooped = true;
+        MainMenuMusic.Play();
     }
 
     /// <summary>
@@ -49,10 +47,33 @@ public class MainMenuScreen : Screen
     /// </summary>
     private void StartGame()
     {
-        _mainMenuMusic.Stop();
-        _game.ActiveScreen = Screens.GAME;
+        void OnFadeOutComplete()
+        {
+            _game.StartFadeIn();
+            _game.ActiveScreen = Screens.GAME;
+        }
+        
+        _game.StartFadeOut(OnFadeOutComplete);
     }
 
+    /// <summary>
+    /// Remove side effects of the main menu screen.
+    /// </summary>
+    public override void Unload()
+    {
+        float musicFadeOutSpeed = 0.015f;
+        Console.WriteLine(MainMenuMusic.Volume);
+
+        if (MainMenuMusic.Volume >= musicFadeOutSpeed)
+        {
+            MainMenuMusic.Volume -= musicFadeOutSpeed;
+        }
+        else
+        {
+            MainMenuMusic.Stop();
+        }
+    }
+    
     public override void Update(GameTime deltaTime)
     {
         _startButton.Update(deltaTime);

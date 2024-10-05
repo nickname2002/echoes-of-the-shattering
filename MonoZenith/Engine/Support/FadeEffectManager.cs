@@ -39,22 +39,24 @@ public class FadeEffectManager
         if (_isFadingIn)
         {
             _alpha -= _fadeSpeed;
-            if (_alpha <= 0)
-            {
-                _alpha = 0;
-                _isFadingIn = false;
-                _onFadeInComplete?.Invoke();
-            }
+            
+            if (!(_alpha <= 0)) 
+                return;
+            
+            _alpha = 0;
+            _isFadingIn = false;
+            _onFadeInComplete?.Invoke();
         }
         else if (_isFadingOut)
         {
             _alpha += _fadeSpeed;
-            if (_alpha >= 1)
-            {
-                _alpha = 1;
-                _isFadingOut = false;
-                _onFadeOutComplete?.Invoke();
-            }
+            
+            if (!(_alpha >= 1)) 
+                return;
+            
+            _alpha = 1;
+            _isFadingOut = false;
+            _onFadeOutComplete?.Invoke();
         }
     }
 

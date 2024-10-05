@@ -11,6 +11,11 @@ namespace MonoZenith.Screen
             _gameState = new GameState(game);
         }
 
+        public override void Unload()
+        {
+            
+        }
+        
         /// <summary>
         /// Update the game state.
         /// </summary>
