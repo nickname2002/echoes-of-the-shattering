@@ -62,7 +62,6 @@ public class MainMenuScreen : Screen
     public override void Unload()
     {
         float musicFadeOutSpeed = 0.015f;
-        Console.WriteLine(MainMenuMusic.Volume);
 
         if (MainMenuMusic.Volume >= musicFadeOutSpeed)
         {
