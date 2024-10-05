@@ -38,6 +38,8 @@ namespace MonoZenith.Engine.Support
         /// </summary>
         public SoundEffectInstance MainMenuMusic;
 
+        public SoundEffectInstance NewLocationSound;
+
         private DataManager(Game game)
         {
             _game = game;
@@ -83,6 +85,7 @@ namespace MonoZenith.Engine.Support
             
             // Load audio
             MainMenuMusic = _game.LoadAudio("Audio/Music/main-menu-music.wav");
+            NewLocationSound = _game.LoadAudio("Audio/SoundEffects/new-location-sound.wav");
         }
     }
 }

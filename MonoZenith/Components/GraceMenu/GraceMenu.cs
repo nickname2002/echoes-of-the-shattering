@@ -1,5 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Engine.Support;
 using MonoZenith.Support;
@@ -21,6 +22,8 @@ namespace MonoZenith.Components
         private RegionIndicator _caelidRegionIndicator;
         private RegionIndicator _liurniaRegionIndicator;
         private RegionIndicator _leyndellRegionIndicator;
+
+        private SoundEffectInstance _newRegionSound;
 
         public GraceMenu(Game g, GameState state) : base(g, Vector2.Zero, 275, 400)
         {
@@ -58,6 +61,10 @@ namespace MonoZenith.Components
             _leyndellRegionIndicator = new RegionIndicator(g, "Leyndell");
 
             _activeRegionIndicator = null; // No active region at the start
+            
+            // Load sound effect for new region
+            _newRegionSound = DataManager.GetInstance(Game).NewLocationSound;
+            _newRegionSound.Volume = 0.6f;
         }
 
         /// <summary>
@@ -68,6 +75,7 @@ namespace MonoZenith.Components
         /// <param name="indicator">The region indicator to activate.</param>
         private void SetRegionActive(GameTime deltaTime, Region activeRegion, RegionIndicator indicator)
         {
+            _newRegionSound.Play();
             _state.CurrentRegion = activeRegion;
             Console.WriteLine($"Player selected region: {activeRegion}");
             Hidden = true;

@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Engine.Support;
 
@@ -19,7 +20,7 @@ namespace MonoZenith.Components
         private float _fadeInDuration = 1f; // 2 seconds to fade in
         private float _displayDuration = 3f; // Display for 3 seconds
         private float _fadeOutDuration = 1f; // 2 seconds to fade out
-
+        
         public RegionIndicator(Game g, string regionName) : base(g, Vector2.Zero, 0, 0)
         {
             _regionName = regionName;
