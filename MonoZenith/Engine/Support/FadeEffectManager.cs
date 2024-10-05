@@ -20,6 +20,10 @@ public class FadeEffectManager
         _isFadingOut = false;
     }
 
+    /// <summary>
+    /// Start a fade-in effect.
+    /// </summary>
+    /// <param name="onFadeInComplete">Callback method to call after the fade-in is complete.</param>
     public void StartFadeIn(Action onFadeInComplete = null)
     {
         _isFadingIn = true;
@@ -27,6 +31,10 @@ public class FadeEffectManager
         _onFadeInComplete = onFadeInComplete;
     }
 
+    /// <summary>
+    /// Start a fade-out effect.
+    /// </summary>
+    /// <param name="onFadeOutComplete">Callback method to call after the fade-out is complete.</param>
     public void StartFadeOut(Action onFadeOutComplete = null)
     {
         _isFadingIn = false;
@@ -34,6 +42,9 @@ public class FadeEffectManager
         _onFadeOutComplete = onFadeOutComplete;
     }
 
+    /// <summary>
+    /// Update the fade effect.
+    /// </summary>
     public void Update()
     {
         if (_isFadingIn)
@@ -60,6 +71,11 @@ public class FadeEffectManager
         }
     }
 
+    /// <summary>
+    /// Draw the fade effect.
+    /// </summary>
+    /// <param name="game">Game object to draw the fade effect on.</param>
+    /// <param name="color">Color of the fade effect
     public void DrawFadeEffect(GameFacade game, Color color)
     {
         // Draw a fullscreen rectangle with the current alpha
