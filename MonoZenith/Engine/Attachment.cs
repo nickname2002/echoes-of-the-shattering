@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoZenith.Engine;
+using MonoZenith.Engine.Support;
 
 // ReSharper disable once CheckNamespace
 namespace MonoZenith;
@@ -105,7 +106,7 @@ public partial class Game
     {
         _facade = f;
     }
-
+    
     /// <summary>
     /// Log a message to the console.
     /// </summary>

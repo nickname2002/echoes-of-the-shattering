@@ -16,6 +16,10 @@ public partial class Game
     private GameScreen _gameScreen;
     private PauseScreen _pauseScreen; 
 
+    // Add the FadeEffect instance
+    private FadeEffectManager _fadeEffect;
+    private bool _isFadingIn;
+
     /* Initialize game vars and load assets. */
     public void Init()
     {
@@ -27,11 +31,25 @@ public partial class Game
         _mainMenuScreen = new MainMenuScreen(this);
         _gameScreen = new GameScreen(this);
         _pauseScreen = new PauseScreen(this);
+
+        // Initialize the FadeEffect with starting alpha at 1 (fully visible)
+        _fadeEffect = new FadeEffectManager(1.0f, 0.005f);
+
+        // Start with a fade-in when the game starts
+        StartFadeIn();
+    }
+
+    // Trigger a fade-in effect
+    public void StartFadeIn()
+    {
+        _isFadingIn = true;
+        _fadeEffect.StartFadeIn(() => _isFadingIn = false); 
     }
 
     /* Update game logic. */
     public void Update(GameTime deltaTime)
     {
+        // Update the active screen
         switch (ActiveScreen)
         {
             case Screens.GAME:
@@ -41,7 +59,7 @@ public partial class Game
             case Screens.MAIN_MENU:
                 _mainMenuScreen.Update(deltaTime);
                 break;
-            
+
             case Screens.PAUSE:
                 _pauseScreen.Update(deltaTime);
                 break;
@@ -50,11 +68,18 @@ public partial class Game
                 _gameScreen.Update(deltaTime);
                 break;
         }
+
+        // Update fade effect if active
+        if (_isFadingIn)
+        {
+            _fadeEffect.Update();
+        }
     }
     
     /* Draw objects/backdrop. */
     public void Draw()
     {
+        // Draw the active screen
         switch (ActiveScreen)
         {
             case Screens.GAME:
@@ -72,6 +97,12 @@ public partial class Game
             default:
                 _gameScreen.Draw();
                 break;
+        }
+
+        // Draw fade-in effect if it's still fading
+        if (_isFadingIn)
+        {
+            _fadeEffect.DrawFadeEffect(_facade, Color.Black);  // Use a black fade
         }
     }
 }
