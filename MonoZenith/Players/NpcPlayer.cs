@@ -12,7 +12,7 @@ namespace MonoZenith.Players
         public NpcPlayer(Game game, GameState state, string name) : base(game, state, name)
         {
             _handxPos = game.ScreenWidth / 2f;
-            _handyPos = game.ScreenHeight / 5f;
+            _handyPos = game.ScreenHeight / 3.45f;
             PlayerPosition = new Vector2(game.ScreenWidth * 0.06f, game.ScreenHeight * 0.1f);
             PlayerIcon = DataManager.GetInstance(game).Npc;
         }
