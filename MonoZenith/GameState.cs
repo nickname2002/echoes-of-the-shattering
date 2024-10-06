@@ -205,6 +205,7 @@ namespace MonoZenith
             _player.Draw();
             _npc.Draw();
 
+            // TODO: Remove when no longer needed
             // Draw text data
             _game.DrawText(
                 $"Current player: {_currentPlayer.Name}", 
