@@ -38,6 +38,7 @@ namespace MonoZenith
         {
             _game = game;
             GraceMenu = new GraceMenu(_game, this);
+            GameTime = new GameTime();
             _player = new HumanPlayer(_game, this, "Player");
             _npc = new NpcPlayer(_game, this, "NPC");
             _currentPlayer = null;
