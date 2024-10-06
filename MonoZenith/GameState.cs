@@ -209,10 +209,6 @@ namespace MonoZenith
             // TODO: Remove when no longer needed
             // Draw text data
             _game.DrawText(
-                $"Current player: {_currentPlayer.Name}", 
-                new Vector2(_game.ScreenWidth - 450, _game.ScreenHeight / 2 - 25), 
-                _componentFont, Color.White);
-            _game.DrawText(
                 $"Current region: {CurrentRegion}", 
                 new Vector2(_game.ScreenWidth - 450, _game.ScreenHeight / 2), 
                 _componentFont, Color.White);
