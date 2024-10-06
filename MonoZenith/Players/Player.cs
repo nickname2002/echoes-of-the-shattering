@@ -23,7 +23,7 @@ namespace MonoZenith.Players
         public readonly Texture2D PlayerCurrent;
         public readonly Texture2D PlayerWaiting;
         protected SpriteFont PlayerFont;
-        protected float _scale;
+        protected float Scale;
 
         protected Player(Game game, GameState state, string name)
         {
@@ -31,7 +31,7 @@ namespace MonoZenith.Players
             _state = state;
             Hand = new CardStack(_game, _state);
             Name = name;
-            _scale = 0.15f;
+            Scale = 0.15f;
             PlayerCurrent = DataManager.GetInstance(game).PlayerCurrent;
             PlayerWaiting = DataManager.GetInstance(game).PlayerWaiting;
             PlayerFont = DataManager.GetInstance(game).PlayerFont;
@@ -190,16 +190,16 @@ namespace MonoZenith.Players
         public void DrawPlayerUI()
         {
             // Setup properties of UI assets
-            Vector2 iconOffset = GetOffset(PlayerIcon, _scale);
-            Vector2 borderOffset = GetOffset(PlayerCurrent, _scale);
+            Vector2 iconOffset = GetOffset(PlayerIcon, Scale);
+            Vector2 borderOffset = GetOffset(PlayerCurrent, Scale);
 
             // Check if the player is the current playing player
             bool currentPlayer = _state.CurrentPlayer == this;
             Texture2D playerBorder = currentPlayer ? PlayerCurrent : PlayerWaiting;
 
             // Draw the assets
-            _game.DrawImage(PlayerIcon, PlayerPosition - iconOffset, _scale, 0);
-            _game.DrawImage(playerBorder, PlayerPosition - borderOffset, _scale, 0);
+            _game.DrawImage(PlayerIcon, PlayerPosition - iconOffset, Scale, 0);
+            _game.DrawImage(playerBorder, PlayerPosition - borderOffset, Scale, 0);
         }
 
         /// <summary>
@@ -218,6 +218,15 @@ namespace MonoZenith.Players
             float widthOffset = texture.Width * scale * 0.5f;
             float heightOffset = texture.Height * scale * 0.5f;
             return new Vector2(widthOffset, heightOffset);
+        }
+
+        /// <summary>
+        /// Get the count of the opponent's hand
+        /// </summary>
+        /// <returns>The amount of cards in the opponent's hand</returns>
+        public int GetOpponentHandCount()
+        {
+            return _state.CurrentPlayer == this ? _state.OpposingPlayer.Hand.Count : _state.CurrentPlayer.Hand.Count;
         }
     }
 }

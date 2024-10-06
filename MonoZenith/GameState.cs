@@ -60,7 +60,7 @@ namespace MonoZenith
             // Calculate positions of the decks
             float drawableX = _game.ScreenWidth / 2.2f;
             float playedX = _game.ScreenWidth / 1.8f;
-            float height = _game.ScreenHeight / 2;
+            float height = _game.ScreenHeight / 2f;
             
             DrawableCards = new DrawableCardsStack(_game, this);
             PlayedCards.ChangePosition(playedX, height);
@@ -155,8 +155,8 @@ namespace MonoZenith
 
             // Calculate the position to center the text
             Vector2 position = new Vector2(
-                (_game.ScreenWidth / 2) - (textSize.X / 2),  // Center horizontally
-                (_game.ScreenHeight / 2) - (textSize.Y / 2)  // Center vertically
+                (_game.ScreenWidth / 2f) - (textSize.X / 2),  // Center horizontally
+                (_game.ScreenHeight / 2f) - (textSize.Y / 2)  // Center vertically
             );
 
             // Draw the text at the calculated position
