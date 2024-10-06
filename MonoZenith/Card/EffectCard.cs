@@ -91,18 +91,17 @@ namespace MonoZenith.Card
             if (player is NpcPlayer npc)
             {
                 Region mostOccuringRegion = MostFrequentRegion(npc);
-
+                
                 state.CurrentRegion = mostOccuringRegion == Region.ALL ? 
                     ChooseRandomRegion() : 
                     mostOccuringRegion;
                 
-                Console.WriteLine($"NPC chose region: {mostOccuringRegion}");
-                state.SwitchTurn();
+                state.GraceMenu.SetRegionActive(state.GameTime, state.CurrentRegion);
                 return;
             }
             
-            // If the player is a human player, choose a random region.
             state.GraceMenu.Hidden = false;
+            // NOTE: No SwitchTurn() as this is done in GraceMenu.SetRegionActive()
         }
     }
 

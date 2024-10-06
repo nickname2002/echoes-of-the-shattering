@@ -19,6 +19,7 @@ namespace MonoZenith
     {
         private readonly Game _game;
         public GraceMenu GraceMenu;
+        public GameTime GameTime;
         private Player? _currentPlayer;
         private Player? _currentWinner;
         private readonly HumanPlayer _player;
@@ -37,6 +38,7 @@ namespace MonoZenith
         {
             _game = game;
             GraceMenu = new GraceMenu(_game, this);
+            GameTime = new GameTime();
             _player = new HumanPlayer(_game, this, "Player");
             _npc = new NpcPlayer(_game, this, "NPC");
             _currentPlayer = null;
@@ -169,6 +171,8 @@ namespace MonoZenith
         /// <param name="deltaTime">The time since the last update.</param>
         public void Update(GameTime deltaTime)
         {
+            GameTime = deltaTime;
+            
             if (HasWinner() != null)
             {
                 return;
@@ -202,6 +206,7 @@ namespace MonoZenith
             _player.Draw();
             _npc.Draw();
 
+            // TODO: Remove when no longer needed
             // Draw text data
             _game.DrawText(
                 $"Current player: {_currentPlayer.Name}", 
