@@ -218,8 +218,15 @@ namespace MonoZenith.Players
         /// </summary>
         public abstract void DrawPlayerHealthAndName();
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="currentHealth"></param>
         public void PlayHealthSound(int currentHealth)
         {
+            if (currentHealth >= 7 && PreviousHealth >= 7)
+                return;
+
             if (PreviousHealth > currentHealth)
             {
                 _damageSound.Play();
@@ -228,7 +235,7 @@ namespace MonoZenith.Players
             {
                 _healingSound.Play();
             }
-            PreviousHealth = currentHealth;
+            PreviousHealth = Math.Min(7, currentHealth);
         }
 
         /// <summary>
