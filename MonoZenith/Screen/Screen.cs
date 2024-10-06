@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 
 namespace MonoZenith.Screen
 {
@@ -6,11 +7,16 @@ namespace MonoZenith.Screen
     {
         protected Game _game;
 
-        public Screen(Game game)
+        protected Screen(Game game)
         {
             _game = game;
         }
 
+        /// <summary>
+        /// Removes all side effects of the screen when switching to another screen.
+        /// </summary>
+        public abstract void Unload();
+        
         /// <summary>
         /// Update state.
         /// </summary>

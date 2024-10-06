@@ -14,22 +14,27 @@ public class MainMenuScreen : Screen
     private Texture2D _mainMenuBackdrop;
     private float _mainMenuScale;
     private SoundEffectInstance _mainMenuMusic;
-
-    // TODO: Create special MainMenuButton class (subclass of Button) 
     private MainMenuOptionButton _startButton;
     private MainMenuOptionButton _settingsButton;
-        
+
     public MainMenuScreen(Game game) : base(game)
     {
         _mainMenuBackdrop = DataManager.GetInstance(game).MainMenuBackdrop;  
         _mainMenuScale = 0.7f;
+        var startButtonSound = DataManager.GetInstance(game).StartButtonSound;
+        _mainMenuMusic = DataManager.GetInstance(game).MainMenuMusic;
+        _mainMenuMusic.IsLooped = true;
+        _mainMenuMusic.Play();
+        
+        Console.WriteLine(_mainMenuMusic.State);
         
         // Start button
         _startButton = new MainMenuOptionButton(
             _game, 
             _game.ScreenHeight / 2 + 250, 
             "Start Game",
-            StartGame);
+            StartGame,
+            startButtonSound);
         
         // Settings dummy button
         _settingsButton = new MainMenuOptionButton(
@@ -38,10 +43,6 @@ public class MainMenuScreen : Screen
             "Settings",
             () => Console.WriteLine("Settings button clicked")
         );
-        
-        _mainMenuMusic = DataManager.GetInstance(game).MainMenuMusic;
-        _mainMenuMusic.IsLooped = true;
-        _mainMenuMusic.Play();
     }
 
     /// <summary>
@@ -49,10 +50,33 @@ public class MainMenuScreen : Screen
     /// </summary>
     private void StartGame()
     {
-        _mainMenuMusic.Stop();
-        _game.ActiveScreen = Screens.GAME;
+        _game.StartFadeOut(OnFadeOutComplete);
+        return;
+
+        void OnFadeOutComplete()
+        {
+            _game.StartFadeIn();
+            _game.ActiveScreen = Screens.GAME;
+        }
     }
 
+    /// <summary>
+    /// Remove side effects of the main menu screen.
+    /// </summary>
+    public override void Unload()
+    {
+        float musicFadeOutSpeed = 0.015f;
+
+        if (_mainMenuMusic.Volume >= musicFadeOutSpeed)
+        {
+            _mainMenuMusic.Volume -= musicFadeOutSpeed;
+        }
+        else
+        {
+            _mainMenuMusic.Stop();
+        }
+    }
+    
     public override void Update(GameTime deltaTime)
     {
         _startButton.Update(deltaTime);
