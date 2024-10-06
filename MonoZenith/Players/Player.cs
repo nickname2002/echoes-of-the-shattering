@@ -18,12 +18,12 @@ namespace MonoZenith.Players
         public string Name;
         protected float _handxPos;
         protected float _handyPos;
+        protected float Scale;
         public Vector2 PlayerPosition;
         public Texture2D PlayerIcon;
         public readonly Texture2D PlayerCurrent;
         public readonly Texture2D PlayerWaiting;
         protected SpriteFont PlayerFont;
-        protected float Scale;
 
         protected Player(Game game, GameState state, string name)
         {

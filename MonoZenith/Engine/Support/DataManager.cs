@@ -57,6 +57,8 @@ namespace MonoZenith.Engine.Support
         public SoundEffectInstance LimgraveMusic;
 
         public SoundEffectInstance StartButtonSound;
+        public SoundEffectInstance DamageSound;
+        public SoundEffectInstance HealingSound;
 
         private DataManager(Game game)
         {
@@ -109,6 +111,8 @@ namespace MonoZenith.Engine.Support
             MainMenuMusic = _game.LoadAudio("Audio/Music/main-menu-music.wav");
             LimgraveMusic = _game.LoadAudio("Audio/Music/limgrave-music.wav");
             StartButtonSound = _game.LoadAudio("Audio/SoundEffects/start-button-sound.wav");
+            DamageSound = _game.LoadAudio("Audio/SoundEffects/damage-sound.wav");
+            HealingSound = _game.LoadAudio("Audio/SoundEffects/healing-sound.wav");
         }
     }
 }
