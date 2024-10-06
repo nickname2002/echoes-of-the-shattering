@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoZenith.Engine;
+using MonoZenith.Engine.Support;
 
 // ReSharper disable once CheckNamespace
 namespace MonoZenith;
@@ -13,6 +14,7 @@ public enum MouseButtons { Left, Middle, Right }
 public partial class Game
 {
     private readonly GameFacade _facade;
+    private FadeEffectManager _fadeEffect;
 
     public Color BackgroundColor => _facade.BackgroundColor;
     public int ScreenWidth => _facade.ScreenWidth;
@@ -33,6 +35,9 @@ public partial class Game
     public bool HasBButton => _facade.HasBButton;
     public bool HasXButton => _facade.HasXButton;
     public bool HasYButton => _facade.HasYButton;
+
+    public bool IsFadingIn;
+    public bool IsFadingOut;
     
     // PlayStation DualSense buttons
     public enum DualSenseButtons
@@ -104,8 +109,11 @@ public partial class Game
     public Game(GameFacade f)
     {
         _facade = f;
+        _fadeEffect = new FadeEffectManager(1, 0.01f);
+        IsFadingIn = false;
+        IsFadingOut = false;
     }
-
+    
     /// <summary>
     /// Log a message to the console.
     /// </summary>
@@ -113,6 +121,34 @@ public partial class Game
     public void DebugLog(string msg)
     {
         Console.WriteLine(msg);
+    }
+    
+    // Trigger a fade-in effect
+    public void StartFadeIn(Action onFadeInComplete = null)
+    {
+        IsFadingIn = true;
+        _fadeEffect.StartFadeIn(FadeInComplete);
+        return;
+
+        void FadeInComplete()
+        {
+            IsFadingIn = false;
+            onFadeInComplete?.Invoke();
+        }
+    }
+    
+    // Trigger a fade-out effect
+    public void StartFadeOut(Action onFadeOutComplete = null)
+    {
+        IsFadingOut = true;
+        _fadeEffect.StartFadeOut(FadeOutComplete);
+        return;
+
+        void FadeOutComplete()
+        {
+            IsFadingOut = false;
+            onFadeOutComplete?.Invoke();
+        }
     }
     
     /// <summary>
