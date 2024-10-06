@@ -219,9 +219,10 @@ namespace MonoZenith.Players
         public abstract void DrawPlayerHealthAndName();
 
         /// <summary>
-        /// 
+        /// Plays the corresponding sound effect for the health bar
+        /// depending on the previous and current health.
         /// </summary>
-        /// <param name="currentHealth"></param>
+        /// <param name="currentHealth">The current health amount</param>
         public void PlayHealthSound(int currentHealth)
         {
             if (currentHealth >= 7 && PreviousHealth >= 7)
