@@ -13,6 +13,7 @@ namespace MonoZenith.Engine.Support
         public SpriteFont ComponentFont;
         public SpriteFont StartMenuFont;
         public SpriteFont PlayerFont;
+        public SpriteFont RegionIndicatorFont;
         
         // Textures
         // Textures: MonoZenith
@@ -56,6 +57,8 @@ namespace MonoZenith.Engine.Support
         /// </summary>
         public SoundEffectInstance LimgraveMusic;
 
+        
+        public SoundEffectInstance NewLocationSound;
         public SoundEffectInstance StartButtonSound;
         public SoundEffectInstance DamageSound;
         public SoundEffectInstance HealingSound;
@@ -85,7 +88,8 @@ namespace MonoZenith.Engine.Support
             ComponentFont = _game.LoadFont("Fonts/pixel.ttf", 1);
             StartMenuFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1.75f);
             PlayerFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1);
-
+            RegionIndicatorFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 3f);
+            
             // Load textures
             MonoZenithLogo = _game.LoadImage("Images/monozenith.png");
             MainMenuBackdrop = _game.LoadImage("Images/MainMenu/main-menu-backdrop.png");
@@ -109,6 +113,7 @@ namespace MonoZenith.Engine.Support
             
             // Load audio
             MainMenuMusic = _game.LoadAudio("Audio/Music/main-menu-music.wav");
+            NewLocationSound = _game.LoadAudio("Audio/SoundEffects/new-location-sound.wav");
             LimgraveMusic = _game.LoadAudio("Audio/Music/limgrave-music.wav");
             StartButtonSound = _game.LoadAudio("Audio/SoundEffects/start-button-sound.wav");
             DamageSound = _game.LoadAudio("Audio/SoundEffects/damage-sound.wav");
