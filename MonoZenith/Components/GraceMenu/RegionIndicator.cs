@@ -1,5 +1,4 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Engine.Support;
 
@@ -17,9 +16,9 @@ namespace MonoZenith.Components
         private Timer _fadeOutTimer;
 
         // Timing settings
-        private float _fadeInDuration = 1f; // 2 seconds to fade in
-        private float _displayDuration = 3f; // Display for 3 seconds
-        private float _fadeOutDuration = 1f; // 2 seconds to fade out
+        private float _fadeInDuration = 1f;   // 1 second to fade in
+        private float _displayDuration = 3f;  // Display for 3 seconds
+        private float _fadeOutDuration = 1f;  // 1 second to fade out
         
         public RegionIndicator(Game g, string regionName) : base(g, Vector2.Zero, 0, 0)
         {
@@ -40,6 +39,21 @@ namespace MonoZenith.Components
             _fadeOutTimer = new Timer(_fadeOutDuration);
         }
 
+        /// <summary>
+        /// Resets the state of the region indicator so it can be shown again.
+        /// </summary>
+        public void ResetIndicator()
+        {
+            _alpha = 0f;               // Reset alpha to 0 (fully transparent)
+            _isFadingOut = false;       // Reset fade-out flag
+            _fadeInTimer.ResetTimer();  // Reset fade-in timer
+            _displayTimer.ResetTimer(); // Reset display timer
+            _fadeOutTimer.ResetTimer(); // Reset fade-out timer
+        }
+
+        /// <summary>
+        /// Handles the fading in, display, and fading out stages.
+        /// </summary>
         public void Express(GameTime deltaTime)
         {
             if (!_isFadingOut)
