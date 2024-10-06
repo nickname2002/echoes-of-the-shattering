@@ -48,6 +48,7 @@ namespace MonoZenith.Players
             _game.DrawRectangle(Color.DarkGray, healthPosition, healthWidth, healthHeight);
 
             // Draw current health based on opponent's hand count
+            PlayHealthSound(currentHealth);
             _game.DrawRectangle(Color.Red, healthPosition, (int)(healthWidth / 7 * currentHealth), healthHeight);
         }
 

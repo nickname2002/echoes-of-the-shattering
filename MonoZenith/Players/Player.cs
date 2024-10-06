@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Card;
 using MonoZenith.Card.CardStack;
@@ -24,6 +25,9 @@ namespace MonoZenith.Players
         public readonly Texture2D PlayerCurrent;
         public readonly Texture2D PlayerWaiting;
         protected SpriteFont PlayerFont;
+        protected int PreviousHealth;
+        private readonly SoundEffectInstance _damageSound;
+        private readonly SoundEffectInstance _healingSound;
 
         protected Player(Game game, GameState state, string name)
         {
@@ -32,9 +36,16 @@ namespace MonoZenith.Players
             Hand = new CardStack(_game, _state);
             Name = name;
             Scale = 0.15f;
+            PreviousHealth = 7;
+
+            // Load textures and sound effects for player
             PlayerCurrent = DataManager.GetInstance(game).PlayerCurrent;
             PlayerWaiting = DataManager.GetInstance(game).PlayerWaiting;
             PlayerFont = DataManager.GetInstance(game).PlayerFont;
+            _damageSound = DataManager.GetInstance(game).DamageSound;
+            _healingSound = DataManager.GetInstance(game).HealingSound;
+            _damageSound.Volume = 0.6f;
+            _healingSound.Volume = 0.6f;
         }
 
         public override string ToString()
@@ -206,6 +217,19 @@ namespace MonoZenith.Players
         /// Draw the Player's name.
         /// </summary>
         public abstract void DrawPlayerHealthAndName();
+
+        public void PlayHealthSound(int currentHealth)
+        {
+            if (PreviousHealth > currentHealth)
+            {
+                _damageSound.Play();
+            }
+            else if (PreviousHealth < currentHealth)
+            {
+                _healingSound.Play();
+            }
+            PreviousHealth = currentHealth;
+        }
 
         /// <summary>
         /// Gets the positional offset of the texture in order to
