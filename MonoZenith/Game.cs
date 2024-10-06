@@ -22,22 +22,43 @@ public partial class Game
         _mainMenuScreen = new MainMenuScreen(this);
         _gameScreen = new GameScreen(this);
         _pauseScreen = new PauseScreen(this);
+
+        // Start with a fade-in when the game starts
+        StartFadeIn();
     }
 
+    private void UnloadOnFadeOut(Screen.Screen screenToUnload)
+    {
+        if (IsFadingOut)
+            screenToUnload.Unload();
+    }
+    
     /* Update game logic. */
     public void Update(GameTime deltaTime)
     {
+        // Update fade effect if active
+        if (IsFadingIn || IsFadingOut)
+        {
+            _fadeEffect.Update();
+        }
+        
+        // Update the active screen
         switch (ActiveScreen)
         {
             case Screens.GAME:
+                UnloadOnFadeOut(_gameScreen);
+                _mainMenuScreen.Unload();
                 _gameScreen.Update(deltaTime);
                 break;
 
             case Screens.MAIN_MENU:
+                UnloadOnFadeOut(_mainMenuScreen);
+                _gameScreen.Unload();
                 _mainMenuScreen.Update(deltaTime);
                 break;
-            
+
             case Screens.PAUSE:
+                _mainMenuScreen.Unload();
                 _pauseScreen.Update(deltaTime);
                 break;
 
@@ -50,6 +71,7 @@ public partial class Game
     /* Draw objects/backdrop. */
     public void Draw()
     {
+        // Draw the active screen
         switch (ActiveScreen)
         {
             case Screens.GAME:
@@ -67,6 +89,12 @@ public partial class Game
             default:
                 _gameScreen.Draw();
                 break;
+        }
+        
+        // Draw fade-in effect if it's still fading
+        if (IsFadingIn || IsFadingOut)
+        {
+            _fadeEffect.DrawFadeEffect(_facade, Color.Black);
         }
     }
 }

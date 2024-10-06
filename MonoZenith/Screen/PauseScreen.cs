@@ -9,6 +9,11 @@ namespace MonoZenith.Screen
         {
         }
 
+        public override void Unload()
+        {
+            
+        }
+
         public override void Update(GameTime deltaTime)
         {
             throw new NotImplementedException();

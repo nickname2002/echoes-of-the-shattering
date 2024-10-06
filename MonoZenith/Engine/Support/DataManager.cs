@@ -38,7 +38,14 @@ namespace MonoZenith.Engine.Support
         /// </summary>
         public SoundEffectInstance MainMenuMusic;
 
+        /// <summary>
+        /// Credits: Gooley's Tunes - https://www.youtube.com/watch?v=2FZKge-T3oA
+        /// </summary>
+        public SoundEffectInstance LimgraveMusic;
+
+        
         public SoundEffectInstance NewLocationSound;
+        public SoundEffectInstance StartButtonSound;
 
         private DataManager(Game game)
         {
@@ -86,6 +93,8 @@ namespace MonoZenith.Engine.Support
             // Load audio
             MainMenuMusic = _game.LoadAudio("Audio/Music/main-menu-music.wav");
             NewLocationSound = _game.LoadAudio("Audio/SoundEffects/new-location-sound.wav");
+            LimgraveMusic = _game.LoadAudio("Audio/Music/limgrave-music.wav");
+            StartButtonSound = _game.LoadAudio("Audio/SoundEffects/start-button-sound.wav");
         }
     }
 }

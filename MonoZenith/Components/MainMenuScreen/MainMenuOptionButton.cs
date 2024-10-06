@@ -1,5 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Engine.Support;
 
@@ -9,8 +10,9 @@ public class MainMenuOptionButton : Button
 {
     private readonly Texture2D _hoverIndicator;
     private readonly float _hoverIndicatorScale;
+    private readonly SoundEffectInstance _activationSound;
     
-    public MainMenuOptionButton(Game g, int y, string content, Action a) : 
+    public MainMenuOptionButton(Game g, int y, string content, Action a, SoundEffectInstance activationSound = null) : 
         base(g, Vector2.Zero, 0, 0, content, 1, Color.White, Color.Black, 0, Color.Black)
     {
         SetOnClickAction(a);
@@ -21,8 +23,28 @@ public class MainMenuOptionButton : Button
         Height = (int)_font.MeasureString(Content).Y;
         Position = new Vector2(Game.ScreenWidth / 2 - Width / 2, y);
         _buttonColor = Color.Black;
+        _activationSound = activationSound;
     }
 
+    public sealed override void SetOnClickAction(Action a)
+    {
+        _callbackMethod = CallBackMethod;
+        return;
+        
+        void CallBackMethod()
+        {
+            _activationSound?.Play();
+        
+            // Start action after the sound is played
+            if (_activationSound == null)
+            {
+                return;
+            }
+        
+            a.Invoke();  
+        }
+    }
+    
     /// <summary>
     /// Draw the indicator specifying the button is hovered.
     /// </summary>
