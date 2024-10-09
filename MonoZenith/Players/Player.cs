@@ -228,6 +228,7 @@ namespace MonoZenith.Players
             if (currentHealth >= 7 && PreviousHealth >= 7)
                 return;
 
+            // TODO: Find other sfx and ensure both sounds aren't played
             if (PreviousHealth > currentHealth)
             {
                 _damageSound.Play();

@@ -33,7 +33,7 @@ namespace MonoZenith.Card
             _game = game;
             _state = state;
             _position = position;
-            _scale = 0.4f;
+            _scale = 0.35f;
             _texture = texture;
             _activeTexture = activeTexture;
             _width = texture.Width;

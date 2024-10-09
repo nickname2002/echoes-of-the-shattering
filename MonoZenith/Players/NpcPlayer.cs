@@ -12,7 +12,7 @@ namespace MonoZenith.Players
         public NpcPlayer(Game game, GameState state, string name) : base(game, state, name)
         {
             _handxPos = game.ScreenWidth / 2f;
-            _handyPos = game.ScreenHeight / 3.45f;
+            _handyPos = game.ScreenHeight / 3.85f;
             PlayerPosition = new Vector2(game.ScreenWidth * 0.06f, game.ScreenHeight * 0.1f);
             PlayerIcon = DataManager.GetInstance(game).Npc;
         }
@@ -32,7 +32,7 @@ namespace MonoZenith.Players
             // TODO: Refactor later
             // Setup offsets and positions for text and health bar
             Vector2 offset = GetOffset(PlayerCurrent, Scale);
-            Vector2 textPosition = PlayerPosition + new Vector2(offset.X * 1.2f, -offset.Y * 0.75f);
+            Vector2 textPosition = PlayerPosition + new Vector2(offset.X * 1.2f, -offset.Y * 0.875f);
             Vector2 shadowPosition = new(1.25f, 1.25f);
             Vector2 healthOffset = new(1, 1);
             int healthHeight = (int)(PlayerCurrent.Height * Scale * 0.05f);
@@ -44,12 +44,12 @@ namespace MonoZenith.Players
             _game.DrawText(Name, textPosition + shadowPosition, PlayerFont, Color.DarkGray);
             _game.DrawText(Name, textPosition, PlayerFont, Color.White);
 
-            _game.DrawRectangle(Color.Gold, healthPosition - healthOffset, healthWidth + 2, healthHeight + 2);
+            _game.DrawRectangle(Color.Goldenrod, healthPosition - healthOffset, healthWidth + 2, healthHeight + 2);
             _game.DrawRectangle(Color.DarkGray, healthPosition, healthWidth, healthHeight);
 
             // Draw current health based on opponent's hand count
             PlayHealthSound(currentHealth);
-            _game.DrawRectangle(Color.Red, healthPosition, (int)(healthWidth / 7 * currentHealth), healthHeight);
+            _game.DrawRectangle(Color.DarkRed, healthPosition, (int)(healthWidth / 7f * currentHealth), healthHeight);
         }
 
         /// <summary>

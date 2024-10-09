@@ -87,7 +87,7 @@ namespace MonoZenith.Engine.Support
             // Load fonts
             ComponentFont = _game.LoadFont("Fonts/pixel.ttf", 1);
             StartMenuFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1.75f);
-            PlayerFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1);
+            PlayerFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1.5f);
             RegionIndicatorFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 3f);
             
             // Load textures
