@@ -57,11 +57,15 @@ namespace MonoZenith.Engine.Support
         /// </summary>
         public SoundEffectInstance LimgraveMusic;
 
-        
-        public SoundEffectInstance NewLocationSound;
+        // Audio: Main Menu
         public SoundEffectInstance StartButtonSound;
+
+        // Audio: Game
+        public SoundEffectInstance NewLocationSound;
         public SoundEffectInstance DamageSound;
         public SoundEffectInstance HealingSound;
+        public SoundEffectInstance CardSound1;
+        public SoundEffectInstance CardSound2;
 
         private DataManager(Game game)
         {
@@ -118,6 +122,8 @@ namespace MonoZenith.Engine.Support
             StartButtonSound = _game.LoadAudio("Audio/SoundEffects/start-button-sound.wav");
             DamageSound = _game.LoadAudio("Audio/SoundEffects/damage-sound.wav");
             HealingSound = _game.LoadAudio("Audio/SoundEffects/healing-sound.wav");
+            CardSound1 = _game.LoadAudio("Audio/SoundEffects/card-sound1.wav");
+            CardSound2 = _game.LoadAudio("Audio/SoundEffects/card-sound2.wav");
         }
     }
 }

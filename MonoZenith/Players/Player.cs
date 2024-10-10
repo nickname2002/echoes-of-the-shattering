@@ -28,6 +28,8 @@ namespace MonoZenith.Players
         protected int PreviousHealth;
         private readonly SoundEffectInstance _damageSound;
         private readonly SoundEffectInstance _healingSound;
+        private readonly SoundEffectInstance _cardSound1;
+        private readonly SoundEffectInstance _cardSound2;
 
         protected Player(Game game, GameState state, string name)
         {
@@ -44,8 +46,12 @@ namespace MonoZenith.Players
             PlayerFont = DataManager.GetInstance(game).PlayerFont;
             _damageSound = DataManager.GetInstance(game).DamageSound;
             _healingSound = DataManager.GetInstance(game).HealingSound;
-            _damageSound.Volume = 0.6f;
-            _healingSound.Volume = 0.6f;
+            _cardSound1 = DataManager.GetInstance(game).CardSound1;
+            _cardSound2 = DataManager.GetInstance(game).CardSound2;
+            _damageSound.Volume = 0.0f;
+            _healingSound.Volume = 0.3f;
+            _cardSound1.Volume = 0.3f;
+            _cardSound2.Volume = 0.3f;
         }
 
         public override string ToString()
@@ -155,6 +161,7 @@ namespace MonoZenith.Players
             }
 
             // Add the card to the played pile and remove it from the player's hand
+            PlayCardSound();
             _state.PlayedCards.AddToBottom(card);
             Hand.Cards.Remove(card);
 
@@ -238,6 +245,23 @@ namespace MonoZenith.Players
                 _healingSound.Play();
             }
             PreviousHealth = Math.Min(7, currentHealth);
+        }
+
+        /// <summary>
+        /// Plays the sound effect for playing a card.
+        /// </summary>
+        public void PlayCardSound()
+        {
+            Random rand = new Random();
+
+            if (rand.Next(0, 2) == 0)
+            {
+                _cardSound1.Play();
+            }
+            else
+            {
+                _cardSound2.Play();
+            }
         }
 
         /// <summary>
