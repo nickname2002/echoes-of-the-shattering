@@ -244,10 +244,15 @@ namespace MonoZenith.Players
 
         /// <summary>
         /// Plays the sound effect for playing a card.
+        /// Sound changes depending on the played card.
         /// </summary>
+        /// <param name="card">The played card</param>
         public void PlayCardSound(Card.Card card)
         {
             Random rand = new Random();
+
+            if (card is GraceCard)
+                return;
 
             if (card.GetType().IsSubclassOf(typeof(RegionCard)))
             {
