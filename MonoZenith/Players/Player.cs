@@ -26,6 +26,7 @@ namespace MonoZenith.Players
         public readonly Texture2D PlayerWaiting;
         protected SpriteFont PlayerFont;
         protected int PreviousHealth;
+        protected int CurrentHealth;
         private readonly SoundEffectInstance _damageSound;
         private readonly SoundEffectInstance _healingSound;
         private readonly SoundEffectInstance _cardSound1;
@@ -161,15 +162,17 @@ namespace MonoZenith.Players
             }
 
             // Add the card to the played pile and remove it from the player's hand
-            PlayCardSound(card);
+            
             _state.PlayedCards.AddToBottom(card);
             Hand.Cards.Remove(card);
 
             // Perform the effect of the card
             RegionCard effectCard = (RegionCard)card;
             effectCard?.PerformEffect(_state);
+            CurrentHealth = Math.Min(GetOpponentHandCount(), 7);
+            PlayCardSound(card);
         }
-        
+
         /// <summary>
         /// Draw a card from the deck and add it to the player's hand.
         /// </summary>
@@ -229,17 +232,19 @@ namespace MonoZenith.Players
         /// Plays the corresponding sound effect for the health bar
         /// depending on the previous and current health.
         /// </summary>
-        /// <param name="currentHealth">The current health amount</param>
-        public void PlayHealthSound(int currentHealth)
+        public bool PlayHealingSound()
         {
-            if (currentHealth >= 7 && PreviousHealth >= 7)
-                return;
+            if (CurrentHealth >= 7 && PreviousHealth >= 7)
+                return false;
 
-            if (PreviousHealth < currentHealth + 1)
+            if (PreviousHealth < CurrentHealth)
             {
                 _healingSound.Play();
+                PreviousHealth = Math.Min(7, CurrentHealth);
+                return true;
             }
-            PreviousHealth = Math.Min(7, currentHealth + 1);
+            PreviousHealth = Math.Min(7, CurrentHealth);
+            return false;
         }
 
         /// <summary>
@@ -259,6 +264,9 @@ namespace MonoZenith.Players
                 _damageSound.Play();
                 return;
             }
+
+            if (PlayHealingSound())
+                return;
 
             if (rand.Next(0, 2) == 0)
             {
@@ -289,10 +297,7 @@ namespace MonoZenith.Players
         /// <returns>The amount of cards in the opponent's hand</returns>
         public int GetOpponentHandCount()
         {
-            int count = _state.CurrentPlayer == this ? _state.OpposingPlayer.Hand.Count : _state.CurrentPlayer.Hand.Count;
-            if (count == 7)
-                return count;
-            return count % 2 == 0 ? count : count + 1;
+            return _state.CurrentPlayer == this ? _state.OpposingPlayer.Hand.Count : _state.CurrentPlayer.Hand.Count;
         }
     }
 }
