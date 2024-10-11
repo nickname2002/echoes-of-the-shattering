@@ -243,6 +243,7 @@ namespace MonoZenith.Players
                 PreviousHealth = Math.Min(7, CurrentHealth);
                 return true;
             }
+
             PreviousHealth = Math.Min(7, CurrentHealth);
             return false;
         }
