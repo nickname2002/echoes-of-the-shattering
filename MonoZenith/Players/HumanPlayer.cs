@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
-using MonoZenith.Card;
-using MonoZenith.Support;
+using MonoZenith.Engine.Support;
 
 namespace MonoZenith.Players
 {
@@ -13,16 +12,44 @@ namespace MonoZenith.Players
         
         public HumanPlayer(Game game, GameState state, string name) : base(game, state, name)
         {
-            width = game.ScreenWidth / 2;
-            height = game.ScreenHeight / 1.25f;
+            _handxPos = game.ScreenWidth / 2f;
+            _handyPos = game.ScreenHeight / 1.35f;
+            PlayerPosition = new Vector2(game.ScreenWidth * 0.06f, game.ScreenHeight * 0.9f);
+            PlayerIcon = DataManager.GetInstance(game).Player;
         }
     
         /// <summary>
         /// Draw all assets of the HumanPlayer.
         /// </summary>
         public override void Draw()
-        {
+        {          
+            DrawPlayerHealthAndName();
+            DrawPlayerUI();
             DrawHand();
+        }
+
+        public override void DrawPlayerHealthAndName()
+        {
+            // TODO: Refactor later
+            // Setup offsets and positions for text and health bar
+            Vector2 offset = GetOffset(PlayerCurrent, Scale);
+            Vector2 textPosition = PlayerPosition + new Vector2(offset.X * 1.2f, offset.Y * 0.3f);
+            Vector2 shadowPosition = new(1.25f, 1.25f);
+            Vector2 healthOffset = new(1, 1);
+            int healthHeight = (int)(PlayerCurrent.Height * Scale * 0.05f);
+            int healthWidth = (int)(_game.ScreenWidth * 0.9f);
+            Vector2 healthPosition = PlayerPosition + new Vector2(0, offset.Y - healthHeight) - healthOffset;
+            int currentHealth = Math.Min(GetOpponentHandCount(), 7);
+
+            // Draw text and health bar
+            _game.DrawText(Name, textPosition + shadowPosition, PlayerFont, Color.DarkGray);
+            _game.DrawText(Name, textPosition, PlayerFont, Color.White);
+
+            _game.DrawRectangle(Color.Goldenrod, healthPosition - healthOffset, healthWidth + 2, healthHeight + 2);
+            _game.DrawRectangle(Color.DarkGray, healthPosition, healthWidth, healthHeight);
+
+            // Draw current health based on opponent's hand count
+            _game.DrawRectangle(Color.DarkRed, healthPosition, (int)(healthWidth / 7 * currentHealth), healthHeight);
         }
 
         /// <summary>
@@ -35,7 +62,7 @@ namespace MonoZenith.Players
                 return;
             
             // Variables and buffers
-            float widthStep = width / count;
+            float widthStep = _handxPos / count;
             List<Card.Card> hoveredCards = new List<Card.Card>();  
             Dictionary<Card.Card, float> cardPositions = new Dictionary<Card.Card, float>(); 
 
@@ -50,16 +77,16 @@ namespace MonoZenith.Players
         /// <param name="cards">List of cards to process.</param>
         /// <param name="hoveredCards">List to store hovered cards.</param>
         /// <param name="cardPositions">Dictionary to store card positions.</param>
-        /// <param name="widthStep">Step for card positioning.</param>
+        /// <param name="xPosStep">Step for card positioning.</param>
         private void DrawNonHoveredCards(List<Card.Card> cards, List<Card.Card> hoveredCards, 
-                                         Dictionary<Card.Card, float> cardPositions, float widthStep)
+                                         Dictionary<Card.Card, float> cardPositions, float xPosStep)
         {
             int count = cards.Count();
             int currentIndex = 0;
             
             foreach (Card.Card card in cards)
             {
-                float currentWidth = width + (width / 2) - (widthStep * count) + (widthStep * currentIndex);
+                float currentWidth = _handxPos + (_handxPos / 2) - (xPosStep * count) + (xPosStep * currentIndex);
 
                 if (card.IsHovered())
                 {
@@ -68,7 +95,7 @@ namespace MonoZenith.Players
                 }
                 else
                 {
-                    card.Draw(currentWidth, height, 0, false, true);
+                    card.Draw(currentWidth, _handyPos, 0, false, true);
                 }
                 
                 currentIndex++;
@@ -89,7 +116,7 @@ namespace MonoZenith.Players
                 // Draw all hovered cards except the last one first
                 if (i < hoveredCards.Count - 1)
                 {
-                    hoveredCard.Draw(hoveredCardPosition, height, 0, false, true);
+                    hoveredCard.Draw(hoveredCardPosition, _handyPos, 0, false, true);
                 }
             }
 
@@ -99,7 +126,7 @@ namespace MonoZenith.Players
             
             _lastHoveredCard = hoveredCards[^1];  
             float lastHoveredCardPosition = cardPositions[_lastHoveredCard];
-            _lastHoveredCard.Draw(lastHoveredCardPosition, height - verticalMoveOffset, 0, false, true);
+            _lastHoveredCard.Draw(lastHoveredCardPosition, _handyPos - verticalMoveOffset, 0, false, true);
         }
 
         /// <summary>

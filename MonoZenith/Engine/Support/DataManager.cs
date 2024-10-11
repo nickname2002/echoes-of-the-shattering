@@ -12,15 +12,29 @@ namespace MonoZenith.Engine.Support
         // Fonts
         public SpriteFont ComponentFont;
         public SpriteFont StartMenuFont;
+        public SpriteFont PlayerFont;
         public SpriteFont RegionIndicatorFont;
         
         // Textures
+        // Textures: MonoZenith
         public Texture2D MonoZenithLogo;
+
+        // Textures: Main Menu
         public Texture2D MainMenuBackdrop;
         public Texture2D MainMenuHoverIndicator;
+
+        // Textures: Game UI
         public Texture2D Backdrop;
+        public Texture2D Player;
+        public Texture2D Npc;
+        public Texture2D PlayerCurrent;
+        public Texture2D PlayerWaiting;
+
+        // Textures: Card 
         public Texture2D CardBack;
         public Texture2D CardFront;
+
+        // Textures: Grace Menu 
         public Texture2D GraceMenuBackdrop;
         public Texture2D LimgraveButtonTexture;
         public Texture2D LimgraveButtonHoverTexture;
@@ -43,9 +57,15 @@ namespace MonoZenith.Engine.Support
         /// </summary>
         public SoundEffectInstance LimgraveMusic;
 
-        
-        public SoundEffectInstance NewLocationSound;
+        // Audio: Main Menu
         public SoundEffectInstance StartButtonSound;
+
+        // Audio: Game
+        public SoundEffectInstance NewLocationSound;
+        public SoundEffectInstance DamageSound;
+        public SoundEffectInstance HealingSound;
+        public SoundEffectInstance CardSound1;
+        public SoundEffectInstance CardSound2;
 
         private DataManager(Game game)
         {
@@ -71,12 +91,17 @@ namespace MonoZenith.Engine.Support
             // Load fonts
             ComponentFont = _game.LoadFont("Fonts/pixel.ttf", 1);
             StartMenuFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1.75f);
+            PlayerFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1.5f);
             RegionIndicatorFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 3f);
             
             // Load textures
             MonoZenithLogo = _game.LoadImage("Images/monozenith.png");
             MainMenuBackdrop = _game.LoadImage("Images/MainMenu/main-menu-backdrop.png");
             MainMenuHoverIndicator = _game.LoadImage("Images/MainMenu/menu-item-indicator.png");
+            Player = _game.LoadImage("Images/Player/vargram.png");
+            Npc = _game.LoadImage("Images/Player/varre.png");
+            PlayerCurrent = _game.LoadImage("Images/Player/player-current.png");
+            PlayerWaiting = _game.LoadImage("Images/Player/player-waiting.png");
             Backdrop = _game.LoadImage("Images/Backdrops/backdrop.png");
             CardBack = _game.LoadImage("Images/Cards/back-card-design.png");
             CardFront = _game.LoadImage("Images/Cards/front-card-design.png");
@@ -95,6 +120,10 @@ namespace MonoZenith.Engine.Support
             NewLocationSound = _game.LoadAudio("Audio/SoundEffects/new-location-sound.wav");
             LimgraveMusic = _game.LoadAudio("Audio/Music/limgrave-music.wav");
             StartButtonSound = _game.LoadAudio("Audio/SoundEffects/start-button-sound.wav");
+            DamageSound = _game.LoadAudio("Audio/SoundEffects/damage-sound.wav");
+            HealingSound = _game.LoadAudio("Audio/SoundEffects/healing-sound.wav");
+            CardSound1 = _game.LoadAudio("Audio/SoundEffects/card-sound1.wav");
+            CardSound2 = _game.LoadAudio("Audio/SoundEffects/card-sound2.wav");
         }
     }
 }

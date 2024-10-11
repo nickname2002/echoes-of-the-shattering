@@ -2,20 +2,35 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Card;
 using MonoZenith.Card.CardStack;
+using MonoZenith.Engine.Support;
 using MonoZenith.Support;
 
 namespace MonoZenith.Players
 {
     public abstract class Player
     {
-        private Game _game;
+        protected Game _game;
         protected GameState _state;
         public CardStack Hand;
         public string Name;
-        protected float width;
-        protected float height;
+        protected float _handxPos;
+        protected float _handyPos;
+        protected float Scale;
+        public Vector2 PlayerPosition;
+        public Texture2D PlayerIcon;
+        public readonly Texture2D PlayerCurrent;
+        public readonly Texture2D PlayerWaiting;
+        protected SpriteFont PlayerFont;
+        protected int PreviousHealth;
+        protected int CurrentHealth;
+        private readonly SoundEffectInstance _damageSound;
+        private readonly SoundEffectInstance _healingSound;
+        private readonly SoundEffectInstance _cardSound1;
+        private readonly SoundEffectInstance _cardSound2;
 
         protected Player(Game game, GameState state, string name)
         {
@@ -23,6 +38,21 @@ namespace MonoZenith.Players
             _state = state;
             Hand = new CardStack(_game, _state);
             Name = name;
+            Scale = 0.15f;
+            PreviousHealth = 7;
+
+            // Load textures and sound effects for player
+            PlayerCurrent = DataManager.GetInstance(game).PlayerCurrent;
+            PlayerWaiting = DataManager.GetInstance(game).PlayerWaiting;
+            PlayerFont = DataManager.GetInstance(game).PlayerFont;
+            _damageSound = DataManager.GetInstance(game).DamageSound;
+            _healingSound = DataManager.GetInstance(game).HealingSound;
+            _cardSound1 = DataManager.GetInstance(game).CardSound1;
+            _cardSound2 = DataManager.GetInstance(game).CardSound2;
+            _damageSound.Volume = 0.2f;
+            _healingSound.Volume = 0.3f;
+            _cardSound1.Volume = 0.3f;
+            _cardSound2.Volume = 0.3f;
         }
 
         public override string ToString()
@@ -132,14 +162,17 @@ namespace MonoZenith.Players
             }
 
             // Add the card to the played pile and remove it from the player's hand
+            
             _state.PlayedCards.AddToBottom(card);
             Hand.Cards.Remove(card);
 
             // Perform the effect of the card
             RegionCard effectCard = (RegionCard)card;
             effectCard?.PerformEffect(_state);
+            CurrentHealth = Math.Min(GetOpponentHandCount(), 7);
+            PlayCardSound(card);
         }
-        
+
         /// <summary>
         /// Draw a card from the deck and add it to the player's hand.
         /// </summary>
@@ -171,5 +204,101 @@ namespace MonoZenith.Players
         /// Draw the hand of the player.
         /// </summary>
         public abstract void DrawHand();
+
+        /// <summary>
+        /// Draw the Player UI Assets.
+        /// </summary>
+        public void DrawPlayerUI()
+        {
+            // Setup properties of UI assets
+            Vector2 iconOffset = GetOffset(PlayerIcon, Scale);
+            Vector2 borderOffset = GetOffset(PlayerCurrent, Scale);
+
+            // Check if the player is the current playing player
+            bool currentPlayer = _state.CurrentPlayer == this;
+            Texture2D playerBorder = currentPlayer ? PlayerCurrent : PlayerWaiting;
+
+            // Draw the assets
+            _game.DrawImage(PlayerIcon, PlayerPosition - iconOffset, Scale, 0);
+            _game.DrawImage(playerBorder, PlayerPosition - borderOffset, Scale, 0);
+        }
+
+        /// <summary>
+        /// Draw the Player's name.
+        /// </summary>
+        public abstract void DrawPlayerHealthAndName();
+
+        /// <summary>
+        /// Plays the corresponding sound effect for the health bar
+        /// depending on the previous and current health.
+        /// </summary>
+        public bool PlayHealingSound()
+        {
+            if (CurrentHealth >= 7 && PreviousHealth >= 7)
+                return false;
+
+            if (PreviousHealth < CurrentHealth)
+            {
+                _healingSound.Play();
+                PreviousHealth = Math.Min(7, CurrentHealth);
+                return true;
+            }
+
+            PreviousHealth = Math.Min(7, CurrentHealth);
+            return false;
+        }
+
+        /// <summary>
+        /// Plays the sound effect for playing a card.
+        /// Sound changes depending on the played card.
+        /// </summary>
+        /// <param name="card">The played card</param>
+        public void PlayCardSound(Card.Card card)
+        {
+            Random rand = new Random();
+
+            if (card is GraceCard)
+                return;
+
+            if (card.GetType().IsSubclassOf(typeof(RegionCard)))
+            {
+                _damageSound.Play();
+                return;
+            }
+
+            if (PlayHealingSound())
+                return;
+
+            if (rand.Next(0, 2) == 0)
+            {
+                _cardSound1.Play();
+            }
+            else
+            {
+                _cardSound2.Play();
+            }
+        }
+
+        /// <summary>
+        /// Gets the positional offset of the texture in order to
+        /// draw the texture in the middle instead of (0,0).
+        /// </summary>
+        /// <param name="texture">The given texture.</param>
+        /// <param name="scale">The scale in which the texture will be drawn.</param>
+        public Vector2 GetOffset(Texture2D texture, float scale)
+        {
+            float widthOffset = texture.Width * scale * 0.5f;
+            float heightOffset = texture.Height * scale * 0.5f;
+            return new Vector2(widthOffset, heightOffset);
+        }
+
+        /// <summary>
+        /// Get the count of the opponent's hand
+        /// </summary>
+        /// <returns>The amount of cards in the opponent's hand</returns>
+        public int GetOpponentHandCount()
+        {
+            return _state.CurrentPlayer == this ? _state.OpposingPlayer.Hand.Count : _state.CurrentPlayer.Hand.Count;
+        }
     }
 }
