@@ -13,7 +13,6 @@ public class AttackCard : Card
     protected Player _enemy;
     protected float _staminaCost;
     protected float _damage;
-    protected SoundEffectInstance _soundOnPlay;
     
     protected AttackCard(Game game, GameState state, Vector2 position, Texture2D texture, Texture2D activeTexture, string name, Player owner) : 
         base(game, state, position, texture, activeTexture, name, owner)
@@ -45,6 +44,11 @@ public class AttackCard : Card
         _soundOnPlay.Play();
         LowerPlayerStamina();
         AppleEnemyDamage();
+    }
+
+    protected override bool IsPlayable()
+    {
+        return _owner.Stamina >= _staminaCost;
     }
 }
 

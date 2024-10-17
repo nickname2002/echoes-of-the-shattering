@@ -27,6 +27,11 @@ public class MagicCard : AttackCard
         _owner.Mana -= _manaCost;
     }
 
+    protected override bool IsPlayable()
+    {
+        return base.IsPlayable() && _owner.Mana >= _manaCost;
+    }
+
     public override void PerformEffect()
     {
         base.PerformEffect();

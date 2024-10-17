@@ -5,9 +5,7 @@ using MonoZenith.Players;
 namespace MonoZenith.Card;
 
 public class ItemCard : Card
-{
-    protected Player _owner;
-    
+{   
     protected ItemCard(Game game, GameState state, Vector2 position, Texture2D texture, Texture2D activeTexture, string name, Player owner) : 
         base(game, state, position, texture, activeTexture, name, owner)
     {
@@ -18,4 +16,6 @@ public class ItemCard : Card
     {
         _soundOnPlay.Play();
     }
+
+    protected override bool IsPlayable() => true;
 }
