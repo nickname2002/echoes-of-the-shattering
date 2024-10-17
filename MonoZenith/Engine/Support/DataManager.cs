@@ -33,17 +33,11 @@ namespace MonoZenith.Engine.Support
         // Textures: Card 
         public Texture2D CardBack;
         public Texture2D CardFront;
-
-        // Textures: Grace Menu 
-        public Texture2D GraceMenuBackdrop;
-        public Texture2D LimgraveButtonTexture;
-        public Texture2D LimgraveButtonHoverTexture;
-        public Texture2D CaelidButtonTexture;
-        public Texture2D CaelidButtonHoverTexture;
-        public Texture2D LiurniaButtonTexture;
-        public Texture2D LiurniaButtonHoverTexture;
-        public Texture2D LeyndellTexture2D;
-        public Texture2D LeyndellButtonHoverTexture;
+        
+        // Textures: EndTurnButton
+        public Texture2D EndTurnButtonIdleTexture;
+        public Texture2D EndTurnButtonHoverTexture;
+        public Texture2D EndTurnButtonDisabledTexture;
         
         // Audio
         
@@ -110,15 +104,9 @@ namespace MonoZenith.Engine.Support
             Backdrop = _game.LoadImage("Images/Backdrops/backdrop.png");
             CardBack = _game.LoadImage("Images/Cards/back-card-design.png");
             CardFront = _game.LoadImage("Images/Cards/front-card-design.png");
-            GraceMenuBackdrop = _game.LoadImage("Images/GraceMenu/grace-nav-card.png");
-            LimgraveButtonTexture = _game.LoadImage("Images/GraceMenu/Buttons/limgrave-button.png");
-            LimgraveButtonHoverTexture = _game.LoadImage("Images/GraceMenu/Buttons/limgrave-button-border.png");
-            CaelidButtonTexture = _game.LoadImage("Images/GraceMenu/Buttons/caelid-button.png");
-            CaelidButtonHoverTexture = _game.LoadImage("Images/GraceMenu/Buttons/caelid-button-border.png");
-            LiurniaButtonTexture = _game.LoadImage("Images/GraceMenu/Buttons/liurnia-button.png");
-            LiurniaButtonHoverTexture = _game.LoadImage("Images/GraceMenu/Buttons/liurnia-button-border.png");
-            LeyndellTexture2D = _game.LoadImage("Images/GraceMenu/buttons/leyndell-button.png");
-            LeyndellButtonHoverTexture = _game.LoadImage("Images/GraceMenu/buttons/leyndell-button-border.png");
+            EndTurnButtonIdleTexture = _game.LoadImage("Images/EndTurnButton/end-turn-button-idle.png");
+            EndTurnButtonHoverTexture = _game.LoadImage("Images/EndTurnButton/end-turn-button-hover.png");
+            EndTurnButtonDisabledTexture = _game.LoadImage("Images/EndTurnButton/end-turn-button-disabled.png");
             
             // Load audio
             MainMenuMusic = _game.LoadAudio("Audio/Music/main-menu-music.wav");
