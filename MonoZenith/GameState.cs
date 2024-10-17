@@ -18,18 +18,13 @@ namespace MonoZenith
     public class GameState
     {
         private readonly Game _game;
-        public GraceMenu GraceMenu;
         public GameTime GameTime;
         private Player? _currentPlayer;
         private Player? _currentWinner;
         private readonly HumanPlayer _player;
         private readonly NpcPlayer _npc;
-        public DrawableCardsStack DrawableCards;
         public CardStack PlayedCards;
-        public Region CurrentRegion;
         private readonly SpriteFont _componentFont;
-        public int Combo;
-        public int Skip;
         
         public Player CurrentPlayer => _currentPlayer?? _player;
         public Player OpposingPlayer => _currentPlayer == _player? _npc : _player;
@@ -37,17 +32,12 @@ namespace MonoZenith
         public GameState(Game game)
         {
             _game = game;
-            GraceMenu = new GraceMenu(_game, this);
             GameTime = new GameTime();
             _player = new HumanPlayer(_game, this, "Player");
             _npc = new NpcPlayer(_game, this, "NPC");
             _currentPlayer = null;
-            DrawableCards = new DrawableCardsStack(_game, this);
             PlayedCards = new CardStack(_game, this);
-            CurrentRegion = Region.LIMGRAVE;   // TODO: Set to random region.
             _componentFont = DataManager.GetInstance(game).ComponentFont;
-            Combo = 0;
-            Skip = 0;
             InitializeState();
             
             Console.WriteLine(_player);
@@ -64,26 +54,13 @@ namespace MonoZenith
             float playedX = _game.ScreenWidth / 1.8f;
             float height = _game.ScreenHeight / 2f;
             
-            DrawableCards = new DrawableCardsStack(_game, this);
             PlayedCards.ChangePosition(playedX, height);
-            DrawableCards.ChangePosition(drawableX, height);
             PlayedCards.ChangePosition(playedX, height);
 
-            // Play the first card in the game
-            PlayedCards.AddToFront(DrawableCards.Pop());
-            CurrentRegion = ((RegionCard)PlayedCards.Cards.First()).Region;
-
-            // Initialize player hands
-            _player.Hand = DrawableCards.GetSevenCards();
-            _npc.Hand = DrawableCards.GetSevenCards();
+            // TODO: Initialize player hands
             
             // Determine the starting player
             DetermineStartingPlayer();
-            
-            // Perform the effect of the first card played
-            RegionCard firstCard = (RegionCard)PlayedCards.Cards.First();
-            Console.WriteLine($"The first card played is: {firstCard}");
-            firstCard.PerformEffect(this);
         }
 
         /// <summary>
@@ -135,14 +112,6 @@ namespace MonoZenith
         /// </summary>
         public void SwitchTurn()
         {
-            // Turn does not get switched if the opposing player
-            // has to skip turns
-            if (Skip != 0)
-            {
-                Skip--;
-                return;
-            }
-
             _currentPlayer = _currentPlayer == _player? _npc : _player;
             Console.WriteLine($"Turn: {_currentPlayer.Name}");
         }
@@ -173,13 +142,12 @@ namespace MonoZenith
         {
             GameTime = deltaTime;
             
-            if (HasWinner() != null)
-            {
-                return;
-            }
+            // if (HasWinner() != null)
+            // {
+            //     return;
+            // }
             
-            _currentPlayer?.PerformTurn(this);
-            GraceMenu.Update(deltaTime);
+            // _currentPlayer?.PerformTurn(this);
         }
         
         /// <summary>
@@ -190,28 +158,18 @@ namespace MonoZenith
             // Draw backdrop
             _game.DrawImage(DataManager.GetInstance(_game).Backdrop, Vector2.Zero);
 
-            if (HasWinner() != null)
-            {
-                DisplayWinnerMessage();
-                return;
-            }
-            
-            GraceMenu.Draw();
+            // if (HasWinner() != null)
+            // {
+            //     DisplayWinnerMessage();
+            //     return;
+            // }
             
             // Draw cards in play
-            DrawableCards.Draw();
             PlayedCards.Draw();
 
             // Draw player cards
             _player.Draw();
             _npc.Draw();
-
-            // TODO: Remove when no longer needed
-            // Draw text data
-            _game.DrawText(
-                $"Current region: {CurrentRegion}", 
-                new Vector2(_game.ScreenWidth - 450, _game.ScreenHeight / 2), 
-                _componentFont, Color.White);
         }
     }
 }

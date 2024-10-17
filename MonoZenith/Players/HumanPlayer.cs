@@ -162,17 +162,7 @@ namespace MonoZenith.Players
 
         public override void PerformTurn(GameState state)
         {
-            base.PerformTurn(state);
-            if (!_state.GraceMenu.Hidden)
-            {
-                return;
-            }
-            
-            if (TryPlayCard()) 
-                return;
-
-            // If no card can be played, draw a card.
-            TryDrawCard();
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -184,7 +174,7 @@ namespace MonoZenith.Players
             var selectedCard = GetSelectedCard();
 
             // If no card is selected or the card is not valid, return false.
-            if (selectedCard == null || !IsValidPlay(selectedCard)) 
+            if (selectedCard == null) 
                 return false;
 
             PlayCard(selectedCard);
@@ -196,20 +186,7 @@ namespace MonoZenith.Players
         /// </summary>
         protected override void TryDrawCard()
         {
-            if (_state.Combo >= 1)
-            {
-                return;
-            }
-            
-            var drawnCard = _state.DrawableCards.GetSelectCard();
-
-            // If no card was drawn, return
-            if (drawnCard == null) 
-                return;
-
-            Console.WriteLine($"{Name} drew: {drawnCard}");
-            Hand.AddToFront(drawnCard);
-            _state.SwitchTurn();    // TODO: may not be true in every situation
+            throw new NotImplementedException();
         }
 
         public override void Update(GameTime deltaTime)

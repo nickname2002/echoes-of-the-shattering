@@ -64,8 +64,13 @@ namespace MonoZenith.Engine.Support
         public SoundEffectInstance NewLocationSound;
         public SoundEffectInstance DamageSound;
         public SoundEffectInstance HealingSound;
-        public SoundEffectInstance CardSound1;
+        public SoundEffectInstance LightSwordAttack;
         public SoundEffectInstance CardSound2;
+        public SoundEffectInstance HeavySwordAttack;
+        public SoundEffectInstance GlintStonePebble;
+        public SoundEffectInstance FlaskOfCrimsonTears;
+        public SoundEffectInstance FlaskOfCeruleanTears;
+        
 
         private DataManager(Game game)
         {
@@ -122,8 +127,12 @@ namespace MonoZenith.Engine.Support
             StartButtonSound = _game.LoadAudio("Audio/SoundEffects/start-button-sound.wav");
             DamageSound = _game.LoadAudio("Audio/SoundEffects/damage-sound.wav");
             HealingSound = _game.LoadAudio("Audio/SoundEffects/healing-sound.wav");
-            CardSound1 = _game.LoadAudio("Audio/SoundEffects/card-sound1.wav");
+            LightSwordAttack = _game.LoadAudio("Audio/SoundEffects/light-sword-attack.wav");
             CardSound2 = _game.LoadAudio("Audio/SoundEffects/card-sound2.wav");
+            HeavySwordAttack = _game.LoadAudio("Audio/SoundEffects/heavy-sword-attack.wav");
+            GlintStonePebble = _game.LoadAudio("Audio/SoundEffects/glintstone-pebble.wav");
+            FlaskOfCrimsonTears = _game.LoadAudio("Audio/SoundEffects/flask-of-crimson-tears.wav");
+            FlaskOfCeruleanTears = _game.LoadAudio("Audio/SoundEffects/flask-of-cerulean-tears.wav");
         }
     }
 }

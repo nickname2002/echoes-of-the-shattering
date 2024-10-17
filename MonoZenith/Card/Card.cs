@@ -6,8 +6,10 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework.Audio;
 using MonoZenith;
 using MonoZenith.Engine.Support;
+using MonoZenith.Players;
 using static System.Formats.Asn1.AsnWriter;
 
 namespace MonoZenith.Card
@@ -23,12 +25,14 @@ namespace MonoZenith.Card
         protected Texture2D _texture;
         protected Texture2D _activeTexture;
         protected string _name;
+        protected Player _owner;
+        protected SoundEffectInstance _soundOnPlay;
         
         public int Width => _width;
         public int Height => _height;
         public float Scale => _scale;
 
-        protected Card(Game game, GameState state, Vector2 position, Texture2D texture, Texture2D activeTexture, string name)
+        protected Card(Game game, GameState state, Vector2 position, Texture2D texture, Texture2D activeTexture, string name, Player owner)
         {
             _game = game;
             _state = state;
@@ -39,6 +43,7 @@ namespace MonoZenith.Card
             _width = texture.Width;
             _height = texture.Height;
             _name = name;
+            _soundOnPlay = null;
         }
 
         public override string ToString()
@@ -71,16 +76,28 @@ namespace MonoZenith.Card
         }
 
         /// <summary>
-        /// Checks if the card is valid card.
+        /// Perform the effect of the card.
         /// </summary>
-        /// <param name="previousCard">The card that was played before this one.</param>
-        /// <returns>Whether the card is a valid next card.</returns>
-        public abstract bool ValidNextCard(Card previousCard);
+        public abstract void PerformEffect();
+
+        /// <summary>
+        /// Checks if the card can be played.
+        /// </summary>
+        /// <returns>If the card can be played.</returns>
+        protected abstract bool IsPlayable();
 
         /// <summary>
         /// Draw the metadata of the card onto the front side of the card.
         /// </summary>
-        protected abstract void DrawMetaData();
+        protected void DrawMetaData()
+        {
+            _game.DrawText(
+                _name,
+                _position,
+                DataManager.GetInstance(_game).ComponentFont,
+                Color.Black
+            );
+        }
 
         /// <summary>
         /// Changes the position of the card.
