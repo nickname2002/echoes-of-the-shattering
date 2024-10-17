@@ -64,6 +64,7 @@ namespace MonoZenith.Engine.Support
         public SoundEffectInstance GlintStonePebble;
         public SoundEffectInstance FlaskOfCrimsonTears;
         public SoundEffectInstance FlaskOfCeruleanTears;
+        public SoundEffectInstance EndTurnSound;
         
 
         private DataManager(Game game)
@@ -121,6 +122,7 @@ namespace MonoZenith.Engine.Support
             GlintStonePebble = _game.LoadAudio("Audio/SoundEffects/glintstone-pebble.wav");
             FlaskOfCrimsonTears = _game.LoadAudio("Audio/SoundEffects/flask-of-crimson-tears.wav");
             FlaskOfCeruleanTears = _game.LoadAudio("Audio/SoundEffects/flask-of-cerulean-tears.wav");
+            EndTurnSound = _game.LoadAudio("Audio/SoundEffects/end-turn-sound-effect.wav");
         }
     }
 }

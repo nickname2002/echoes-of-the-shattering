@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Engine.Support;
 using MonoZenith.Players;
@@ -15,8 +16,9 @@ public class EndTurnButton : Button
     private Texture2D _currentTexture;
     private GameState _gameState;
     private float textureScale;
+    private SoundEffectInstance _endTurnSound;
     
-    public EndTurnButton(Game g, GameState gs) : 
+    public EndTurnButton(Game g, GameState gs, float scale = 1f) : 
         base(g, Vector2.Zero, 0, 0, "", 0, Color.Black, Color.Black, 0, Color.Black)
     {
         activeIdleTexture = DataManager.GetInstance(g).EndTurnButtonIdleTexture;
@@ -24,16 +26,19 @@ public class EndTurnButton : Button
         disabledTexture = DataManager.GetInstance(g).EndTurnButtonDisabledTexture;
         _currentTexture = activeIdleTexture;
         _gameState = gs;
-        textureScale = 0.25f;
+        textureScale = scale * 0.25f;
         UpdateDimensions();
         Position = new Vector2(
             Game.ScreenWidth - Width - 50, 
             Game.ScreenHeight / 2 - Height / 2);
 
+        _endTurnSound = DataManager.GetInstance(g).EndTurnSound;
+
         SetOnClickAction(() => 
         {
             if (_gameState.CurrentPlayer is HumanPlayer)
             {
+                _endTurnSound.Play();
                 _gameState.SwitchTurn();
             }
         });

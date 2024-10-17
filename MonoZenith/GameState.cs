@@ -25,6 +25,7 @@ namespace MonoZenith
         private readonly NpcPlayer _npc;
         public CardStack PlayedCards;
         private readonly SpriteFont _componentFont;
+        private EndTurnButton _endTurnButton;
         
         public Player CurrentPlayer => _currentPlayer?? _player;
         public Player OpposingPlayer => _currentPlayer == _player? _npc : _player;
@@ -39,6 +40,7 @@ namespace MonoZenith
             PlayedCards = new CardStack(_game, this);
             _componentFont = DataManager.GetInstance(game).ComponentFont;
             InitializeState();
+            _endTurnButton = new EndTurnButton(_game, this);
             
             Console.WriteLine(_player);
             Console.WriteLine(_npc);
@@ -148,6 +150,7 @@ namespace MonoZenith
             // }
             
             // _currentPlayer?.PerformTurn(this);
+            _endTurnButton.Update(deltaTime);
         }
         
         /// <summary>
@@ -170,6 +173,7 @@ namespace MonoZenith
             // Draw player cards
             _player.Draw();
             _npc.Draw();
+            _endTurnButton.Draw();
         }
     }
 }
