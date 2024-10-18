@@ -11,12 +11,12 @@ namespace MonoZenith.Card.AttackCard;
 /// </summary>
 public class MagicCard : AttackCard
 {
-    protected float _manaCost;
+    protected float _focusCost;
     
     protected MagicCard(Game game, GameState state, Vector2 position, Texture2D texture, Texture2D activeTexture, string name, Player owner) : 
         base(game, state, position, texture, activeTexture, name, owner)
     {
-        _manaCost = 0;
+        _focusCost = 0;
     }
 
     /// <summary>
@@ -24,12 +24,12 @@ public class MagicCard : AttackCard
     /// </summary>
     protected void LowerPlayerMana()
     {
-        _owner.Mana -= _manaCost;
+        _owner.Focus -= _focusCost;
     }
 
     protected override bool IsPlayable()
     {
-        return base.IsPlayable() && _owner.Mana >= _manaCost;
+        return base.IsPlayable() && _owner.Focus >= _focusCost;
     }
 
     public override void PerformEffect()
@@ -45,6 +45,6 @@ public class GlintStonePebbleCard : MagicCard
         base(game, state, position, texture, activeTexture, name, owner)
     {
         _soundOnPlay = DataManager.GetInstance(_game).GlintStonePebble;
-        _manaCost = 10;
+        _focusCost = 10;
     }
 }

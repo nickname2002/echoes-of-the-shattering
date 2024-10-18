@@ -20,15 +20,15 @@ public class FlaskOfCeruleanTearsCard : ItemCard
     public override void PerformEffect()
     {
         base.PerformEffect();
-        BoostPlayerMana();
+        BoostPlayerFocus();
     }
 
     /// <summary>
     /// Boos the mana of the owner.
     /// </summary>
-    private void BoostPlayerMana()
+    private void BoostPlayerFocus()
     {
-        _owner.Mana += _manaBoost;
+        _owner.Focus += _manaBoost;
     }
 }
 
