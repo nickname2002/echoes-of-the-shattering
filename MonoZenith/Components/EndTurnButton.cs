@@ -38,6 +38,7 @@ public sealed class EndTurnButton : Button
                 return;
             
             endTurnSound.Play();
+            _gameState.CurrentPlayer.MoveCardsFromHandToReserve();
             _gameState.SwitchTurn();
         });
     }

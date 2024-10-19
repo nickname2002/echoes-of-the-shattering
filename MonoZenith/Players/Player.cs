@@ -165,6 +165,13 @@ namespace MonoZenith.Players
             }
         }
 
+        public void MoveCardsFromHandToReserve()
+        {
+            List<Card.Card> cardsFromHand = _handStack.Cards;
+            _reserveCardStack.AddToFront(cardsFromHand); 
+            _handStack.Clear();
+        }
+        
         /// <summary>
         /// Move all the cards from the reserve pile to the deck,
         /// in the same order. Then, clear the reserve pile.
