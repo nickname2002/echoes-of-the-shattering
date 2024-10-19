@@ -32,34 +32,33 @@ namespace MonoZenith.Players
 
         public override void DrawPlayerHealthAndName()
         {
-            // TODO: Refactor later
-            // Setup offsets and positions for name and health bar
-            Vector2 offset = GetOffset(PlayerCurrent, Scale);
-            Vector2 namePosition = PlayerPosition + new Vector2(offset.X * 1.2f, 0);
+            // Setup offsets and positions for name and player bars
+            Vector2 playerOffset = GetOffset(PlayerCurrent, Scale);
+            Vector2 namePosition = PlayerPosition + new Vector2(playerOffset.X * 1.2f, 0);
             Vector2 shadowPosition = new(1.25f, 1.25f);
-            Vector2 healthOffset = new(1, 1);
             int healthHeight = (int)(PlayerCurrent.Height * Scale * 0.05f);
             int healthWidth = (int)(_game.ScreenWidth * 0.9f);
             int barWidth = (int)(_game.ScreenWidth * 0.3f);
             Vector2 barOffset = new Vector2(0, healthHeight + 4);
-            Vector2 healthPosition = PlayerPosition + new Vector2(0, offset.Y - healthHeight * 4.5f) - healthOffset;
+            Vector2 healthPosition = PlayerPosition + new Vector2(0, playerOffset.Y - healthHeight * 4.5f) - new Vector2(1, 1);
+            Vector2 edgePosition = healthPosition - new Vector2(1, 1);
 
             // Draw name
             _game.DrawText(Name, namePosition + shadowPosition, PlayerFont, Color.DarkGray);
             _game.DrawText(Name, namePosition, PlayerFont, Color.White);
 
             // Draw Health bar with current health points
-            _game.DrawRectangle(Color.Goldenrod, healthPosition - healthOffset, healthWidth + 2, healthHeight + 2);
+            _game.DrawRectangle(Color.Goldenrod, edgePosition, healthWidth + 2, healthHeight + 2);
             _game.DrawRectangle(Color.DarkGray, healthPosition, healthWidth, healthHeight);
             _game.DrawRectangle(Color.DarkRed, healthPosition, (int)(healthWidth * (Health / 100f)), healthHeight);
 
             // Draw Focus bar with current focus points
-            _game.DrawRectangle(Color.Goldenrod, healthPosition - healthOffset + barOffset, barWidth + 2, healthHeight + 2);
+            _game.DrawRectangle(Color.Goldenrod, edgePosition + barOffset, barWidth + 2, healthHeight + 2);
             _game.DrawRectangle(Color.DarkGray, healthPosition + barOffset, barWidth, healthHeight);
             _game.DrawRectangle(Color.MediumBlue, healthPosition + barOffset, (int)(barWidth * (Focus / 100f)), healthHeight);
 
             // Draw Stamina bar with current stamina points
-            _game.DrawRectangle(Color.Goldenrod, healthPosition - healthOffset + barOffset * 2, barWidth + 2, healthHeight + 2);
+            _game.DrawRectangle(Color.Goldenrod, edgePosition + barOffset * 2, barWidth + 2, healthHeight + 2);
             _game.DrawRectangle(Color.DarkGray, healthPosition + barOffset * 2, barWidth, healthHeight);
             _game.DrawRectangle(Color.ForestGreen, healthPosition + barOffset * 2, (int)(barWidth * (Stamina / 100f)), healthHeight);
         }
