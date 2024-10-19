@@ -8,27 +8,27 @@ namespace MonoZenith.Card;
 
 public class FlaskOfCeruleanTearsCard : ItemCard
 {
-    private readonly float _manaBoost;
+    private readonly float _focusBoost;
     
     public FlaskOfCeruleanTearsCard(Game game, GameState state, Vector2 position, Texture2D texture, Texture2D activeTexture, string name, Player owner) : 
         base(game, state, position, texture, activeTexture, name, owner)
     {
-        _manaBoost = 75;
+        _focusBoost = 30;
         _soundOnPlay = DataManager.GetInstance(_game).FlaskOfCeruleanTears;
     }
 
     public override void PerformEffect()
     {
         base.PerformEffect();
-        BoostPlayerMana();
+        BoostPlayerFocus();
     }
 
     /// <summary>
     /// Boos the mana of the owner.
     /// </summary>
-    private void BoostPlayerMana()
+    private void BoostPlayerFocus()
     {
-        _owner.Mana += _manaBoost;
+        _owner.Focus = _owner.Focus + _focusBoost > 30f ? 30f : _owner.Focus + _focusBoost;
     }
 }
 
@@ -54,6 +54,6 @@ public class FlaskOfCrimsonTearsCard : ItemCard
     /// </summary>
     private void HealPlayer()
     {
-        _owner.Health += _healthBoost;
+        _owner.Health = _owner.Health + _healthBoost > 30f ? 30f : _owner.Health + _healthBoost;
     }
 }

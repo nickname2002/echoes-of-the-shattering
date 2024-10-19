@@ -22,7 +22,7 @@ namespace MonoZenith.Players
         
         public float Health;
         public float Stamina;
-        public float Mana;
+        public float Focus;
         public Vector2 PlayerPosition;
         public Texture2D PlayerIcon;
         public readonly Texture2D PlayerCurrent;
@@ -44,8 +44,8 @@ namespace MonoZenith.Players
             Name = name;
             Scale = 0.15f;
             Health = 100f;
-            Stamina = 100f;
-            Mana = 100f;
+            Stamina = 30f;
+            Focus = 30f;
             
             // Load textures and sound effects for player
             PlayerCurrent = DataManager.GetInstance(game).PlayerCurrent;
@@ -153,15 +153,6 @@ namespace MonoZenith.Players
             float widthOffset = texture.Width * scale * 0.5f;
             float heightOffset = texture.Height * scale * 0.5f;
             return new Vector2(widthOffset, heightOffset);
-        }
-
-        /// <summary>
-        /// Get the count of the opponent's hand
-        /// </summary>
-        /// <returns>The amount of cards in the opponent's hand</returns>
-        public int GetOpponentHandCount()
-        {
-            return _state.CurrentPlayer == this ? _state.OpposingPlayer.Hand.Count : _state.CurrentPlayer.Hand.Count;
         }
     }
 }
