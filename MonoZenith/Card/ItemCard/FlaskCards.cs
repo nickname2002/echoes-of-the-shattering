@@ -28,7 +28,7 @@ public class FlaskOfCeruleanTearsCard : ItemCard
     /// </summary>
     private void BoostPlayerFocus()
     {
-        _owner.Focus += _manaBoost;
+        _owner.Focus = _owner.Focus + _manaBoost > 30f ? 30f : _owner.Focus + _manaBoost;
     }
 }
 
@@ -54,6 +54,6 @@ public class FlaskOfCrimsonTearsCard : ItemCard
     /// </summary>
     private void HealPlayer()
     {
-        _owner.Health += _healthBoost;
+        _owner.Health = _owner.Health + _healthBoost > 30f ? 30f : _owner.Focus + _healthBoost;
     }
 }
