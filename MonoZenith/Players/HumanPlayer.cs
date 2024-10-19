@@ -55,12 +55,12 @@ namespace MonoZenith.Players
             // Draw Focus bar with current focus points
             _game.DrawRectangle(Color.Goldenrod, edgePosition + barOffset, barWidth + 2, healthHeight + 2);
             _game.DrawRectangle(Color.DarkGray, healthPosition + barOffset, barWidth, healthHeight);
-            _game.DrawRectangle(Color.MediumBlue, healthPosition + barOffset, (int)(barWidth * (Focus / 100f)), healthHeight);
+            _game.DrawRectangle(Color.MediumBlue, healthPosition + barOffset, (int)(barWidth * (Focus / 30f)), healthHeight);
 
             // Draw Stamina bar with current stamina points
             _game.DrawRectangle(Color.Goldenrod, edgePosition + barOffset * 2, barWidth + 2, healthHeight + 2);
             _game.DrawRectangle(Color.DarkGray, healthPosition + barOffset * 2, barWidth, healthHeight);
-            _game.DrawRectangle(Color.ForestGreen, healthPosition + barOffset * 2, (int)(barWidth * (Stamina / 100f)), healthHeight);
+            _game.DrawRectangle(Color.ForestGreen, healthPosition + barOffset * 2, (int)(barWidth * (Stamina / 30f)), healthHeight);
         }
 
         /// <summary>

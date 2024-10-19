@@ -29,7 +29,6 @@ namespace MonoZenith.Players
 
         public override void DrawPlayerHealthAndName()
         {
-            // TODO: Refactor later
             // Setup offsets and positions for name and health bar
             Vector2 offset = GetOffset(PlayerCurrent, Scale);
             Vector2 namePosition = PlayerPosition + new Vector2(offset.X * 1.2f, -offset.Y * 0.875f);

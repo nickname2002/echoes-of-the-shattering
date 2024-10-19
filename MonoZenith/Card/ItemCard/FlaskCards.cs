@@ -13,7 +13,7 @@ public class FlaskOfCeruleanTearsCard : ItemCard
     public FlaskOfCeruleanTearsCard(Game game, GameState state, Vector2 position, Texture2D texture, Texture2D activeTexture, string name, Player owner) : 
         base(game, state, position, texture, activeTexture, name, owner)
     {
-        _manaBoost = 75;
+        _manaBoost = 20;
         _soundOnPlay = DataManager.GetInstance(_game).FlaskOfCeruleanTears;
     }
 
@@ -39,7 +39,7 @@ public class FlaskOfCrimsonTearsCard : ItemCard
     public FlaskOfCrimsonTearsCard(Game game, GameState state, Vector2 position, Texture2D texture, Texture2D activeTexture, string name, Player owner) : 
         base(game, state, position, texture, activeTexture, name, owner)
     {
-        _healthBoost = 75;
+        _healthBoost = 20;
         _soundOnPlay = DataManager.GetInstance(_game).FlaskOfCrimsonTears;
     }
 

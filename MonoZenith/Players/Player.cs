@@ -44,8 +44,8 @@ namespace MonoZenith.Players
             Name = name;
             Scale = 0.15f;
             Health = 100f;
-            Stamina = 100f;
-            Focus = 100f;
+            Stamina = 30f;
+            Focus = 30f;
             
             // Load textures and sound effects for player
             PlayerCurrent = DataManager.GetInstance(game).PlayerCurrent;

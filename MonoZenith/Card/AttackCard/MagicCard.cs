@@ -45,6 +45,6 @@ public class GlintStonePebbleCard : MagicCard
         base(game, state, position, texture, activeTexture, name, owner)
     {
         _soundOnPlay = DataManager.GetInstance(_game).GlintStonePebble;
-        _focusCost = 10;
+        _focusCost = 2;
     }
 }
