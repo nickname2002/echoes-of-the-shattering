@@ -140,7 +140,9 @@ namespace MonoZenith.Players
                 DrawCardsFromDeck();
             
             Console.WriteLine($"{Name}'s Turn\n\n");
-            Console.WriteLine($"Hand: {_handStack}\n");
+            Console.WriteLine($"Hand: {_handStack}\n" +
+                              $"Reserve: {_reserveCardStack.Count}\n" +
+                              $"Deck: {_deckStack.Count}");
         }
         
         /// <summary>
