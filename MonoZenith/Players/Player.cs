@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Card;
+using MonoZenith.Card.AttackCard;
 using MonoZenith.Card.CardStack;
 using MonoZenith.Engine.Support;
-using MonoZenith.Support;
 
 namespace MonoZenith.Players
 {
@@ -27,43 +25,108 @@ namespace MonoZenith.Players
         public Texture2D PlayerIcon;
         public readonly Texture2D PlayerCurrent;
         public readonly Texture2D PlayerWaiting;
-        public CardStack Hand;
-        public string Name;
+        public readonly string Name;
         
-        // TODO: Remove (some) sounds once they are built into the cards themselves.
-        private readonly SoundEffectInstance _damageSound;
-        private readonly SoundEffectInstance _healingSound;
-        private readonly SoundEffectInstance _cardSound1;
-        private readonly SoundEffectInstance _cardSound2;
+        // Card stacks
+        protected CardStack _deckStack;
+        protected CardStack _reserveCardStack;
+        protected CardStack _handStack;
 
         protected Player(Game game, GameState state, string name)
         {
             _game = game;
             _state = state;
-            Hand = new CardStack(_game, _state);
             Name = name;
             Scale = 0.15f;
-            Health = 100f;
-            Stamina = 100f;
-            Mana = 100f;
+            InitializeState(game, state);
             
             // Load textures and sound effects for player
             PlayerCurrent = DataManager.GetInstance(game).PlayerCurrent;
             PlayerWaiting = DataManager.GetInstance(game).PlayerWaiting;
             PlayerFont = DataManager.GetInstance(game).PlayerFont;
-            _damageSound = DataManager.GetInstance(game).DamageSound;
-            _healingSound = DataManager.GetInstance(game).HealingSound;
-            _cardSound1 = DataManager.GetInstance(game).LightSwordAttack;
-            _cardSound2 = DataManager.GetInstance(game).CardSound2;
-            _damageSound.Volume = 0.2f;
-            _healingSound.Volume = 0.3f;
-            _cardSound1.Volume = 0.3f;
-            _cardSound2.Volume = 0.3f;
+        }
+        
+        /// <summary>
+        /// Initialize the player's state.
+        /// </summary>
+        /// <param name="game">The game.</param>
+        /// <param name="state">The game state.</param>
+        /// <remarks>
+        /// This method initializes the player properties and card stacks.
+        /// </remarks>
+        public void InitializeState(Game game, GameState state)
+        {
+            // Initialize player properties
+            Health = 100f;
+            Stamina = 100f;
+            Mana = 100f;
+            
+            // Initialize card stacks
+            _deckStack = new CardStack(game, state);
+            _reserveCardStack = new CardStack(game, state);
+            _handStack = new CardStack(game, state);
+            FillPlayerDeck();
+        }
+
+        /// <summary>
+        /// Fill the player deck with cards.
+        /// </summary>
+        /// <remarks>
+        /// This method is used to fill the player deck with cards. It is called
+        /// once when the player is created and is used to initialize the deck.
+        /// </remarks>
+        protected void FillPlayerDeck()
+        {
+            var deck = new List<Card.Card>
+            {
+                // Flasks
+                new FlaskOfCrimsonTearsCard(_game, _state, this),
+                new FlaskOfCrimsonTearsCard(_game, _state, this),
+                new FlaskOfCrimsonTearsCard(_game, _state, this),
+                new FlaskOfCrimsonTearsCard(_game, _state, this),
+
+                new FlaskOfCeruleanTearsCard(_game, _state, this),
+                new FlaskOfCeruleanTearsCard(_game, _state, this),
+                new FlaskOfCeruleanTearsCard(_game, _state, this),
+                new FlaskOfCeruleanTearsCard(_game, _state, this),
+
+                // Basic attacks
+                new LightSwordAttackCard(_game, _state, this),
+                new LightSwordAttackCard(_game, _state, this),
+                new LightSwordAttackCard(_game, _state, this),
+                new LightSwordAttackCard(_game, _state, this),
+                new LightSwordAttackCard(_game, _state, this),
+                new LightSwordAttackCard(_game, _state, this),
+                new LightSwordAttackCard(_game, _state, this),
+                new LightSwordAttackCard(_game, _state, this),
+
+                new HeavySwordAttackCard(_game, _state, this),
+                new HeavySwordAttackCard(_game, _state, this),
+                new HeavySwordAttackCard(_game, _state, this),
+                new HeavySwordAttackCard(_game, _state, this),
+                new HeavySwordAttackCard(_game, _state, this),
+                new HeavySwordAttackCard(_game, _state, this),
+                new HeavySwordAttackCard(_game, _state, this),
+                new HeavySwordAttackCard(_game, _state, this),
+
+                // Magic attacks
+                new GlintStonePebbleCard(_game, _state, this),
+                new GlintStonePebbleCard(_game, _state, this),
+                new GlintStonePebbleCard(_game, _state, this),
+                new GlintStonePebbleCard(_game, _state, this),
+                new GlintStonePebbleCard(_game, _state, this),
+                new GlintStonePebbleCard(_game, _state, this)
+            };
+
+            _deckStack.AddToFront(deck);
         }
 
         public override string ToString()
         {
-            return $"==== {Name} ====\n{Hand}\n";
+            return $"==== {Name} ====\n\n\n" +
+                   $"DECK STACK: {_deckStack}\n\n" +
+                   $"RESERVE CARD STACK: {_reserveCardStack}\n\n" +
+                   $"HAND STACK: {_handStack}\n\n\n";
         }
 
         /// <summary>
@@ -72,15 +135,45 @@ namespace MonoZenith.Players
         /// <param name="state">The current game state.</param>
         public virtual void PerformTurn(GameState state)
         {
-            throw new NotImplementedException();
+            // Draw cards from hand only once
+            if (_handStack.Count == 0)
+                DrawCardsFromDeck();
+            
+            Console.WriteLine($"{Name}'s Turn\n\n");
+            Console.WriteLine($"Hand: {_handStack}\n");
+        }
+        
+        /// <summary>
+        /// Draw 5 cards from the deck and add them to the player's hand,
+        /// or draw as many cards as are available if there are fewer than 5
+        /// cards in the deck.
+        /// </summary>
+        protected void DrawCardsFromDeck()
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                if (_deckStack.Count == 0)
+                {
+                    if (_reserveCardStack.Count == 0)
+                        break;
+                    
+                    MoveCardsFromReserveToDeck();
+                }
+                
+                Card.Card cardToAdd = _deckStack.PopRandomCard();
+                _handStack.AddToFront(cardToAdd);
+            }
         }
 
         /// <summary>
-        /// Draw a card from the drawable cards stack and add it to the player's hand.
+        /// Move all the cards from the reserve pile to the deck,
+        /// in the same order. Then, clear the reserve pile.
         /// </summary>
-        public void DrawCard()
+        protected void MoveCardsFromReserveToDeck()
         {
-            throw new NotImplementedException();
+            List<Card.Card> cardsFromReserve = _reserveCardStack.Cards;
+            _deckStack.AddToFront(cardsFromReserve); 
+            _reserveCardStack.Clear();
         }
 
         /// <summary>
@@ -153,15 +246,6 @@ namespace MonoZenith.Players
             float widthOffset = texture.Width * scale * 0.5f;
             float heightOffset = texture.Height * scale * 0.5f;
             return new Vector2(widthOffset, heightOffset);
-        }
-
-        /// <summary>
-        /// Get the count of the opponent's hand
-        /// </summary>
-        /// <returns>The amount of cards in the opponent's hand</returns>
-        public int GetOpponentHandCount()
-        {
-            return _state.CurrentPlayer == this ? _state.OpposingPlayer.Hand.Count : _state.CurrentPlayer.Hand.Count;
         }
     }
 }

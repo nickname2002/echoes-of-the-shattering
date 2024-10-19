@@ -23,9 +23,10 @@ namespace MonoZenith
         private Player? _currentWinner;
         private readonly HumanPlayer _player;
         private readonly NpcPlayer _npc;
-        public CardStack PlayedCards;
+        public readonly CardStack PlayedCards;
         private readonly SpriteFont _componentFont;
-        private EndTurnButton _endTurnButton;
+        private readonly EndTurnButton _endTurnButton;
+        private CardStack _playedCardStack;
         
         public Player CurrentPlayer => _currentPlayer?? _player;
         public Player OpposingPlayer => _currentPlayer == _player? _npc : _player;
@@ -41,9 +42,7 @@ namespace MonoZenith
             _componentFont = DataManager.GetInstance(game).ComponentFont;
             InitializeState();
             _endTurnButton = new EndTurnButton(_game, this);
-            
-            Console.WriteLine(_player);
-            Console.WriteLine(_npc);
+            _playedCardStack = new CardStack(_game, this);
         }
 
         /// <summary>
@@ -59,7 +58,11 @@ namespace MonoZenith
             PlayedCards.ChangePosition(playedX, height);
             PlayedCards.ChangePosition(playedX, height);
 
-            // TODO: Initialize player hands
+            // Initialize players
+            _player.InitializeState(_game, this);
+            _npc.InitializeState(_game, this);
+            Console.WriteLine(_player);
+            Console.WriteLine(_npc);
             
             // Determine the starting player
             DetermineStartingPlayer();
@@ -96,17 +99,7 @@ namespace MonoZenith
         /// <returns>The winning player, or null if there is no winner.</returns>
         public Player? HasWinner()
         {
-            if (_player.Hand.Count == 0)
-            {
-                _currentWinner = _player;
-                return _player;
-            }
-            
-            if (_npc.Hand.Count != 0)
-                return null;
-            
-            _currentWinner = _npc;
-            return _npc;
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -149,7 +142,7 @@ namespace MonoZenith
             //     return;
             // }
             
-            // _currentPlayer?.PerformTurn(this);
+            _currentPlayer?.PerformTurn(this);
             _endTurnButton.Update(deltaTime);
         }
         

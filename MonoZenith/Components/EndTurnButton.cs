@@ -1,30 +1,28 @@
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Engine.Support;
 using MonoZenith.Players;
 
 namespace MonoZenith.Components;
 
-public class EndTurnButton : Button
+public sealed class EndTurnButton : Button
 {
-    private Texture2D activeIdleTexture;
-    private Texture2D activeHoverTexture;
-    private Texture2D disabledTexture;
+    private readonly Texture2D _activeIdleTexture;
+    private readonly Texture2D _activeHoverTexture;
+    private readonly Texture2D _disabledTexture;
     private Texture2D _currentTexture;
     private GameState _gameState;
     private float textureScale;
-    private SoundEffectInstance _endTurnSound;
-    
+
     public EndTurnButton(Game g, GameState gs, float scale = 1f) : 
         base(g, Vector2.Zero, 0, 0, "", 0, Color.Black, Color.Black, 0, Color.Black)
     {
-        activeIdleTexture = DataManager.GetInstance(g).EndTurnButtonIdleTexture;
-        activeHoverTexture = DataManager.GetInstance(g).EndTurnButtonHoverTexture;
-        disabledTexture = DataManager.GetInstance(g).EndTurnButtonDisabledTexture;
-        _currentTexture = activeIdleTexture;
+        _activeIdleTexture = DataManager.GetInstance(g).EndTurnButtonIdleTexture;
+        _activeHoverTexture = DataManager.GetInstance(g).EndTurnButtonHoverTexture;
+        _disabledTexture = DataManager.GetInstance(g).EndTurnButtonDisabledTexture;
+        _currentTexture = _activeIdleTexture;
         _gameState = gs;
         textureScale = scale * 0.25f;
         UpdateDimensions();
@@ -32,22 +30,22 @@ public class EndTurnButton : Button
             Game.ScreenWidth - Width - 50, 
             Game.ScreenHeight / 2 - Height / 2);
 
-        _endTurnSound = DataManager.GetInstance(g).EndTurnSound;
+        var endTurnSound = DataManager.GetInstance(g).EndTurnSound;
 
-        SetOnClickAction(() => 
+        SetOnClickAction(() =>
         {
-            if (_gameState.CurrentPlayer is HumanPlayer)
-            {
-                _endTurnSound.Play();
-                _gameState.SwitchTurn();
-            }
+            if (_gameState.CurrentPlayer is not HumanPlayer) 
+                return;
+            
+            endTurnSound.Play();
+            _gameState.SwitchTurn();
         });
     }
 
     private void UpdateDimensions()
     {
-        Width = (int)(activeIdleTexture.Width * textureScale);
-        Height = (int)(activeIdleTexture.Height * textureScale);
+        Width = (int)(_activeIdleTexture.Width * textureScale);
+        Height = (int)(_activeIdleTexture.Height * textureScale);
     }
 
     /// <summary>
@@ -60,9 +58,9 @@ public class EndTurnButton : Button
         bool isHumanPlayer = _gameState.CurrentPlayer is HumanPlayer;
         _currentTexture = isHumanPlayer switch
         {
-            true when IsHovered() => activeHoverTexture,
-            true => activeIdleTexture,
-            false => disabledTexture
+            true when IsHovered() => _activeHoverTexture,
+            true => _activeIdleTexture,
+            false => _disabledTexture
         };
     }
     

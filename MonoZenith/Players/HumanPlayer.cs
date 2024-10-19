@@ -39,7 +39,6 @@ namespace MonoZenith.Players
             int healthHeight = (int)(PlayerCurrent.Height * Scale * 0.05f);
             int healthWidth = (int)(_game.ScreenWidth * 0.9f);
             Vector2 healthPosition = PlayerPosition + new Vector2(0, offset.Y - healthHeight) - healthOffset;
-            int currentHealth = Math.Min(GetOpponentHandCount(), 7);
 
             // Draw text and health bar
             _game.DrawText(Name, textPosition + shadowPosition, PlayerFont, Color.DarkGray);
@@ -49,7 +48,7 @@ namespace MonoZenith.Players
             _game.DrawRectangle(Color.DarkGray, healthPosition, healthWidth, healthHeight);
 
             // Draw current health based on opponent's hand count
-            _game.DrawRectangle(Color.DarkRed, healthPosition, (int)(healthWidth / 7 * currentHealth), healthHeight);
+            _game.DrawRectangle(Color.DarkRed, healthPosition, (int)(healthWidth / 7 * Health), healthHeight);
         }
 
         /// <summary>
@@ -57,7 +56,7 @@ namespace MonoZenith.Players
         /// </summary>
         public override void DrawHand()
         {
-            int count = Hand.Count;
+            int count = _handStack.Count;
             if (count == 0) 
                 return;
             
@@ -67,7 +66,7 @@ namespace MonoZenith.Players
             Dictionary<Card.Card, float> cardPositions = new Dictionary<Card.Card, float>(); 
 
             // Draw cards
-            DrawNonHoveredCards(Hand.Cards, hoveredCards, cardPositions, widthStep);
+            DrawNonHoveredCards(_handStack.Cards, hoveredCards, cardPositions, widthStep);
             DrawHoveredCards(hoveredCards, cardPositions);
         }
 
@@ -143,7 +142,7 @@ namespace MonoZenith.Players
             }
 
             // If no hovered card was clicked, check for any other clicked cards
-            List<Card.Card> clickedCards = Hand.Cards.Where(c => c.IsClicked()).ToList();
+            List<Card.Card> clickedCards = _handStack.Cards.Where(c => c.IsClicked()).ToList();
     
             // Print names of all clicked cards
             foreach (var card in clickedCards)
@@ -162,7 +161,8 @@ namespace MonoZenith.Players
 
         public override void PerformTurn(GameState state)
         {
-            throw new NotImplementedException();
+            base.PerformTurn(state);
+            // TODO: Let the player pick cards to play
         }
 
         /// <summary>
@@ -191,7 +191,7 @@ namespace MonoZenith.Players
 
         public override void Update(GameTime deltaTime)
         {
-            foreach (var card in Hand.Cards)
+            foreach (var card in _handStack.Cards)
             {
                 card.Update(deltaTime);
             }

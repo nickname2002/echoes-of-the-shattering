@@ -38,7 +38,6 @@ namespace MonoZenith.Players
             int healthHeight = (int)(PlayerCurrent.Height * Scale * 0.05f);
             int healthWidth = (int)(_game.ScreenWidth * 0.9f);
             Vector2 healthPosition = PlayerPosition + new Vector2(0, -offset.Y) + healthOffset;
-            int currentHealth = Math.Min(GetOpponentHandCount(), 7);
 
             // Draw text and health bar
             _game.DrawText(Name, textPosition + shadowPosition, PlayerFont, Color.DarkGray);
@@ -48,7 +47,7 @@ namespace MonoZenith.Players
             _game.DrawRectangle(Color.DarkGray, healthPosition, healthWidth, healthHeight);
 
             // Draw current health based on opponent's hand count
-            _game.DrawRectangle(Color.DarkRed, healthPosition, (int)(healthWidth / 7f * currentHealth), healthHeight);
+            _game.DrawRectangle(Color.DarkRed, healthPosition, (int)(healthWidth / 7f * Health), healthHeight);
         }
 
         /// <summary>
@@ -56,14 +55,14 @@ namespace MonoZenith.Players
         /// </summary>
         public override void DrawHand()
         {
-            int count = Hand.Count;
+            int count = _handStack.Count;
 
             if (count == 0)
                 return;
 
             float widthStep = _handxPos / count;
             
-            foreach (Card.Card card in Hand.Cards)
+            foreach (Card.Card card in _handStack.Cards)
             {
                 float currentWidth = _handxPos - (_handxPos / 2) + (widthStep * count);
 
@@ -84,12 +83,13 @@ namespace MonoZenith.Players
         
         public override void PerformTurn(GameState state)
         {
-            throw new NotImplementedException();
+            base.PerformTurn(state);
+            // TODO: Perform logic of enemy AI
         }
         
         public override void Update(GameTime deltaTime)
         {
-            foreach (var card in Hand.Cards)
+            foreach (var card in _handStack.Cards)
             {
                 card.Update(deltaTime);
             }
