@@ -30,20 +30,20 @@ namespace MonoZenith.Players
         public override void DrawPlayerHealthAndName()
         {
             // Setup offsets and positions for name and health bar
-            Vector2 offset = GetOffset(PlayerCurrent, Scale);
-            Vector2 namePosition = PlayerPosition + new Vector2(offset.X * 1.2f, -offset.Y * 0.875f);
+            Vector2 playerOffset = GetOffset(PlayerCurrent, Scale);
+            Vector2 namePosition = PlayerPosition + new Vector2(playerOffset.X * 1.2f, -playerOffset.Y * 0.875f);
             Vector2 shadowPosition = new(1.25f, 1.25f);
-            Vector2 healthOffset = new(1, 1);
             int healthHeight = (int)(PlayerCurrent.Height * Scale * 0.05f);
             int healthWidth = (int)(_game.ScreenWidth * 0.9f);
-            Vector2 healthPosition = PlayerPosition + new Vector2(0, -offset.Y) + healthOffset;
+            Vector2 healthPosition = PlayerPosition + new Vector2(0, -playerOffset.Y) + new Vector2(1, 1);
+            Vector2 edgePosition = healthPosition - new Vector2(1, 1);
 
             // Draw name
             _game.DrawText(Name, namePosition + shadowPosition, PlayerFont, Color.DarkGray);
             _game.DrawText(Name, namePosition, PlayerFont, Color.White);
 
             // Draw Health bar with current health points
-            _game.DrawRectangle(Color.Goldenrod, healthPosition - healthOffset, healthWidth + 2, healthHeight + 2);
+            _game.DrawRectangle(Color.Goldenrod, edgePosition, healthWidth + 2, healthHeight + 2);
             _game.DrawRectangle(Color.DarkGray, healthPosition, healthWidth, healthHeight);
             _game.DrawRectangle(Color.DarkRed, healthPosition, (int)(healthWidth * (Health / 100f)), healthHeight);
         }
