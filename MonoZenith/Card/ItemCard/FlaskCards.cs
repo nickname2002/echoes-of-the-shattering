@@ -54,6 +54,6 @@ public class FlaskOfCrimsonTearsCard : ItemCard
     /// </summary>
     private void HealPlayer()
     {
-        _owner.Health = _owner.Health + _healthBoost > 30f ? 30f : _owner.Focus + _healthBoost;
+        _owner.Health = _owner.Health + _healthBoost > 30f ? 30f : _owner.Health + _healthBoost;
     }
 }
