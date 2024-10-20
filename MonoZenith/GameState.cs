@@ -65,8 +65,7 @@ namespace MonoZenith
             Console.WriteLine(_npc);
             
             // Determine the starting player
-            // DetermineStartingPlayer();
-            _currentPlayer = _player;
+            DetermineStartingPlayer();
         }
 
         /// <summary>

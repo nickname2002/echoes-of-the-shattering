@@ -14,9 +14,8 @@ public class CardStackIndicator : Indicator
     private string _countToDisplay;
     
     public CardStackIndicator(Game g, GameState gs, Vector2 pos, Texture2D texture, CardStack cs) : 
-        base(g, gs, pos)
+        base(g, gs, pos, texture)
     {
-        _texture = texture;
         _container = cs;
         _font = DataManager.GetInstance(_game).IndicatorFont;
         _countToDisplay = _container.Count.ToString();

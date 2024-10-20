@@ -13,6 +13,7 @@ namespace MonoZenith.Players
         private Card.Card _lastHoveredCard;
         private CardStackIndicator _deckIndicator;
         private CardStackIndicator _reserveIndicator;
+        private ItemIndicator _spiritAshIndicator;
         
         public HumanPlayer(Game game, GameState state, string name) : base(game, state, name)
         {
@@ -39,9 +40,15 @@ namespace MonoZenith.Players
                 game, state, 
                 new Vector2(
                     _game.ScreenWidth - 100, 
-                    _game.ScreenHeight - 240), 
+                    _game.ScreenHeight - 253), 
                 DataManager.GetInstance(_game).ReserveIndicator,
                 _reserveCardStack);
+            _spiritAshIndicator = new ItemIndicator(
+                game, state, 
+                new Vector2(
+                    _game.ScreenWidth - 100, 
+                    _game.ScreenHeight - 147), 
+                DataManager.GetInstance(_game).MimicTearIndicatorDisabled);
         }
         
         /// <summary>
@@ -170,6 +177,7 @@ namespace MonoZenith.Players
             base.DrawPlayerUI();
             _deckIndicator.Draw();
             _reserveIndicator.Draw();
+            _spiritAshIndicator.Draw();
         }
         
         /// <summary>
@@ -207,6 +215,7 @@ namespace MonoZenith.Players
         {
             base.PerformTurn(state);
             // TODO: Let the player pick cards to play
+            _spiritAshIndicator.Update(state.GameTime);
         }
 
         /// <summary>
