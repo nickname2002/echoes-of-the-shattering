@@ -14,13 +14,14 @@ public class AttackCard : Card
     protected float _staminaCost;
     protected float _damage;
     
-    protected AttackCard(Game game, GameState state, Vector2 position, Texture2D texture, Texture2D activeTexture, string name, Player owner) : 
-        base(game, state, position, texture, activeTexture, name, owner)
+    protected AttackCard(Game game, GameState state, Player owner) : 
+        base(game, state, owner)
     {
         _enemy = owner == state.CurrentPlayer ? state.OpposingPlayer : state.CurrentPlayer;
         _staminaCost = 0f;
         _damage = 0;
         _soundOnPlay = null;
+        _name = "BaseAttackCard";
     }
 
     /// <summary>
@@ -54,8 +55,8 @@ public class AttackCard : Card
 
 public class LightSwordAttackCard : AttackCard
 {
-    protected LightSwordAttackCard(Game game, GameState state, Vector2 position, Texture2D texture, Texture2D activeTexture, string name, Player owner) : 
-        base(game, state, position, texture, activeTexture, name, owner)
+    public LightSwordAttackCard(Game game, GameState state, Player owner) : 
+        base(game, state, owner)
     {
         _soundOnPlay = DataManager.GetInstance(_game).LightSwordAttack;
     }
@@ -63,8 +64,8 @@ public class LightSwordAttackCard : AttackCard
 
 public class HeavySwordAttackCard : AttackCard
 {
-    protected HeavySwordAttackCard(Game game, GameState state, Vector2 position, Texture2D texture, Texture2D activeTexture, string name, Player owner) : 
-        base(game, state, position, texture, activeTexture, name, owner)
+    public HeavySwordAttackCard(Game game, GameState state, Player owner) : 
+        base(game, state, owner)
     {
         _soundOnPlay = DataManager.GetInstance(_game).HeavySwordAttack;
     }

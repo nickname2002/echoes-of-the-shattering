@@ -26,6 +26,14 @@ namespace MonoZenith.Card.CardStack
         }
 
         /// <summary>
+        /// Clear the stack of all cards.
+        /// </summary>
+        public void Clear()
+        {
+            _cards.Clear();
+        }
+        
+        /// <summary>
         /// Add a card to the top of the stack.
         /// </summary>
         /// <param name="card">The card to add.</param>
@@ -73,6 +81,19 @@ namespace MonoZenith.Card.CardStack
         }
 
         /// <summary>
+        /// Pop a random card from the stack.
+        /// </summary>
+        /// <returns>The randomly popped card.</returns>
+        public Card PopRandomCard()
+        {
+            Random rng = new Random();
+            int index = rng.Next(_cards.Count);
+            Card card = _cards[index];
+            _cards.RemoveAt(index);
+            return card;
+        }
+        
+        /// <summary>
         /// Shuffle the stack.
         /// </summary>
         public void Shuffle()
@@ -84,9 +105,7 @@ namespace MonoZenith.Card.CardStack
             {
                 n--;
                 int k = rng.Next(n + 1);
-                Card value = _cards[k];
-                _cards[k] = _cards[n];
-                _cards[n] = value;
+                (_cards[k], _cards[n]) = (_cards[n], _cards[k]);
             }
         }
 
@@ -127,7 +146,7 @@ namespace MonoZenith.Card.CardStack
             
             // If the deck is a subclass of CardStack,
             // draw the cards face down
-            if (this.GetType().IsSubclassOf(typeof(CardStack)))
+            if (GetType().IsSubclassOf(typeof(CardStack)))
             {
                 Card currentCard = _cards[0];
                 currentCard.Draw(_position.X, _position.Y);

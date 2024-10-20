@@ -53,14 +53,14 @@ namespace MonoZenith.Players
         /// </summary>
         public override void DrawHand()
         {
-            int count = Hand.Count;
+            int count = _handStack.Count;
 
             if (count == 0)
                 return;
 
             float widthStep = _handxPos / count;
             
-            foreach (Card.Card card in Hand.Cards)
+            foreach (Card.Card card in _handStack.Cards)
             {
                 float currentWidth = _handxPos - (_handxPos / 2) + (widthStep * count);
 
@@ -81,12 +81,13 @@ namespace MonoZenith.Players
         
         public override void PerformTurn(GameState state)
         {
-            throw new NotImplementedException();
+            base.PerformTurn(state);
+            // TODO: Perform logic of enemy AI
         }
         
         public override void Update(GameTime deltaTime)
         {
-            foreach (var card in Hand.Cards)
+            foreach (var card in _handStack.Cards)
             {
                 card.Update(deltaTime);
             }

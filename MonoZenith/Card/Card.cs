@@ -1,16 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Audio;
-using MonoZenith;
 using MonoZenith.Engine.Support;
 using MonoZenith.Players;
-using static System.Formats.Asn1.AsnWriter;
 
 namespace MonoZenith.Card
 {
@@ -22,8 +14,9 @@ namespace MonoZenith.Card
         protected int _width;
         protected int _height;
         protected float _scale;
-        protected Texture2D _texture;
-        protected Texture2D _activeTexture;
+        protected Texture2D _textureInHand;
+        protected Texture2D _frontTexture;
+        protected Texture2D _backTexture;
         protected string _name;
         protected Player _owner;
         protected SoundEffectInstance _soundOnPlay;
@@ -32,18 +25,21 @@ namespace MonoZenith.Card
         public int Height => _height;
         public float Scale => _scale;
 
-        protected Card(Game game, GameState state, Vector2 position, Texture2D texture, Texture2D activeTexture, string name, Player owner)
+        protected Card(Game game, GameState state, Player owner)
         {
             _game = game;
             _state = state;
-            _position = position;
+            _owner = owner;
+            _position = Vector2.Zero;
             _scale = 0.35f;
-            _texture = texture;
-            _activeTexture = activeTexture;
-            _width = texture.Width;
-            _height = texture.Height;
-            _name = name;
+            _frontTexture = DataManager.GetInstance(_game).CardFront;
+            _backTexture = DataManager.GetInstance(_game).CardBack;
+            _textureInHand = owner is HumanPlayer ? _frontTexture : _backTexture;
+            _width = _frontTexture.Width;
+            _height = _frontTexture.Height;
+            _name = "BaseCard";
             _soundOnPlay = null;
+            _name = GetType().Name;
         }
 
         public override string ToString()
@@ -94,7 +90,7 @@ namespace MonoZenith.Card
             _game.DrawText(
                 _name,
                 _position,
-                DataManager.GetInstance(_game).ComponentFont,
+                DataManager.GetInstance(_game).CardFont,
                 Color.Black
             );
         }
@@ -144,7 +140,7 @@ namespace MonoZenith.Card
             }
             
             _position = new Vector2(newX, newY);
-            Texture2D currentTexture = active ? _activeTexture : _texture;
+            Texture2D currentTexture = active ? _frontTexture : _textureInHand;
             _game.DrawImage(currentTexture, _position, _scale, angle);
 
             if (!active)

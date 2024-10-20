@@ -13,8 +13,8 @@ public class MagicCard : AttackCard
 {
     protected float _focusCost;
     
-    protected MagicCard(Game game, GameState state, Vector2 position, Texture2D texture, Texture2D activeTexture, string name, Player owner) : 
-        base(game, state, position, texture, activeTexture, name, owner)
+    protected MagicCard(Game game, GameState state, Player owner) : 
+        base(game, state, owner)
     {
         _focusCost = 0;
     }
@@ -41,10 +41,12 @@ public class MagicCard : AttackCard
 
 public class GlintStonePebbleCard : MagicCard
 {
-    public GlintStonePebbleCard(Game game, GameState state, Vector2 position, Texture2D texture, Texture2D activeTexture, string name, Player owner) : 
-        base(game, state, position, texture, activeTexture, name, owner)
+    public GlintStonePebbleCard(Game game, GameState state, Player owner) : 
+        base(game, state, owner)
     {
         _soundOnPlay = DataManager.GetInstance(_game).GlintStonePebble;
         _focusCost = 2;
+        _staminaCost = 30;
+        _damage = 15;
     }
 }

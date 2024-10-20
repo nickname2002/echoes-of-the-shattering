@@ -14,6 +14,7 @@ namespace MonoZenith.Engine.Support
         public SpriteFont StartMenuFont;
         public SpriteFont PlayerFont;
         public SpriteFont RegionIndicatorFont;
+        public SpriteFont CardFont;
         
         // Textures
         // Textures: MonoZenith
@@ -66,7 +67,6 @@ namespace MonoZenith.Engine.Support
         public SoundEffectInstance FlaskOfCeruleanTears;
         public SoundEffectInstance EndTurnSound;
         
-
         private DataManager(Game game)
         {
             _game = game;
@@ -93,6 +93,7 @@ namespace MonoZenith.Engine.Support
             StartMenuFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1.75f);
             PlayerFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1.5f);
             RegionIndicatorFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 3f);
+            CardFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1f);
             
             // Load textures
             MonoZenithLogo = _game.LoadImage("Images/monozenith.png");

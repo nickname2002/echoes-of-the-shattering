@@ -60,7 +60,8 @@ namespace MonoZenith.Players
             // Draw Stamina bar with current stamina points
             _game.DrawRectangle(Color.Goldenrod, edgePosition + barOffset * 2, barWidth + 2, healthHeight + 2);
             _game.DrawRectangle(Color.DarkGray, healthPosition + barOffset * 2, barWidth, healthHeight);
-            _game.DrawRectangle(Color.ForestGreen, healthPosition + barOffset * 2, (int)(barWidth * (Stamina / 30f)), healthHeight);
+            _game.DrawRectangle(Color.ForestGreen, healthPosition + barOffset * 2, (int)(barWidth * (Stamina / 30f)),
+                healthHeight);
         }
 
         /// <summary>
@@ -68,7 +69,7 @@ namespace MonoZenith.Players
         /// </summary>
         public override void DrawHand()
         {
-            int count = Hand.Count;
+            int count = _handStack.Count;
             if (count == 0) 
                 return;
             
@@ -78,7 +79,7 @@ namespace MonoZenith.Players
             Dictionary<Card.Card, float> cardPositions = new Dictionary<Card.Card, float>(); 
 
             // Draw cards
-            DrawNonHoveredCards(Hand.Cards, hoveredCards, cardPositions, widthStep);
+            DrawNonHoveredCards(_handStack.Cards, hoveredCards, cardPositions, widthStep);
             DrawHoveredCards(hoveredCards, cardPositions);
         }
 
@@ -154,7 +155,7 @@ namespace MonoZenith.Players
             }
 
             // If no hovered card was clicked, check for any other clicked cards
-            List<Card.Card> clickedCards = Hand.Cards.Where(c => c.IsClicked()).ToList();
+            List<Card.Card> clickedCards = _handStack.Cards.Where(c => c.IsClicked()).ToList();
     
             // Print names of all clicked cards
             foreach (var card in clickedCards)
@@ -173,7 +174,8 @@ namespace MonoZenith.Players
 
         public override void PerformTurn(GameState state)
         {
-            throw new NotImplementedException();
+            base.PerformTurn(state);
+            // TODO: Let the player pick cards to play
         }
 
         /// <summary>
@@ -202,7 +204,7 @@ namespace MonoZenith.Players
 
         public override void Update(GameTime deltaTime)
         {
-            foreach (var card in Hand.Cards)
+            foreach (var card in _handStack.Cards)
             {
                 card.Update(deltaTime);
             }

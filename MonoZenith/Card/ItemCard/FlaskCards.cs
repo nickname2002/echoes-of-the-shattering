@@ -10,8 +10,8 @@ public class FlaskOfCeruleanTearsCard : ItemCard
 {
     private readonly float _focusBoost;
     
-    public FlaskOfCeruleanTearsCard(Game game, GameState state, Vector2 position, Texture2D texture, Texture2D activeTexture, string name, Player owner) : 
-        base(game, state, position, texture, activeTexture, name, owner)
+    public FlaskOfCeruleanTearsCard(Game game, GameState state, Player owner) : 
+        base(game, state, owner)
     {
         _focusBoost = 30;
         _soundOnPlay = DataManager.GetInstance(_game).FlaskOfCeruleanTears;
@@ -36,8 +36,8 @@ public class FlaskOfCrimsonTearsCard : ItemCard
 {
     private readonly float _healthBoost;
     
-    public FlaskOfCrimsonTearsCard(Game game, GameState state, Vector2 position, Texture2D texture, Texture2D activeTexture, string name, Player owner) : 
-        base(game, state, position, texture, activeTexture, name, owner)
+    public FlaskOfCrimsonTearsCard(Game game, GameState state, Player owner) : 
+        base(game, state, owner)
     {
         _healthBoost = 75;
         _soundOnPlay = DataManager.GetInstance(_game).FlaskOfCrimsonTears;
