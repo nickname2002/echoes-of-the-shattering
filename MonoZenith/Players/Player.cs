@@ -20,7 +20,7 @@ namespace MonoZenith.Players
         
         public float Health;
         public float Stamina;
-        public float Mana;
+        public float Focus;
         public Vector2 PlayerPosition;
         public Texture2D PlayerIcon;
         public readonly Texture2D PlayerCurrent;
@@ -58,8 +58,8 @@ namespace MonoZenith.Players
         {
             // Initialize player properties
             Health = 100f;
-            Stamina = 100f;
-            Mana = 100f;
+            Stamina = 30f;
+            Focus = 30f;
             
             // Initialize card stacks
             _deckStack = new CardStack(game, state);
