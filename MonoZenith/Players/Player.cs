@@ -185,6 +185,7 @@ namespace MonoZenith.Players
             List<Card.Card> cardsFromReserve = _reserveCardStack.Cards;
             _deckStack.AddToFront(cardsFromReserve); 
             _reserveCardStack.Clear();
+            _deckStack.Shuffle();
         }
 
         /// <summary>
