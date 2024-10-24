@@ -38,6 +38,8 @@ namespace MonoZenith.Players
             _state = state;
             Name = name;
             Scale = 0.15f;
+            
+            // ReSharper disable once VirtualMemberCallInConstructor
             InitializeState(game, state);
             
             // Load textures and sound effects for player
@@ -54,7 +56,7 @@ namespace MonoZenith.Players
         /// <remarks>
         /// This method initializes the player properties and card stacks.
         /// </remarks>
-        public void InitializeState(Game game, GameState state)
+        public virtual void InitializeState(Game game, GameState state)
         {
             // Initialize player properties
             Health = 100f;
@@ -183,6 +185,7 @@ namespace MonoZenith.Players
             List<Card.Card> cardsFromReserve = _reserveCardStack.Cards;
             _deckStack.AddToFront(cardsFromReserve); 
             _reserveCardStack.Clear();
+            _deckStack.Shuffle();
         }
 
         /// <summary>
@@ -224,7 +227,7 @@ namespace MonoZenith.Players
         /// <summary>
         /// Draw the Player UI Assets.
         /// </summary>
-        public void DrawPlayerUI()
+        protected virtual void DrawPlayerUI()
         {
             // Setup properties of UI assets
             Vector2 iconOffset = GetOffset(PlayerIcon, Scale);

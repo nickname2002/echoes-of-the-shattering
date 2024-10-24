@@ -1,25 +1,56 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
 using Microsoft.Xna.Framework;
+using MonoZenith.Components.Indicator;
 using MonoZenith.Engine.Support;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace MonoZenith.Players
 {
-    internal class HumanPlayer : Player
+    internal sealed class HumanPlayer : Player
     {
-        private Card.Card _lastHoveredCard = null;  
+        private Card.Card _lastHoveredCard;
+        private CardStackIndicator _deckIndicator;
+        private CardStackIndicator _reserveIndicator;
+        private ItemIndicator _spiritAshIndicator;
         
         public HumanPlayer(Game game, GameState state, string name) : base(game, state, name)
         {
             _handxPos = game.ScreenWidth / 2f;
-            _handyPos = game.ScreenHeight / 1.35f;
+            _handyPos = game.ScreenHeight / 1.39f;
             PlayerPosition = new Vector2(game.ScreenWidth * 0.05f, game.ScreenHeight * 0.915f);
             PlayerIcon = DataManager.GetInstance(game).Player;
+            InitializeState(game, state);
         }
-    
+
+        public override void InitializeState(Game game, GameState state)
+        {
+            base.InitializeState(game, state);
+            
+            // Initialize indicators
+            _deckIndicator = new CardStackIndicator(
+                game, state, 
+                new Vector2(
+                    _game.ScreenWidth - 185, 
+                    _game.ScreenHeight - 200), 
+                DataManager.GetInstance(_game).DeckIndicator,
+                _deckStack);
+            _reserveIndicator = new CardStackIndicator(
+                game, state, 
+                new Vector2(
+                    _game.ScreenWidth - 100, 
+                    _game.ScreenHeight - 253), 
+                DataManager.GetInstance(_game).ReserveIndicator,
+                _reserveCardStack);
+            _spiritAshIndicator = new ItemIndicator(
+                game, state, 
+                new Vector2(
+                    _game.ScreenWidth - 100, 
+                    _game.ScreenHeight - 147), 
+                DataManager.GetInstance(_game).MimicTearIndicatorDisabled);
+        }
+        
         /// <summary>
         /// Draw all assets of the HumanPlayer.
         /// </summary>
@@ -141,6 +172,14 @@ namespace MonoZenith.Players
             _lastHoveredCard.Draw(lastHoveredCardPosition, _handyPos - verticalMoveOffset, 0, false, true);
         }
 
+        protected override void DrawPlayerUI()
+        {
+            base.DrawPlayerUI();
+            _deckIndicator.Draw();
+            _reserveIndicator.Draw();
+            _spiritAshIndicator.Draw();
+        }
+        
         /// <summary>
         /// Get the selected card from the hand.
         /// </summary>
@@ -176,6 +215,7 @@ namespace MonoZenith.Players
         {
             base.PerformTurn(state);
             // TODO: Let the player pick cards to play
+            _spiritAshIndicator.Update(state.GameTime);
         }
 
         /// <summary>
@@ -204,10 +244,8 @@ namespace MonoZenith.Players
 
         public override void Update(GameTime deltaTime)
         {
-            foreach (var card in _handStack.Cards)
-            {
-                card.Update(deltaTime);
-            }
+            _deckIndicator.Update(deltaTime);
+            _reserveIndicator.Update(deltaTime);
         }
     }
 }

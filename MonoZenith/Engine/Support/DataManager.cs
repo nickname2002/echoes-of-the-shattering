@@ -13,8 +13,8 @@ namespace MonoZenith.Engine.Support
         public SpriteFont ComponentFont;
         public SpriteFont StartMenuFont;
         public SpriteFont PlayerFont;
-        public SpriteFont RegionIndicatorFont;
         public SpriteFont CardFont;
+        public SpriteFont IndicatorFont;
         
         // Textures
         // Textures: MonoZenith
@@ -30,6 +30,9 @@ namespace MonoZenith.Engine.Support
         public Texture2D Npc;
         public Texture2D PlayerCurrent;
         public Texture2D PlayerWaiting;
+        public Texture2D DeckIndicator;
+        public Texture2D ReserveIndicator;
+        public Texture2D MimicTearIndicatorDisabled;
 
         // Textures: Card 
         public Texture2D CardBack;
@@ -92,8 +95,8 @@ namespace MonoZenith.Engine.Support
             ComponentFont = _game.LoadFont("Fonts/pixel.ttf", 1);
             StartMenuFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1.75f);
             PlayerFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1.5f);
-            RegionIndicatorFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 3f);
             CardFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1f);
+            IndicatorFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1.25f);
             
             // Load textures
             MonoZenithLogo = _game.LoadImage("Images/monozenith.png");
@@ -109,6 +112,9 @@ namespace MonoZenith.Engine.Support
             EndTurnButtonIdleTexture = _game.LoadImage("Images/EndTurnButton/end-turn-button-idle.png");
             EndTurnButtonHoverTexture = _game.LoadImage("Images/EndTurnButton/end-turn-button-hover.png");
             EndTurnButtonDisabledTexture = _game.LoadImage("Images/EndTurnButton/end-turn-button-disabled.png");
+            DeckIndicator = _game.LoadImage("Images/Indicators/deck-indicator.png");
+            ReserveIndicator = _game.LoadImage("Images/Indicators/reserve-indicator.png");
+            MimicTearIndicatorDisabled = _game.LoadImage("Images/Indicators/mimic-tear-indicator-disabled.png");
             
             // Load audio
             MainMenuMusic = _game.LoadAudio("Audio/Music/main-menu-music.wav");

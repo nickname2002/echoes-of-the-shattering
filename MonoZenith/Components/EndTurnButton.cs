@@ -27,7 +27,7 @@ public sealed class EndTurnButton : Button
         textureScale = scale * 0.25f;
         UpdateDimensions();
         Position = new Vector2(
-            Game.ScreenWidth - Width - 50, 
+            Game.ScreenWidth - Width - 25, 
             Game.ScreenHeight / 2 - Height / 2);
 
         var endTurnSound = DataManager.GetInstance(g).EndTurnSound;

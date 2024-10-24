@@ -85,12 +85,6 @@ namespace MonoZenith.Players
             // TODO: Perform logic of enemy AI
         }
         
-        public override void Update(GameTime deltaTime)
-        {
-            foreach (var card in _handStack.Cards)
-            {
-                card.Update(deltaTime);
-            }
-        }
+        public override void Update(GameTime deltaTime) { }
     }
 }

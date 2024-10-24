@@ -142,8 +142,13 @@ namespace MonoZenith
             //     return;
             // }
             
+            Console.WriteLine(_player);
             _currentPlayer?.PerformTurn(this);
             _endTurnButton.Update(deltaTime);
+            
+            // Update players
+            _player.Update(deltaTime);
+            _npc.Update(deltaTime);
         }
         
         /// <summary>
