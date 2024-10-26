@@ -48,5 +48,6 @@ public class GlintStonePebbleCard : MagicCard
         _focusCost = 2;
         _staminaCost = 5;
         _damage = 15;
+        _name = "GlintStonePebbleCard";
     }
 }
