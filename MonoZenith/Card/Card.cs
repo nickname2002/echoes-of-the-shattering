@@ -48,6 +48,12 @@ namespace MonoZenith.Card
         }
 
         /// <summary>
+        /// Checks if the card is affordable for the owner.
+        /// </summary>
+        /// <returns>If the card is affordable.</returns>
+        public abstract bool IsAffordable();
+
+        /// <summary>
         /// Checks if the player is hovering over the card with the mouse pointer.
         /// </summary>
         /// <returns>Returns if the player is hovering over the card.</returns>
