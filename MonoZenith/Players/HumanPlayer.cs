@@ -215,6 +215,10 @@ namespace MonoZenith.Players
         {
             base.PerformTurn(state);
             // TODO: Let the player pick cards to play
+
+            if (TryPlayCard())
+                return;
+
             _spiritAshIndicator.Update(state.GameTime);
         }
 
@@ -232,7 +236,13 @@ namespace MonoZenith.Players
 
             // If the card conditions are not met, return false.
             if (!selectedCard.IsPlayable())
+            {
+                Console.WriteLine("Card is not playable!");
+                Console.WriteLine("Current Stamina: " + Stamina.ToString());
+                Console.WriteLine("Current Focus: " + Focus.ToString());
                 return false;
+            }
+                
 
             PlayCard(selectedCard);
             return true;

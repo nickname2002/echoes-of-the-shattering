@@ -200,7 +200,10 @@ namespace MonoZenith.Players
         /// <param name="card">The card to play.</param>
         protected void PlayCard(Card.Card card)
         {
-            throw new NotImplementedException();
+            card.PerformEffect();
+
+            _reserveCardStack.AddToFront(card);
+            _handStack.Cards.Remove(card);
         }
 
         /// <summary>
