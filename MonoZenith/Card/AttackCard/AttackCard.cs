@@ -14,6 +14,8 @@ public class AttackCard : Card
     protected float _staminaCost;
     protected float _damage;
     
+    public float Damage => _damage;
+    
     protected AttackCard(Game game, GameState state, Player owner) : 
         base(game, state, owner)
     {
@@ -23,7 +25,7 @@ public class AttackCard : Card
         _soundOnPlay = null;
         _name = "BaseAttackCard";
     }
-
+    
     /// <summary>
     /// Lower the stamina of the owner.
     /// </summary>
@@ -35,7 +37,7 @@ public class AttackCard : Card
     /// <summary>
     /// Apply damage to the enemy player.
     /// </summary>
-    protected void AppleEnemyDamage()
+    protected void ApplyEnemyDamage()
     {
         _enemy.Health -= _damage;
     }
@@ -44,10 +46,10 @@ public class AttackCard : Card
     {
         _soundOnPlay.Play();
         LowerPlayerStamina();
-        AppleEnemyDamage();
+        ApplyEnemyDamage();
     }
 
-    public override bool IsPlayable()
+    public override bool IsAffordable()
     {
         return _owner.Stamina >= _staminaCost;
     }
@@ -58,8 +60,8 @@ public class LightSwordAttackCard : AttackCard
     public LightSwordAttackCard(Game game, GameState state, Player owner) : 
         base(game, state, owner)
     {
-        _staminaCost = 5f;
-        _damage = 5f;
+        _staminaCost = 10f;
+        _damage = 10;
         _soundOnPlay = DataManager.GetInstance(_game).LightSwordAttack;
         _name = "LightSwordAttackCard";
     }
@@ -70,8 +72,8 @@ public class HeavySwordAttackCard : AttackCard
     public HeavySwordAttackCard(Game game, GameState state, Player owner) : 
         base(game, state, owner)
     {
-        _staminaCost = 10f;
-        _damage = 20f;
+        _staminaCost = 20f;
+        _damage = 20;
         _soundOnPlay = DataManager.GetInstance(_game).HeavySwordAttack;
         _name = "HeavySwordAttackCard";
     }

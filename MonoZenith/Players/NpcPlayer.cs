@@ -3,18 +3,31 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using MonoZenith.Card;
+using MonoZenith.Card.AttackCard;
 using MonoZenith.Engine.Support;
 
 namespace MonoZenith.Players
 {
+    internal enum AiState
+    {
+        LowHealth,
+        LowFocus,
+        Aggressive
+    };
+    
     internal class NpcPlayer : Player
     {
+        private readonly float _originalHealth;
+        private readonly float _originalFocus;
+        
         public NpcPlayer(Game game, GameState state, string name) : base(game, state, name)
         {
             _handxPos = game.ScreenWidth / 2f;
             _handyPos = game.ScreenHeight / 3.9f;
             PlayerPosition = new Vector2(game.ScreenWidth * 0.05f, game.ScreenHeight * 0.085f);
             PlayerIcon = DataManager.GetInstance(game).Npc;
+            _originalHealth = Health;
+            _originalFocus = Focus;
         }
 
         /// <summary>
@@ -23,7 +36,7 @@ namespace MonoZenith.Players
         public override void Draw()
         {
             DrawPlayerHealthAndName();
-            DrawPlayerUI();
+            DrawPlayerUi();
             DrawHand();
         }
 
@@ -69,20 +82,155 @@ namespace MonoZenith.Players
             }
         }
 
-        protected override bool TryPlayCard()
+        /// <summary>
+        /// Determine the state of the NpcPlayer.
+        /// </summary>
+        /// <returns>The state of the NpcPlayer.</returns>
+        private AiState DetermineState()
         {
-            throw new NotImplementedException();
+            if (HealthPercentage() <= 30f)
+                return AiState.LowHealth;
+            
+            if (FocusPercentage() <= 30f)
+                return AiState.LowFocus;
+            
+            return AiState.Aggressive;
         }
 
-        protected override void TryDrawCard()
+        /// <summary>
+        /// Calculates the percentage of the NpcPlayer's current health relative to their original health.
+        /// </summary>
+        /// <returns>A float between 0 and 100 indicating the percentage of health remaining.</returns>
+        private float HealthPercentage() => Health / _originalHealth * 100;
+        
+        /// <summary>
+        /// Calculates the percentage of the NpcPlayer's current focus relative to their original focus.
+        /// </summary>
+        /// <returns>A float between 0 and 100 indicating the percentage of focus remaining.</returns>
+        private float FocusPercentage() => Focus / _originalFocus * 100;
+        
+        /// <summary>
+        /// Determines and plays the optimal card based on the current AI state.
+        /// </summary>
+        private void PlayStrategicCard()
         {
-            throw new NotImplementedException();
+            var currentState = DetermineState();
+
+            // Buffer actions with strategies 
+            var strategies = new List<Func<bool>>
+            {
+                () => currentState == AiState.LowHealth && HealthRecoveryAttemptSuccessful(),
+                () => currentState == AiState.LowFocus && FocusRecoveryAttemptSuccessful(),
+                OffensiveAttackAttemptSuccessful
+            };
+
+            // Execute the first successful strategy based on state and exit
+            foreach (var strategy in strategies)
+            {
+                if (strategy())
+                    return;
+            }
+        }
+
+        /// <summary>
+        /// Attempt to play a health recovery card. If a FlaskOfCrimsonTearsCard is available in the hand
+        /// and can be afforded, play it. Return true if successful, false otherwise.
+        /// </summary>
+        /// <returns>true if a health recovery card was played, false otherwise</returns>
+        private bool HealthRecoveryAttemptSuccessful()
+        {
+            var healthCard = _handStack.Cards.Find(card => card is FlaskOfCrimsonTearsCard);
+
+            if (healthCard == null || !healthCard.IsAffordable()) 
+                return false;
+            
+            PlayCard(healthCard);
+            return true;
+        }
+
+        /// <summary>
+        /// Attempt to play a focus recovery card. If a FlaskOfCeruleanTearsCard is available in the hand
+        /// and can be afforded, play it. Return true if successful, false otherwise.
+        /// </summary>
+        /// <returns>true if a focus recovery card was played, false otherwise</returns>
+        private bool FocusRecoveryAttemptSuccessful()
+        {
+            var focusCard = _handStack.Cards.Find(card => card is FlaskOfCeruleanTearsCard);
+
+            if (focusCard == null || !focusCard.IsAffordable()) 
+                return false;
+            
+            PlayCard(focusCard);
+            return true;
+        }
+
+        /// <summary>
+        /// Attempt to play the most powerful attack card available in the hand.
+        /// This method orders the attack cards by their attack power, 
+        /// and then attempts to play the strongest card that can be afforded.
+        /// Returns true if a card was successfully played; otherwise, false.
+        /// </summary>
+        /// <returns>true if an attack card was played; otherwise, false</returns>
+        private bool OffensiveAttackAttemptSuccessful()
+        {
+            // Filter for attack cards in hand and order them by descending attack power
+            var attackCards = _handStack.Cards
+                .OfType<AttackCard>()              
+                .OrderByDescending(card => card.Damage) 
+                .ToList();
+
+            // Attempt to play the most powerful affordable attack card
+            foreach (var attackCard in attackCards)
+            {
+                if (!attackCard.IsAffordable()) 
+                    continue;
+                
+                PlayCard(attackCard);   
+                return true;            
+            }
+
+            return false;   
         }
         
         public override void PerformTurn(GameState state)
         {
             base.PerformTurn(state);
-            // TODO: Perform logic of enemy AI
+            
+            while (CardsAvailableToPlay())
+            {
+                PlayStrategicCard();
+            }
+            
+            MoveCardsFromHandToReserve();
+            MoveCardsFromPlayedToReserve();
+            ResetPlayerStamina();
+            _state.SwitchTurn();
+        }
+
+        /// <summary>
+        /// Determines if there are any cards in the player's hand that can be played.
+        /// Only considers cards that are necessary based on the current AI state.
+        /// </summary>
+        /// <returns>True if there are cards in the player's hand that can be played,
+        /// false otherwise.</returns>
+        private bool CardsAvailableToPlay()
+        {
+            var currentState = DetermineState();
+
+            switch (currentState)
+            {
+                case AiState.LowHealth when _handStack.Cards.Any(card => card is FlaskOfCrimsonTearsCard 
+                                                                         && card.IsAffordable()):
+                
+                case AiState.LowFocus when _handStack.Cards.Any(card => card is FlaskOfCeruleanTearsCard 
+                                                                        && card.IsAffordable()):
+                    return true;
+                
+                case AiState.Aggressive:
+                
+                default:
+                    return _handStack.Cards.OfType<AttackCard>().Any(card => card.IsAffordable());
+            }
         }
         
         public override void Update(GameTime deltaTime) { }

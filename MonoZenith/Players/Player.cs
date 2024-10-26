@@ -17,6 +17,7 @@ namespace MonoZenith.Players
         protected float _handyPos;
         protected float Scale;
         protected SpriteFont PlayerFont;
+        private float _originalStamina;
         
         public float Health;
         public float Stamina;
@@ -63,7 +64,9 @@ namespace MonoZenith.Players
             Health = 100f;
             Stamina = 30f;
             Focus = 30f;
+            _originalStamina = 30f;
             _cardsDrawn = false;
+            
             
             // Initialize card stacks
             _deckStack = new CardStack(game, state);
@@ -128,6 +131,9 @@ namespace MonoZenith.Players
         public override string ToString()
         {
             return $"==== {Name} ====\n\n\n" +
+                   $"HEALTH: {Health}\n\n" +
+                   $"STAMINA: {Stamina}\n\n" +
+                   $"FOCUS: {Focus}\n\n" +
                    $"DECK STACK: {_deckStack}\n\n" +
                    $"RESERVE CARD STACK: {_reserveCardStack}\n\n" +
                    $"HAND STACK: {_handStack}\n\n\n";
@@ -145,11 +151,6 @@ namespace MonoZenith.Players
                 DrawCardsFromDeck();
                 _cardsDrawn = true;
             }
-
-            //Console.WriteLine($"{Name}'s Turn\n\n");
-            //Console.WriteLine($"Hand: {_handStack}\n" +
-            //                  $"Reserve: {_reserveCardStack.Count}\n" +
-            //                 $"Deck: {_deckStack.Count}");
         }
         
         /// <summary>
@@ -174,6 +175,14 @@ namespace MonoZenith.Players
             }
         }
 
+        /// <summary>
+        /// Reset the player's stamina.
+        /// </summary>
+        protected void ResetPlayerStamina() => Stamina = _originalStamina;
+        
+        /// <summary>
+        /// Move the cards from the hand to the reserve pile.
+        /// </summary>
         public void MoveCardsFromHandToReserve()
         {
             List<Card.Card> cardsFromHand = _handStack.Cards;
@@ -195,10 +204,14 @@ namespace MonoZenith.Players
         }
 
         /// <summary>
-        /// Attempt to play the selected card.
+        /// Move the cards from the played stack to the reserve stack.
         /// </summary>
-        /// <returns>Whether a valid card was played.</returns>
-        protected abstract bool TryPlayCard();
+        protected void MoveCardsFromPlayedToReserve()
+        {
+            List<Card.Card> cardsFromPlayed = _state.PlayedCards.Cards;
+            _reserveCardStack.AddToFront(cardsFromPlayed); 
+            _state.PlayedCards.Clear();
+        }
         
         /// <summary>
         /// Play the selected card and update the game state.
@@ -206,16 +219,11 @@ namespace MonoZenith.Players
         /// <param name="card">The card to play.</param>
         protected void PlayCard(Card.Card card)
         {
+            _state.PlayedCards.AddToFront(card);
             card.PerformEffect();
-
-            _reserveCardStack.AddToFront(card);
-            _handStack.Cards.Remove(card);
+            _handStack.Remove(card);
+            _game.DebugLog(this.Name + " playing card: " + card);
         }
-
-        /// <summary>
-        /// Draw a card from the deck and add it to the player's hand.
-        /// </summary>
-        protected abstract void TryDrawCard();
 
         /// <summary>
         /// Update the player.
@@ -236,7 +244,7 @@ namespace MonoZenith.Players
         /// <summary>
         /// Draw the Player UI Assets.
         /// </summary>
-        protected virtual void DrawPlayerUI()
+        protected virtual void DrawPlayerUi()
         {
             // Setup properties of UI assets
             Vector2 iconOffset = GetOffset(PlayerIcon, Scale);
@@ -262,10 +270,10 @@ namespace MonoZenith.Players
         /// </summary>
         /// <param name="texture">The given texture.</param>
         /// <param name="scale">The scale in which the texture will be drawn.</param>
-        public Vector2 GetOffset(Texture2D texture, float scale)
+        protected Vector2 GetOffset(Texture2D texture, float scale)
         {
-            float widthOffset = texture.Width * scale * 0.5f;
-            float heightOffset = texture.Height * scale * 0.5f;
+            var widthOffset = texture.Width * scale * 0.5f;
+            var heightOffset = texture.Height * scale * 0.5f;
             return new Vector2(widthOffset, heightOffset);
         }
     }

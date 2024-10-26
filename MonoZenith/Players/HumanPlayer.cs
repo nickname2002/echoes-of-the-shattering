@@ -57,7 +57,7 @@ namespace MonoZenith.Players
         public override void Draw()
         {          
             DrawPlayerHealthAndName();
-            DrawPlayerUI();
+            DrawPlayerUi();
             DrawHand();
         }
 
@@ -172,9 +172,9 @@ namespace MonoZenith.Players
             _lastHoveredCard.Draw(lastHoveredCardPosition, _handyPos - verticalMoveOffset, 0, false, true);
         }
 
-        protected override void DrawPlayerUI()
+        protected override void DrawPlayerUi()
         {
-            base.DrawPlayerUI();
+            base.DrawPlayerUi();
             _deckIndicator.Draw();
             _reserveIndicator.Draw();
             _spiritAshIndicator.Draw();
@@ -226,7 +226,7 @@ namespace MonoZenith.Players
         /// Attempt to play the selected card.
         /// </summary>
         /// <returns>Whether a valid card was played.</returns>
-        protected override bool TryPlayCard()
+        public bool TryPlayCard()
         {
             var selectedCard = GetSelectedCard();
 
@@ -235,7 +235,7 @@ namespace MonoZenith.Players
                 return false;
 
             // If the card conditions are not met, return false.
-            if (!selectedCard.IsPlayable())
+            if (!selectedCard.IsAffordable())
             {
                 Console.WriteLine("Card is not playable!");
                 Console.WriteLine("Current Stamina: " + Stamina.ToString());
@@ -243,17 +243,8 @@ namespace MonoZenith.Players
                 return false;
             }
                 
-
             PlayCard(selectedCard);
             return true;
-        }
-
-        /// <summary>
-        /// Draw a card from the deck and add it to the player's hand.
-        /// </summary>
-        protected override void TryDrawCard()
-        {
-            throw new NotImplementedException();
         }
 
         public override void Update(GameTime deltaTime)

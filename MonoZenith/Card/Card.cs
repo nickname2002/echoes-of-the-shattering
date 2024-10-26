@@ -77,10 +77,10 @@ namespace MonoZenith.Card
         public abstract void PerformEffect();
 
         /// <summary>
-        /// Checks if the card can be played.
+        /// Checks if the card is affordable.
         /// </summary>
-        /// <returns>If the card can be played.</returns>
-        public abstract bool IsPlayable();
+        /// <returns>If the card is affordable.</returns>
+        public abstract bool IsAffordable();
 
         /// <summary>
         /// Draw the metadata of the card onto the front side of the card.
