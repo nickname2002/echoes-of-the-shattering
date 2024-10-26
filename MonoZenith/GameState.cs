@@ -61,8 +61,6 @@ namespace MonoZenith
             // Initialize players
             _player.InitializeState(_game, this);
             _npc.InitializeState(_game, this);
-            Console.WriteLine(_player);
-            Console.WriteLine(_npc);
             
             // Determine the starting player
             DetermineStartingPlayer();
@@ -108,7 +106,6 @@ namespace MonoZenith
         public void SwitchTurn()
         {
             _currentPlayer = _currentPlayer == _player? _npc : _player;
-            Console.WriteLine($"Turn: {_currentPlayer.Name}");
         }
 
         private void DisplayWinnerMessage()
@@ -142,7 +139,6 @@ namespace MonoZenith
             //     return;
             // }
             
-            Console.WriteLine(_player);
             _currentPlayer?.PerformTurn(this);
             _endTurnButton.Update(deltaTime);
             

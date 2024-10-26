@@ -26,11 +26,32 @@ namespace MonoZenith.Card.CardStack
         }
 
         /// <summary>
+        /// Check if the stack is empty.
+        /// </summary>
+        /// <returns>Whether the stack is empty.</returns>
+        public bool IsEmpty() => _cards.Count == 0;
+        
+        /// <summary>
+        /// Determine if there are any affordable cards in the stack.
+        /// </summary>
+        /// <returns>True if there is at least one card that is affordable; otherwise, false.</returns>
+        public bool ContainsAffordableCards() => _cards.Any(card => card.IsAffordable());
+        
+        /// <summary>
         /// Clear the stack of all cards.
         /// </summary>
         public void Clear()
         {
             _cards.Clear();
+        }
+
+        /// <summary>
+        /// Remove card from the stack of cards.
+        /// </summary>
+        /// <param name="card">The card to remove.</param>
+        public void Remove(Card card)
+        {
+            _cards.Remove(card);
         }
         
         /// <summary>

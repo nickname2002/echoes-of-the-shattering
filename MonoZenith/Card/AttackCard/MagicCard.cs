@@ -18,7 +18,7 @@ public class MagicCard : AttackCard
     {
         _focusCost = 0;
     }
-
+    
     /// <summary>
     /// Lower the mana of the owner.
     /// </summary>
@@ -27,9 +27,9 @@ public class MagicCard : AttackCard
         _owner.Focus -= _focusCost;
     }
 
-    protected override bool IsPlayable()
+    public override bool IsAffordable()
     {
-        return base.IsPlayable() && _owner.Focus >= _focusCost;
+        return base.IsAffordable() && _owner.Focus >= _focusCost;
     }
 
     public override void PerformEffect()
