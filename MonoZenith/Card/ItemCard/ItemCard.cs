@@ -11,13 +11,11 @@ public class ItemCard : Card
     {
         _owner = owner;
     }
-
-    public override bool IsAffordable() => true;
-
+    
     public override void PerformEffect()
     {
         _soundOnPlay.Play();
     }
 
-    protected override bool IsPlayable() => true;
+    public override bool IsAffordable() => true;
 }

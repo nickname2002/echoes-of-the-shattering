@@ -26,8 +26,6 @@ public class AttackCard : Card
         _name = "BaseAttackCard";
     }
     
-    public override bool IsAffordable() => _owner.Stamina >= _staminaCost;
-    
     /// <summary>
     /// Lower the stamina of the owner.
     /// </summary>
@@ -51,7 +49,7 @@ public class AttackCard : Card
         ApplyEnemyDamage();
     }
 
-    protected override bool IsPlayable()
+    public override bool IsAffordable()
     {
         return _owner.Stamina >= _staminaCost;
     }
