@@ -89,7 +89,8 @@ namespace MonoZenith
             }
             else
             {
-                _currentPlayer = _npc;
+                //TODO: Change back to npc for debug later
+                _currentPlayer = _player;
             }
         }
 
@@ -142,7 +143,7 @@ namespace MonoZenith
             //     return;
             // }
             
-            Console.WriteLine(_player);
+            //Console.WriteLine(_player);
             _currentPlayer?.PerformTurn(this);
             _endTurnButton.Update(deltaTime);
             

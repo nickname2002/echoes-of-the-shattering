@@ -26,6 +26,7 @@ namespace MonoZenith.Players
         public readonly Texture2D PlayerCurrent;
         public readonly Texture2D PlayerWaiting;
         public readonly string Name;
+        protected bool _cardsDrawn;
         
         // Card stacks
         protected CardStack _deckStack;
@@ -62,6 +63,7 @@ namespace MonoZenith.Players
             Health = 100f;
             Stamina = 30f;
             Focus = 30f;
+            _cardsDrawn = false;
             
             // Initialize card stacks
             _deckStack = new CardStack(game, state);
@@ -138,13 +140,16 @@ namespace MonoZenith.Players
         public virtual void PerformTurn(GameState state)
         {
             // Draw cards from hand only once
-            if (_handStack.Count == 0)
+            if (_handStack.Count == 0 && !_cardsDrawn)
+            {
                 DrawCardsFromDeck();
-            
-            Console.WriteLine($"{Name}'s Turn\n\n");
-            Console.WriteLine($"Hand: {_handStack}\n" +
-                              $"Reserve: {_reserveCardStack.Count}\n" +
-                              $"Deck: {_deckStack.Count}");
+                _cardsDrawn = true;
+            }
+
+            //Console.WriteLine($"{Name}'s Turn\n\n");
+            //Console.WriteLine($"Hand: {_handStack}\n" +
+            //                  $"Reserve: {_reserveCardStack.Count}\n" +
+            //                 $"Deck: {_deckStack.Count}");
         }
         
         /// <summary>
@@ -174,6 +179,7 @@ namespace MonoZenith.Players
             List<Card.Card> cardsFromHand = _handStack.Cards;
             _reserveCardStack.AddToFront(cardsFromHand); 
             _handStack.Clear();
+            _cardsDrawn = false;
         }
         
         /// <summary>
