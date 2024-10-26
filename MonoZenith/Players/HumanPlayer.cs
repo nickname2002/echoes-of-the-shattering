@@ -230,6 +230,10 @@ namespace MonoZenith.Players
             if (selectedCard == null) 
                 return false;
 
+            // If the card conditions are not met, return false.
+            if (!selectedCard.IsPlayable())
+                return false;
+
             PlayCard(selectedCard);
             return true;
         }

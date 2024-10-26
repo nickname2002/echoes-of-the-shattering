@@ -80,7 +80,7 @@ namespace MonoZenith.Card
         /// Checks if the card can be played.
         /// </summary>
         /// <returns>If the card can be played.</returns>
-        protected abstract bool IsPlayable();
+        public abstract bool IsPlayable();
 
         /// <summary>
         /// Draw the metadata of the card onto the front side of the card.
