@@ -58,14 +58,14 @@ namespace MonoZenith
             PlayedCards.ChangePosition(playedX, height);
             PlayedCards.ChangePosition(playedX, height);
 
+            // Determine the starting player
+            DetermineStartingPlayer();
+
             // Initialize players
             _player.InitializeState(_game, this);
             _npc.InitializeState(_game, this);
             Console.WriteLine(_player);
             Console.WriteLine(_npc);
-            
-            // Determine the starting player
-            DetermineStartingPlayer();
         }
 
         /// <summary>
