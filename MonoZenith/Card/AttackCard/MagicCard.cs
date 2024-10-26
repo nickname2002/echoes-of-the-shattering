@@ -27,7 +27,7 @@ public class MagicCard : AttackCard
         _owner.Focus -= _focusCost;
     }
 
-    protected override bool IsPlayable()
+    public override bool IsPlayable()
     {
         return base.IsPlayable() && _owner.Focus >= _focusCost;
     }
@@ -46,7 +46,7 @@ public class GlintStonePebbleCard : MagicCard
     {
         _soundOnPlay = DataManager.GetInstance(_game).GlintStonePebble;
         _focusCost = 2;
-        _staminaCost = 30;
+        _staminaCost = 5;
         _damage = 15;
     }
 }

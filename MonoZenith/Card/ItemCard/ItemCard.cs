@@ -17,5 +17,5 @@ public class ItemCard : Card
         _soundOnPlay.Play();
     }
 
-    protected override bool IsPlayable() => true;
+    public override bool IsPlayable() => true;
 }

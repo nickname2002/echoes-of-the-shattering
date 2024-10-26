@@ -47,7 +47,7 @@ public class AttackCard : Card
         AppleEnemyDamage();
     }
 
-    protected override bool IsPlayable()
+    public override bool IsPlayable()
     {
         return _owner.Stamina >= _staminaCost;
     }
@@ -58,6 +58,8 @@ public class LightSwordAttackCard : AttackCard
     public LightSwordAttackCard(Game game, GameState state, Player owner) : 
         base(game, state, owner)
     {
+        _staminaCost = 5f;
+        _damage = 5f;
         _soundOnPlay = DataManager.GetInstance(_game).LightSwordAttack;
     }
 }
@@ -67,6 +69,8 @@ public class HeavySwordAttackCard : AttackCard
     public HeavySwordAttackCard(Game game, GameState state, Player owner) : 
         base(game, state, owner)
     {
+        _staminaCost = 10f;
+        _damage = 20f;
         _soundOnPlay = DataManager.GetInstance(_game).HeavySwordAttack;
     }
 }
