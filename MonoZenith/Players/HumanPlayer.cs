@@ -236,10 +236,6 @@ namespace MonoZenith.Players
             // If the card conditions are not met, return false.
             if (!selectedCard.IsAffordable())
             {
-                //TODO: Remove console later
-                Console.WriteLine("Card is not playable!");
-                Console.WriteLine("Current Stamina: " + Stamina.ToString());
-                Console.WriteLine("Current Focus: " + Focus.ToString());
                 return false;
             }
                 

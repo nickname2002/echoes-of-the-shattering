@@ -37,6 +37,7 @@ namespace MonoZenith.Engine.Support
         // Textures: Card 
         public Texture2D CardBack;
         public Texture2D CardFront;
+        public Texture2D CardHidden;
         
         // Textures: EndTurnButton
         public Texture2D EndTurnButtonIdleTexture;
@@ -111,6 +112,7 @@ namespace MonoZenith.Engine.Support
             Backdrop = _game.LoadImage("Images/Backdrops/backdrop.png");
             CardBack = _game.LoadImage("Images/Cards/back-card-design.png");
             CardFront = _game.LoadImage("Images/Cards/front-card-design.png");
+            CardHidden = _game.LoadImage("Images/Cards/card-hidden.png");
             EndTurnButtonIdleTexture = _game.LoadImage("Images/EndTurnButton/end-turn-button-idle.png");
             EndTurnButtonHoverTexture = _game.LoadImage("Images/EndTurnButton/end-turn-button-hover.png");
             EndTurnButtonDisabledTexture = _game.LoadImage("Images/EndTurnButton/end-turn-button-disabled.png");

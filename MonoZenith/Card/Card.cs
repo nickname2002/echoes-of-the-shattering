@@ -17,6 +17,7 @@ namespace MonoZenith.Card
         protected Texture2D _textureInHand;
         protected Texture2D _frontTexture;
         protected Texture2D _backTexture;
+        protected Texture2D _hiddenTexture;
         protected string _name;
         protected Player _owner;
         protected SoundEffectInstance _soundOnPlay;
@@ -34,6 +35,7 @@ namespace MonoZenith.Card
             _scale = 0.35f;
             _frontTexture = DataManager.GetInstance(_game).CardFront;
             _backTexture = DataManager.GetInstance(_game).CardBack;
+            _hiddenTexture = DataManager.GetInstance(_game).CardHidden;
             _textureInHand = owner is HumanPlayer ? _frontTexture : _backTexture;
             _width = _frontTexture.Width;
             _height = _frontTexture.Height;
@@ -142,6 +144,9 @@ namespace MonoZenith.Card
             _position = new Vector2(newX, newY);
             Texture2D currentTexture = active ? _frontTexture : _textureInHand;
             _game.DrawImage(currentTexture, _position, _scale, angle);
+
+            if(!IsAffordable())
+                _game.DrawImage(_hiddenTexture, _position, _scale, angle);
 
             if (!active)
                 return; 
