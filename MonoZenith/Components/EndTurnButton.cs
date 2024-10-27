@@ -24,10 +24,10 @@ public sealed class EndTurnButton : Button
         _disabledTexture = DataManager.GetInstance(g).EndTurnButtonDisabledTexture;
         _currentTexture = _activeIdleTexture;
         _gameState = gs;
-        textureScale = scale * 0.25f;
+        textureScale = scale * 0.25f * AppSettings.Scaling.ScaleFactor;
         UpdateDimensions();
         Position = new Vector2(
-            Game.ScreenWidth - Width - 25, 
+            Game.ScreenWidth - Width - 25 * AppSettings.Scaling.ScaleFactor, 
             Game.ScreenHeight / 2 - Height / 2);
 
         var endTurnSound = DataManager.GetInstance(g).EndTurnSound;
