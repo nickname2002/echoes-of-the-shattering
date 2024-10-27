@@ -206,7 +206,7 @@ namespace MonoZenith.Players
         /// <summary>
         /// Move the cards from the played stack to the reserve stack.
         /// </summary>
-        protected void MoveCardsFromPlayedToReserve()
+        public void MoveCardsFromPlayedToReserve()
         {
             List<Card.Card> cardsFromPlayed = _state.PlayedCards.Cards;
             _reserveCardStack.AddToFront(cardsFromPlayed); 
@@ -219,7 +219,7 @@ namespace MonoZenith.Players
         /// <param name="card">The card to play.</param>
         protected void PlayCard(Card.Card card)
         {
-            _state.PlayedCards.AddToFront(card);
+            _state.PlayedCards.AddToBottom(card);
             card.PerformEffect();
             _handStack.Remove(card);
             _game.DebugLog(this.Name + " playing card: " + card);
