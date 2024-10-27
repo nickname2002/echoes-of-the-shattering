@@ -69,6 +69,8 @@ namespace MonoZenith.Engine.Support
         public SoundEffectInstance FlaskOfCrimsonTears;
         public SoundEffectInstance FlaskOfCeruleanTears;
         public SoundEffectInstance EndTurnSound;
+        public SoundEffectInstance PlayerDeathSound;
+        public SoundEffectInstance EnemyDeathSound;
         
         private DataManager(Game game)
         {
@@ -130,6 +132,8 @@ namespace MonoZenith.Engine.Support
             FlaskOfCrimsonTears = _game.LoadAudio("Audio/SoundEffects/flask-of-crimson-tears.wav");
             FlaskOfCeruleanTears = _game.LoadAudio("Audio/SoundEffects/flask-of-cerulean-tears.wav");
             EndTurnSound = _game.LoadAudio("Audio/SoundEffects/end-turn-sound-effect.wav");
+            PlayerDeathSound = _game.LoadAudio("Audio/SoundEffects/player-death.wav");
+            EnemyDeathSound = _game.LoadAudio("Audio/SoundEffects/enemy-felled.wav");
         }
     }
 }

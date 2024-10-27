@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Card.CardStack;
 using MonoZenith.Components;
@@ -27,7 +28,9 @@ namespace MonoZenith
         private readonly SpriteFont _componentFont;
         private readonly EndTurnButton _endTurnButton;
         private CardStack _playedCardStack;
-        
+        private readonly SoundEffectInstance _playerDeathSound;
+        private readonly SoundEffectInstance _enemyDeathSound;
+
         public Player CurrentPlayer => _currentPlayer?? _player;
         public Player OpposingPlayer => _currentPlayer == _player? _npc : _player;
 
@@ -40,6 +43,8 @@ namespace MonoZenith
             _currentPlayer = null;
             PlayedCards = new CardStack(_game, this);
             _componentFont = DataManager.GetInstance(game).ComponentFont;
+            _playerDeathSound = DataManager.GetInstance(game).PlayerDeathSound;
+            _enemyDeathSound = DataManager.GetInstance(game).EnemyDeathSound;
             InitializeState();
             _endTurnButton = new EndTurnButton(_game, this);
             _playedCardStack = new CardStack(_game, this);
@@ -75,6 +80,7 @@ namespace MonoZenith
             if (_currentWinner != null)
             {
                 _currentPlayer = _currentWinner;
+                _currentWinner = null;
                 return;
             }
 
@@ -97,7 +103,21 @@ namespace MonoZenith
         /// <returns>The winning player, or null if there is no winner.</returns>
         public Player? HasWinner()
         {
-            throw new NotImplementedException();
+            if (_npc.Health < 1)
+            {
+                if (_currentWinner == null)
+                    _enemyDeathSound.Play();
+                _currentWinner = _player;
+                return _player;
+            }
+
+            if (_player.Health > 0)
+                return null;
+
+            if (_currentWinner == null)
+                _playerDeathSound.Play();
+            _currentWinner = _npc;
+            return _npc;
         }
 
         /// <summary>
@@ -134,10 +154,10 @@ namespace MonoZenith
         {
             GameTime = deltaTime;
             
-            // if (HasWinner() != null)
-            // {
-            //     return;
-            // }
+            if (HasWinner() != null)
+            {
+                return;
+            }
             
             _currentPlayer?.PerformTurn(this);
             _endTurnButton.Update(deltaTime);
@@ -155,11 +175,11 @@ namespace MonoZenith
             // Draw backdrop
             _game.DrawImage(DataManager.GetInstance(_game).Backdrop, Vector2.Zero);
 
-            // if (HasWinner() != null)
-            // {
-            //     DisplayWinnerMessage();
-            //     return;
-            // }
+            if (HasWinner() != null)
+            {
+                DisplayWinnerMessage();
+                return;
+            }
             
             // Draw cards in play
             PlayedCards.Draw();
