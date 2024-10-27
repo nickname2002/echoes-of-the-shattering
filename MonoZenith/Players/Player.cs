@@ -178,7 +178,7 @@ namespace MonoZenith.Players
         /// <summary>
         /// Reset the player's stamina.
         /// </summary>
-        protected void ResetPlayerStamina() => Stamina = _originalStamina;
+        public void ResetPlayerStamina() => Stamina = _originalStamina;
         
         /// <summary>
         /// Move the cards from the hand to the reserve pile.

@@ -39,6 +39,7 @@ public sealed class EndTurnButton : Button
             
             endTurnSound.Play();
             _gameState.CurrentPlayer.MoveCardsFromHandToReserve();
+            _gameState.CurrentPlayer.ResetPlayerStamina();
             _gameState.SwitchTurn();
         });
     }
