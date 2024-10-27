@@ -67,7 +67,6 @@ namespace MonoZenith.Players
             _originalStamina = 30f;
             _cardsDrawn = false;
             
-            
             // Initialize card stacks
             _deckStack = new CardStack(game, state);
             _reserveCardStack = new CardStack(game, state);

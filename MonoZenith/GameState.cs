@@ -27,7 +27,6 @@ namespace MonoZenith
         public readonly CardStack PlayedCards;
         private readonly SpriteFont _componentFont;
         private readonly EndTurnButton _endTurnButton;
-        private CardStack _playedCardStack;
         private readonly SoundEffectInstance _playerDeathSound;
         private readonly SoundEffectInstance _enemyDeathSound;
 
@@ -47,7 +46,6 @@ namespace MonoZenith
             _enemyDeathSound = DataManager.GetInstance(game).EnemyDeathSound;
             InitializeState();
             _endTurnButton = new EndTurnButton(_game, this);
-            _playedCardStack = new CardStack(_game, this);
         }
 
         /// <summary>
@@ -56,7 +54,6 @@ namespace MonoZenith
         private void InitializeState()
         {
             // Calculate positions of the decks
-            float drawableX = _game.ScreenWidth / 2.2f;
             float playedX = _game.ScreenWidth / 1.8f;
             float height = _game.ScreenHeight / 2f;
             
