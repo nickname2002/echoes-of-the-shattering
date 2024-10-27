@@ -9,10 +9,10 @@ namespace MonoZenith.Components.MainMenuScreen;
 public class MainMenuOptionButton : Button
 {
     private readonly Texture2D _hoverIndicator;
-    private readonly float _hoverIndicatorScale;
+    private float _hoverIndicatorScale;
     private readonly SoundEffectInstance _activationSound;
     
-    public MainMenuOptionButton(Game g, int y, string content, Action a, SoundEffectInstance activationSound = null) : 
+    public MainMenuOptionButton(Game g, float y, string content, Action a, SoundEffectInstance activationSound = null) : 
         base(g, Vector2.Zero, 0, 0, content, 1, Color.White, Color.Black, 0, Color.Black)
     {
         SetOnClickAction(a);
@@ -21,7 +21,9 @@ public class MainMenuOptionButton : Button
         _hoverIndicatorScale = 0.3f;
         Width = (int)_font.MeasureString(Content).X;
         Height = (int)_font.MeasureString(Content).Y;
-        Position = new Vector2(Game.ScreenWidth / 2 - Width / 2, y);
+
+        // Apply scaling factor to Y position
+        Position = new Vector2(Game.ScreenWidth / 2 - Width / 2, y); 
         _buttonColor = Color.Black;
         _activationSound = activationSound;
     }
@@ -45,19 +47,6 @@ public class MainMenuOptionButton : Button
         }
     }
     
-    /// <summary>
-    /// Draw the indicator specifying the button is hovered.
-    /// </summary>
-    private void DrawHoverIndicator()
-    {
-        Game.DrawImage(
-            _hoverIndicator,
-            new Vector2(
-                Game.ScreenWidth / 2 - _hoverIndicator.Width / 2 * _hoverIndicatorScale,
-                Position.Y - Height * _hoverIndicatorScale / 2 - _hoverIndicatorScale * 40),
-            _hoverIndicatorScale);
-    }
-    
     public override void Draw()
     {
         if (IsHovered())
@@ -66,5 +55,17 @@ public class MainMenuOptionButton : Button
         }
 
         DrawBorderContent();
+    }
+
+    private void DrawHoverIndicator()
+    {
+        _hoverIndicatorScale = 0.3f * AppSettings.Scaling.ScaleFactor;
+        
+        Game.DrawImage(
+            _hoverIndicator,
+            new Vector2(
+                Game.ScreenWidth / 2 - _hoverIndicator.Width / 2 * _hoverIndicatorScale,
+                Position.Y - Height * _hoverIndicatorScale / 2 - _hoverIndicatorScale * 40),
+            _hoverIndicatorScale);
     }
 }

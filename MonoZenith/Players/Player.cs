@@ -38,7 +38,7 @@ namespace MonoZenith.Players
             _game = game;
             _state = state;
             Name = name;
-            Scale = 0.15f;
+            Scale = 0.15f * AppSettings.Scaling.ScaleFactor;
             
             // ReSharper disable once VirtualMemberCallInConstructor
             InitializeState(game, state);

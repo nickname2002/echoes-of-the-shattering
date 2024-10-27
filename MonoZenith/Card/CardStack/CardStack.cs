@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
+using MonoZenith.Engine.Support;
 
 namespace MonoZenith.Card.CardStack
 {
@@ -143,8 +144,8 @@ namespace MonoZenith.Card.CardStack
             foreach (var card in _cards)
             {
                 card.ChangePosition(
-                    _position.X - _cards[0].Width / 2 * _cards[0].Scale, 
-                    _position.Y - _cards[0].Height / 2 * _cards[0].Scale);
+                    _position.X - _cards[0].Width / 2 * _cards[0].Scale * AppSettings.Scaling.ScaleFactor, 
+                    _position.Y - _cards[0].Height / 2 * _cards[0].Scale * AppSettings.Scaling.ScaleFactor);
             }
         }
 

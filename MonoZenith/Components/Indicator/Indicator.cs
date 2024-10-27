@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoZenith.Engine.Support;
 
 namespace MonoZenith.Components.Indicator;
 
@@ -25,7 +26,7 @@ public abstract class Indicator : Component
     /// <returns>The scale factor.</returns>
     protected float GetScale()
     {
-        const float satisfiedWidth = 75;
+        float satisfiedWidth = 75 * AppSettings.Scaling.ScaleFactor;
         return satisfiedWidth / _texture.Width;
     }
 
