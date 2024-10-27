@@ -88,10 +88,10 @@ namespace MonoZenith.Players
         /// <returns>The state of the NpcPlayer.</returns>
         private AiState DetermineState()
         {
-            if (HealthPercentage() <= 30f)
+            if (HealthPercentage() <= 70f)
                 return AiState.LowHealth;
             
-            if (FocusPercentage() <= 30f)
+            if (FocusPercentage() <= 70f)
                 return AiState.LowFocus;
             
             return AiState.Aggressive;

@@ -27,6 +27,7 @@ namespace MonoZenith.Players
         public readonly Texture2D PlayerCurrent;
         public readonly Texture2D PlayerWaiting;
         public readonly string Name;
+        protected bool _cardsDrawn;
         
         // Card stacks
         protected CardStack _deckStack;
@@ -64,6 +65,7 @@ namespace MonoZenith.Players
             Stamina = 30f;
             Focus = 30f;
             _originalStamina = 30f;
+            _cardsDrawn = false;
             
             // Initialize card stacks
             _deckStack = new CardStack(game, state);
@@ -143,8 +145,11 @@ namespace MonoZenith.Players
         public virtual void PerformTurn(GameState state)
         {
             // Draw cards from hand only once
-            if (_handStack.Count == 0)
+            if (_handStack.Count == 0 && !_cardsDrawn)
+            {
                 DrawCardsFromDeck();
+                _cardsDrawn = true;
+            }
         }
         
         /// <summary>
@@ -172,7 +177,7 @@ namespace MonoZenith.Players
         /// <summary>
         /// Reset the player's stamina.
         /// </summary>
-        protected void ResetPlayerStamina() => Stamina = _originalStamina;
+        public void ResetPlayerStamina() => Stamina = _originalStamina;
         
         /// <summary>
         /// Move the cards from the hand to the reserve pile.
@@ -182,6 +187,7 @@ namespace MonoZenith.Players
             List<Card.Card> cardsFromHand = _handStack.Cards;
             _reserveCardStack.AddToFront(cardsFromHand); 
             _handStack.Clear();
+            _cardsDrawn = false;
         }
         
         /// <summary>
@@ -199,7 +205,7 @@ namespace MonoZenith.Players
         /// <summary>
         /// Move the cards from the played stack to the reserve stack.
         /// </summary>
-        protected void MoveCardsFromPlayedToReserve()
+        public void MoveCardsFromPlayedToReserve()
         {
             List<Card.Card> cardsFromPlayed = _state.PlayedCards.Cards;
             _reserveCardStack.AddToFront(cardsFromPlayed); 
@@ -212,7 +218,7 @@ namespace MonoZenith.Players
         /// <param name="card">The card to play.</param>
         protected void PlayCard(Card.Card card)
         {
-            _state.PlayedCards.AddToFront(card);
+            _state.PlayedCards.AddToBottom(card);
             card.PerformEffect();
             _handStack.Remove(card);
             _game.DebugLog(this.Name + " playing card: " + card);

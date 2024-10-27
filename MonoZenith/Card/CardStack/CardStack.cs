@@ -158,6 +158,15 @@ namespace MonoZenith.Card.CardStack
         }
 
         /// <summary>
+        /// Get all cards in the stack.
+        /// </summary>
+        /// <returns>A list of all but the last cards in the stack.</returns>
+        public List<Card> GetAllCards()
+        {
+            return _cards.Take(_cards.Count).ToList();
+        }
+
+        /// <summary>
         /// Draw the stack.
         /// </summary>
         public void Draw()

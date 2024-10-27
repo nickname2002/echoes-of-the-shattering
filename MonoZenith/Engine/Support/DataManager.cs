@@ -37,6 +37,7 @@ namespace MonoZenith.Engine.Support
         // Textures: Card 
         public Texture2D CardBack;
         public Texture2D CardFront;
+        public Texture2D CardHidden;
         
         // Textures: EndTurnButton
         public Texture2D EndTurnButtonIdleTexture;
@@ -69,6 +70,8 @@ namespace MonoZenith.Engine.Support
         public SoundEffectInstance FlaskOfCrimsonTears;
         public SoundEffectInstance FlaskOfCeruleanTears;
         public SoundEffectInstance EndTurnSound;
+        public SoundEffectInstance PlayerDeathSound;
+        public SoundEffectInstance EnemyDeathSound;
         
         private DataManager(Game game)
         {
@@ -109,6 +112,7 @@ namespace MonoZenith.Engine.Support
             Backdrop = _game.LoadImage("Images/Backdrops/backdrop.png");
             CardBack = _game.LoadImage("Images/Cards/back-card-design.png");
             CardFront = _game.LoadImage("Images/Cards/front-card-design.png");
+            CardHidden = _game.LoadImage("Images/Cards/card-hidden.png");
             EndTurnButtonIdleTexture = _game.LoadImage("Images/EndTurnButton/end-turn-button-idle.png");
             EndTurnButtonHoverTexture = _game.LoadImage("Images/EndTurnButton/end-turn-button-hover.png");
             EndTurnButtonDisabledTexture = _game.LoadImage("Images/EndTurnButton/end-turn-button-disabled.png");
@@ -130,6 +134,8 @@ namespace MonoZenith.Engine.Support
             FlaskOfCrimsonTears = _game.LoadAudio("Audio/SoundEffects/flask-of-crimson-tears.wav");
             FlaskOfCeruleanTears = _game.LoadAudio("Audio/SoundEffects/flask-of-cerulean-tears.wav");
             EndTurnSound = _game.LoadAudio("Audio/SoundEffects/end-turn-sound-effect.wav");
+            PlayerDeathSound = _game.LoadAudio("Audio/SoundEffects/player-death.wav");
+            EnemyDeathSound = _game.LoadAudio("Audio/SoundEffects/enemy-felled.wav");
         }
     }
 }

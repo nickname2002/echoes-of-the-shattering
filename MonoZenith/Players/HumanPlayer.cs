@@ -214,8 +214,33 @@ namespace MonoZenith.Players
         public override void PerformTurn(GameState state)
         {
             base.PerformTurn(state);
-            // TODO: Let the player pick cards to play
+
+            if (TryPlayCard())
+                return;
+
             _spiritAshIndicator.Update(state.GameTime);
+        }
+
+        /// <summary>
+        /// Attempt to play the selected card.
+        /// </summary>
+        /// <returns>Whether a valid card was played.</returns>
+        public bool TryPlayCard()
+        {
+            var selectedCard = GetSelectedCard();
+
+            // If no card is selected or the card is not valid, return false.
+            if (selectedCard == null) 
+                return false;
+
+            // If the card conditions are not met, return false.
+            if (!selectedCard.IsAffordable())
+            {
+                return false;
+            }
+                
+            PlayCard(selectedCard);
+            return true;
         }
 
         public override void Update(GameTime deltaTime)

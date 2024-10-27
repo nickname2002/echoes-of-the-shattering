@@ -46,7 +46,8 @@ public class GlintStonePebbleCard : MagicCard
     {
         _soundOnPlay = DataManager.GetInstance(_game).GlintStonePebble;
         _focusCost = 2;
-        _staminaCost = 30;
+        _staminaCost = 5;
         _damage = 15;
+        _name = "GlintStonePebbleCard";
     }
 }

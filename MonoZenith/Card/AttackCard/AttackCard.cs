@@ -60,9 +60,10 @@ public class LightSwordAttackCard : AttackCard
     public LightSwordAttackCard(Game game, GameState state, Player owner) : 
         base(game, state, owner)
     {
-        _soundOnPlay = DataManager.GetInstance(_game).LightSwordAttack;
+        _staminaCost = 10f;
         _damage = 10;
-        _staminaCost = 10;
+        _soundOnPlay = DataManager.GetInstance(_game).LightSwordAttack;
+        _name = "LightSwordAttackCard";
     }
 }
 
@@ -71,8 +72,9 @@ public class HeavySwordAttackCard : AttackCard
     public HeavySwordAttackCard(Game game, GameState state, Player owner) : 
         base(game, state, owner)
     {
-        _soundOnPlay = DataManager.GetInstance(_game).HeavySwordAttack;
+        _staminaCost = 20f;
         _damage = 20;
-        _staminaCost = 20;
+        _soundOnPlay = DataManager.GetInstance(_game).HeavySwordAttack;
+        _name = "HeavySwordAttackCard";
     }
 }
