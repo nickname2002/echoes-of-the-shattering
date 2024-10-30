@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Card.CardStack;
 using MonoZenith.Components;
@@ -23,10 +24,12 @@ namespace MonoZenith
         private Player? _currentWinner;
         private readonly HumanPlayer _player;
         private readonly NpcPlayer _npc;
-        public CardStack PlayedCards;
+        public readonly CardStack PlayedCards;
         private readonly SpriteFont _componentFont;
-        private EndTurnButton _endTurnButton;
-        
+        private readonly EndTurnButton _endTurnButton;
+        private readonly SoundEffectInstance _playerDeathSound;
+        private readonly SoundEffectInstance _enemyDeathSound;
+
         public Player CurrentPlayer => _currentPlayer?? _player;
         public Player OpposingPlayer => _currentPlayer == _player? _npc : _player;
 
@@ -39,11 +42,10 @@ namespace MonoZenith
             _currentPlayer = null;
             PlayedCards = new CardStack(_game, this);
             _componentFont = DataManager.GetInstance(game).ComponentFont;
+            _playerDeathSound = DataManager.GetInstance(game).PlayerDeathSound;
+            _enemyDeathSound = DataManager.GetInstance(game).EnemyDeathSound;
             InitializeState();
             _endTurnButton = new EndTurnButton(_game, this);
-            
-            Console.WriteLine(_player);
-            Console.WriteLine(_npc);
         }
 
         /// <summary>
@@ -52,17 +54,18 @@ namespace MonoZenith
         private void InitializeState()
         {
             // Calculate positions of the decks
-            float drawableX = _game.ScreenWidth / 2.2f;
             float playedX = _game.ScreenWidth / 1.8f;
             float height = _game.ScreenHeight / 2f;
             
             PlayedCards.ChangePosition(playedX, height);
             PlayedCards.ChangePosition(playedX, height);
 
-            // TODO: Initialize player hands
-            
             // Determine the starting player
             DetermineStartingPlayer();
+
+            // Initialize players
+            _player.InitializeState(_game, this);
+            _npc.InitializeState(_game, this);
         }
 
         /// <summary>
@@ -74,6 +77,7 @@ namespace MonoZenith
             if (_currentWinner != null)
             {
                 _currentPlayer = _currentWinner;
+                _currentWinner = null;
                 return;
             }
 
@@ -96,15 +100,19 @@ namespace MonoZenith
         /// <returns>The winning player, or null if there is no winner.</returns>
         public Player? HasWinner()
         {
-            if (_player.Hand.Count == 0)
+            if (_npc.Health < 1)
             {
+                if (_currentWinner == null)
+                    _enemyDeathSound.Play();
                 _currentWinner = _player;
                 return _player;
             }
-            
-            if (_npc.Hand.Count != 0)
+
+            if (_player.Health > 0)
                 return null;
-            
+
+            if (_currentWinner == null)
+                _playerDeathSound.Play();
             _currentWinner = _npc;
             return _npc;
         }
@@ -115,7 +123,6 @@ namespace MonoZenith
         public void SwitchTurn()
         {
             _currentPlayer = _currentPlayer == _player? _npc : _player;
-            Console.WriteLine($"Turn: {_currentPlayer.Name}");
         }
 
         private void DisplayWinnerMessage()
@@ -144,13 +151,17 @@ namespace MonoZenith
         {
             GameTime = deltaTime;
             
-            // if (HasWinner() != null)
-            // {
-            //     return;
-            // }
+            if (HasWinner() != null)
+            {
+                return;
+            }
             
-            // _currentPlayer?.PerformTurn(this);
+            _currentPlayer?.PerformTurn(this);
             _endTurnButton.Update(deltaTime);
+            
+            // Update players
+            _player.Update(deltaTime);
+            _npc.Update(deltaTime);
         }
         
         /// <summary>
@@ -159,13 +170,16 @@ namespace MonoZenith
         public void Draw()
         {
             // Draw backdrop
-            _game.DrawImage(DataManager.GetInstance(_game).Backdrop, Vector2.Zero);
+            _game.DrawImage(
+                DataManager.GetInstance(_game).Backdrop, 
+                Vector2.Zero, 
+                AppSettings.Scaling.ScaleFactor);
 
-            // if (HasWinner() != null)
-            // {
-            //     DisplayWinnerMessage();
-            //     return;
-            // }
+            if (HasWinner() != null)
+            {
+                DisplayWinnerMessage();
+                return;
+            }
             
             // Draw cards in play
             PlayedCards.Draw();

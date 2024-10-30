@@ -1,4 +1,5 @@
 
+using System;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -13,7 +14,8 @@ namespace MonoZenith.Engine.Support
         public SpriteFont ComponentFont;
         public SpriteFont StartMenuFont;
         public SpriteFont PlayerFont;
-        public SpriteFont RegionIndicatorFont;
+        public SpriteFont CardFont;
+        public SpriteFont IndicatorFont;
         
         // Textures
         // Textures: MonoZenith
@@ -29,10 +31,14 @@ namespace MonoZenith.Engine.Support
         public Texture2D Npc;
         public Texture2D PlayerCurrent;
         public Texture2D PlayerWaiting;
+        public Texture2D DeckIndicator;
+        public Texture2D ReserveIndicator;
+        public Texture2D MimicTearIndicatorDisabled;
 
         // Textures: Card 
         public Texture2D CardBack;
         public Texture2D CardFront;
+        public Texture2D CardHidden;
         
         // Textures: EndTurnButton
         public Texture2D EndTurnButtonIdleTexture;
@@ -65,8 +71,9 @@ namespace MonoZenith.Engine.Support
         public SoundEffectInstance FlaskOfCrimsonTears;
         public SoundEffectInstance FlaskOfCeruleanTears;
         public SoundEffectInstance EndTurnSound;
+        public SoundEffectInstance PlayerDeathSound;
+        public SoundEffectInstance EnemyDeathSound;
         
-
         private DataManager(Game game)
         {
             _game = game;
@@ -86,13 +93,14 @@ namespace MonoZenith.Engine.Support
         /// <summary>
         /// Load all data.
         /// </summary>
-        private void LoadData()
+        public void LoadData()
         {
             // Load fonts
-            ComponentFont = _game.LoadFont("Fonts/pixel.ttf", 1);
-            StartMenuFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1.75f);
-            PlayerFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1.5f);
-            RegionIndicatorFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 3f);
+            ComponentFont = _game.LoadFont("Fonts/pixel.ttf", 1 * AppSettings.Scaling.ScaleFactor);
+            StartMenuFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1.75f * AppSettings.Scaling.ScaleFactor);
+            PlayerFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1.5f * AppSettings.Scaling.ScaleFactor);
+            CardFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1f * AppSettings.Scaling.ScaleFactor);
+            IndicatorFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1.25f * AppSettings.Scaling.ScaleFactor);
             
             // Load textures
             MonoZenithLogo = _game.LoadImage("Images/monozenith.png");
@@ -105,9 +113,13 @@ namespace MonoZenith.Engine.Support
             Backdrop = _game.LoadImage("Images/Backdrops/backdrop.png");
             CardBack = _game.LoadImage("Images/Cards/back-card-design.png");
             CardFront = _game.LoadImage("Images/Cards/front-card-design.png");
+            CardHidden = _game.LoadImage("Images/Cards/card-hidden.png");
             EndTurnButtonIdleTexture = _game.LoadImage("Images/EndTurnButton/end-turn-button-idle.png");
             EndTurnButtonHoverTexture = _game.LoadImage("Images/EndTurnButton/end-turn-button-hover.png");
             EndTurnButtonDisabledTexture = _game.LoadImage("Images/EndTurnButton/end-turn-button-disabled.png");
+            DeckIndicator = _game.LoadImage("Images/Indicators/deck-indicator.png");
+            ReserveIndicator = _game.LoadImage("Images/Indicators/reserve-indicator.png");
+            MimicTearIndicatorDisabled = _game.LoadImage("Images/Indicators/mimic-tear-indicator-disabled.png");
             
             // Load audio
             MainMenuMusic = _game.LoadAudio("Audio/Music/main-menu-music.wav");
@@ -123,6 +135,8 @@ namespace MonoZenith.Engine.Support
             FlaskOfCrimsonTears = _game.LoadAudio("Audio/SoundEffects/flask-of-crimson-tears.wav");
             FlaskOfCeruleanTears = _game.LoadAudio("Audio/SoundEffects/flask-of-cerulean-tears.wav");
             EndTurnSound = _game.LoadAudio("Audio/SoundEffects/end-turn-sound-effect.wav");
+            PlayerDeathSound = _game.LoadAudio("Audio/SoundEffects/player-death.wav");
+            EnemyDeathSound = _game.LoadAudio("Audio/SoundEffects/enemy-felled.wav");
         }
     }
 }

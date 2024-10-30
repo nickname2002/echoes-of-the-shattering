@@ -14,15 +14,18 @@ public class AttackCard : Card
     protected float _staminaCost;
     protected float _damage;
     
-    protected AttackCard(Game game, GameState state, Vector2 position, Texture2D texture, Texture2D activeTexture, string name, Player owner) : 
-        base(game, state, position, texture, activeTexture, name, owner)
+    public float Damage => _damage;
+    
+    protected AttackCard(Game game, GameState state, Player owner) : 
+        base(game, state, owner)
     {
         _enemy = owner == state.CurrentPlayer ? state.OpposingPlayer : state.CurrentPlayer;
         _staminaCost = 0f;
         _damage = 0;
         _soundOnPlay = null;
+        _name = "BaseAttackCard";
     }
-
+    
     /// <summary>
     /// Lower the stamina of the owner.
     /// </summary>
@@ -34,7 +37,7 @@ public class AttackCard : Card
     /// <summary>
     /// Apply damage to the enemy player.
     /// </summary>
-    protected void AppleEnemyDamage()
+    protected void ApplyEnemyDamage()
     {
         _enemy.Health -= _damage;
     }
@@ -43,10 +46,10 @@ public class AttackCard : Card
     {
         _soundOnPlay.Play();
         LowerPlayerStamina();
-        AppleEnemyDamage();
+        ApplyEnemyDamage();
     }
 
-    protected override bool IsPlayable()
+    public override bool IsAffordable()
     {
         return _owner.Stamina >= _staminaCost;
     }
@@ -54,18 +57,24 @@ public class AttackCard : Card
 
 public class LightSwordAttackCard : AttackCard
 {
-    protected LightSwordAttackCard(Game game, GameState state, Vector2 position, Texture2D texture, Texture2D activeTexture, string name, Player owner) : 
-        base(game, state, position, texture, activeTexture, name, owner)
+    public LightSwordAttackCard(Game game, GameState state, Player owner) : 
+        base(game, state, owner)
     {
+        _staminaCost = 10f;
+        _damage = 10;
         _soundOnPlay = DataManager.GetInstance(_game).LightSwordAttack;
+        _name = "LightSwordAttackCard";
     }
 }
 
 public class HeavySwordAttackCard : AttackCard
 {
-    protected HeavySwordAttackCard(Game game, GameState state, Vector2 position, Texture2D texture, Texture2D activeTexture, string name, Player owner) : 
-        base(game, state, position, texture, activeTexture, name, owner)
+    public HeavySwordAttackCard(Game game, GameState state, Player owner) : 
+        base(game, state, owner)
     {
+        _staminaCost = 20f;
+        _damage = 20;
         _soundOnPlay = DataManager.GetInstance(_game).HeavySwordAttack;
+        _name = "HeavySwordAttackCard";
     }
 }

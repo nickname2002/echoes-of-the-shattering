@@ -57,8 +57,14 @@ namespace MonoZenith.Engine
             _graphics.ApplyChanges();
             Window.Title = _game.WindowTitle;
             
+            // Update app settings
+            AppSettings.Scaling.UpdateScaleFactor(_game.ScreenWidth, _game.ScreenHeight);
+            
             // Load content
             DataManager.GetInstance(_game);
+            
+            // Initialize game screens
+            _game.InitializeScreens();
         }
 
         /// <summary>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
+using MonoZenith.Engine.Support;
 
 namespace MonoZenith.Card.CardStack
 {
@@ -25,6 +26,35 @@ namespace MonoZenith.Card.CardStack
             return string.Join(",\n", _cards);
         }
 
+        /// <summary>
+        /// Check if the stack is empty.
+        /// </summary>
+        /// <returns>Whether the stack is empty.</returns>
+        public bool IsEmpty() => _cards.Count == 0;
+        
+        /// <summary>
+        /// Determine if there are any affordable cards in the stack.
+        /// </summary>
+        /// <returns>True if there is at least one card that is affordable; otherwise, false.</returns>
+        public bool ContainsAffordableCards() => _cards.Any(card => card.IsAffordable());
+        
+        /// <summary>
+        /// Clear the stack of all cards.
+        /// </summary>
+        public void Clear()
+        {
+            _cards.Clear();
+        }
+
+        /// <summary>
+        /// Remove card from the stack of cards.
+        /// </summary>
+        /// <param name="card">The card to remove.</param>
+        public void Remove(Card card)
+        {
+            _cards.Remove(card);
+        }
+        
         /// <summary>
         /// Add a card to the top of the stack.
         /// </summary>
@@ -73,6 +103,19 @@ namespace MonoZenith.Card.CardStack
         }
 
         /// <summary>
+        /// Pop a random card from the stack.
+        /// </summary>
+        /// <returns>The randomly popped card.</returns>
+        public Card PopRandomCard()
+        {
+            Random rng = new Random();
+            int index = rng.Next(_cards.Count);
+            Card card = _cards[index];
+            _cards.RemoveAt(index);
+            return card;
+        }
+        
+        /// <summary>
         /// Shuffle the stack.
         /// </summary>
         public void Shuffle()
@@ -84,9 +127,7 @@ namespace MonoZenith.Card.CardStack
             {
                 n--;
                 int k = rng.Next(n + 1);
-                Card value = _cards[k];
-                _cards[k] = _cards[n];
-                _cards[n] = value;
+                (_cards[k], _cards[n]) = (_cards[n], _cards[k]);
             }
         }
 
@@ -103,8 +144,8 @@ namespace MonoZenith.Card.CardStack
             foreach (var card in _cards)
             {
                 card.ChangePosition(
-                    _position.X - _cards[0].Width / 2 * _cards[0].Scale, 
-                    _position.Y - _cards[0].Height / 2 * _cards[0].Scale);
+                    _position.X - _cards[0].Width / 2 * _cards[0].Scale * AppSettings.Scaling.ScaleFactor, 
+                    _position.Y - _cards[0].Height / 2 * _cards[0].Scale * AppSettings.Scaling.ScaleFactor);
             }
         }
 
@@ -118,6 +159,15 @@ namespace MonoZenith.Card.CardStack
         }
 
         /// <summary>
+        /// Get all cards in the stack.
+        /// </summary>
+        /// <returns>A list of all but the last cards in the stack.</returns>
+        public List<Card> GetAllCards()
+        {
+            return _cards.Take(_cards.Count).ToList();
+        }
+
+        /// <summary>
         /// Draw the stack.
         /// </summary>
         public void Draw()
@@ -127,7 +177,7 @@ namespace MonoZenith.Card.CardStack
             
             // If the deck is a subclass of CardStack,
             // draw the cards face down
-            if (this.GetType().IsSubclassOf(typeof(CardStack)))
+            if (GetType().IsSubclassOf(typeof(CardStack)))
             {
                 Card currentCard = _cards[0];
                 currentCard.Draw(_position.X, _position.Y);

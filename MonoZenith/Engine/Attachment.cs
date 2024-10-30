@@ -161,12 +161,44 @@ public partial class Game
     }
     
     /// <summary>
-    /// Set the screen size.
+    /// Set the screen size to the desktop resolution, adjusted to be smaller.
+    /// </summary>
+    public void SetScreenSizeAutomatically()
+    {
+        int width = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+        int height = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+
+        float aspectRatio = (float)AppSettings.Scaling.OriginalScreenWidth / AppSettings.Scaling.OriginalScreenHeight;
+        if ((float)width / height > aspectRatio)
+            height = (int)(width / aspectRatio);
+        else
+            width = (int)(height * aspectRatio);
+
+        _facade.SetScreenSize((int)(width * 0.75), (int)(height * 0.75));
+    }
+    
+    /// <summary>
+    /// Set the screen size while maintaining the aspect ratio.
     /// </summary>
     /// <param name="w">Width</param>
     /// <param name="h">Height</param>
     public void SetScreenSize(int w, int h)
     {
+        // Original aspect ratio
+        float aspectRatio = (float)AppSettings.Scaling.OriginalScreenWidth / AppSettings.Scaling.OriginalScreenHeight;
+
+        // Calculate new dimensions based on the desired aspect ratio
+        if ((float)w / h > aspectRatio)
+        {
+            // Width is too wide, adjust height
+            h = (int)(w / aspectRatio);
+        }
+        else
+        {
+            // Height is too tall, adjust width
+            w = (int)(h * aspectRatio);
+        }
+
         _facade.SetScreenSize(w, h);
     }
     
@@ -270,7 +302,7 @@ public partial class Game
     {
         return _facade.LoadImage(filepath);
     }
-
+    
     /* Source: https://www.industrian.net/tutorials/texture2d-and-drawing-sprites/ */
     /// <summary>
     /// Draw an image to the screen.
@@ -284,10 +316,10 @@ public partial class Game
     public void DrawImage(
         Texture2D texture, 
         Vector2 pos, 
-        float scale=1, 
-        float angle=0, 
-        bool flipped=false, 
-        float alpha=1.0f)
+        float scale = 1, 
+        float angle = 0, 
+        bool flipped = false, 
+        float alpha = 1.0f)
     {
         _facade.DrawImage(texture, pos, scale, angle, flipped, alpha);
     }
