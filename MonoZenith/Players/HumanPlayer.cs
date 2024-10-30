@@ -19,7 +19,9 @@ namespace MonoZenith.Players
         {
             _handxPos = game.ScreenWidth / 2f;
             _handyPos = game.ScreenHeight / 1.39f;
-            PlayerPosition = new Vector2(game.ScreenWidth * 0.05f, game.ScreenHeight * 0.915f);
+            PlayerPosition = new Vector2(
+                game.ScreenWidth * 0.05f, 
+                game.ScreenHeight * 0.915f);
             PlayerIcon = DataManager.GetInstance(game).Player;
             InitializeState(game, state);
         }
@@ -32,22 +34,22 @@ namespace MonoZenith.Players
             _deckIndicator = new CardStackIndicator(
                 game, state, 
                 new Vector2(
-                    _game.ScreenWidth - 185, 
-                    _game.ScreenHeight - 200), 
+                    _game.ScreenWidth - 185 * AppSettings.Scaling.ScaleFactor, 
+                    _game.ScreenHeight - 200 * AppSettings.Scaling.ScaleFactor), 
                 DataManager.GetInstance(_game).DeckIndicator,
                 _deckStack);
             _reserveIndicator = new CardStackIndicator(
                 game, state, 
                 new Vector2(
-                    _game.ScreenWidth - 100, 
-                    _game.ScreenHeight - 253), 
+                    _game.ScreenWidth - 100 * AppSettings.Scaling.ScaleFactor, 
+                    _game.ScreenHeight - 253 * AppSettings.Scaling.ScaleFactor), 
                 DataManager.GetInstance(_game).ReserveIndicator,
                 _reserveCardStack);
             _spiritAshIndicator = new ItemIndicator(
                 game, state, 
                 new Vector2(
-                    _game.ScreenWidth - 100, 
-                    _game.ScreenHeight - 147), 
+                    _game.ScreenWidth - 100 * AppSettings.Scaling.ScaleFactor, 
+                    _game.ScreenHeight - 147 * AppSettings.Scaling.ScaleFactor), 
                 DataManager.GetInstance(_game).MimicTearIndicatorDisabled);
         }
         

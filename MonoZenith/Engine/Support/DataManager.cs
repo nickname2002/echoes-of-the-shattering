@@ -1,4 +1,5 @@
 
+using System;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -92,14 +93,14 @@ namespace MonoZenith.Engine.Support
         /// <summary>
         /// Load all data.
         /// </summary>
-        private void LoadData()
+        public void LoadData()
         {
             // Load fonts
-            ComponentFont = _game.LoadFont("Fonts/pixel.ttf", 1);
-            StartMenuFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1.75f);
-            PlayerFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1.5f);
-            CardFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1f);
-            IndicatorFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1.25f);
+            ComponentFont = _game.LoadFont("Fonts/pixel.ttf", 1 * AppSettings.Scaling.ScaleFactor);
+            StartMenuFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1.75f * AppSettings.Scaling.ScaleFactor);
+            PlayerFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1.5f * AppSettings.Scaling.ScaleFactor);
+            CardFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1f * AppSettings.Scaling.ScaleFactor);
+            IndicatorFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1.25f * AppSettings.Scaling.ScaleFactor);
             
             // Load textures
             MonoZenithLogo = _game.LoadImage("Images/monozenith.png");

@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using MonoZenith.Engine.Support;
 using MonoZenith.Screen;
 using MonoZenith.Support;
 
@@ -15,9 +16,16 @@ public partial class Game
     public void Init()
     {
         // Screen Setup
-        SetScreenSize(1600, 900);
+        SetScreenSizeAutomatically();
+        // SetScreenSize(1600, 900);
         SetWindowTitle("Echoes of the Shattering");
+    }
 
+    /// <summary>
+    /// Initialize all screens.
+    /// </summary>
+    public void InitializeScreens()
+    {
         ActiveScreen = Screens.MAIN_MENU;  
         _mainMenuScreen = new MainMenuScreen(this);
         _gameScreen = new GameScreen(this);

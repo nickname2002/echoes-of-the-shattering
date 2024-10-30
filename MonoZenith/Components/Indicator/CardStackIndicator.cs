@@ -31,7 +31,9 @@ public class CardStackIndicator : Indicator
         base.Draw();
         _game.DrawText(
             _countToDisplay, 
-            _position + new Vector2(_texture.Width * GetScale() - 27.5f, _texture.Height * GetScale() - 35), 
+            _position + new Vector2(
+                _texture.Width * GetScale() - 27.5f * AppSettings.Scaling.ScaleFactor, 
+                _texture.Height * GetScale() - 35 * AppSettings.Scaling.ScaleFactor), 
             _font, 
             Color.White);
     }

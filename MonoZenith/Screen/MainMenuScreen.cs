@@ -20,26 +20,24 @@ public class MainMenuScreen : Screen
     public MainMenuScreen(Game game) : base(game)
     {
         _mainMenuBackdrop = DataManager.GetInstance(game).MainMenuBackdrop;  
-        _mainMenuScale = 0.7f;
+        _mainMenuScale = 0.7f * AppSettings.Scaling.ScaleFactor;
         var startButtonSound = DataManager.GetInstance(game).StartButtonSound;
         _mainMenuMusic = DataManager.GetInstance(game).MainMenuMusic;
         _mainMenuMusic.IsLooped = true;
         _mainMenuMusic.Play();
         
-        Console.WriteLine(_mainMenuMusic.State);
-        
         // Start button
         _startButton = new MainMenuOptionButton(
             _game, 
-            _game.ScreenHeight / 2 + 250, 
+            _game.ScreenHeight / 2 + (int)(250 * AppSettings.Scaling.ScaleFactor), 
             "Start Game",
             StartGame,
             startButtonSound);
-        
-        // Settings dummy button
+
+        // Settings button
         _settingsButton = new MainMenuOptionButton(
             _game, 
-            _game.ScreenHeight / 2 + 325, 
+            _game.ScreenHeight / 2 + (int)(325 * AppSettings.Scaling.ScaleFactor),
             "Settings",
             () => Console.WriteLine("Settings button clicked")
         );
@@ -79,22 +77,27 @@ public class MainMenuScreen : Screen
     
     public override void Update(GameTime deltaTime)
     {
+        _mainMenuScale = 0.7f * AppSettings.Scaling.ScaleFactor;
         _startButton.Update(deltaTime);
         _settingsButton.Update(deltaTime);
     }
 
     public override void Draw()
     {
-        // Draw tifo
-       _game.DrawImage(
-           _mainMenuBackdrop,
-           new Vector2(
-               _game.ScreenWidth / 2 - _mainMenuBackdrop.Width / 2 * _mainMenuScale,
-               _game.ScreenHeight / 2 - _mainMenuBackdrop.Height / 2 * _mainMenuScale - 100 * _mainMenuScale),
-           _mainMenuScale);
-       
-       // Draw start button
-       _startButton.Draw();
-       _settingsButton.Draw();
+        // Calculate scaled width and height based on scale factor
+        float scaledWidth = _mainMenuBackdrop.Width * _mainMenuScale;
+        float scaledHeight = _mainMenuBackdrop.Height * _mainMenuScale;
+
+        // Center the backdrop on the screen
+        Vector2 position = new Vector2(
+            (_game.ScreenWidth - scaledWidth) / 2,
+            (_game.ScreenHeight - scaledHeight) / 2 - 100 * _mainMenuScale); 
+        
+        // Draw the backdrop
+        _game.DrawImage(_mainMenuBackdrop, position, _mainMenuScale);
+    
+        // Draw start and settings buttons
+        _startButton.Draw();
+        _settingsButton.Draw();
     }
 }

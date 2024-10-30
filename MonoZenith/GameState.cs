@@ -170,7 +170,10 @@ namespace MonoZenith
         public void Draw()
         {
             // Draw backdrop
-            _game.DrawImage(DataManager.GetInstance(_game).Backdrop, Vector2.Zero);
+            _game.DrawImage(
+                DataManager.GetInstance(_game).Backdrop, 
+                Vector2.Zero, 
+                AppSettings.Scaling.ScaleFactor);
 
             if (HasWinner() != null)
             {
