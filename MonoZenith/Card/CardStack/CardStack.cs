@@ -138,14 +138,14 @@ namespace MonoZenith.Card.CardStack
         /// <param name="y">Positional Y</param>
         public void ChangePosition(float x, float y)
         {
-            this._position = new Vector2(x, y);
+            _position = new Vector2(x, y);
             
             // Update the position of the contained cards
             foreach (var card in _cards)
             {
                 card.ChangePosition(
-                    _position.X - _cards[0].Width / 2 * _cards[0].Scale * AppSettings.Scaling.ScaleFactor, 
-                    _position.Y - _cards[0].Height / 2 * _cards[0].Scale * AppSettings.Scaling.ScaleFactor);
+                    _position.X - Card.Width / 2 * _cards[0].Scale * AppSettings.Scaling.ScaleFactor, 
+                    _position.Y - Card.Height / 2 * _cards[0].Scale * AppSettings.Scaling.ScaleFactor);
             }
         }
 
@@ -168,24 +168,33 @@ namespace MonoZenith.Card.CardStack
         }
 
         /// <summary>
-        /// Draw the stack.
+        /// Draw the stack in a straight line, centered on the stack's position.
         /// </summary>
         public void Draw()
         {
             if (!_cards.Any()) 
                 return;
-            
-            // If the deck is a subclass of CardStack,
-            // draw the cards face down
-            if (GetType().IsSubclassOf(typeof(CardStack)))
+
+            int cardCount = _cards.Count;
+            float cardWidth = Card.Width;
+            int offset = 20;
+            float spacing = cardWidth + offset * AppSettings.Scaling.ScaleFactor;
+            float totalWidth = cardCount * cardWidth + (cardCount - 1) * offset * AppSettings.Scaling.ScaleFactor;
+            float startX = _position.X - totalWidth / 2 + cardWidth / 2;
+
+            for (int i = 0; i < cardCount; i++)
             {
-                Card currentCard = _cards[0];
-                currentCard.Draw(_position.X, _position.Y);
-            }
-            else
-            {
-                Card currentCard = _cards.Last();
-                currentCard.Draw(_position.X, _position.Y, 0, true, true);
+                float cardX = startX + i * spacing;
+                Card currentCard = _cards[i];
+
+                if (GetType().IsSubclassOf(typeof(CardStack)))
+                {
+                    currentCard.Draw(cardX, _position.Y);
+                }
+                else
+                {
+                    currentCard.Draw(cardX, _position.Y, 0, true, true);
+                }
             }
         }
 

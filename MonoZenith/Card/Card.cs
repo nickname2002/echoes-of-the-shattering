@@ -11,8 +11,8 @@ namespace MonoZenith.Card
         protected Game _game;
         protected GameState _state;
         protected Vector2 _position;
-        protected int _width;
-        protected int _height;
+        protected static int _width;
+        protected static int _height;
         protected float _scale;
         protected Texture2D _textureInHand;
         protected Texture2D _frontTexture;
@@ -22,8 +22,9 @@ namespace MonoZenith.Card
         protected Player _owner;
         protected SoundEffectInstance _soundOnPlay;
         
-        public int Width => _width;
-        public int Height => _height;
+        public Vector2 Position => _position;
+        public static int Width => _width;
+        public static int Height => _height;
         public float Scale => _scale;
 
         protected Card(Game game, GameState state, Player owner)
@@ -37,8 +38,8 @@ namespace MonoZenith.Card
             _backTexture = DataManager.GetInstance(_game).CardBack;
             _hiddenTexture = DataManager.GetInstance(_game).CardHidden;
             _textureInHand = owner is HumanPlayer ? _frontTexture : _backTexture;
-            _width = _frontTexture.Width;
-            _height = _frontTexture.Height;
+            _width = (int)(_frontTexture.Width * _scale);
+            _height = (int)(_frontTexture.Height * _scale);
             _name = "BaseCard";
             _soundOnPlay = null;
             _name = GetType().Name;
@@ -55,12 +56,9 @@ namespace MonoZenith.Card
         /// <returns>Returns if the player is hovering over the card.</returns>
         public bool IsHovered()
         {
-            // Clicked is using the _position value, while it should be using _currentPos.
-            // TODO: Check how to refactor this properly.
-            
             Point mousePosition = _game.GetMousePosition();
-            bool inXRange = mousePosition.X >= _position.X && mousePosition.X <= _position.X + _width * _scale;
-            bool inYRange = mousePosition.Y >= _position.Y && mousePosition.Y <= _position.Y + _height * _scale;
+            bool inXRange = mousePosition.X >= _position.X && mousePosition.X <= _position.X + _width;
+            bool inYRange = mousePosition.Y >= _position.Y && mousePosition.Y <= _position.Y + _height;
             return inXRange && inYRange;
         }
 
@@ -127,21 +125,7 @@ namespace MonoZenith.Card
         /// <param name="active">Boolean to determine if active or back texture should be drawn</param>
         public void Draw(float x, float y, float angle = 0, bool offset = true, bool active = false)
         {
-            float newX;
-            float newY;
-
-            if (offset)
-            {
-                newX = x - (_width * _scale / 2);
-                newY = y - (_height * _scale / 2);
-            }
-            else
-            {
-                newX = x;
-                newY = y;
-            }
-            
-            _position = new Vector2(newX, newY);
+            _position = new Vector2(x, y);
             Texture2D currentTexture = active ? _frontTexture : _textureInHand;
             _game.DrawImage(currentTexture, _position, _scale, angle);
 

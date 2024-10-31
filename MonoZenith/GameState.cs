@@ -53,9 +53,12 @@ namespace MonoZenith
         /// </summary>
         private void InitializeState()
         {
+            float cardWidth = Card.Card.Width;
+            float cardHeight = Card.Card.Height;
+            
             // Calculate positions of the decks
-            float playedX = _game.ScreenWidth / 1.8f;
-            float height = _game.ScreenHeight / 2f;
+            float playedX = _game.ScreenWidth / 2 - cardWidth / 2;
+            float height = _game.ScreenHeight / 2f - cardHeight / 2;
             
             PlayedCards.ChangePosition(playedX, height);
             PlayedCards.ChangePosition(playedX, height);

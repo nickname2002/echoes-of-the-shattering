@@ -98,21 +98,25 @@ namespace MonoZenith.Players
         }
 
         /// <summary>
-        /// Draw the Hand of the HumanPlayer.
+        /// Draws the hand of the HumanPlayer, centering the cards based on the number of cards in hand.
         /// </summary>
         public override void DrawHand()
         {
+            /* TODO: For drawing the hand, take a look at the CardStack draw function.
+             * The functionality for centering the _handStack is already there.
+             * Only the positioning and tracking the hovered cards should be reworked.
+             */
+            
             int count = _handStack.Count;
             if (count == 0) 
                 return;
-            
-            // Variables and buffers
-            float widthStep = _handxPos / count;
+
+            // Calculate the position step for card spacing
             List<Card.Card> hoveredCards = new List<Card.Card>();  
             Dictionary<Card.Card, float> cardPositions = new Dictionary<Card.Card, float>(); 
 
             // Draw cards
-            DrawNonHoveredCards(_handStack.Cards, hoveredCards, cardPositions, widthStep);
+            DrawNonHoveredCards(_handStack.Cards, hoveredCards, cardPositions);
             DrawHoveredCards(hoveredCards, cardPositions);
         }
 
@@ -122,16 +126,25 @@ namespace MonoZenith.Players
         /// <param name="cards">List of cards to process.</param>
         /// <param name="hoveredCards">List to store hovered cards.</param>
         /// <param name="cardPositions">Dictionary to store card positions.</param>
-        /// <param name="xPosStep">Step for card positioning.</param>
         private void DrawNonHoveredCards(List<Card.Card> cards, List<Card.Card> hoveredCards, 
-                                         Dictionary<Card.Card, float> cardPositions, float xPosStep)
+            Dictionary<Card.Card, float> cardPositions)
         {
-            int count = cards.Count();
+            int count = cards.Count;
             int currentIndex = 0;
-            
+
+            // Define the spacing between cards
+            float cardSpacing = 20 * AppSettings.Scaling.ScaleFactor;
+
+            // Calculate the total width occupied by all cards including spacing
+            float totalCardsWidth = (count * Card.Card.Width) + ((count - 1) * cardSpacing);
+
+            // Calculate the starting position to center the cards
+            float startX = _handxPos - (totalCardsWidth / 2);
+
             foreach (Card.Card card in cards)
             {
-                float currentWidth = _handxPos + (_handxPos / 2) - (xPosStep * count) + (xPosStep * currentIndex);
+                // Calculate the position of the current card for centering
+                float currentWidth = startX + (Card.Card.Width + cardSpacing) * currentIndex;
 
                 if (card.IsHovered())
                 {
@@ -142,7 +155,7 @@ namespace MonoZenith.Players
                 {
                     card.Draw(currentWidth, _handyPos, 0, false, true);
                 }
-                
+
                 currentIndex++;
             }
         }
