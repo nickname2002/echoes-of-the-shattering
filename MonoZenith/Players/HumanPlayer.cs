@@ -29,7 +29,9 @@ namespace MonoZenith.Players
         public override void InitializeState(Game game, GameState state)
         {
             base.InitializeState(game, state);
-            
+
+            UpdateHandStackPosition();
+
             // Initialize indicators
             _deckIndicator = new CardStackIndicator(
                 game, state, 
@@ -153,7 +155,7 @@ namespace MonoZenith.Players
                 }
                 else
                 {
-                    card.Draw(currentWidth, _handyPos, 0, false, true);
+                    card.Draw(0, true);
                 }
 
                 currentIndex++;
@@ -174,7 +176,7 @@ namespace MonoZenith.Players
                 // Draw all hovered cards except the last one first
                 if (i < hoveredCards.Count - 1)
                 {
-                    hoveredCard.Draw(hoveredCardPosition, _handyPos, 0, false, true);
+                    hoveredCard.Draw(0,  true);
                 }
             }
 
@@ -184,7 +186,7 @@ namespace MonoZenith.Players
             
             _lastHoveredCard = hoveredCards[^1];  
             float lastHoveredCardPosition = cardPositions[_lastHoveredCard];
-            _lastHoveredCard.Draw(lastHoveredCardPosition, _handyPos - verticalMoveOffset, 0, false, true);
+            _lastHoveredCard.Draw( 0, true);
         }
 
         protected override void DrawPlayerUi()
@@ -260,6 +262,7 @@ namespace MonoZenith.Players
 
         public override void Update(GameTime deltaTime)
         {
+            _handStack.Update(deltaTime);
             _deckIndicator.Update(deltaTime);
             _reserveIndicator.Update(deltaTime);
         }

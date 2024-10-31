@@ -175,6 +175,23 @@ namespace MonoZenith.Card.CardStack
             if (!_cards.Any()) 
                 return;
 
+
+
+            foreach (var card in _cards)
+            {
+                if (GetType().IsSubclassOf(typeof(CardStack)))
+                {
+                    card.Draw();
+                }
+                else
+                {
+                    card.Draw(0, true);
+                }
+            }
+        }
+
+        public virtual void Update(GameTime gameTime)
+        {
             int cardCount = _cards.Count;
             float cardWidth = Card.Width;
             int offset = 20;
@@ -184,25 +201,23 @@ namespace MonoZenith.Card.CardStack
 
             for (int i = 0; i < cardCount; i++)
             {
-                float cardX = startX + i * spacing;
                 Card currentCard = _cards[i];
 
-                if (GetType().IsSubclassOf(typeof(CardStack)))
-                {
-                    currentCard.Draw(cardX, _position.Y);
-                }
-                else
-                {
-                    currentCard.Draw(cardX, _position.Y, 0, true, true);
-                }
+                float cardX = startX + i * spacing;
+                UpdateCard(currentCard, cardX);
+                currentCard.Update(gameTime);
             }
         }
 
-        public virtual void Update(GameTime gameTime)
+        public virtual void UpdateCard(Card card, float x)
         {
-            foreach (var card in _cards)
+            if (GetType().IsSubclassOf(typeof(CardStack)))
             {
-                card.Update(gameTime);
+                card.UpdatePosition(x, _position.Y, false);
+            }
+            else
+            {
+                card.UpdatePosition(x, _position.Y, true);
             }
         }
     }

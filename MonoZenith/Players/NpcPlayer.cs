@@ -77,7 +77,7 @@ namespace MonoZenith.Players
             {
                 float currentWidth = _handxPos - (_handxPos / 2) + (widthStep * count);
 
-                card.Draw(currentWidth, _handyPos, 180, false, false);
+                card.Draw(180, false);
                 count--;
             }
         }

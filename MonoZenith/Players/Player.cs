@@ -32,7 +32,7 @@ namespace MonoZenith.Players
         // Card stacks
         protected CardStack _deckStack;
         protected CardStack _reserveCardStack;
-        protected CardStack _handStack;
+        protected DrawableCardsStack _handStack;
 
         protected Player(Game game, GameState state, string name)
         {
@@ -70,7 +70,7 @@ namespace MonoZenith.Players
             // Initialize card stacks
             _deckStack = new CardStack(game, state);
             _reserveCardStack = new CardStack(game, state);
-            _handStack = new CardStack(game, state);
+            _handStack = new DrawableCardsStack(game, state);
             FillPlayerDeck();
         }
 
@@ -262,6 +262,12 @@ namespace MonoZenith.Players
         /// Draw the Player's name.
         /// </summary>
         public abstract void DrawPlayerHealthAndName();
+
+
+        public void UpdateHandStackPosition()
+        {
+            _handStack.ChangePosition(_handxPos, _handyPos);
+        }
 
         /// <summary>
         /// Gets the positional offset of the texture in order to

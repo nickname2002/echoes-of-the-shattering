@@ -21,9 +21,6 @@ namespace MonoZenith.Card.CardStack
             // Load in Textures
             CardBack = DataManager.GetInstance(game).CardBack;
             CardFront = DataManager.GetInstance(game).CardFront;
-
-            // InitializeCards();
-            Shuffle();
         }
 
         /// <summary>

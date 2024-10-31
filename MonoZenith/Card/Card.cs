@@ -113,19 +113,38 @@ namespace MonoZenith.Card
         {
             
         }
+
+        /// <param name="x">Positional x</param>
+        /// <param name="y">Positional y</param>
+        /// <param name="offset">Offset Bool, determines whether the card is
+        /// drawn starting at (0,0) or in the middle as offset.</param>
+        /// 
+        public void UpdatePosition(float x, float y, bool offset = true)
+        {
+            float newX;
+            float newY;
+
+            if (offset)
+            {
+                newX = x - (_width * _scale / 2);
+                newY = y - (_height * _scale / 2);
+            }
+            else
+            {
+                newX = x;
+                newY = y;
+            }
+
+            _position = new Vector2(newX, newY);
+        }
         
         /// <summary>
         /// Draw the card.
         /// </summary>
-        /// <param name="x">Positional x</param>
-        /// <param name="y">Positional y</param>
         /// <param name="angle">Rotational Angle</param>
-        /// <param name="offset">Offset Bool, determines whether the card is
-        /// drawn starting at (0,0) or in the middle as offset.</param>
         /// <param name="active">Boolean to determine if active or back texture should be drawn</param>
-        public void Draw(float x, float y, float angle = 0, bool offset = true, bool active = false)
+        public void Draw(float angle = 0, bool active = false)
         {
-            _position = new Vector2(x, y);
             Texture2D currentTexture = active ? _frontTexture : _textureInHand;
             _game.DrawImage(currentTexture, _position, _scale, angle);
 
