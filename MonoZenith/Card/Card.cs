@@ -26,6 +26,7 @@ namespace MonoZenith.Card
         public static int Width => _width;
         public static int Height => _height;
         public float Scale => _scale;
+        public Player Owner => _owner;
 
         protected Card(Game game, GameState state, Player owner)
         {

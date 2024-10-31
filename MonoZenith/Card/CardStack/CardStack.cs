@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using MonoZenith.Engine.Support;
+using MonoZenith.Players;
 
 namespace MonoZenith.Card.CardStack
 {
@@ -175,13 +176,11 @@ namespace MonoZenith.Card.CardStack
             if (!_cards.Any()) 
                 return;
 
-
-
             foreach (var card in _cards)
             {
-                if (GetType().IsSubclassOf(typeof(CardStack)))
+                if (card.Owner is NpcPlayer)
                 {
-                    card.Draw();
+                    card.Draw(180);
                 }
                 else
                 {
@@ -194,9 +193,15 @@ namespace MonoZenith.Card.CardStack
         {
             int cardCount = _cards.Count;
             float cardWidth = Card.Width;
+
+            // Define the spacing between cards
             int offset = 20;
             float spacing = cardWidth + offset * AppSettings.Scaling.ScaleFactor;
+
+            // Calculate the total width occupied by all cards including spacing
             float totalWidth = cardCount * cardWidth + (cardCount - 1) * offset * AppSettings.Scaling.ScaleFactor;
+
+            // Calculate the starting position to center the cards
             float startX = _position.X - totalWidth / 2 + cardWidth / 2;
 
             for (int i = 0; i < cardCount; i++)
@@ -218,6 +223,15 @@ namespace MonoZenith.Card.CardStack
             else
             {
                 card.UpdatePosition(x, _position.Y, true);
+            }
+
+            // Calculate the position step for card spacing
+            List<Card> hoveredCards = new List<Card>();
+            Dictionary<Card, float> cardPositions = new Dictionary<Card, float>();
+
+            if (card.IsHovered())
+            {
+
             }
         }
     }

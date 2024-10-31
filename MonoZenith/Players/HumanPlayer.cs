@@ -30,8 +30,6 @@ namespace MonoZenith.Players
         {
             base.InitializeState(game, state);
 
-            UpdateHandStackPosition();
-
             // Initialize indicators
             _deckIndicator = new CardStackIndicator(
                 game, state, 
@@ -118,8 +116,9 @@ namespace MonoZenith.Players
             Dictionary<Card.Card, float> cardPositions = new Dictionary<Card.Card, float>(); 
 
             // Draw cards
-            DrawNonHoveredCards(_handStack.Cards, hoveredCards, cardPositions);
-            DrawHoveredCards(hoveredCards, cardPositions);
+            _handStack.Draw();
+            //DrawNonHoveredCards(_handStack.Cards, hoveredCards, cardPositions);
+            //DrawHoveredCards(hoveredCards, cardPositions);
         }
 
         /// <summary>

@@ -72,6 +72,7 @@ namespace MonoZenith.Players
             _reserveCardStack = new CardStack(game, state);
             _handStack = new DrawableCardsStack(game, state);
             FillPlayerDeck();
+            UpdateHandStackPosition();
         }
 
         /// <summary>

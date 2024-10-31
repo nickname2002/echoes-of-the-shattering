@@ -37,7 +37,8 @@ namespace MonoZenith.Players
         {
             DrawPlayerHealthAndName();
             DrawPlayerUi();
-            DrawHand();
+            //DrawHand();
+            _handStack.Draw();
         }
 
         public override void DrawPlayerHealthAndName()
@@ -232,7 +233,10 @@ namespace MonoZenith.Players
                     return _handStack.Cards.OfType<AttackCard>().Any(card => card.IsAffordable());
             }
         }
-        
-        public override void Update(GameTime deltaTime) { }
+
+        public override void Update(GameTime deltaTime)
+        {
+            _handStack.Update(deltaTime);
+        }
     }
 }
