@@ -32,7 +32,7 @@ namespace MonoZenith.Players
         // Card stacks
         protected CardStack _deckStack;
         protected CardStack _reserveCardStack;
-        protected DrawableCardsStack _handStack;
+        protected HandCardStack _handStack;
 
         protected Player(Game game, GameState state, string name)
         {
@@ -70,7 +70,7 @@ namespace MonoZenith.Players
             // Initialize card stacks
             _deckStack = new CardStack(game, state);
             _reserveCardStack = new CardStack(game, state);
-            _handStack = new DrawableCardsStack(game, state);
+            _handStack = new HandCardStack(game, state);
             FillPlayerDeck();
             UpdateHandStackPosition();
         }

@@ -11,12 +11,12 @@ namespace MonoZenith.Card.CardStack
     /// Index ^1: First card to draw
     /// Index 0: Last card to draw
     /// </summary>
-    public class DrawableCardsStack : CardStack
+    public class HandCardStack : CardStack
     {
         public readonly Texture2D CardBack;
         public readonly Texture2D CardFront;
         
-        public DrawableCardsStack(Game game, GameState state) : base(game, state)
+        public HandCardStack(Game game, GameState state) : base(game, state)
         {
             // Load in Textures
             CardBack = DataManager.GetInstance(game).CardBack;

@@ -191,6 +191,10 @@ namespace MonoZenith.Card.CardStack
 
         public virtual void Update(GameTime gameTime)
         {
+            // Calculate the position step for card spacing
+            List<Card> hoveredCards = new List<Card>();
+            Dictionary<Card, float> cardPositions = new Dictionary<Card, float>();
+
             int cardCount = _cards.Count;
             float cardWidth = Card.Width;
 
@@ -209,9 +213,19 @@ namespace MonoZenith.Card.CardStack
                 Card currentCard = _cards[i];
 
                 float cardX = startX + i * spacing;
-                UpdateCard(currentCard, cardX);
+                if (currentCard.IsHovered() && currentCard.Owner is HumanPlayer)
+                {
+                    hoveredCards.Add(currentCard);
+                    cardPositions[currentCard] = cardX;
+                }
+                else
+                {
+                    UpdateCard(currentCard, cardX);
+                }
                 currentCard.Update(gameTime);
             }
+
+            UpdateHoveredCard(hoveredCards, cardPositions);
         }
 
         public virtual void UpdateCard(Card card, float x)
@@ -224,15 +238,33 @@ namespace MonoZenith.Card.CardStack
             {
                 card.UpdatePosition(x, _position.Y, true);
             }
+        }
 
-            // Calculate the position step for card spacing
-            List<Card> hoveredCards = new List<Card>();
-            Dictionary<Card, float> cardPositions = new Dictionary<Card, float>();
+        private void UpdateHoveredCard(List<Card> hoveredCards, Dictionary<Card, float> cardPositions)
+        {
+            const int verticalMoveOffset = 20;
+            Card _lastHoveredCard = null;
 
-            if (card.IsHovered())
+            // Draw hovered cards, except the last one, in their original positions
+            for (int i = 0; i < hoveredCards.Count; i++)
             {
+                Card hoveredCard = hoveredCards[i];
+                float hoveredCardPosition = cardPositions[hoveredCard];
 
+                // Draw all hovered cards except the last one first
+                if (i < hoveredCards.Count - 1)
+                {
+                    hoveredCard.UpdatePosition(hoveredCardPosition, _position.Y, false);
+                }
             }
+
+            // Draw the last hovered card (if any), move it slightly up, and store it
+            if (hoveredCards.Count <= 0)
+                return;
+
+            _lastHoveredCard = hoveredCards[^1];
+            float lastHoveredCardPosition = cardPositions[_lastHoveredCard];
+            _lastHoveredCard.UpdatePosition(lastHoveredCardPosition, _position.Y - verticalMoveOffset, false);
         }
     }
 }
