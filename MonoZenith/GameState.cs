@@ -106,6 +106,7 @@ namespace MonoZenith
             {
                 if (_currentWinner == null)
                     _enemyDeathSound.Play();
+
                 _currentWinner = _player;
                 return _player;
             }
@@ -115,6 +116,7 @@ namespace MonoZenith
 
             if (_currentWinner == null)
                 _playerDeathSound.Play();
+
             _currentWinner = _npc;
             return _npc;
         }
@@ -127,6 +129,9 @@ namespace MonoZenith
             _currentPlayer = _currentPlayer == _player? _npc : _player;
         }
 
+        /// <summary>
+        /// Displays the name of the game winner on the screen.
+        /// </summary>
         private void DisplayWinnerMessage()
         {
             // Text to be displayed

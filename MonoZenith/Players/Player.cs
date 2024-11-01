@@ -72,7 +72,7 @@ namespace MonoZenith.Players
             _reserveCardStack = new CardStack(game, state);
             _handStack = new HandCardStack(game, state);
             FillPlayerDeck();
-            UpdateHandStackPosition();
+            ChangeHandStackPosition();
         }
 
         /// <summary>
@@ -128,16 +128,18 @@ namespace MonoZenith.Players
             _deckStack.AddToFront(deck);
         }
 
-        public override string ToString()
+        /// <summary>
+        /// Changes the Player's hand position
+        /// </summary>
+        public void ChangeHandStackPosition()
         {
-            return $"==== {Name} ====\n\n\n" +
-                   $"HEALTH: {Health}\n\n" +
-                   $"STAMINA: {Stamina}\n\n" +
-                   $"FOCUS: {Focus}\n\n" +
-                   $"DECK STACK: {_deckStack}\n\n" +
-                   $"RESERVE CARD STACK: {_reserveCardStack}\n\n" +
-                   $"HAND STACK: {_handStack}\n\n\n";
+            _handStack.ChangePosition(_handxPos, _handyPos);
         }
+
+        /// <summary>
+        /// Reset the player's stamina.
+        /// </summary>
+        public void ResetPlayerStamina() => Stamina = _originalStamina;
 
         /// <summary>
         /// Perform the player's turn.
@@ -175,11 +177,6 @@ namespace MonoZenith.Players
             }
         }
 
-        /// <summary>
-        /// Reset the player's stamina.
-        /// </summary>
-        public void ResetPlayerStamina() => Stamina = _originalStamina;
-        
         /// <summary>
         /// Move the cards from the hand to the reserve pile.
         /// </summary>
@@ -230,16 +227,16 @@ namespace MonoZenith.Players
         /// </summary>
         /// <param name="deltaTime">The time since the last update.</param>
         public abstract void Update(GameTime deltaTime);
-        
+
         /// <summary>
         /// Draw the player.
         /// </summary>
         public abstract void Draw();
 
         /// <summary>
-        /// Draw the hand of the player.
+        /// Draw the Player's name.
         /// </summary>
-        public abstract void DrawHand();
+        public abstract void DrawPlayerHealthAndName();
 
         /// <summary>
         /// Draw the Player UI Assets.
@@ -260,17 +257,6 @@ namespace MonoZenith.Players
         }
 
         /// <summary>
-        /// Draw the Player's name.
-        /// </summary>
-        public abstract void DrawPlayerHealthAndName();
-
-
-        public void UpdateHandStackPosition()
-        {
-            _handStack.ChangePosition(_handxPos, _handyPos);
-        }
-
-        /// <summary>
         /// Gets the positional offset of the texture in order to
         /// draw the texture in the middle instead of (0,0).
         /// </summary>
@@ -281,6 +267,17 @@ namespace MonoZenith.Players
             var widthOffset = texture.Width * scale * 0.5f;
             var heightOffset = texture.Height * scale * 0.5f;
             return new Vector2(widthOffset, heightOffset);
+        }
+
+        public override string ToString()
+        {
+            return $"==== {Name} ====\n\n\n" +
+                   $"HEALTH: {Health}\n\n" +
+                   $"STAMINA: {Stamina}\n\n" +
+                   $"FOCUS: {Focus}\n\n" +
+                   $"DECK STACK: {_deckStack}\n\n" +
+                   $"RESERVE CARD STACK: {_reserveCardStack}\n\n" +
+                   $"HAND STACK: {_handStack}\n\n\n";
         }
     }
 }

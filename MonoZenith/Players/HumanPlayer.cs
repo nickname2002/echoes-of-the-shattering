@@ -54,149 +54,6 @@ namespace MonoZenith.Players
         }
         
         /// <summary>
-        /// Draw all assets of the HumanPlayer.
-        /// </summary>
-        public override void Draw()
-        {          
-            DrawPlayerHealthAndName();
-            DrawPlayerUi();
-            DrawHand();
-        }
-
-        public override void DrawPlayerHealthAndName()
-        {
-            // Setup offsets and positions for name and player bars
-            Vector2 playerOffset = GetOffset(PlayerCurrent, Scale);
-            Vector2 namePosition = PlayerPosition + new Vector2(playerOffset.X * 1.2f, 0);
-            Vector2 shadowPosition = new(1.25f, 1.25f);
-            int healthHeight = (int)(PlayerCurrent.Height * Scale * 0.05f);
-            int healthWidth = (int)(_game.ScreenWidth * 0.9f);
-            int barWidth = (int)(_game.ScreenWidth * 0.3f);
-            Vector2 barOffset = new Vector2(0, healthHeight + 4);
-            Vector2 healthPosition = PlayerPosition + new Vector2(0, playerOffset.Y - healthHeight * 4.5f) - new Vector2(1, 1);
-            Vector2 edgePosition = healthPosition - new Vector2(1, 1);
-
-            // Draw name
-            _game.DrawText(Name, namePosition + shadowPosition, PlayerFont, Color.DarkGray);
-            _game.DrawText(Name, namePosition, PlayerFont, Color.White);
-
-            // Draw Health bar with current health points
-            _game.DrawRectangle(Color.Goldenrod, edgePosition, healthWidth + 2, healthHeight + 2);
-            _game.DrawRectangle(Color.DarkGray, healthPosition, healthWidth, healthHeight);
-            _game.DrawRectangle(Color.DarkRed, healthPosition, (int)(healthWidth * (Health / 100f)), healthHeight);
-
-            // Draw Focus bar with current focus points
-            _game.DrawRectangle(Color.Goldenrod, edgePosition + barOffset, barWidth + 2, healthHeight + 2);
-            _game.DrawRectangle(Color.DarkGray, healthPosition + barOffset, barWidth, healthHeight);
-            _game.DrawRectangle(Color.MediumBlue, healthPosition + barOffset, (int)(barWidth * (Focus / 30f)), healthHeight);
-
-            // Draw Stamina bar with current stamina points
-            _game.DrawRectangle(Color.Goldenrod, edgePosition + barOffset * 2, barWidth + 2, healthHeight + 2);
-            _game.DrawRectangle(Color.DarkGray, healthPosition + barOffset * 2, barWidth, healthHeight);
-            _game.DrawRectangle(Color.ForestGreen, healthPosition + barOffset * 2, (int)(barWidth * (Stamina / 30f)),
-                healthHeight);
-        }
-
-        /// <summary>
-        /// Draws the hand of the HumanPlayer, centering the cards based on the number of cards in hand.
-        /// </summary>
-        public override void DrawHand()
-        {
-            /* TODO: For drawing the hand, take a look at the CardStack draw function.
-             * The functionality for centering the _handStack is already there.
-             * Only the positioning and tracking the hovered cards should be reworked.
-             */
-            
-            int count = _handStack.Count;
-            if (count == 0) 
-                return;
-
-            // Calculate the position step for card spacing
-            List<Card.Card> hoveredCards = new List<Card.Card>();  
-            Dictionary<Card.Card, float> cardPositions = new Dictionary<Card.Card, float>(); 
-
-            // Draw cards
-            _handStack.Draw();
-            //DrawNonHoveredCards(_handStack.Cards, hoveredCards, cardPositions);
-            //DrawHoveredCards(hoveredCards, cardPositions);
-        }
-
-        /// <summary>
-        /// Draws all non-hovered cards and stores hovered cards with their positions.
-        /// </summary>
-        /// <param name="cards">List of cards to process.</param>
-        /// <param name="hoveredCards">List to store hovered cards.</param>
-        /// <param name="cardPositions">Dictionary to store card positions.</param>
-        private void DrawNonHoveredCards(List<Card.Card> cards, List<Card.Card> hoveredCards, 
-            Dictionary<Card.Card, float> cardPositions)
-        {
-            int count = cards.Count;
-            int currentIndex = 0;
-
-            // Define the spacing between cards
-            float cardSpacing = 20 * AppSettings.Scaling.ScaleFactor;
-
-            // Calculate the total width occupied by all cards including spacing
-            float totalCardsWidth = (count * Card.Card.Width) + ((count - 1) * cardSpacing);
-
-            // Calculate the starting position to center the cards
-            float startX = _handxPos - (totalCardsWidth / 2);
-
-            foreach (Card.Card card in cards)
-            {
-                // Calculate the position of the current card for centering
-                float currentWidth = startX + (Card.Card.Width + cardSpacing) * currentIndex;
-
-                if (card.IsHovered())
-                {
-                    hoveredCards.Add(card);
-                    cardPositions[card] = currentWidth;
-                }
-                else
-                {
-                    card.Draw(0, true);
-                }
-
-                currentIndex++;
-            }
-        }
-        
-        private void DrawHoveredCards(List<Card.Card> hoveredCards, Dictionary<Card.Card, float> cardPositions)
-        {
-            const int verticalMoveOffset = 20;
-            _lastHoveredCard = null;
-
-            // Draw hovered cards, except the last one, in their original positions
-            for (int i = 0; i < hoveredCards.Count; i++)
-            {
-                Card.Card hoveredCard = hoveredCards[i];
-                float hoveredCardPosition = cardPositions[hoveredCard];
-
-                // Draw all hovered cards except the last one first
-                if (i < hoveredCards.Count - 1)
-                {
-                    hoveredCard.Draw(0,  true);
-                }
-            }
-
-            // Draw the last hovered card (if any), move it slightly up, and store it
-            if (hoveredCards.Count <= 0) 
-                return;
-            
-            _lastHoveredCard = hoveredCards[^1];  
-            float lastHoveredCardPosition = cardPositions[_lastHoveredCard];
-            _lastHoveredCard.Draw( 0, true);
-        }
-
-        protected override void DrawPlayerUi()
-        {
-            base.DrawPlayerUi();
-            _deckIndicator.Draw();
-            _reserveIndicator.Draw();
-            _spiritAshIndicator.Draw();
-        }
-        
-        /// <summary>
         /// Get the selected card from the hand.
         /// </summary>
         /// <returns>Selected card, or null if no card is hovered or clicked.</returns>
@@ -264,6 +121,58 @@ namespace MonoZenith.Players
             _handStack.Update(deltaTime);
             _deckIndicator.Update(deltaTime);
             _reserveIndicator.Update(deltaTime);
+        }
+
+        /// <summary>
+        /// Draw all assets of the HumanPlayer.
+        /// </summary>
+        public override void Draw()
+        {
+            DrawPlayerHealthAndName();
+            DrawPlayerUi();
+            _handStack.Draw();
+        }
+
+        public override void DrawPlayerHealthAndName()
+        {
+            // Setup offsets and positions for name and player bars
+            Vector2 playerOffset = GetOffset(PlayerCurrent, Scale);
+            Vector2 namePosition = PlayerPosition + new Vector2(playerOffset.X * 1.2f, 0);
+            Vector2 shadowPosition = new(1.25f, 1.25f);
+            int healthHeight = (int)(PlayerCurrent.Height * Scale * 0.05f);
+            int healthWidth = (int)(_game.ScreenWidth * 0.9f);
+            int barWidth = (int)(_game.ScreenWidth * 0.3f);
+            Vector2 barOffset = new Vector2(0, healthHeight + 4);
+            Vector2 healthPosition = PlayerPosition + new Vector2(0, playerOffset.Y - healthHeight * 4.5f) - new Vector2(1, 1);
+            Vector2 edgePosition = healthPosition - new Vector2(1, 1);
+
+            // Draw name
+            _game.DrawText(Name, namePosition + shadowPosition, PlayerFont, Color.DarkGray);
+            _game.DrawText(Name, namePosition, PlayerFont, Color.White);
+
+            // Draw Health bar with current health points
+            _game.DrawRectangle(Color.Goldenrod, edgePosition, healthWidth + 2, healthHeight + 2);
+            _game.DrawRectangle(Color.DarkGray, healthPosition, healthWidth, healthHeight);
+            _game.DrawRectangle(Color.DarkRed, healthPosition, (int)(healthWidth * (Health / 100f)), healthHeight);
+
+            // Draw Focus bar with current focus points
+            _game.DrawRectangle(Color.Goldenrod, edgePosition + barOffset, barWidth + 2, healthHeight + 2);
+            _game.DrawRectangle(Color.DarkGray, healthPosition + barOffset, barWidth, healthHeight);
+            _game.DrawRectangle(Color.MediumBlue, healthPosition + barOffset, (int)(barWidth * (Focus / 30f)), healthHeight);
+
+            // Draw Stamina bar with current stamina points
+            _game.DrawRectangle(Color.Goldenrod, edgePosition + barOffset * 2, barWidth + 2, healthHeight + 2);
+            _game.DrawRectangle(Color.DarkGray, healthPosition + barOffset * 2, barWidth, healthHeight);
+            _game.DrawRectangle(Color.ForestGreen, healthPosition + barOffset * 2, (int)(barWidth * (Stamina / 30f)),
+                healthHeight);
+        }
+
+        protected override void DrawPlayerUi()
+        {
+            base.DrawPlayerUi();
+            _deckIndicator.Draw();
+            _reserveIndicator.Draw();
+            _spiritAshIndicator.Draw();
         }
     }
 }

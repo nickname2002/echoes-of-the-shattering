@@ -168,30 +168,9 @@ namespace MonoZenith.Card.CardStack
             return _cards.Take(_cards.Count).ToList();
         }
 
-        /// <summary>
-        /// Draw the stack in a straight line, centered on the stack's position.
-        /// </summary>
-        public void Draw()
+        public virtual void Update(GameTime deltaTime)
         {
-            if (!_cards.Any()) 
-                return;
-
-            foreach (var card in _cards)
-            {
-                if (card.Owner is NpcPlayer)
-                {
-                    card.Draw(180);
-                }
-                else
-                {
-                    card.Draw(0, true);
-                }
-            }
-        }
-
-        public virtual void Update(GameTime gameTime)
-        {
-            // Calculate the position step for card spacing
+            // Initialize lists for hovered card positions
             List<Card> hoveredCards = new List<Card>();
             Dictionary<Card, float> cardPositions = new Dictionary<Card, float>();
 
@@ -210,25 +189,34 @@ namespace MonoZenith.Card.CardStack
 
             for (int i = 0; i < cardCount; i++)
             {
+                // Calculate the position of the current card for centering
                 Card currentCard = _cards[i];
-
                 float cardX = startX + i * spacing;
-                if (currentCard.IsHovered() && currentCard.Owner is HumanPlayer)
+
+                // Check if the current card is from the HumanPlayer's hand
+                if (currentCard.IsHovered() 
+                    && currentCard.Owner is HumanPlayer 
+                    && GetType().IsSubclassOf(typeof(CardStack)))
                 {
                     hoveredCards.Add(currentCard);
                     cardPositions[currentCard] = cardX;
                 }
                 else
                 {
-                    UpdateCard(currentCard, cardX);
+                    UpdateNonHoveredCard(currentCard, cardX);
+                    currentCard.Update(deltaTime);
                 }
-                currentCard.Update(gameTime);
             }
 
-            UpdateHoveredCard(hoveredCards, cardPositions);
+            UpdateHoveredCard(hoveredCards, cardPositions, deltaTime);
         }
 
-        public virtual void UpdateCard(Card card, float x)
+        /// <summary>
+        /// Updates the non hovered card position.
+        /// </summary>
+        /// <param name="card">The non hovered card.</param>
+        /// <param name="x">The new X positional value.</param>
+        public virtual void UpdateNonHoveredCard(Card card, float x)
         {
             if (GetType().IsSubclassOf(typeof(CardStack)))
             {
@@ -240,7 +228,16 @@ namespace MonoZenith.Card.CardStack
             }
         }
 
-        private void UpdateHoveredCard(List<Card> hoveredCards, Dictionary<Card, float> cardPositions)
+        /// <summary>
+        /// Updates the hovered card position.
+        /// </summary>
+        /// <param name="hoveredCards">List of stored hovered cards.</param>
+        /// <param name="cardPositions">Dictionary of cards and its X positional values.</param>
+        /// <param name="deltaTime">The delta time.</param>
+        private void UpdateHoveredCard(
+            List<Card> hoveredCards,
+            Dictionary<Card, float> cardPositions,
+            GameTime deltaTime)
         {
             const int verticalMoveOffset = 20;
             Card _lastHoveredCard = null;
@@ -255,6 +252,7 @@ namespace MonoZenith.Card.CardStack
                 if (i < hoveredCards.Count - 1)
                 {
                     hoveredCard.UpdatePosition(hoveredCardPosition, _position.Y, false);
+                    hoveredCard.Update(deltaTime);
                 }
             }
 
@@ -265,6 +263,28 @@ namespace MonoZenith.Card.CardStack
             _lastHoveredCard = hoveredCards[^1];
             float lastHoveredCardPosition = cardPositions[_lastHoveredCard];
             _lastHoveredCard.UpdatePosition(lastHoveredCardPosition, _position.Y - verticalMoveOffset, false);
+            _lastHoveredCard.Update(deltaTime);
+        }
+
+        /// <summary>
+        /// Draw the stack with all of its cards, centered on the stack's position.
+        /// </summary>
+        public void Draw()
+        {
+            if (!_cards.Any())
+                return;
+
+            foreach (var card in _cards)
+            {
+                if (card.Owner is NpcPlayer)
+                {
+                    card.Draw(180);
+                }
+                else
+                {
+                    card.Draw(0, true);
+                }
+            }
         }
     }
 }

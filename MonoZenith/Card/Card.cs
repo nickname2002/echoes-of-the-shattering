@@ -46,11 +46,6 @@ namespace MonoZenith.Card
             _name = GetType().Name;
         }
 
-        public override string ToString()
-        {
-            return _name;
-        }
-
         /// <summary>
         /// Checks if the player is hovering over the card with the mouse pointer.
         /// </summary>
@@ -73,28 +68,15 @@ namespace MonoZenith.Card
         }
 
         /// <summary>
-        /// Perform the effect of the card.
-        /// </summary>
-        public abstract void PerformEffect();
-
-        /// <summary>
         /// Checks if the card is affordable.
         /// </summary>
         /// <returns>If the card is affordable.</returns>
         public abstract bool IsAffordable();
 
         /// <summary>
-        /// Draw the metadata of the card onto the front side of the card.
+        /// Perform the effect of the card.
         /// </summary>
-        protected void DrawMetaData()
-        {
-            _game.DrawText(
-                _name,
-                _position,
-                DataManager.GetInstance(_game).CardFont,
-                Color.Black
-            );
-        }
+        public abstract void PerformEffect();
 
         /// <summary>
         /// Changes the position of the card.
@@ -115,11 +97,13 @@ namespace MonoZenith.Card
             
         }
 
+        /// <summary>
+        /// Update the Card's position
+        /// </summary>
         /// <param name="x">Positional x</param>
         /// <param name="y">Positional y</param>
         /// <param name="offset">Offset Bool, determines whether the card is
         /// drawn starting at (0,0) or in the middle as offset.</param>
-        /// 
         public void UpdatePosition(float x, float y, bool offset = true)
         {
             float newX;
@@ -156,6 +140,24 @@ namespace MonoZenith.Card
                 return; 
             
             DrawMetaData();
+        }
+
+        /// <summary>
+        /// Draw the metadata of the card onto the front side of the card.
+        /// </summary>
+        protected void DrawMetaData()
+        {
+            _game.DrawText(
+                _name,
+                _position,
+                DataManager.GetInstance(_game).CardFont,
+                Color.Black
+            );
+        }
+
+        public override string ToString()
+        {
+            return _name;
         }
     }
 }

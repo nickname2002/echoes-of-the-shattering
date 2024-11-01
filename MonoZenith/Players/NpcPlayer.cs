@@ -31,42 +31,6 @@ namespace MonoZenith.Players
         }
 
         /// <summary>
-        /// Draw all assets of the NpcPlayer.
-        /// </summary>
-        public override void Draw()
-        {
-            DrawPlayerHealthAndName();
-            DrawPlayerUi();
-            _handStack.Draw();
-        }
-
-        public override void DrawPlayerHealthAndName()
-        {
-            // Setup offsets and positions for name and health bar
-            Vector2 playerOffset = GetOffset(PlayerCurrent, Scale);
-            Vector2 namePosition = PlayerPosition + new Vector2(playerOffset.X * 1.2f, -playerOffset.Y * 0.875f);
-            Vector2 shadowPosition = new(1.25f, 1.25f);
-            int healthHeight = (int)(PlayerCurrent.Height * Scale * 0.05f);
-            int healthWidth = (int)(_game.ScreenWidth * 0.9f);
-            Vector2 healthPosition = PlayerPosition + new Vector2(0, -playerOffset.Y) + new Vector2(1, 1);
-            Vector2 edgePosition = healthPosition - new Vector2(1, 1);
-
-            // Draw name
-            _game.DrawText(Name, namePosition + shadowPosition, PlayerFont, Color.DarkGray);
-            _game.DrawText(Name, namePosition, PlayerFont, Color.White);
-
-            // Draw Health bar with current health points
-            _game.DrawRectangle(Color.Goldenrod, edgePosition, healthWidth + 2, healthHeight + 2);
-            _game.DrawRectangle(Color.DarkGray, healthPosition, healthWidth, healthHeight);
-            _game.DrawRectangle(Color.DarkRed, healthPosition, (int)(healthWidth * (Health / 100f)), healthHeight);
-        }
-
-        public override void DrawHand()
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
         /// Determine the state of the NpcPlayer.
         /// </summary>
         /// <returns>The state of the NpcPlayer.</returns>
@@ -220,6 +184,37 @@ namespace MonoZenith.Players
         public override void Update(GameTime deltaTime)
         {
             _handStack.Update(deltaTime);
+        }
+
+        /// <summary>
+        /// Draw all assets of the NpcPlayer.
+        /// </summary>
+        public override void Draw()
+        {
+            DrawPlayerHealthAndName();
+            DrawPlayerUi();
+            _handStack.Draw();
+        }
+
+        public override void DrawPlayerHealthAndName()
+        {
+            // Setup offsets and positions for name and health bar
+            Vector2 playerOffset = GetOffset(PlayerCurrent, Scale);
+            Vector2 namePosition = PlayerPosition + new Vector2(playerOffset.X * 1.2f, -playerOffset.Y * 0.875f);
+            Vector2 shadowPosition = new(1.25f, 1.25f);
+            int healthHeight = (int)(PlayerCurrent.Height * Scale * 0.05f);
+            int healthWidth = (int)(_game.ScreenWidth * 0.9f);
+            Vector2 healthPosition = PlayerPosition + new Vector2(0, -playerOffset.Y) + new Vector2(1, 1);
+            Vector2 edgePosition = healthPosition - new Vector2(1, 1);
+
+            // Draw name
+            _game.DrawText(Name, namePosition + shadowPosition, PlayerFont, Color.DarkGray);
+            _game.DrawText(Name, namePosition, PlayerFont, Color.White);
+
+            // Draw Health bar with current health points
+            _game.DrawRectangle(Color.Goldenrod, edgePosition, healthWidth + 2, healthHeight + 2);
+            _game.DrawRectangle(Color.DarkGray, healthPosition, healthWidth, healthHeight);
+            _game.DrawRectangle(Color.DarkRed, healthPosition, (int)(healthWidth * (Health / 100f)), healthHeight);
         }
     }
 }
