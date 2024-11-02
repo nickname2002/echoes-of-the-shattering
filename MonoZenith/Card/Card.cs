@@ -26,6 +26,7 @@ namespace MonoZenith.Card
         public static int Width => _width;
         public static int Height => _height;
         public float Scale => _scale;
+        public Player Owner => _owner;
 
         protected Card(Game game, GameState state, Player owner)
         {
@@ -72,15 +73,72 @@ namespace MonoZenith.Card
         }
 
         /// <summary>
-        /// Perform the effect of the card.
-        /// </summary>
-        public abstract void PerformEffect();
-
-        /// <summary>
         /// Checks if the card is affordable.
         /// </summary>
         /// <returns>If the card is affordable.</returns>
         public abstract bool IsAffordable();
+
+        /// <summary>
+        /// Perform the effect of the card.
+        /// </summary>
+        public abstract void PerformEffect();
+        
+        /// <summary>
+        /// Update the state of the card.
+        /// </summary>
+        /// <param name="deltaTime">The delta time.</param>
+        public void Update(GameTime deltaTime)
+        {
+            
+        }
+
+        /// <summary>
+        /// Update the Card's position.
+        /// <paramref name="offset"/> determines if the Card's position
+        /// starts on its relative origin (0, 0) or centralised.
+        /// </summary>
+        /// <param name="x">Positional x</param>
+        /// <param name="y">Positional y</param>
+        /// <param name="offset">Boolean to determine whether the card
+        /// should be centralised.</param>
+        public void UpdatePosition(float x, float y, bool offset = true)
+        {
+            float newX;
+            float newY;
+
+            if (offset)
+            {
+                // Centralise the position of the card
+                newX = x - _width * _scale / 2 * AppSettings.Scaling.ScaleFactor;
+                newY = y - _height * _scale / 2 * AppSettings.Scaling.ScaleFactor;
+            }
+            else
+            {
+                newX = x;
+                newY = y;
+            }
+
+            _position = new Vector2(newX, newY);
+        }
+        
+        /// <summary>
+        /// Draw the card.
+        /// </summary>
+        /// <param name="angle">Rotational Angle</param>
+        /// <param name="active">Boolean to determine if active or back texture should be drawn</param>
+        public void Draw(float angle = 0, bool active = false)
+        {
+            Texture2D currentTexture = active ? _frontTexture : _textureInHand;
+            _game.DrawImage(currentTexture, _position, _scale, angle);
+
+            if(!IsAffordable())
+                _game.DrawImage(_hiddenTexture, _position, _scale, angle);
+
+            if (!active)
+                return; 
+            
+            DrawMetaData();
+        }
 
         /// <summary>
         /// Draw the metadata of the card onto the front side of the card.
@@ -93,49 +151,6 @@ namespace MonoZenith.Card
                 DataManager.GetInstance(_game).CardFont,
                 Color.Black
             );
-        }
-
-        /// <summary>
-        /// Changes the position of the card.
-        /// </summary>
-        /// <param name="x">X coordinate</param>
-        /// <param name="y">Y coordinate</param>
-        public void ChangePosition(float x, float y)
-        {
-            _position = new Vector2(x, y);
-        }
-        
-        /// <summary>
-        /// Update the state of the card.
-        /// </summary>
-        /// <param name="deltaTime">The delta time.</param>
-        public void Update(GameTime deltaTime)
-        {
-            
-        }
-        
-        /// <summary>
-        /// Draw the card.
-        /// </summary>
-        /// <param name="x">Positional x</param>
-        /// <param name="y">Positional y</param>
-        /// <param name="angle">Rotational Angle</param>
-        /// <param name="offset">Offset Bool, determines whether the card is
-        /// drawn starting at (0,0) or in the middle as offset.</param>
-        /// <param name="active">Boolean to determine if active or back texture should be drawn</param>
-        public void Draw(float x, float y, float angle = 0, bool offset = true, bool active = false)
-        {
-            _position = new Vector2(x, y);
-            Texture2D currentTexture = active ? _frontTexture : _textureInHand;
-            _game.DrawImage(currentTexture, _position, _scale, angle);
-
-            if(!IsAffordable())
-                _game.DrawImage(_hiddenTexture, _position, _scale, angle);
-
-            if (!active)
-                return; 
-            
-            DrawMetaData();
         }
     }
 }

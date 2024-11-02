@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using MonoZenith.Engine.Support;
+using MonoZenith.Players;
 
 namespace MonoZenith.Card.CardStack
 {
@@ -132,24 +133,6 @@ namespace MonoZenith.Card.CardStack
         }
 
         /// <summary>
-        /// Changes the position of the stack.
-        /// </summary>
-        /// <param name="x">Positional X</param>
-        /// <param name="y">Positional Y</param>
-        public void ChangePosition(float x, float y)
-        {
-            _position = new Vector2(x, y);
-            
-            // Update the position of the contained cards
-            foreach (var card in _cards)
-            {
-                card.ChangePosition(
-                    _position.X - Card.Width / 2 * _cards[0].Scale * AppSettings.Scaling.ScaleFactor, 
-                    _position.Y - Card.Height / 2 * _cards[0].Scale * AppSettings.Scaling.ScaleFactor);
-            }
-        }
-
-        /// <summary>
         /// Get all but the last card in the stack.
         /// </summary>
         /// <returns>A list of all but the last cards in the stack.</returns>
@@ -167,42 +150,75 @@ namespace MonoZenith.Card.CardStack
             return _cards.Take(_cards.Count).ToList();
         }
 
-        /// <summary>
-        /// Draw the stack in a straight line, centered on the stack's position.
-        /// </summary>
-        public void Draw()
+        public virtual void Update(GameTime deltaTime)
         {
-            if (!_cards.Any()) 
-                return;
-
+            // Retrieve spacing and starting position of the cards
             int cardCount = _cards.Count;
-            float cardWidth = Card.Width;
-            int offset = 20;
-            float spacing = cardWidth + offset * AppSettings.Scaling.ScaleFactor;
-            float totalWidth = cardCount * cardWidth + (cardCount - 1) * offset * AppSettings.Scaling.ScaleFactor;
-            float startX = _position.X - totalWidth / 2 + cardWidth / 2;
+            float spacing, startX;
+            (spacing, startX) = CalculateCardPosition(cardCount);
 
             for (int i = 0; i < cardCount; i++)
             {
-                float cardX = startX + i * spacing;
+                // Calculate the position of the current card for centering
                 Card currentCard = _cards[i];
+                float cardX = startX + i * spacing;
 
-                if (GetType().IsSubclassOf(typeof(CardStack)))
-                {
-                    currentCard.Draw(cardX, _position.Y);
-                }
-                else
-                {
-                    currentCard.Draw(cardX, _position.Y, 0, true, true);
-                }
+                currentCard.UpdatePosition(cardX, _position.Y, true);
+                currentCard.Update(deltaTime);
             }
         }
 
-        public virtual void Update(GameTime gameTime)
+        protected (float, float) CalculateCardPosition(int cardCount)
         {
+            float cardWidth = Card.Width;
+
+            // Define the spacing between cards
+            int offset = 20;
+            float spacing = cardWidth + offset * AppSettings.Scaling.ScaleFactor;
+
+            // Calculate the total width occupied by all cards including spacing
+            float totalWidth = cardCount * cardWidth + (cardCount - 1) * offset * AppSettings.Scaling.ScaleFactor;
+
+            // Calculate the starting position to center the cards
+            float startX = _position.X - totalWidth / 2 + cardWidth / 2;
+
+            return (spacing, startX);
+        }
+
+        /// <summary>
+        /// Updates the position of the stack.
+        /// </summary>
+        /// <param name="x">Positional X</param>
+        /// <param name="y">Positional Y</param>
+        public void UpdatePosition(float x, float y)
+        {
+            _position = new Vector2(x, y);
+
+            // Update the position of the contained cards
             foreach (var card in _cards)
             {
-                card.Update(gameTime);
+                card.UpdatePosition(_position.X, _position.Y, true);
+            }
+        }
+
+        /// <summary>
+        /// Draw the stack with all of its cards, centered on the stack's position.
+        /// </summary>
+        public void Draw()
+        {
+            if (!_cards.Any())
+                return;
+
+            foreach (var card in _cards)
+            {
+                if (card.Owner is NpcPlayer)
+                {
+                    card.Draw(180);
+                }
+                else
+                {
+                    card.Draw(0, true);
+                }
             }
         }
     }

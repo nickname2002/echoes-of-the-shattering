@@ -23,63 +23,11 @@ namespace MonoZenith.Players
         public NpcPlayer(Game game, GameState state, string name) : base(game, state, name)
         {
             _handxPos = game.ScreenWidth / 2f;
-            _handyPos = game.ScreenHeight / 3.9f;
+            _handyPos = game.ScreenHeight / 4f;
             PlayerPosition = new Vector2(game.ScreenWidth * 0.05f, game.ScreenHeight * 0.085f);
             PlayerIcon = DataManager.GetInstance(game).Npc;
             _originalHealth = Health;
             _originalFocus = Focus;
-        }
-
-        /// <summary>
-        /// Draw all assets of the NpcPlayer.
-        /// </summary>
-        public override void Draw()
-        {
-            DrawPlayerHealthAndName();
-            DrawPlayerUi();
-            DrawHand();
-        }
-
-        public override void DrawPlayerHealthAndName()
-        {
-            // Setup offsets and positions for name and health bar
-            Vector2 playerOffset = GetOffset(PlayerCurrent, Scale);
-            Vector2 namePosition = PlayerPosition + new Vector2(playerOffset.X * 1.2f, -playerOffset.Y * 0.875f);
-            Vector2 shadowPosition = new(1.25f, 1.25f);
-            int healthHeight = (int)(PlayerCurrent.Height * Scale * 0.05f);
-            int healthWidth = (int)(_game.ScreenWidth * 0.9f);
-            Vector2 healthPosition = PlayerPosition + new Vector2(0, -playerOffset.Y) + new Vector2(1, 1);
-            Vector2 edgePosition = healthPosition - new Vector2(1, 1);
-
-            // Draw name
-            _game.DrawText(Name, namePosition + shadowPosition, PlayerFont, Color.DarkGray);
-            _game.DrawText(Name, namePosition, PlayerFont, Color.White);
-
-            // Draw Health bar with current health points
-            _game.DrawRectangle(Color.Goldenrod, edgePosition, healthWidth + 2, healthHeight + 2);
-            _game.DrawRectangle(Color.DarkGray, healthPosition, healthWidth, healthHeight);
-            _game.DrawRectangle(Color.DarkRed, healthPosition, (int)(healthWidth * (Health / 100f)), healthHeight);
-        }
-
-        /// <summary>
-        /// Draw the Hand of the NpcPlayer.
-        /// </summary>
-        public override void DrawHand()
-        {
-            int count = _handStack.Count;
-
-            if (count == 0)
-                return;
-
-            float widthStep = _handxPos / count;
-            
-            foreach (Card.Card card in _handStack.Cards)
-            {
-                float currentWidth = _handxPos - (_handxPos / 2) + (widthStep * count);
-
-                card.Draw(currentWidth, _handyPos, 180, false, false);
-                count--;
-            }
         }
 
         /// <summary>
@@ -232,7 +180,31 @@ namespace MonoZenith.Players
                     return _handStack.Cards.OfType<AttackCard>().Any(card => card.IsAffordable());
             }
         }
-        
-        public override void Update(GameTime deltaTime) { }
+
+        public override void Update(GameTime deltaTime)
+        {
+            _handStack.Update(deltaTime);
+        }
+
+        public override void DrawPlayerHealthAndName()
+        {
+            // Setup offsets and positions for name and health bar
+            Vector2 playerOffset = GetOffset(PlayerCurrent, Scale);
+            Vector2 namePosition = PlayerPosition + new Vector2(playerOffset.X * 1.2f, -playerOffset.Y * 0.875f);
+            Vector2 shadowPosition = new(1.25f, 1.25f);
+            int healthHeight = (int)(PlayerCurrent.Height * Scale * 0.05f);
+            int healthWidth = (int)(_game.ScreenWidth * 0.9f);
+            Vector2 healthPosition = PlayerPosition + new Vector2(0, -playerOffset.Y) + new Vector2(1, 1);
+            Vector2 edgePosition = healthPosition - new Vector2(1, 1);
+
+            // Draw name
+            _game.DrawText(Name, namePosition + shadowPosition, PlayerFont, Color.DarkGray);
+            _game.DrawText(Name, namePosition, PlayerFont, Color.White);
+
+            // Draw Health bar with current health points
+            _game.DrawRectangle(Color.Goldenrod, edgePosition, healthWidth + 2, healthHeight + 2);
+            _game.DrawRectangle(Color.DarkGray, healthPosition, healthWidth, healthHeight);
+            _game.DrawRectangle(Color.DarkRed, healthPosition, (int)(healthWidth * (Health / 100f)), healthHeight);
+        }
     }
 }
