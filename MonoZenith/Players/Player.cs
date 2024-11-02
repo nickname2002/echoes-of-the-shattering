@@ -134,8 +134,10 @@ namespace MonoZenith.Players
                 new GlintStonePebbleCard(_game, _state, this),
                 new GlintStonePebbleCard(_game, _state, this)
             };
-
+            
             _deckStack.AddToFront(deck);
+            foreach (var card in _handStack.Cards)
+                card.Stack = _handStack;
         }
 
         /// <summary>
