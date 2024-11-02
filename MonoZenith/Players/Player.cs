@@ -74,6 +74,16 @@ namespace MonoZenith.Players
             FillPlayerDeck();
             ChangeHandStackPosition();
         }
+        public override string ToString()
+        {
+            return $"==== {Name} ====\n\n\n" +
+                   $"HEALTH: {Health}\n\n" +
+                   $"STAMINA: {Stamina}\n\n" +
+                   $"FOCUS: {Focus}\n\n" +
+                   $"DECK STACK: {_deckStack}\n\n" +
+                   $"RESERVE CARD STACK: {_reserveCardStack}\n\n" +
+                   $"HAND STACK: {_handStack}\n\n\n";
+        }
 
         /// <summary>
         /// Fill the player deck with cards.
@@ -133,7 +143,7 @@ namespace MonoZenith.Players
         /// </summary>
         public void ChangeHandStackPosition()
         {
-            _handStack.ChangePosition(_handxPos, _handyPos);
+            _handStack.UpdatePosition(_handxPos, _handyPos);
         }
 
         /// <summary>
@@ -229,9 +239,14 @@ namespace MonoZenith.Players
         public abstract void Update(GameTime deltaTime);
 
         /// <summary>
-        /// Draw the player.
+        /// Draw all the assets of the player.
         /// </summary>
-        public abstract void Draw();
+        public virtual void Draw()
+        {
+            DrawPlayerHealthAndName();
+            DrawPlayerUi();
+            _handStack.Draw();
+        }
 
         /// <summary>
         /// Draw the Player's name.
@@ -267,17 +282,6 @@ namespace MonoZenith.Players
             var widthOffset = texture.Width * scale * 0.5f;
             var heightOffset = texture.Height * scale * 0.5f;
             return new Vector2(widthOffset, heightOffset);
-        }
-
-        public override string ToString()
-        {
-            return $"==== {Name} ====\n\n\n" +
-                   $"HEALTH: {Health}\n\n" +
-                   $"STAMINA: {Stamina}\n\n" +
-                   $"FOCUS: {Focus}\n\n" +
-                   $"DECK STACK: {_deckStack}\n\n" +
-                   $"RESERVE CARD STACK: {_reserveCardStack}\n\n" +
-                   $"HAND STACK: {_handStack}\n\n\n";
         }
     }
 }

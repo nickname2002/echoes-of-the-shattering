@@ -46,6 +46,11 @@ namespace MonoZenith.Card
             _name = GetType().Name;
         }
 
+        public override string ToString()
+        {
+            return _name;
+        }
+
         /// <summary>
         /// Checks if the player is hovering over the card with the mouse pointer.
         /// </summary>
@@ -77,16 +82,6 @@ namespace MonoZenith.Card
         /// Perform the effect of the card.
         /// </summary>
         public abstract void PerformEffect();
-
-        /// <summary>
-        /// Changes the position of the card.
-        /// </summary>
-        /// <param name="x">X coordinate</param>
-        /// <param name="y">Y coordinate</param>
-        public void ChangePosition(float x, float y)
-        {
-            _position = new Vector2(x, y);
-        }
         
         /// <summary>
         /// Update the state of the card.
@@ -98,12 +93,14 @@ namespace MonoZenith.Card
         }
 
         /// <summary>
-        /// Update the Card's position
+        /// Update the Card's position.
+        /// <paramref name="offset"/> determines if the Card's position
+        /// starts on its relative origin (0, 0) or centralised.
         /// </summary>
         /// <param name="x">Positional x</param>
         /// <param name="y">Positional y</param>
-        /// <param name="offset">Offset Bool, determines whether the card is
-        /// drawn starting at (0,0) or in the middle as offset.</param>
+        /// <param name="offset">Boolean to determine whether the card
+        /// should be centralised.</param>
         public void UpdatePosition(float x, float y, bool offset = true)
         {
             float newX;
@@ -111,8 +108,9 @@ namespace MonoZenith.Card
 
             if (offset)
             {
-                newX = x - (_width * _scale / 2);
-                newY = y - (_height * _scale / 2);
+                // Centralise the position of the card
+                newX = x - _width * _scale / 2 * AppSettings.Scaling.ScaleFactor;
+                newY = y - _height * _scale / 2 * AppSettings.Scaling.ScaleFactor;
             }
             else
             {
@@ -153,11 +151,6 @@ namespace MonoZenith.Card
                 DataManager.GetInstance(_game).CardFont,
                 Color.Black
             );
-        }
-
-        public override string ToString()
-        {
-            return _name;
         }
     }
 }

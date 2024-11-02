@@ -123,16 +123,6 @@ namespace MonoZenith.Players
             _reserveIndicator.Update(deltaTime);
         }
 
-        /// <summary>
-        /// Draw all assets of the HumanPlayer.
-        /// </summary>
-        public override void Draw()
-        {
-            DrawPlayerHealthAndName();
-            DrawPlayerUi();
-            _handStack.Draw();
-        }
-
         public override void DrawPlayerHealthAndName()
         {
             // Setup offsets and positions for name and player bars

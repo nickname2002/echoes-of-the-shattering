@@ -60,7 +60,7 @@ namespace MonoZenith
             float playedX = _game.ScreenWidth / 2 - cardWidth / 2;
             float height = _game.ScreenHeight / 2f - cardHeight / 2;
             
-            PlayedCards.ChangePosition(playedX, height);
+            PlayedCards.UpdatePosition(playedX, height);
 
             // Determine the starting player
             DetermineStartingPlayer();

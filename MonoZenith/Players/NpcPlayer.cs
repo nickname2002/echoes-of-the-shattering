@@ -186,16 +186,6 @@ namespace MonoZenith.Players
             _handStack.Update(deltaTime);
         }
 
-        /// <summary>
-        /// Draw all assets of the NpcPlayer.
-        /// </summary>
-        public override void Draw()
-        {
-            DrawPlayerHealthAndName();
-            DrawPlayerUi();
-            _handStack.Draw();
-        }
-
         public override void DrawPlayerHealthAndName()
         {
             // Setup offsets and positions for name and health bar

@@ -133,24 +133,6 @@ namespace MonoZenith.Card.CardStack
         }
 
         /// <summary>
-        /// Changes the position of the stack.
-        /// </summary>
-        /// <param name="x">Positional X</param>
-        /// <param name="y">Positional Y</param>
-        public void ChangePosition(float x, float y)
-        {
-            _position = new Vector2(x, y);
-            
-            // Update the position of the contained cards
-            foreach (var card in _cards)
-            {
-                card.ChangePosition(
-                    _position.X - Card.Width / 2 * _cards[0].Scale * AppSettings.Scaling.ScaleFactor, 
-                    _position.Y - Card.Height / 2 * _cards[0].Scale * AppSettings.Scaling.ScaleFactor);
-            }
-        }
-
-        /// <summary>
         /// Get all but the last card in the stack.
         /// </summary>
         /// <returns>A list of all but the last cards in the stack.</returns>
@@ -170,11 +152,24 @@ namespace MonoZenith.Card.CardStack
 
         public virtual void Update(GameTime deltaTime)
         {
-            // Initialize lists for hovered card positions
-            List<Card> hoveredCards = new List<Card>();
-            Dictionary<Card, float> cardPositions = new Dictionary<Card, float>();
-
+            // Retrieve spacing and starting position of the cards
             int cardCount = _cards.Count;
+            float spacing, startX;
+            (spacing, startX) = CalculateCardPosition(cardCount);
+
+            for (int i = 0; i < cardCount; i++)
+            {
+                // Calculate the position of the current card for centering
+                Card currentCard = _cards[i];
+                float cardX = startX + i * spacing;
+
+                currentCard.UpdatePosition(cardX, _position.Y, true);
+                currentCard.Update(deltaTime);
+            }
+        }
+
+        protected (float, float) CalculateCardPosition(int cardCount)
+        {
             float cardWidth = Card.Width;
 
             // Define the spacing between cards
@@ -187,83 +182,23 @@ namespace MonoZenith.Card.CardStack
             // Calculate the starting position to center the cards
             float startX = _position.X - totalWidth / 2 + cardWidth / 2;
 
-            for (int i = 0; i < cardCount; i++)
-            {
-                // Calculate the position of the current card for centering
-                Card currentCard = _cards[i];
-                float cardX = startX + i * spacing;
-
-                // Check if the current card is from the HumanPlayer's hand
-                if (currentCard.IsHovered() 
-                    && currentCard.Owner is HumanPlayer 
-                    && GetType().IsSubclassOf(typeof(CardStack)))
-                {
-                    hoveredCards.Add(currentCard);
-                    cardPositions[currentCard] = cardX;
-                }
-                else
-                {
-                    UpdateNonHoveredCard(currentCard, cardX);
-                    currentCard.Update(deltaTime);
-                }
-            }
-
-            UpdateHoveredCard(hoveredCards, cardPositions, deltaTime);
+            return (spacing, startX);
         }
 
         /// <summary>
-        /// Updates the non hovered card position.
+        /// Updates the position of the stack.
         /// </summary>
-        /// <param name="card">The non hovered card.</param>
-        /// <param name="x">The new X positional value.</param>
-        public virtual void UpdateNonHoveredCard(Card card, float x)
+        /// <param name="x">Positional X</param>
+        /// <param name="y">Positional Y</param>
+        public void UpdatePosition(float x, float y)
         {
-            if (GetType().IsSubclassOf(typeof(CardStack)))
+            _position = new Vector2(x, y);
+
+            // Update the position of the contained cards
+            foreach (var card in _cards)
             {
-                card.UpdatePosition(x, _position.Y, false);
+                card.UpdatePosition(_position.X, _position.Y, true);
             }
-            else
-            {
-                card.UpdatePosition(x, _position.Y, true);
-            }
-        }
-
-        /// <summary>
-        /// Updates the hovered card position.
-        /// </summary>
-        /// <param name="hoveredCards">List of stored hovered cards.</param>
-        /// <param name="cardPositions">Dictionary of cards and its X positional values.</param>
-        /// <param name="deltaTime">The delta time.</param>
-        private void UpdateHoveredCard(
-            List<Card> hoveredCards,
-            Dictionary<Card, float> cardPositions,
-            GameTime deltaTime)
-        {
-            const int verticalMoveOffset = 20;
-            Card _lastHoveredCard = null;
-
-            // Draw hovered cards, except the last one, in their original positions
-            for (int i = 0; i < hoveredCards.Count; i++)
-            {
-                Card hoveredCard = hoveredCards[i];
-                float hoveredCardPosition = cardPositions[hoveredCard];
-
-                // Draw all hovered cards except the last one first
-                if (i < hoveredCards.Count - 1)
-                {
-                    hoveredCard.UpdatePosition(hoveredCardPosition, _position.Y, false);
-                    hoveredCard.Update(deltaTime);
-                }
-            }
-
-            // Draw the last hovered card (if any), move it slightly up, and store it
-            if (hoveredCards.Count <= 0)
-                return;
-
-            _lastHoveredCard = hoveredCards[^1];
-            float lastHoveredCardPosition = cardPositions[_lastHoveredCard];
-            _lastHoveredCard.UpdatePosition(lastHoveredCardPosition, _position.Y - verticalMoveOffset, false);
-            _lastHoveredCard.Update(deltaTime);
         }
 
         /// <summary>
