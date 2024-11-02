@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Audio;
+using MonoZenith.Card.CardStack;
 using MonoZenith.Engine.Support;
 using MonoZenith.Players;
 
@@ -27,8 +28,9 @@ namespace MonoZenith.Card
         public static int Height => _height;
         public float Scale => _scale;
         public Player Owner => _owner;
+        public CardStack.CardStack Stack { get; set; }
 
-        protected Card(Game game, GameState state, Player owner)
+        protected Card(Game game, GameState state, Player owner, CardStack.CardStack stack)
         {
             _game = game;
             _state = state;
@@ -44,6 +46,7 @@ namespace MonoZenith.Card
             _name = "BaseCard";
             _soundOnPlay = null;
             _name = GetType().Name;
+            Stack = stack;
         }
 
         /// <summary>
@@ -133,7 +136,7 @@ namespace MonoZenith.Card
             Texture2D currentTexture = active ? _frontTexture : _textureInHand;
             _game.DrawImage(currentTexture, _position, _scale, angle);
 
-            if(!IsAffordable())
+            if(!IsAffordable() && Stack is HandCardStack)
                 _game.DrawImage(_hiddenTexture, _position, _scale, angle);
 
             if (!active)

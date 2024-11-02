@@ -63,6 +63,7 @@ namespace MonoZenith.Card.CardStack
         public void AddToFront(Card card)
         {
             _cards.Insert(0, card);
+            card.Stack = this;
         }
 
         /// <summary>
@@ -72,6 +73,10 @@ namespace MonoZenith.Card.CardStack
         public void AddToFront(List<Card> cardList)
         {
             _cards.InsertRange(0, cardList);
+            foreach (Card card in cardList)
+            {
+                card.Stack = this;
+            }
         }
 
         /// <summary>
@@ -81,6 +86,7 @@ namespace MonoZenith.Card.CardStack
         public void AddToBottom(Card card)
         {
             _cards.Add(card);
+            card.Stack = this;
         }
 
         /// <summary>
@@ -90,6 +96,10 @@ namespace MonoZenith.Card.CardStack
         public void AddToBottom(List<Card> cardList)
         {
             _cards.AddRange(cardList);
+            foreach (Card card in cardList)
+            {
+                card.Stack = this;
+            }
         }
 
         /// <summary>
