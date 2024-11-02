@@ -30,7 +30,7 @@ namespace MonoZenith.Card
         public Player Owner => _owner;
         public CardStack.CardStack Stack { get; set; }
 
-        protected Card(Game game, GameState state, Player owner, CardStack.CardStack stack)
+        protected Card(Game game, GameState state, Player owner)
         {
             _game = game;
             _state = state;
@@ -46,7 +46,6 @@ namespace MonoZenith.Card
             _name = "BaseCard";
             _soundOnPlay = null;
             _name = GetType().Name;
-            Stack = stack;
         }
 
         /// <summary>
