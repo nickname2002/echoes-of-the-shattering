@@ -64,6 +64,7 @@ namespace MonoZenith.Card.CardStack
         {
             _cards.Insert(0, card); 
             card.Stack = this;
+            card.IsTransferringToExternalStack = true;
             card.UpdatePosition(_position.X, _position.Y); 
         }
 
@@ -77,6 +78,7 @@ namespace MonoZenith.Card.CardStack
             foreach (Card card in cardList)
             {
                 card.Stack = this;
+                card.IsTransferringToExternalStack = true;
                 card.UpdatePosition(_position.X, _position.Y);
             }
         }
@@ -88,6 +90,7 @@ namespace MonoZenith.Card.CardStack
         public void AddToBottom(Card card)
         {
             _cards.Add(card);
+            card.IsTransferringToExternalStack = true;
             card.Stack = this;
             card.UpdatePosition(_position.X, _position.Y); 
         }
@@ -102,6 +105,7 @@ namespace MonoZenith.Card.CardStack
             foreach (Card card in cardList)
             {
                 card.Stack = this;
+                card.IsTransferringToExternalStack = true;
                 card.UpdatePosition(_position.X, _position.Y); 
             }
         }

@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Audio;
 using MonoZenith.Card.CardStack;
@@ -128,11 +129,10 @@ namespace MonoZenith.Card
             MoveTowardsTargetPosition(deltaTime);
 
             // Controleer of de kaart de doelpositie heeft bereikt
-            if (IsTransferringToExternalStack && TargetPosition == _position)
-            {
-                IsTransferringToExternalStack = false;
-                TargetPosition = Vector2.Zero;
-            }
+            if (TargetPosition != _position) 
+                return;
+            
+            TargetPosition = Vector2.Zero;
         }
 
         /// <summary>
@@ -146,11 +146,13 @@ namespace MonoZenith.Card
 
             Vector2 direction = TargetPosition - _position;
             float distance = direction.Length();
-            float speed = 500 * (float)deltaTime.ElapsedGameTime.TotalSeconds;
+            float speed = MovementSpeed() * 
+                          (float)deltaTime.ElapsedGameTime.TotalSeconds;
 
             if (distance <= speed)
             {
                 _position = TargetPosition;
+                IsTransferringToExternalStack = false;
                 TargetPosition = Vector2.Zero;
             }
             else
@@ -158,6 +160,15 @@ namespace MonoZenith.Card
                 Vector2 velocity = direction * speed / distance;
                 _position += velocity;
             }
+        }
+
+        /// <summary>
+        /// Calculate the movement speed of the card.
+        /// </summary>
+        /// <returns>The movement speed of the card.</returns>
+        private float MovementSpeed()
+        {
+            return IsTransferringToExternalStack ? 1000f : 500f;
         }
         
         /// <summary>
