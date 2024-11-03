@@ -24,9 +24,21 @@ namespace MonoZenith
         private readonly SoundEffectInstance _playerDeathSound;
         private readonly SoundEffectInstance _enemyDeathSound;
         private readonly SoundEffectInstance _endTurnSound;
-
+        
+        /// <summary>
+        /// The current player.
+        /// </summary>
         public Player CurrentPlayer => _currentPlayer?? _player;
+        
+        /// <summary>
+        /// The opposing player.
+        /// </summary>
         public Player OpposingPlayer => _currentPlayer == _player? _npc : _player;
+        
+        /// <summary>
+        /// Triggered by the player to switch turns
+        /// </summary>
+        public bool SwitchingTurns { get; set; }
 
         public GameState(Game game)
         {
@@ -35,7 +47,7 @@ namespace MonoZenith
             _player = new HumanPlayer(_game, this, "Player");
             _npc = new NpcPlayer(_game, this, "NPC");
             _currentPlayer = null;
-            PlayedCards = new CardStack(_game, this);
+            PlayedCards = new CardStack(_game, this, true);
             _componentFont = DataManager.GetInstance(game).ComponentFont;
             _playerDeathSound = DataManager.GetInstance(game).PlayerDeathSound;
             _enemyDeathSound = DataManager.GetInstance(game).EnemyDeathSound;
@@ -120,8 +132,9 @@ namespace MonoZenith
         /// <summary>
         /// Switches the turn to the next player.
         /// </summary>
-        public void SwitchTurn()
+        private void SwitchTurn()
         {
+            SwitchingTurns = false;
             _endTurnSound.Play();
             _currentPlayer = _currentPlayer == _player? _npc : _player;
         }
@@ -155,18 +168,27 @@ namespace MonoZenith
         {
             GameTime = deltaTime;
             
+            // Make sure all cards are updated
+            _player.Update(deltaTime);
+            _npc.Update(deltaTime);
+            _endTurnButton.Update(deltaTime);
+            PlayedCards.Update(deltaTime);
+            
+            // If the player is switching turns, wait for the player to finish moving cards
+            if (SwitchingTurns)
+            {
+                if (_currentPlayer.HasAnyMovingCards)
+                    return;
+
+                SwitchTurn();
+            }
+            
             if (HasWinner() != null)
             {
                 return;
             }
             
-            _endTurnButton.Update(deltaTime);
-            PlayedCards.Update(deltaTime);
             _currentPlayer?.PerformTurn(this);
-            
-            // Update players
-            _player.Update(deltaTime);
-            _npc.Update(deltaTime);
         }
         
         /// <summary>

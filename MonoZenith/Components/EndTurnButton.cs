@@ -34,11 +34,11 @@ public sealed class EndTurnButton : Button
         {
             if (_gameState.CurrentPlayer is not HumanPlayer) 
                 return;
-
+            
             _gameState.CurrentPlayer.MoveCardsFromHandToReserve();
             _gameState.CurrentPlayer.MoveCardsFromPlayedToReserve();
             _gameState.CurrentPlayer.ResetPlayerStamina();
-            _gameState.SwitchTurn();
+            _gameState.SwitchingTurns = true;
         });
     }
 

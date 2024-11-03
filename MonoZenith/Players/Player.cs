@@ -49,6 +49,11 @@ namespace MonoZenith.Players
         /// The player's hand card stack.
         /// </summary>
         public HandCardStack HandStack => _handStack;
+        
+        /// <summary>
+        /// Check if the player has any moving cards.
+        /// </summary>
+        public bool HasAnyMovingCards => _reserveCardStack.GetMovingCards().Count > 0;
 
         protected Player(Game game, GameState state, string name)
         {
@@ -190,7 +195,26 @@ namespace MonoZenith.Players
             List<Card.Card> cardsFromPlayed = _state.PlayedCards.Cards;
             _reserveCardStack.AddToFront(cardsFromPlayed); 
             _state.PlayedCards.Clear();
+        }
+        
+        /// <summary>
+        /// Move the cards from the played stack to the reserve stack.
+        /// </summary>
+        public void MoveCardsOutOfScreen()
+        {
+            var movingCards = new List<Card.Card>();
+            movingCards.AddRange(_reserveCardStack.GetMovingCards());
             
+            if (movingCards.Count > 0)
+            {
+                foreach (var card in movingCards)
+                    card.Update(_state.GameTime);
+                
+                Console.WriteLine(movingCards.Count);
+                
+                // Filter out cards that are no longer moving
+                movingCards = movingCards.Where(card => card.IsMoving).ToList();
+            }
         }
         
         /// <summary>
@@ -219,12 +243,13 @@ namespace MonoZenith.Players
             DrawPlayerHealthAndName();
             DrawPlayerUi();
             _handStack.Draw();
+            _reserveCardStack.Draw();
         }
 
         /// <summary>
         /// Draw the Player's name.
         /// </summary>
-        public abstract void DrawPlayerHealthAndName();
+        protected abstract void DrawPlayerHealthAndName();
 
         /// <summary>
         /// Draw the Player UI Assets.

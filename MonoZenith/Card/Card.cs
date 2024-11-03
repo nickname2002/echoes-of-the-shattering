@@ -138,9 +138,6 @@ namespace MonoZenith.Card
         /// <param name="deltaTime">The delta time.</param>
         private void MoveTowardsTargetPosition(GameTime deltaTime)
         {
-            if (TargetPosition == Vector2.Zero)
-                return;
-
             Vector2 direction = TargetPosition - _position;
             float distance = direction.Length();
             float speed = MovementSpeed() * 

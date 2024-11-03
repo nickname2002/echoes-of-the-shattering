@@ -18,7 +18,7 @@ namespace MonoZenith.Card.CardStack
         public readonly Texture2D CardBack;
         public readonly Texture2D CardFront;
         
-        public HandCardStack(Game game, GameState state) : base(game, state)
+        public HandCardStack(Game game, GameState state) : base(game, state, true)
         {
             // Load in Textures
             CardBack = DataManager.GetInstance(game).CardBack;
@@ -80,22 +80,6 @@ namespace MonoZenith.Card.CardStack
             Card cardToDraw = _cards[^1];
             _cards.Remove(cardToDraw);
             return cardToDraw;
-        }
-        
-        /// <summary>
-        /// Return seven cards from the stack.
-        /// </summary>
-        /// <returns>The seven cards.</returns>
-        public CardStack GetSevenCards()
-        {
-            CardStack sevenCards = new CardStack(_game, _state);
-
-            for (int i = 0; i < 7; i++)
-            {
-                sevenCards.AddToBottom(GetCard());
-            }
-
-            return sevenCards;
         }
 
         public override void Update(GameTime deltaTime)
