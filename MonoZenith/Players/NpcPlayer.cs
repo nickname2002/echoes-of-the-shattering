@@ -19,11 +19,13 @@ namespace MonoZenith.Players
     {
         private readonly float _originalHealth;
         private readonly float _originalFocus;
+        private float _currentMoveDelay;
+        private const float MOVE_DELAY = 1.5f;
         
         public NpcPlayer(Game game, GameState state, string name) : base(game, state, name)
         {
             _handxPos = game.ScreenWidth / 2f;
-            _handyPos = game.ScreenHeight / 4f;
+            _handyPos = 25 * AppSettings.Scaling.ScaleFactor;
             PlayerPosition = new Vector2(game.ScreenWidth * 0.05f, game.ScreenHeight * 0.085f);
             PlayerIcon = DataManager.GetInstance(game).Npc;
             _originalHealth = Health;
@@ -63,7 +65,7 @@ namespace MonoZenith.Players
         private void PlayStrategicCard()
         {
             var currentState = DetermineState();
-
+            
             // Buffer actions with strategies 
             var strategies = new List<Func<bool>>
             {
@@ -71,7 +73,7 @@ namespace MonoZenith.Players
                 () => currentState == AiState.LowFocus && FocusRecoveryAttemptSuccessful(),
                 OffensiveAttackAttemptSuccessful
             };
-
+            
             // Execute the first successful strategy based on state and exit
             foreach (var strategy in strategies)
             {
@@ -91,7 +93,7 @@ namespace MonoZenith.Players
 
             if (healthCard == null || !healthCard.IsAffordable()) 
                 return false;
-            
+
             PlayCard(healthCard);
             return true;
         }
@@ -139,15 +141,90 @@ namespace MonoZenith.Players
 
             return false;   
         }
-        
+
+        protected override void FillPlayerDeck()
+        {
+            var deck = new List<Card.Card>
+            {
+                // Flasks
+                new FlaskOfCrimsonTearsCard(_game, _state, this),
+                new FlaskOfCrimsonTearsCard(_game, _state, this),
+                new FlaskOfCrimsonTearsCard(_game, _state, this),
+                new FlaskOfCrimsonTearsCard(_game, _state, this),
+
+                new FlaskOfCeruleanTearsCard(_game, _state, this),
+                new FlaskOfCeruleanTearsCard(_game, _state, this),
+                new FlaskOfCeruleanTearsCard(_game, _state, this),
+                new FlaskOfCeruleanTearsCard(_game, _state, this),
+
+                // Basic attacks
+                new LightSwordAttackCard(_game, _state, this),
+                new LightSwordAttackCard(_game, _state, this),
+                new LightSwordAttackCard(_game, _state, this),
+                new LightSwordAttackCard(_game, _state, this),
+                new LightSwordAttackCard(_game, _state, this),
+                new LightSwordAttackCard(_game, _state, this),
+                new LightSwordAttackCard(_game, _state, this),
+                new LightSwordAttackCard(_game, _state, this),
+
+                new HeavySwordAttackCard(_game, _state, this),
+                new HeavySwordAttackCard(_game, _state, this),
+                new HeavySwordAttackCard(_game, _state, this),
+                new HeavySwordAttackCard(_game, _state, this),
+                new HeavySwordAttackCard(_game, _state, this),
+                new HeavySwordAttackCard(_game, _state, this),
+                new HeavySwordAttackCard(_game, _state, this),
+                new HeavySwordAttackCard(_game, _state, this),
+
+                // Magic attacks
+                new GlintStonePebbleCard(_game, _state, this),
+                new GlintStonePebbleCard(_game, _state, this),
+                new GlintStonePebbleCard(_game, _state, this),
+                new GlintStonePebbleCard(_game, _state, this),
+                new GlintStonePebbleCard(_game, _state, this),
+                new GlintStonePebbleCard(_game, _state, this)
+            };
+            
+            _deckStack.AddToFront(deck);
+            
+            // Set the starting position of the cards when moving from the deck to the hand
+            _deckStack.SetPosition(new Vector2(
+                _game.ScreenWidth / 2,
+                -Card.Card.Height / 2));
+            _reserveCardStack.SetPosition(new Vector2(
+                _game.ScreenWidth / 2,
+                -Card.Card.Height / 2));
+            
+            foreach (var card in _handStack.Cards)
+                card.Stack = _deckStack;
+        }
+
         public override void PerformTurn(GameState state)
         {
             base.PerformTurn(state);
             
-            while (CardsAvailableToPlay())
+            if (CardsAvailableToPlay())
             {
+                // If any card is moving, return
+                if (_handStack.Cards.Any(card => card.IsMoving) || _currentMoveDelay < MOVE_DELAY)
+                {
+                    _currentMoveDelay += (float)state.GameTime.ElapsedGameTime.TotalSeconds;
+                    return;
+                }
+
+                _currentMoveDelay = 0;
                 PlayStrategicCard();
+                return;
             }
+            
+            // If any card is moving, return
+            if (_handStack.Cards.Any(card => card.IsMoving) || _currentMoveDelay < MOVE_DELAY)
+            {
+                _currentMoveDelay += (float)state.GameTime.ElapsedGameTime.TotalSeconds;
+                return;
+            }
+            
+            _currentMoveDelay = 0;
             
             MoveCardsFromHandToReserve();
             MoveCardsFromPlayedToReserve();

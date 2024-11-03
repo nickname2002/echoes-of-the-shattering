@@ -246,7 +246,7 @@ namespace MonoZenith.Card.CardStack
             {
                 if (card.Owner is NpcPlayer)
                 {
-                    card.Draw(180);
+                    card.Draw();
                 }
                 else
                 {

@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Audio;
 using MonoZenith.Card.CardStack;
@@ -42,7 +41,7 @@ namespace MonoZenith.Card
         /// <summary>
         /// Boolean to determine if the card is moving.
         /// </summary>
-        public bool IsMoving => TargetPosition != Vector2.Zero;
+        public bool IsMoving => _position != TargetPosition ;
         
         /// <summary>
         /// The width and height of the card.
@@ -127,12 +126,10 @@ namespace MonoZenith.Card
         public void Update(GameTime deltaTime)
         {
             MoveTowardsTargetPosition(deltaTime);
-
-            // Controleer of de kaart de doelpositie heeft bereikt
-            if (TargetPosition != _position) 
-                return;
-            
-            TargetPosition = Vector2.Zero;
+            if (IsTransferringToExternalStack && TargetPosition == _position)
+            {
+                IsTransferringToExternalStack = false;
+            }
         }
 
         /// <summary>
@@ -153,7 +150,6 @@ namespace MonoZenith.Card
             {
                 _position = TargetPosition;
                 IsTransferringToExternalStack = false;
-                TargetPosition = Vector2.Zero;
             }
             else
             {
@@ -216,10 +212,13 @@ namespace MonoZenith.Card
         /// <param name="active">Boolean to determine if active or back texture should be drawn</param>
         public void Draw(float angle = 0, bool active = false)
         {
+            if (Stack == _state.PlayedCards)
+                active = true;
+            
             Texture2D currentTexture = active ? _frontTexture : _textureInHand;
             _game.DrawImage(currentTexture, _position, _scale, angle);
-
-            if(!IsAffordable() && Stack is HandCardStack)
+            
+            if(!IsAffordable() && Stack is HandCardStack && _owner is HumanPlayer)
                 _game.DrawImage(_hiddenTexture, _position, _scale, angle);
 
             if (!active)

@@ -1,18 +1,12 @@
 ﻿#nullable enable
 using Microsoft.Xna.Framework;
-using MonoZenith.Card;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Card.CardStack;
 using MonoZenith.Components;
 using MonoZenith.Engine.Support;
 using MonoZenith.Players;
-using MonoZenith.Support;
 
 namespace MonoZenith
 {
@@ -29,6 +23,7 @@ namespace MonoZenith
         private readonly EndTurnButton _endTurnButton;
         private readonly SoundEffectInstance _playerDeathSound;
         private readonly SoundEffectInstance _enemyDeathSound;
+        private readonly SoundEffectInstance _endTurnSound;
 
         public Player CurrentPlayer => _currentPlayer?? _player;
         public Player OpposingPlayer => _currentPlayer == _player? _npc : _player;
@@ -44,6 +39,7 @@ namespace MonoZenith
             _componentFont = DataManager.GetInstance(game).ComponentFont;
             _playerDeathSound = DataManager.GetInstance(game).PlayerDeathSound;
             _enemyDeathSound = DataManager.GetInstance(game).EnemyDeathSound;
+            _endTurnSound = DataManager.GetInstance(game).EndTurnSound;
             InitializeState();
             _endTurnButton = new EndTurnButton(_game, this);
         }
@@ -126,6 +122,7 @@ namespace MonoZenith
         /// </summary>
         public void SwitchTurn()
         {
+            _endTurnSound.Play();
             _currentPlayer = _currentPlayer == _player? _npc : _player;
         }
 
@@ -163,9 +160,9 @@ namespace MonoZenith
                 return;
             }
             
-            _currentPlayer?.PerformTurn(this);
             _endTurnButton.Update(deltaTime);
             PlayedCards.Update(deltaTime);
+            _currentPlayer?.PerformTurn(this);
             
             // Update players
             _player.Update(deltaTime);
