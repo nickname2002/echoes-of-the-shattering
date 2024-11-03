@@ -41,7 +41,7 @@ namespace MonoZenith.Card
         /// <summary>
         /// Boolean to determine if the card is moving.
         /// </summary>
-        public bool IsMoving => TargetPosition != Vector2.Zero;
+        public bool IsMoving => _position != TargetPosition ;
         
         /// <summary>
         /// The width and height of the card.
@@ -151,7 +151,6 @@ namespace MonoZenith.Card
             if (distance <= speed)
             {
                 _position = TargetPosition;
-                TargetPosition = Vector2.Zero;
             }
             else
             {
@@ -205,10 +204,13 @@ namespace MonoZenith.Card
         /// <param name="active">Boolean to determine if active or back texture should be drawn</param>
         public void Draw(float angle = 0, bool active = false)
         {
+            if (Stack == _state.PlayedCards)
+                active = true;
+            
             Texture2D currentTexture = active ? _frontTexture : _textureInHand;
             _game.DrawImage(currentTexture, _position, _scale, angle);
-
-            if(!IsAffordable() && Stack is HandCardStack)
+            
+            if(!IsAffordable() && Stack is HandCardStack && _owner is HumanPlayer)
                 _game.DrawImage(_hiddenTexture, _position, _scale, angle);
 
             if (!active)

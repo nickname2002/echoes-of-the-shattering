@@ -163,9 +163,9 @@ namespace MonoZenith
                 return;
             }
             
-            _currentPlayer?.PerformTurn(this);
             _endTurnButton.Update(deltaTime);
             PlayedCards.Update(deltaTime);
+            _currentPlayer?.PerformTurn(this);
             
             // Update players
             _player.Update(deltaTime);
