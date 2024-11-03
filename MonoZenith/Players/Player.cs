@@ -34,6 +34,21 @@ namespace MonoZenith.Players
         protected CardStack _deckStack;
         protected CardStack _reserveCardStack;
         protected HandCardStack _handStack;
+        
+        /// <summary>
+        /// The player's deck stack.
+        /// </summary>
+        public CardStack DeckStack => _deckStack;
+        
+        /// <summary>
+        /// The player's reserve card stack.
+        /// </summary>
+        public CardStack ReserveCardStack => _reserveCardStack;
+        
+        /// <summary>
+        /// The player's hand card stack.
+        /// </summary>
+        public HandCardStack HandStack => _handStack;
 
         protected Player(Game game, GameState state, string name)
         {
@@ -93,59 +108,7 @@ namespace MonoZenith.Players
         /// This method is used to fill the player deck with cards. It is called
         /// once when the player is created and is used to initialize the deck.
         /// </remarks>
-        protected void FillPlayerDeck()
-        {
-            var deck = new List<Card.Card>
-            {
-                // Flasks
-                new FlaskOfCrimsonTearsCard(_game, _state, this),
-                new FlaskOfCrimsonTearsCard(_game, _state, this),
-                new FlaskOfCrimsonTearsCard(_game, _state, this),
-                new FlaskOfCrimsonTearsCard(_game, _state, this),
-
-                new FlaskOfCeruleanTearsCard(_game, _state, this),
-                new FlaskOfCeruleanTearsCard(_game, _state, this),
-                new FlaskOfCeruleanTearsCard(_game, _state, this),
-                new FlaskOfCeruleanTearsCard(_game, _state, this),
-
-                // Basic attacks
-                new LightSwordAttackCard(_game, _state, this),
-                new LightSwordAttackCard(_game, _state, this),
-                new LightSwordAttackCard(_game, _state, this),
-                new LightSwordAttackCard(_game, _state, this),
-                new LightSwordAttackCard(_game, _state, this),
-                new LightSwordAttackCard(_game, _state, this),
-                new LightSwordAttackCard(_game, _state, this),
-                new LightSwordAttackCard(_game, _state, this),
-
-                new HeavySwordAttackCard(_game, _state, this),
-                new HeavySwordAttackCard(_game, _state, this),
-                new HeavySwordAttackCard(_game, _state, this),
-                new HeavySwordAttackCard(_game, _state, this),
-                new HeavySwordAttackCard(_game, _state, this),
-                new HeavySwordAttackCard(_game, _state, this),
-                new HeavySwordAttackCard(_game, _state, this),
-                new HeavySwordAttackCard(_game, _state, this),
-
-                // Magic attacks
-                new GlintStonePebbleCard(_game, _state, this),
-                new GlintStonePebbleCard(_game, _state, this),
-                new GlintStonePebbleCard(_game, _state, this),
-                new GlintStonePebbleCard(_game, _state, this),
-                new GlintStonePebbleCard(_game, _state, this),
-                new GlintStonePebbleCard(_game, _state, this)
-            };
-            
-            _deckStack.AddToFront(deck);
-            
-            // Set the starting position of the cards when moving from the deck to the hand
-            _deckStack.SetPosition(new Vector2(
-                _game.ScreenWidth / 2,
-                _game.ScreenHeight + Card.Card.Height / 2));
-            
-            foreach (var card in _handStack.Cards)
-                card.Stack = _deckStack;
-        }
+        protected abstract void FillPlayerDeck();
 
         /// <summary>
         /// Changes the Player's hand position
@@ -227,6 +190,7 @@ namespace MonoZenith.Players
             List<Card.Card> cardsFromPlayed = _state.PlayedCards.Cards;
             _reserveCardStack.AddToFront(cardsFromPlayed); 
             _state.PlayedCards.Clear();
+            
         }
         
         /// <summary>

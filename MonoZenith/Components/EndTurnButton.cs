@@ -29,15 +29,12 @@ public sealed class EndTurnButton : Button
         Position = new Vector2(
             Game.ScreenWidth - Width - 25 * AppSettings.Scaling.ScaleFactor, 
             Game.ScreenHeight / 2 - Height / 2);
-
-        var endTurnSound = DataManager.GetInstance(g).EndTurnSound;
-
+        
         SetOnClickAction(() =>
         {
             if (_gameState.CurrentPlayer is not HumanPlayer) 
                 return;
-            
-            endTurnSound.Play();
+
             _gameState.CurrentPlayer.MoveCardsFromHandToReserve();
             _gameState.CurrentPlayer.MoveCardsFromPlayedToReserve();
             _gameState.CurrentPlayer.ResetPlayerStamina();

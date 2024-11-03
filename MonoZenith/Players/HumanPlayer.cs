@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
+using MonoZenith.Card;
+using MonoZenith.Card.AttackCard;
 using MonoZenith.Components.Indicator;
 using MonoZenith.Engine.Support;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
@@ -52,7 +54,64 @@ namespace MonoZenith.Players
                     _game.ScreenHeight - 147 * AppSettings.Scaling.ScaleFactor), 
                 DataManager.GetInstance(_game).MimicTearIndicatorDisabled);
         }
-        
+
+        protected override void FillPlayerDeck()
+        {
+            var deck = new List<Card.Card>
+            {
+                // Flasks
+                new FlaskOfCrimsonTearsCard(_game, _state, this),
+                new FlaskOfCrimsonTearsCard(_game, _state, this),
+                new FlaskOfCrimsonTearsCard(_game, _state, this),
+                new FlaskOfCrimsonTearsCard(_game, _state, this),
+
+                new FlaskOfCeruleanTearsCard(_game, _state, this),
+                new FlaskOfCeruleanTearsCard(_game, _state, this),
+                new FlaskOfCeruleanTearsCard(_game, _state, this),
+                new FlaskOfCeruleanTearsCard(_game, _state, this),
+
+                // Basic attacks
+                new LightSwordAttackCard(_game, _state, this),
+                new LightSwordAttackCard(_game, _state, this),
+                new LightSwordAttackCard(_game, _state, this),
+                new LightSwordAttackCard(_game, _state, this),
+                new LightSwordAttackCard(_game, _state, this),
+                new LightSwordAttackCard(_game, _state, this),
+                new LightSwordAttackCard(_game, _state, this),
+                new LightSwordAttackCard(_game, _state, this),
+
+                new HeavySwordAttackCard(_game, _state, this),
+                new HeavySwordAttackCard(_game, _state, this),
+                new HeavySwordAttackCard(_game, _state, this),
+                new HeavySwordAttackCard(_game, _state, this),
+                new HeavySwordAttackCard(_game, _state, this),
+                new HeavySwordAttackCard(_game, _state, this),
+                new HeavySwordAttackCard(_game, _state, this),
+                new HeavySwordAttackCard(_game, _state, this),
+
+                // Magic attacks
+                new GlintStonePebbleCard(_game, _state, this),
+                new GlintStonePebbleCard(_game, _state, this),
+                new GlintStonePebbleCard(_game, _state, this),
+                new GlintStonePebbleCard(_game, _state, this),
+                new GlintStonePebbleCard(_game, _state, this),
+                new GlintStonePebbleCard(_game, _state, this)
+            };
+            
+            _deckStack.AddToFront(deck);
+            
+            // Set the starting position of the cards when moving from the deck to the hand
+            _deckStack.SetPosition(new Vector2(
+                _game.ScreenWidth / 2,
+                _game.ScreenHeight + Card.Card.Height / 2));
+            _reserveCardStack.SetPosition(new Vector2(
+                _game.ScreenWidth / 2,
+                _game.ScreenHeight + Card.Card.Height / 2));
+            
+            foreach (var card in _handStack.Cards)
+                card.Stack = _deckStack;
+        }
+
         /// <summary>
         /// Get the selected card from the hand.
         /// </summary>

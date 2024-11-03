@@ -126,12 +126,9 @@ namespace MonoZenith.Card
         public void Update(GameTime deltaTime)
         {
             MoveTowardsTargetPosition(deltaTime);
-
-            // Controleer of de kaart de doelpositie heeft bereikt
             if (IsTransferringToExternalStack && TargetPosition == _position)
             {
                 IsTransferringToExternalStack = false;
-                TargetPosition = Vector2.Zero;
             }
         }
 

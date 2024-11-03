@@ -19,9 +19,8 @@ namespace MonoZenith.Players
     {
         private readonly float _originalHealth;
         private readonly float _originalFocus;
-
         private float _currentMoveDelay;
-        private const float MOVE_DELAY = 2f;
+        private const float MOVE_DELAY = 1.5f;
         
         public NpcPlayer(Game game, GameState state, string name) : base(game, state, name)
         {
@@ -142,7 +141,64 @@ namespace MonoZenith.Players
 
             return false;   
         }
-        
+
+        protected override void FillPlayerDeck()
+        {
+            var deck = new List<Card.Card>
+            {
+                // Flasks
+                new FlaskOfCrimsonTearsCard(_game, _state, this),
+                new FlaskOfCrimsonTearsCard(_game, _state, this),
+                new FlaskOfCrimsonTearsCard(_game, _state, this),
+                new FlaskOfCrimsonTearsCard(_game, _state, this),
+
+                new FlaskOfCeruleanTearsCard(_game, _state, this),
+                new FlaskOfCeruleanTearsCard(_game, _state, this),
+                new FlaskOfCeruleanTearsCard(_game, _state, this),
+                new FlaskOfCeruleanTearsCard(_game, _state, this),
+
+                // Basic attacks
+                new LightSwordAttackCard(_game, _state, this),
+                new LightSwordAttackCard(_game, _state, this),
+                new LightSwordAttackCard(_game, _state, this),
+                new LightSwordAttackCard(_game, _state, this),
+                new LightSwordAttackCard(_game, _state, this),
+                new LightSwordAttackCard(_game, _state, this),
+                new LightSwordAttackCard(_game, _state, this),
+                new LightSwordAttackCard(_game, _state, this),
+
+                new HeavySwordAttackCard(_game, _state, this),
+                new HeavySwordAttackCard(_game, _state, this),
+                new HeavySwordAttackCard(_game, _state, this),
+                new HeavySwordAttackCard(_game, _state, this),
+                new HeavySwordAttackCard(_game, _state, this),
+                new HeavySwordAttackCard(_game, _state, this),
+                new HeavySwordAttackCard(_game, _state, this),
+                new HeavySwordAttackCard(_game, _state, this),
+
+                // Magic attacks
+                new GlintStonePebbleCard(_game, _state, this),
+                new GlintStonePebbleCard(_game, _state, this),
+                new GlintStonePebbleCard(_game, _state, this),
+                new GlintStonePebbleCard(_game, _state, this),
+                new GlintStonePebbleCard(_game, _state, this),
+                new GlintStonePebbleCard(_game, _state, this)
+            };
+            
+            _deckStack.AddToFront(deck);
+            
+            // Set the starting position of the cards when moving from the deck to the hand
+            _deckStack.SetPosition(new Vector2(
+                _game.ScreenWidth / 2,
+                -Card.Card.Height / 2));
+            _reserveCardStack.SetPosition(new Vector2(
+                _game.ScreenWidth / 2,
+                -Card.Card.Height / 2));
+            
+            foreach (var card in _handStack.Cards)
+                card.Stack = _deckStack;
+        }
+
         public override void PerformTurn(GameState state)
         {
             base.PerformTurn(state);
