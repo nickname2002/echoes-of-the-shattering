@@ -143,17 +143,28 @@ namespace MonoZenith.Card
 
             Vector2 direction = TargetPosition - _position;
             float distance = direction.Length();
-            float speed = 500 * (float)deltaTime.ElapsedGameTime.TotalSeconds;
+            float speed = MovementSpeed() * 
+                          (float)deltaTime.ElapsedGameTime.TotalSeconds;
 
             if (distance <= speed)
             {
                 _position = TargetPosition;
+                IsTransferringToExternalStack = false;
             }
             else
             {
                 Vector2 velocity = direction * speed / distance;
                 _position += velocity;
             }
+        }
+
+        /// <summary>
+        /// Calculate the movement speed of the card.
+        /// </summary>
+        /// <returns>The movement speed of the card.</returns>
+        private float MovementSpeed()
+        {
+            return IsTransferringToExternalStack ? 1000f : 500f;
         }
         
         /// <summary>
