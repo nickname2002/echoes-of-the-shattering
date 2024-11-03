@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Audio;
 using MonoZenith.Card.CardStack;
@@ -23,11 +24,45 @@ namespace MonoZenith.Card
         protected Player _owner;
         protected SoundEffectInstance _soundOnPlay;
         
+        /// <summary>
+        /// The position of the card.
+        /// </summary>
         public Vector2 Position => _position;
+        
+        /// <summary>
+        /// The target position of the card.
+        /// </summary>
+        public Vector2 TargetPosition { get; set; }
+        
+        /// <summary>
+        /// Boolean to determine if the card is being transferred to an external stack.
+        /// </summary>
+        public bool IsTransferringToExternalStack { get; set; }
+        
+        /// <summary>
+        /// Boolean to determine if the card is moving.
+        /// </summary>
+        public bool IsMoving => TargetPosition != Vector2.Zero;
+        
+        /// <summary>
+        /// The width and height of the card.
+        /// </summary>
         public static int Width => _width;
         public static int Height => _height;
+        
+        /// <summary>
+        /// The scale of the card.
+        /// </summary>
         public float Scale => _scale;
+        
+        /// <summary>
+        /// The owner of the card.
+        /// </summary>
         public Player Owner => _owner;
+        
+        /// <summary>
+        /// The stack the card is in.
+        /// </summary>
         public CardStack.CardStack Stack { get; set; }
 
         protected Card(Game game, GameState state, Player owner)
@@ -91,9 +126,60 @@ namespace MonoZenith.Card
         /// <param name="deltaTime">The delta time.</param>
         public void Update(GameTime deltaTime)
         {
+            MoveTowardsTargetPosition(deltaTime);
+
+            // Controleer of de kaart de doelpositie heeft bereikt
+            if (TargetPosition != _position) 
+                return;
             
+            TargetPosition = Vector2.Zero;
         }
 
+        /// <summary>
+        /// Move the card towards the target position.
+        /// </summary>
+        /// <param name="deltaTime">The delta time.</param>
+        private void MoveTowardsTargetPosition(GameTime deltaTime)
+        {
+            if (TargetPosition == Vector2.Zero)
+                return;
+
+            Vector2 direction = TargetPosition - _position;
+            float distance = direction.Length();
+            float speed = MovementSpeed() * 
+                          (float)deltaTime.ElapsedGameTime.TotalSeconds;
+
+            if (distance <= speed)
+            {
+                _position = TargetPosition;
+                IsTransferringToExternalStack = false;
+                TargetPosition = Vector2.Zero;
+            }
+            else
+            {
+                Vector2 velocity = direction * speed / distance;
+                _position += velocity;
+            }
+        }
+
+        /// <summary>
+        /// Calculate the movement speed of the card.
+        /// </summary>
+        /// <returns>The movement speed of the card.</returns>
+        private float MovementSpeed()
+        {
+            return IsTransferringToExternalStack ? 1000f : 500f;
+        }
+        
+        /// <summary>
+        /// Set the position of the card.
+        /// </summary>
+        /// <param name="position">The new position of the card.</param>
+        public void SetPosition(Vector2 position)
+        {
+            _position = position;
+        }
+        
         /// <summary>
         /// Update the Card's position.
         /// <paramref name="offset"/> determines if the Card's position
@@ -120,7 +206,7 @@ namespace MonoZenith.Card
                 newY = y;
             }
 
-            _position = new Vector2(newX, newY);
+            TargetPosition = new Vector2(newX, newY);
         }
         
         /// <summary>

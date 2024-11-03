@@ -136,8 +136,14 @@ namespace MonoZenith.Players
             };
             
             _deckStack.AddToFront(deck);
+            
+            // Set the starting position of the cards when moving from the deck to the hand
+            _deckStack.SetPosition(new Vector2(
+                _game.ScreenWidth / 2,
+                _game.ScreenHeight + Card.Card.Height / 2));
+            
             foreach (var card in _handStack.Cards)
-                card.Stack = _handStack;
+                card.Stack = _deckStack;
         }
 
         /// <summary>

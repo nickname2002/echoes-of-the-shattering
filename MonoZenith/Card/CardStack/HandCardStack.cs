@@ -70,7 +70,7 @@ namespace MonoZenith.Card.CardStack
             _cards.AddRange(cardsToAdd);
             
             // Make sure all cards have the same position as the deck
-            UpdatePosition(_game.ScreenWidth / 2.2f, _game.ScreenHeight / 2);
+            UpdatePosition(_game.ScreenWidth / 2 - Card.Width, _game.ScreenHeight / 2);
             Shuffle();
         }
         
@@ -123,7 +123,10 @@ namespace MonoZenith.Card.CardStack
                 }
                 else
                 {
-                    UpdateNonHoveredCard(currentCard, cardX);
+                    // Set the target position for the card
+                    currentCard.TargetPosition = new Vector2(cardX, _position.Y);
+
+                    // Update the card's position towards the target position
                     currentCard.Update(deltaTime);
                 }
             }
