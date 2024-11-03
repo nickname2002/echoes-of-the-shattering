@@ -21,7 +21,7 @@ namespace MonoZenith.Card.CardStack
         {
             _game = game;
             _state = state;
-            // _horizontalStack = horizontalStack;
+            _horizontalStack = horizontalStack;
         }
 
         public override string ToString()
@@ -191,7 +191,14 @@ namespace MonoZenith.Card.CardStack
                 
                 // TODO: Fix that cards go to exact position of cardstack
                 // Set the target position for the card
-                currentCard.UpdatePosition(cardX, _position.Y, _horizontalStack);
+                if (_horizontalStack)
+                {
+                    currentCard.UpdatePosition(cardX, _position.Y, _horizontalStack);
+                }
+                else
+                {
+                    currentCard.UpdatePosition(_position.X, _position.Y, _horizontalStack);
+                }
                 
                 // Update the card's position towards the target position
                 currentCard.Update(deltaTime);
