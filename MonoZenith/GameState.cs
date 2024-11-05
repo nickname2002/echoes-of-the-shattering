@@ -49,9 +49,9 @@ namespace MonoZenith
             _currentPlayer = null;
             PlayedCards = new CardStack(_game, this, true);
             _componentFont = DataManager.GetInstance(game).ComponentFont;
-            _playerDeathSound = DataManager.GetInstance(game).PlayerDeathSound;
-            _enemyDeathSound = DataManager.GetInstance(game).EnemyDeathSound;
-            _endTurnSound = DataManager.GetInstance(game).EndTurnSound;
+            _playerDeathSound = DataManager.GetInstance(game).PlayerDeathSound.CreateInstance();
+            _enemyDeathSound = DataManager.GetInstance(game).EnemyDeathSound.CreateInstance();
+            _endTurnSound = DataManager.GetInstance(game).EndTurnSound.CreateInstance();
             InitializeState();
             _endTurnButton = new EndTurnButton(_game, this);
         }

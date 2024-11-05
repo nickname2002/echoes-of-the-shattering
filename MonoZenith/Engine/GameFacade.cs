@@ -274,12 +274,12 @@ public class GameFacade
     /// </summary>
     /// <param name="filePath">Filepath to the audio file to be loaded.</param>
     /// <returns>SoundEffectInstance of the requested audio file.</returns>
-    public SoundEffectInstance LoadAudio(string filePath)
+    public SoundEffect LoadAudio(string filePath)
     {
         // Get project root directory
         string rootPath = Environment.CurrentDirectory;
         using var stream = File.OpenRead($"{rootPath}/Content/" + filePath);
         var soundEffect = SoundEffect.FromStream(stream);
-        return soundEffect.CreateInstance();
+        return soundEffect;
     }
 }

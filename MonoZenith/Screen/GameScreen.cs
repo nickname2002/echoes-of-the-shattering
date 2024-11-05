@@ -13,7 +13,7 @@ namespace MonoZenith.Screen
         public GameScreen(Game game) : base(game)
         {
             _gameState = new GameState(game);
-            _backgroundMusic = DataManager.GetInstance(game).LimgraveMusic;
+            _backgroundMusic = DataManager.GetInstance(game).LimgraveMusic.CreateInstance();
             _backgroundMusic.IsLooped = true;
         }
 

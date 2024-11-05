@@ -14,7 +14,7 @@ public class FlaskOfCeruleanTearsCard : ItemCard
         base(game, state, owner)
     {
         _focusBoost = 30;
-        _soundOnPlay = DataManager.GetInstance(_game).FlaskOfCeruleanTears;
+        _soundOnPlay = DataManager.GetInstance(_game).FlaskOfCeruleanTears.CreateInstance();
     }
 
     public override void PerformEffect()
@@ -40,7 +40,7 @@ public class FlaskOfCrimsonTearsCard : ItemCard
         base(game, state, owner)
     {
         _healthBoost = 75;
-        _soundOnPlay = DataManager.GetInstance(_game).FlaskOfCrimsonTears;
+        _soundOnPlay = DataManager.GetInstance(_game).FlaskOfCrimsonTears.CreateInstance();
     }
 
     public override void PerformEffect()

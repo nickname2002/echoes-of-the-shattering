@@ -161,6 +161,9 @@ namespace MonoZenith.Card
         /// <returns>The movement speed of the card.</returns>
         private float MovementSpeed()
         {
+            if (_state.SwitchingTurns)
+                return 1250f;
+            
             return IsTransferringToExternalStack ? 1000f : 500f;
         }
         

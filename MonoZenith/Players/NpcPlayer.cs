@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using MonoZenith.Card;
 using MonoZenith.Card.AttackCard;
 using MonoZenith.Engine.Support;
@@ -21,6 +22,7 @@ namespace MonoZenith.Players
         private readonly float _originalFocus;
         private float _currentMoveDelay;
         private const float MoveDelay = 1.5f;
+        private SoundEffectInstance _retrieveCardsSound;
         
         public NpcPlayer(Game game, GameState state, string name) : base(game, state, name)
         {
@@ -30,6 +32,7 @@ namespace MonoZenith.Players
             PlayerIcon = DataManager.GetInstance(game).Npc;
             _originalHealth = Health;
             _originalFocus = Focus;
+            _retrieveCardsSound = DataManager.GetInstance(game).RetrieveCardsSound.CreateInstance();
         }
 
         /// <summary>
@@ -231,6 +234,7 @@ namespace MonoZenith.Players
             MoveCardsFromHandToReserve();
             MoveCardsFromPlayedToReserve();
             ResetPlayerStamina();
+            _retrieveCardsSound.Play();
             _state.SwitchingTurns = true;
         }
         
