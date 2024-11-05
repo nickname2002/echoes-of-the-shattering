@@ -178,11 +178,13 @@ namespace MonoZenith.Players
         public override void Update(GameTime deltaTime)
         {
             _handStack.Update(deltaTime);
+            _deckStack.Update(deltaTime);
+            _reserveCardStack.Update(deltaTime);
             _deckIndicator.Update(deltaTime);
             _reserveIndicator.Update(deltaTime);
         }
 
-        public override void DrawPlayerHealthAndName()
+        protected override void DrawPlayerHealthAndName()
         {
             // Setup offsets and positions for name and player bars
             Vector2 playerOffset = GetOffset(PlayerCurrent, Scale);

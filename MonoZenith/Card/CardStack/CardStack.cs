@@ -15,11 +15,13 @@ namespace MonoZenith.Card.CardStack
         protected List<Card> _cards = new();
         public List<Card> Cards => _cards;
         public int Count => _cards.Count;
+        private bool _horizontalStack;
         
-        public CardStack(Game game, GameState state)
+        public CardStack(Game game, GameState state, bool horizontalStack = false)
         {
             _game = game;
             _state = state;
+            _horizontalStack = horizontalStack;
         }
 
         public override string ToString()
@@ -38,6 +40,12 @@ namespace MonoZenith.Card.CardStack
         /// </summary>
         /// <returns>True if there is at least one card that is affordable; otherwise, false.</returns>
         public bool ContainsAffordableCards() => _cards.Any(card => card.IsAffordable());
+        
+        /// <summary>
+        /// Determine if there are any cards in the stack that can be played.
+        /// </summary>
+        /// <returns>True if there is at least one card that can be played; otherwise, false.</returns>
+        public List<Card> GetMovingCards() => _cards.Where(card => card.IsMoving).ToList();
         
         /// <summary>
         /// Clear the stack of all cards.
@@ -174,16 +182,24 @@ namespace MonoZenith.Card.CardStack
             int cardCount = _cards.Count;
             float spacing, startX;
             (spacing, startX) = CalculateCardPosition(cardCount);
-
+            
             for (int i = 0; i < cardCount; i++)
             {
                 // Calculate the target position of the current card for centering
                 Card currentCard = _cards[i];
                 float cardX = startX + i * spacing;
-
+                
+                // TODO: Fix that cards go to exact position of cardstack
                 // Set the target position for the card
-                currentCard.UpdatePosition(cardX, _position.Y);
-
+                if (_horizontalStack)
+                {
+                    currentCard.UpdatePosition(cardX, _position.Y, _horizontalStack);
+                }
+                else
+                {
+                    currentCard.UpdatePosition(_position.X, _position.Y, _horizontalStack);
+                }
+                
                 // Update the card's position towards the target position
                 currentCard.Update(deltaTime);
             }
@@ -212,6 +228,8 @@ namespace MonoZenith.Card.CardStack
         /// <param name="position">The new position of the stack.</param>
         public void SetPosition(Vector2 position)
         {
+            _position = position;
+            
             foreach (var card in _cards)
             {
                 card.SetPosition(position);
@@ -223,14 +241,15 @@ namespace MonoZenith.Card.CardStack
         /// </summary>
         /// <param name="x">Positional X</param>
         /// <param name="y">Positional Y</param>
-        public void UpdatePosition(float x, float y)
+        /// <param name="offset">Boolean to determine whether the card should be centralised.</param>
+        public void UpdatePosition(float x, float y, bool offset = true)
         {
             _position = new Vector2(x, y);
 
             // Update the position of the contained cards
             foreach (var card in _cards)
             {
-                card.UpdatePosition(_position.X, _position.Y, true);
+                card.UpdatePosition(_position.X, _position.Y, offset);
             }
         }
 

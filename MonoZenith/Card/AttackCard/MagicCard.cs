@@ -44,7 +44,7 @@ public class GlintStonePebbleCard : MagicCard
     public GlintStonePebbleCard(Game game, GameState state, Player owner) : 
         base(game, state, owner)
     {
-        _soundOnPlay = DataManager.GetInstance(_game).GlintStonePebble;
+        _soundOnPlay = DataManager.GetInstance(_game).GlintStonePebble.CreateInstance();
         _focusCost = 2;
         _staminaCost = 5;
         _damage = 15;

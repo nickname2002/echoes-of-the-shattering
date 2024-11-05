@@ -341,7 +341,7 @@ public partial class Game
     /// </summary>
     /// <param name="filePath">Filepath to the audio file to be loaded.</param>
     /// <returns>SoundEffectInstance of the audio file.</returns>
-    public SoundEffectInstance LoadAudio(string filePath)
+    public SoundEffect LoadAudio(string filePath)
     {
         return _facade.LoadAudio(filePath);
     }

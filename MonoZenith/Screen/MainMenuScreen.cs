@@ -21,8 +21,8 @@ public class MainMenuScreen : Screen
     {
         _mainMenuBackdrop = DataManager.GetInstance(game).MainMenuBackdrop;  
         _mainMenuScale = 0.7f * AppSettings.Scaling.ScaleFactor;
-        var startButtonSound = DataManager.GetInstance(game).StartButtonSound;
-        _mainMenuMusic = DataManager.GetInstance(game).MainMenuMusic;
+        var startButtonSound = DataManager.GetInstance(game).StartButtonSound.CreateInstance();
+        _mainMenuMusic = DataManager.GetInstance(game).MainMenuMusic.CreateInstance();
         _mainMenuMusic.IsLooped = true;
         _mainMenuMusic.Play();
         

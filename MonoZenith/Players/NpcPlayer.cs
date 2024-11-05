@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using MonoZenith.Card;
 using MonoZenith.Card.AttackCard;
 using MonoZenith.Engine.Support;
@@ -20,7 +21,8 @@ namespace MonoZenith.Players
         private readonly float _originalHealth;
         private readonly float _originalFocus;
         private float _currentMoveDelay;
-        private const float MOVE_DELAY = 1.5f;
+        private const float MoveDelay = 1.5f;
+        private SoundEffectInstance _retrieveCardsSound;
         
         public NpcPlayer(Game game, GameState state, string name) : base(game, state, name)
         {
@@ -30,6 +32,7 @@ namespace MonoZenith.Players
             PlayerIcon = DataManager.GetInstance(game).Npc;
             _originalHealth = Health;
             _originalFocus = Focus;
+            _retrieveCardsSound = DataManager.GetInstance(game).RetrieveCardsSound.CreateInstance();
         }
 
         /// <summary>
@@ -188,12 +191,14 @@ namespace MonoZenith.Players
             _deckStack.AddToFront(deck);
             
             // Set the starting position of the cards when moving from the deck to the hand
-            _deckStack.SetPosition(new Vector2(
+            _deckStack.UpdatePosition(
                 _game.ScreenWidth / 2,
-                -Card.Card.Height / 2));
-            _reserveCardStack.SetPosition(new Vector2(
+                -Card.Card.Height,
+                false);
+            _reserveCardStack.UpdatePosition(
                 _game.ScreenWidth / 2,
-                -Card.Card.Height / 2));
+                -Card.Card.Height,
+                false);
             
             foreach (var card in _handStack.Cards)
                 card.Stack = _deckStack;
@@ -206,7 +211,7 @@ namespace MonoZenith.Players
             if (CardsAvailableToPlay())
             {
                 // If any card is moving, return
-                if (_handStack.Cards.Any(card => card.IsMoving) || _currentMoveDelay < MOVE_DELAY)
+                if (_handStack.Cards.Any(card => card.IsMoving) || _currentMoveDelay < MoveDelay)
                 {
                     _currentMoveDelay += (float)state.GameTime.ElapsedGameTime.TotalSeconds;
                     return;
@@ -218,7 +223,7 @@ namespace MonoZenith.Players
             }
             
             // If any card is moving, return
-            if (_handStack.Cards.Any(card => card.IsMoving) || _currentMoveDelay < MOVE_DELAY)
+            if (_handStack.Cards.Any(card => card.IsMoving) || _currentMoveDelay < MoveDelay)
             {
                 _currentMoveDelay += (float)state.GameTime.ElapsedGameTime.TotalSeconds;
                 return;
@@ -229,9 +234,10 @@ namespace MonoZenith.Players
             MoveCardsFromHandToReserve();
             MoveCardsFromPlayedToReserve();
             ResetPlayerStamina();
-            _state.SwitchTurn();
+            _retrieveCardsSound.Play();
+            _state.SwitchingTurns = true;
         }
-
+        
         /// <summary>
         /// Determines if there are any cards in the player's hand that can be played.
         /// Only considers cards that are necessary based on the current AI state.
@@ -261,9 +267,11 @@ namespace MonoZenith.Players
         public override void Update(GameTime deltaTime)
         {
             _handStack.Update(deltaTime);
+            _reserveCardStack.Update(deltaTime);
+            _deckStack.Update(deltaTime);
         }
 
-        public override void DrawPlayerHealthAndName()
+        protected override void DrawPlayerHealthAndName()
         {
             // Setup offsets and positions for name and health bar
             Vector2 playerOffset = GetOffset(PlayerCurrent, Scale);

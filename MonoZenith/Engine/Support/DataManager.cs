@@ -1,4 +1,3 @@
-
 using System;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
@@ -18,14 +17,9 @@ namespace MonoZenith.Engine.Support
         public SpriteFont IndicatorFont;
         
         // Textures
-        // Textures: MonoZenith
         public Texture2D MonoZenithLogo;
-
-        // Textures: Main Menu
         public Texture2D MainMenuBackdrop;
         public Texture2D MainMenuHoverIndicator;
-
-        // Textures: Game UI
         public Texture2D Backdrop;
         public Texture2D Player;
         public Texture2D Npc;
@@ -34,45 +28,30 @@ namespace MonoZenith.Engine.Support
         public Texture2D DeckIndicator;
         public Texture2D ReserveIndicator;
         public Texture2D MimicTearIndicatorDisabled;
-
-        // Textures: Card 
         public Texture2D CardBack;
         public Texture2D CardFront;
         public Texture2D CardHidden;
-        
-        // Textures: EndTurnButton
         public Texture2D EndTurnButtonIdleTexture;
         public Texture2D EndTurnButtonHoverTexture;
         public Texture2D EndTurnButtonDisabledTexture;
-        
+
         // Audio
-        
-        /// <summary>
-        /// Credits: Arcane Bard Audio - https://www.youtube.com/watch?v=WNm0TaVTGWo
-        /// </summary>
-        public SoundEffectInstance MainMenuMusic;
-
-        /// <summary>
-        /// Credits: Gooley's Tunes - https://www.youtube.com/watch?v=2FZKge-T3oA
-        /// </summary>
-        public SoundEffectInstance LimgraveMusic;
-
-        // Audio: Main Menu
-        public SoundEffectInstance StartButtonSound;
-
-        // Audio: Game
-        public SoundEffectInstance NewLocationSound;
-        public SoundEffectInstance DamageSound;
-        public SoundEffectInstance HealingSound;
-        public SoundEffectInstance LightSwordAttack;
-        public SoundEffectInstance CardSound2;
-        public SoundEffectInstance HeavySwordAttack;
-        public SoundEffectInstance GlintStonePebble;
-        public SoundEffectInstance FlaskOfCrimsonTears;
-        public SoundEffectInstance FlaskOfCeruleanTears;
-        public SoundEffectInstance EndTurnSound;
-        public SoundEffectInstance PlayerDeathSound;
-        public SoundEffectInstance EnemyDeathSound;
+        public SoundEffect MainMenuMusic;
+        public SoundEffect LimgraveMusic;
+        public SoundEffect StartButtonSound;
+        public SoundEffect NewLocationSound;
+        public SoundEffect DamageSound;
+        public SoundEffect HealingSound;
+        public SoundEffect LightSwordAttack;
+        public SoundEffect CardSound2;
+        public SoundEffect HeavySwordAttack;
+        public SoundEffect GlintStonePebble;
+        public SoundEffect FlaskOfCrimsonTears;
+        public SoundEffect FlaskOfCeruleanTears;
+        public SoundEffect EndTurnSound;
+        public SoundEffect PlayerDeathSound;
+        public SoundEffect EnemyDeathSound;
+        public SoundEffect RetrieveCardsSound;
         
         private DataManager(Game game)
         {
@@ -80,19 +59,11 @@ namespace MonoZenith.Engine.Support
             LoadData();
         }
 
-        /// <summary>
-        /// Get the instance of the DataManager.
-        /// </summary>
-        /// <param name="game">The game instance.</param>
-        /// <returns>The DataManager instance.</returns>
         public static DataManager GetInstance(Game game)
         {
             return _instance ??= new DataManager(game);
         }
         
-        /// <summary>
-        /// Load all data.
-        /// </summary>
         public void LoadData()
         {
             // Load fonts
@@ -137,6 +108,15 @@ namespace MonoZenith.Engine.Support
             EndTurnSound = _game.LoadAudio("Audio/SoundEffects/end-turn-sound-effect.wav");
             PlayerDeathSound = _game.LoadAudio("Audio/SoundEffects/player-death.wav");
             EnemyDeathSound = _game.LoadAudio("Audio/SoundEffects/enemy-felled.wav");
+            RetrieveCardsSound = _game.LoadAudio("Audio/SoundEffects/retrieve-cards.wav");
+        }
+
+        // Methode om een SoundEffectInstance te maken en af te spelen
+        public SoundEffectInstance PlaySound(SoundEffect soundEffect)
+        {
+            SoundEffectInstance instance = soundEffect.CreateInstance();
+            instance.Play();
+            return instance;
         }
     }
 }

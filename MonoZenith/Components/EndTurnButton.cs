@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Engine.Support;
 using MonoZenith.Players;
@@ -12,6 +13,7 @@ public sealed class EndTurnButton : Button
     private readonly Texture2D _activeIdleTexture;
     private readonly Texture2D _activeHoverTexture;
     private readonly Texture2D _disabledTexture;
+    private SoundEffectInstance _retrieveCardsSound;
     private Texture2D _currentTexture;
     private GameState _gameState;
     private float textureScale;
@@ -22,6 +24,7 @@ public sealed class EndTurnButton : Button
         _activeIdleTexture = DataManager.GetInstance(g).EndTurnButtonIdleTexture;
         _activeHoverTexture = DataManager.GetInstance(g).EndTurnButtonHoverTexture;
         _disabledTexture = DataManager.GetInstance(g).EndTurnButtonDisabledTexture;
+        _retrieveCardsSound = DataManager.GetInstance(g).RetrieveCardsSound.CreateInstance();
         _currentTexture = _activeIdleTexture;
         _gameState = gs;
         textureScale = scale * 0.25f * AppSettings.Scaling.ScaleFactor;
@@ -34,11 +37,12 @@ public sealed class EndTurnButton : Button
         {
             if (_gameState.CurrentPlayer is not HumanPlayer) 
                 return;
-
+            
             _gameState.CurrentPlayer.MoveCardsFromHandToReserve();
             _gameState.CurrentPlayer.MoveCardsFromPlayedToReserve();
             _gameState.CurrentPlayer.ResetPlayerStamina();
-            _gameState.SwitchTurn();
+            _gameState.SwitchingTurns = true;
+            _retrieveCardsSound.Play();
         });
     }
 
