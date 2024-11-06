@@ -14,6 +14,7 @@ public sealed class EndTurnButton : Button
     private readonly Texture2D _activeHoverTexture;
     private readonly Texture2D _disabledTexture;
     private SoundEffectInstance _retrieveCardsSound;
+    private readonly SoundEffectInstance _endPlayerTurnSound;
     private Texture2D _currentTexture;
     private GameState _gameState;
     private float textureScale;
@@ -25,6 +26,7 @@ public sealed class EndTurnButton : Button
         _activeHoverTexture = DataManager.GetInstance(g).EndTurnButtonHoverTexture;
         _disabledTexture = DataManager.GetInstance(g).EndTurnButtonDisabledTexture;
         _retrieveCardsSound = DataManager.GetInstance(g).RetrieveCardsSound.CreateInstance();
+        _endPlayerTurnSound = DataManager.GetInstance(g).EndPlayerTurnSound.CreateInstance();
         _currentTexture = _activeIdleTexture;
         _gameState = gs;
         textureScale = scale * 0.25f * AppSettings.Scaling.ScaleFactor;
@@ -35,9 +37,7 @@ public sealed class EndTurnButton : Button
         
         SetOnClickAction(() =>
         {
-            if (_gameState.CurrentPlayer is not HumanPlayer) 
-                return;
-            
+            _endPlayerTurnSound.Play();
             _gameState.CurrentPlayer.MoveCardsFromHandToReserve();
             _gameState.CurrentPlayer.MoveCardsFromPlayedToReserve();
             _gameState.CurrentPlayer.ResetPlayerStamina();
