@@ -16,6 +16,9 @@ namespace MonoZenith
         public GameTime GameTime;
         private Player? _currentPlayer;
         private Player? _currentWinner;
+        private readonly TurnTransitionComponent _turnTransitionComponentHuman;
+        private readonly TurnTransitionComponent _turnTransitionComponentNpc;
+        private TurnTransitionComponent? _activeTurnTransitionComponent;
         private readonly HumanPlayer _player;
         private readonly NpcPlayer _npc;
         public readonly CardStack PlayedCards;
@@ -23,7 +26,7 @@ namespace MonoZenith
         private readonly EndTurnButton _endTurnButton;
         private readonly SoundEffectInstance _playerDeathSound;
         private readonly SoundEffectInstance _enemyDeathSound;
-        private readonly SoundEffectInstance _endTurnSound;
+        private readonly SoundEffectInstance _startPlayerTurnSound;
         
         /// <summary>
         /// The current player.
@@ -47,11 +50,14 @@ namespace MonoZenith
             _player = new HumanPlayer(_game, this, "Player");
             _npc = new NpcPlayer(_game, this, "NPC");
             _currentPlayer = null;
+            _turnTransitionComponentHuman = new TurnTransitionComponent(_game, "YOUR TURN");
+            _turnTransitionComponentNpc = new TurnTransitionComponent(_game, "ENEMY TURN");
+            _activeTurnTransitionComponent = null;
             PlayedCards = new CardStack(_game, this, true);
             _componentFont = DataManager.GetInstance(game).ComponentFont;
             _playerDeathSound = DataManager.GetInstance(game).PlayerDeathSound.CreateInstance();
             _enemyDeathSound = DataManager.GetInstance(game).EnemyDeathSound.CreateInstance();
-            _endTurnSound = DataManager.GetInstance(game).EndTurnSound.CreateInstance();
+            _startPlayerTurnSound = DataManager.GetInstance(game).PlayerTurnSound.CreateInstance();
             InitializeState();
             _endTurnButton = new EndTurnButton(_game, this);
         }
@@ -135,8 +141,17 @@ namespace MonoZenith
         private void SwitchTurn()
         {
             SwitchingTurns = false;
-            _endTurnSound.Play();
             _currentPlayer = _currentPlayer == _player? _npc : _player;
+            _activeTurnTransitionComponent?.Reset();
+            
+            if (_currentPlayer is HumanPlayer)
+            {
+                _startPlayerTurnSound.Play();
+                _activeTurnTransitionComponent = _turnTransitionComponentHuman;
+                return;
+            }
+
+            _activeTurnTransitionComponent = _turnTransitionComponentNpc;
         }
 
         /// <summary>
@@ -173,6 +188,7 @@ namespace MonoZenith
             _npc.Update(deltaTime);
             _endTurnButton.Update(deltaTime);
             PlayedCards.Update(deltaTime);
+            _activeTurnTransitionComponent?.Update(deltaTime);
             
             // If the player is switching turns, wait for the player to finish moving cards
             if (SwitchingTurns)
@@ -215,6 +231,9 @@ namespace MonoZenith
             _player.Draw();
             _npc.Draw();
             _endTurnButton.Draw();
+            
+            // Draw turn indicator
+            _activeTurnTransitionComponent?.Draw();
         }
     }
 }

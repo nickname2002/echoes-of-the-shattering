@@ -15,6 +15,7 @@ namespace MonoZenith.Engine.Support
         public SpriteFont PlayerFont;
         public SpriteFont CardFont;
         public SpriteFont IndicatorFont;
+        public SpriteFont TransitionComponentFont;
         
         // Textures
         public Texture2D MonoZenithLogo;
@@ -39,7 +40,7 @@ namespace MonoZenith.Engine.Support
         public SoundEffect MainMenuMusic;
         public SoundEffect LimgraveMusic;
         public SoundEffect StartButtonSound;
-        public SoundEffect NewLocationSound;
+        public SoundEffect PlayerTurnSound;
         public SoundEffect DamageSound;
         public SoundEffect HealingSound;
         public SoundEffect LightSwordAttack;
@@ -48,7 +49,7 @@ namespace MonoZenith.Engine.Support
         public SoundEffect GlintStonePebble;
         public SoundEffect FlaskOfCrimsonTears;
         public SoundEffect FlaskOfCeruleanTears;
-        public SoundEffect EndTurnSound;
+        public SoundEffect EndPlayerTurnSound;
         public SoundEffect PlayerDeathSound;
         public SoundEffect EnemyDeathSound;
         public SoundEffect RetrieveCardsSound;
@@ -72,6 +73,7 @@ namespace MonoZenith.Engine.Support
             PlayerFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1.5f * AppSettings.Scaling.ScaleFactor);
             CardFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1f * AppSettings.Scaling.ScaleFactor);
             IndicatorFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1.25f * AppSettings.Scaling.ScaleFactor);
+            TransitionComponentFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 3f * AppSettings.Scaling.ScaleFactor);
             
             // Load textures
             MonoZenithLogo = _game.LoadImage("Images/monozenith.png");
@@ -94,7 +96,7 @@ namespace MonoZenith.Engine.Support
             
             // Load audio
             MainMenuMusic = _game.LoadAudio("Audio/Music/main-menu-music.wav");
-            NewLocationSound = _game.LoadAudio("Audio/SoundEffects/new-location-sound.wav");
+            PlayerTurnSound = _game.LoadAudio("Audio/SoundEffects/player-turn-sound.wav");
             LimgraveMusic = _game.LoadAudio("Audio/Music/limgrave-music.wav");
             StartButtonSound = _game.LoadAudio("Audio/SoundEffects/start-button-sound.wav");
             DamageSound = _game.LoadAudio("Audio/SoundEffects/damage-sound.wav");
@@ -105,7 +107,7 @@ namespace MonoZenith.Engine.Support
             GlintStonePebble = _game.LoadAudio("Audio/SoundEffects/glintstone-pebble.wav");
             FlaskOfCrimsonTears = _game.LoadAudio("Audio/SoundEffects/flask-of-crimson-tears.wav");
             FlaskOfCeruleanTears = _game.LoadAudio("Audio/SoundEffects/flask-of-cerulean-tears.wav");
-            EndTurnSound = _game.LoadAudio("Audio/SoundEffects/end-turn-sound-effect.wav");
+            EndPlayerTurnSound = _game.LoadAudio("Audio/SoundEffects/end-turn-sound-effect.wav");
             PlayerDeathSound = _game.LoadAudio("Audio/SoundEffects/player-death.wav");
             EnemyDeathSound = _game.LoadAudio("Audio/SoundEffects/enemy-felled.wav");
             RetrieveCardsSound = _game.LoadAudio("Audio/SoundEffects/retrieve-cards.wav");
