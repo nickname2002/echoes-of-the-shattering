@@ -14,16 +14,20 @@ namespace MonoZenith
     {
         private readonly Game _game;
         public GameTime GameTime;
+        
+        private readonly HumanPlayer _player;
+        private readonly NpcPlayer _npc;
         private Player? _currentPlayer;
         private Player? _currentWinner;
+        
         private readonly TurnTransitionComponent _turnTransitionComponentHuman;
         private readonly TurnTransitionComponent _turnTransitionComponentNpc;
         private TurnTransitionComponent? _activeTurnTransitionComponent;
-        private readonly HumanPlayer _player;
-        private readonly NpcPlayer _npc;
+        
         public readonly CardStack PlayedCards;
         private readonly SpriteFont _componentFont;
         private readonly EndTurnButton _endTurnButton;
+        
         private readonly SoundEffectInstance _playerDeathSound;
         private readonly SoundEffectInstance _enemyDeathSound;
         private readonly SoundEffectInstance _startPlayerTurnSound;
@@ -67,14 +71,10 @@ namespace MonoZenith
         /// </summary>
         private void InitializeState()
         {
-            float cardWidth = Card.Card.Width;
-            float cardHeight = Card.Card.Height;
-            
-            // Calculate positions of the decks
-            float playedX = _game.ScreenWidth / 2 - cardWidth / 2;
-            float height = _game.ScreenHeight / 2f - cardHeight / 2;
-            
-            PlayedCards.UpdatePosition(playedX, height);
+            // Update the position of the played cards
+            PlayedCards.UpdatePosition(
+                _game.ScreenWidth / 2f, 
+                _game.ScreenHeight / 2f - Card.Card.Height / 2f);
 
             // Determine the starting player
             DetermineStartingPlayer();
@@ -193,7 +193,7 @@ namespace MonoZenith
             // If the player is switching turns, wait for the player to finish moving cards
             if (SwitchingTurns)
             {
-                if (_currentPlayer.HasAnyMovingCards)
+                if (_currentPlayer is { HasAnyMovingCards: true })
                     return;
 
                 SwitchTurn();
