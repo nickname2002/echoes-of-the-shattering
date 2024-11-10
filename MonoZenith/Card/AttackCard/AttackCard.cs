@@ -62,6 +62,7 @@ public class LightSwordAttackCard : AttackCard
     {
         _staminaCost = 10f;
         _damage = 10;
+        _frontTexture = DataManager.GetInstance(_game).CardLightAttack;
         _soundOnPlay = DataManager.GetInstance(_game).LightSwordAttack.CreateInstance();
         _name = "LightSwordAttackCard";
     }
@@ -74,6 +75,7 @@ public class HeavySwordAttackCard : AttackCard
     {
         _staminaCost = 20f;
         _damage = 20;
+        _frontTexture = DataManager.GetInstance(_game).CardHeavyAttack;
         _soundOnPlay = DataManager.GetInstance(_game).HeavySwordAttack.CreateInstance();
         _name = "HeavySwordAttackCard";
     }

@@ -19,7 +19,7 @@ namespace MonoZenith.Players
         
         public HumanPlayer(Game game, GameState state, string name) : base(game, state, name)
         {
-            _handPosY = game.ScreenHeight / 1.38f;
+            _handPosY = game.ScreenHeight / 1.45f;
             PlayerPosition = new Vector2(
                 game.ScreenWidth * 0.05f, 
                 game.ScreenHeight * 0.915f);
