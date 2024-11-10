@@ -14,8 +14,8 @@ namespace MonoZenith.Players
     {
         protected Game _game;
         protected GameState _state;
-        protected float _handxPos;
-        protected float _handyPos;
+        protected float _handPosX;
+        protected float _handPosY;
         protected float Scale;
         protected SpriteFont PlayerFont;
         private float _originalStamina;
@@ -61,6 +61,7 @@ namespace MonoZenith.Players
             _state = state;
             Name = name;
             Scale = 0.15f * AppSettings.Scaling.ScaleFactor;
+            _handPosX = game.ScreenWidth / 2f;
             
             // ReSharper disable once VirtualMemberCallInConstructor
             InitializeState(game, state);
@@ -120,7 +121,7 @@ namespace MonoZenith.Players
         /// </summary>
         public void ChangeHandStackPosition()
         {
-            _handStack.UpdatePosition(_handxPos, _handyPos);
+            _handStack.UpdatePosition(_handPosX, _handPosY);
         }
 
         /// <summary>

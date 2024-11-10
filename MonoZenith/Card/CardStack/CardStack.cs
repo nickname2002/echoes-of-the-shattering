@@ -189,17 +189,9 @@ namespace MonoZenith.Card.CardStack
                 Card currentCard = _cards[i];
                 float cardX = startX + i * spacing;
                 
-                // TODO: Fix that cards go to exact position of cardstack
                 // Set the target position for the card
-                if (_horizontalStack)
-                {
-                    currentCard.UpdatePosition(cardX, _position.Y, _horizontalStack);
-                }
-                else
-                {
-                    currentCard.UpdatePosition(_position.X, _position.Y, _horizontalStack);
-                }
-                
+                currentCard.UpdatePosition(_horizontalStack ? cardX : _position.X, _position.Y);
+
                 // Update the card's position towards the target position
                 currentCard.Update(deltaTime);
             }
@@ -210,14 +202,14 @@ namespace MonoZenith.Card.CardStack
             float cardWidth = Card.Width;
 
             // Define the spacing between cards
-            int offset = 20;
-            float spacing = cardWidth + offset * AppSettings.Scaling.ScaleFactor;
+            float offset = 20 * AppSettings.Scaling.ScaleFactor;
+            float spacing = cardWidth + offset;
 
             // Calculate the total width occupied by all cards including spacing
-            float totalWidth = cardCount * cardWidth + (cardCount - 1) * offset * AppSettings.Scaling.ScaleFactor;
+            float totalWidth = cardCount * spacing - offset;
 
             // Calculate the starting position to center the cards
-            float startX = _position.X - totalWidth / 2 + cardWidth / 2;
+            float startX = _position.X - totalWidth / 2;
 
             return (spacing, startX);
         }
@@ -235,21 +227,20 @@ namespace MonoZenith.Card.CardStack
                 card.SetPosition(position);
             }
         }
-        
+
         /// <summary>
         /// Updates the position of the stack.
         /// </summary>
         /// <param name="x">Positional X</param>
         /// <param name="y">Positional Y</param>
-        /// <param name="offset">Boolean to determine whether the card should be centralised.</param>
-        public void UpdatePosition(float x, float y, bool offset = true)
+        public void UpdatePosition(float x, float y)
         {
             _position = new Vector2(x, y);
 
             // Update the position of the contained cards
             foreach (var card in _cards)
             {
-                card.UpdatePosition(_position.X, _position.Y, offset);
+                card.UpdatePosition(_position.X, _position.Y);
             }
         }
 

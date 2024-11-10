@@ -19,8 +19,7 @@ namespace MonoZenith.Players
         
         public HumanPlayer(Game game, GameState state, string name) : base(game, state, name)
         {
-            _handxPos = game.ScreenWidth / 2f - Card.Card.Width / 2f;
-            _handyPos = game.ScreenHeight / 1.38f;
+            _handPosY = game.ScreenHeight / 1.38f;
             PlayerPosition = new Vector2(
                 game.ScreenWidth * 0.05f, 
                 game.ScreenHeight * 0.915f);
@@ -102,11 +101,11 @@ namespace MonoZenith.Players
             
             // Set the starting position of the cards when moving from the deck to the hand
             _deckStack.SetPosition(new Vector2(
-                _game.ScreenWidth / 2,
-                _game.ScreenHeight + Card.Card.Height / 2));
+                _game.ScreenWidth / 2f,
+                _game.ScreenHeight + Card.Card.Height / 2f));
             _reserveCardStack.SetPosition(new Vector2(
-                _game.ScreenWidth / 2,
-                _game.ScreenHeight + Card.Card.Height / 2));
+                _game.ScreenWidth / 2f,
+                _game.ScreenHeight + Card.Card.Height / 2f));
             
             foreach (var card in _handStack.Cards)
                 card.Stack = _deckStack;

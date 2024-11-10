@@ -26,8 +26,7 @@ namespace MonoZenith.Players
         
         public NpcPlayer(Game game, GameState state, string name) : base(game, state, name)
         {
-            _handxPos = game.ScreenWidth / 2f;
-            _handyPos = 25 * AppSettings.Scaling.ScaleFactor;
+            _handPosY = 25 * AppSettings.Scaling.ScaleFactor;
             PlayerPosition = new Vector2(game.ScreenWidth * 0.05f, game.ScreenHeight * 0.085f);
             PlayerIcon = DataManager.GetInstance(game).Npc;
             _originalHealth = Health;
@@ -192,13 +191,11 @@ namespace MonoZenith.Players
             
             // Set the starting position of the cards when moving from the deck to the hand
             _deckStack.UpdatePosition(
-                _game.ScreenWidth / 2,
-                -Card.Card.Height,
-                false);
+                _game.ScreenWidth / 2f,
+                -Card.Card.Height);
             _reserveCardStack.UpdatePosition(
-                _game.ScreenWidth / 2,
-                -Card.Card.Height,
-                false);
+                _game.ScreenWidth / 2f,
+                -Card.Card.Height);
             
             foreach (var card in _handStack.Cards)
                 card.Stack = _deckStack;

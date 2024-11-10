@@ -28,6 +28,7 @@ namespace MonoZenith
         private readonly NpcPlayer _npc;
         public readonly CardStack PlayedCards;
         private readonly EndTurnButton _endTurnButton;
+        
         private readonly SoundEffectInstance _playerDeathSound;
         private readonly SoundEffectInstance _enemyDeathSound;
         private readonly SoundEffectInstance _startPlayerTurnSound;
@@ -80,15 +81,12 @@ namespace MonoZenith
         /// </summary>
         public void InitializeState()
         {
-            float cardWidth = Card.Card.Width;
-            float cardHeight = Card.Card.Height;
-            
-            // Calculate positions of the decks
-            float playedX = _game.ScreenWidth / 2f - cardWidth / 2;
-            float height = _game.ScreenHeight / 2f - cardHeight / 2;
-            
-            PlayedCards.UpdatePosition(playedX, height);
             PlayedCards.Clear();
+            
+            // Update the position of the played cards
+            PlayedCards.UpdatePosition(
+                _game.ScreenWidth / 2f, 
+                _game.ScreenHeight / 2f - Card.Card.Height / 2f);
 
             // Determine the starting player
             DetermineStartingPlayer();
@@ -203,7 +201,7 @@ namespace MonoZenith
             // If the player is switching turns, wait for the player to finish moving cards
             if (SwitchingTurns)
             {
-                if (_currentPlayer.HasAnyMovingCards)
+                if (_currentPlayer is { HasAnyMovingCards: true })
                     return;
 
                 SwitchTurn();
