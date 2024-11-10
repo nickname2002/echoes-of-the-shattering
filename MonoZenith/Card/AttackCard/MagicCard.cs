@@ -42,19 +42,24 @@ public class MagicCard : AttackCard
 
     protected override void DrawMetaData()
     {
+        // Draw the stamina cost
         base.DrawMetaData();
 
+        // Calculate the top-right positions for the cost icon and text
         float scaleCost = 0.5f;
-        float x = _costStaminaTexture.Width * 0.6f * _scale * scaleCost;
-        float y = _costStaminaTexture.Height * 0.4f * _scale * scaleCost;
-        Vector2 scaleVector = new Vector2(x, y);
+        float x = _costStaminaTexture.Width * 0.6f;
+        float y = _costStaminaTexture.Height * 0.4f;
+        Vector2 scaleVector = new Vector2(x, y) * _scale * scaleCost;
+        Vector2 textOffset = _focusCost >= 10 ? new Vector2(32, 24) : new Vector2(20, 24);
 
+        // Draw the focus cost icon
         _game.DrawImage(
             _costFocusTexture,
             _position - scaleVector + new Vector2(_width, 0),
             _scale * scaleCost
         );
-        Vector2 textOffset = _focusCost >= 10 ? new Vector2(32, 24) : new Vector2(20, 24);
+
+        // Draw the focus cost text
         _game.DrawText(
             _focusCost.ToString(),
             _position - textOffset * _scale + new Vector2(_width, 0),

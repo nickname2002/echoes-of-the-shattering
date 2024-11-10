@@ -56,17 +56,21 @@ public class AttackCard : Card
 
     protected override void DrawMetaData()
     {
+        // Calculate the top-left positions for the icon and text
         float scaleCost = 0.5f;
-        float x = _costStaminaTexture.Width * 0.4f * _scale * scaleCost;
-        float y = _costStaminaTexture.Height * 0.4f * _scale * scaleCost;
-        Vector2 scaleVector = new Vector2(x, y);
+        float x = _costStaminaTexture.Width * 0.4f;
+        float y = _costStaminaTexture.Height * 0.4f;
+        Vector2 scaleVector = new Vector2(x, y) * _scale * scaleCost;
+        Vector2 textOffset = _staminaCost >= 10 ? new Vector2(16, 24) : new Vector2(6, 24);
 
+        // Draw the stamina cost icon
         _game.DrawImage(
             _costStaminaTexture,
             _position - scaleVector,
             _scale * scaleCost
         );
-        Vector2 textOffset = _staminaCost >= 10 ? new Vector2(16, 24) : new Vector2(6, 24);
+
+        // Draw the stamina cost text
         _game.DrawText(
             _staminaCost.ToString(),
             _position - textOffset * _scale,
