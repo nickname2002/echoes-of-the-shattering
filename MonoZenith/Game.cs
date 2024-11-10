@@ -41,6 +41,20 @@ public partial class Game
             screenToUnload.Unload();
     }
     
+    public void BackToMainMenu()
+    {
+        // Unload game screen
+        _gameScreen.Unload();
+        
+        // Start fade-out effect
+        StartFadeOut(() =>
+        {
+            // Load main menu screen
+            _mainMenuScreen.Load();
+            ActiveScreen = Screens.MAIN_MENU;
+        });
+    }
+    
     /* Update game logic. */
     public void Update(GameTime deltaTime)
     {

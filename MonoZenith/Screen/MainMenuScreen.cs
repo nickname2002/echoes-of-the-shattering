@@ -29,7 +29,7 @@ public class MainMenuScreen : Screen
         // Start button
         _startButton = new MainMenuOptionButton(
             _game, 
-            _game.ScreenHeight / 2 + (int)(250 * AppSettings.Scaling.ScaleFactor), 
+            _game.ScreenHeight / 2f + (int)(250 * AppSettings.Scaling.ScaleFactor), 
             "Start Game",
             StartGame,
             startButtonSound);
@@ -37,7 +37,7 @@ public class MainMenuScreen : Screen
         // Settings button
         _settingsButton = new MainMenuOptionButton(
             _game, 
-            _game.ScreenHeight / 2 + (int)(325 * AppSettings.Scaling.ScaleFactor),
+            _game.ScreenHeight / 2f + (int)(325 * AppSettings.Scaling.ScaleFactor),
             "Settings",
             () => Console.WriteLine("Settings button clicked")
         );
@@ -57,22 +57,24 @@ public class MainMenuScreen : Screen
             _game.ActiveScreen = Screens.GAME;
         }
     }
-
-    /// <summary>
-    /// Remove side effects of the main menu screen.
-    /// </summary>
+    
     public override void Unload()
     {
         float musicFadeOutSpeed = 0.015f;
-
+        
         if (_mainMenuMusic.Volume >= musicFadeOutSpeed)
         {
             _mainMenuMusic.Volume -= musicFadeOutSpeed;
+            return;
         }
-        else
-        {
-            _mainMenuMusic.Stop();
-        }
+        
+        _mainMenuMusic.Stop(); 
+    }
+    
+    public override void Load()
+    {
+        _mainMenuMusic.Volume = 1;
+        _game.StartFadeIn(() => _mainMenuMusic.Play());
     }
     
     public override void Update(GameTime deltaTime)

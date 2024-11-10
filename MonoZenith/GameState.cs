@@ -7,6 +7,7 @@ using MonoZenith.Card.CardStack;
 using MonoZenith.Components;
 using MonoZenith.Engine.Support;
 using MonoZenith.Players;
+using MonoZenith.Support;
 
 namespace MonoZenith
 {
@@ -18,6 +19,7 @@ namespace MonoZenith
         private Player? _currentWinner;
         private readonly TurnTransitionComponent _turnTransitionComponentHuman;
         private readonly TurnTransitionComponent _turnTransitionComponentNpc;
+        private readonly GameOverTransitionComponent _gameOverTransitionComponent;
         private TurnTransitionComponent? _activeTurnTransitionComponent;
         private readonly HumanPlayer _player;
         private readonly NpcPlayer _npc;
@@ -50,8 +52,10 @@ namespace MonoZenith
             _player = new HumanPlayer(_game, this, "Player");
             _npc = new NpcPlayer(_game, this, "NPC");
             _currentPlayer = null;
-            _turnTransitionComponentHuman = new TurnTransitionComponent(_game, "YOUR TURN");
-            _turnTransitionComponentNpc = new TurnTransitionComponent(_game, "ENEMY TURN");
+            _turnTransitionComponentHuman = new TurnTransitionComponent(_game, "YOUR TURN", Color.White);
+            _turnTransitionComponentNpc = new TurnTransitionComponent(_game, "ENEMY TURN", Color.White);
+            _gameOverTransitionComponent = new GameOverTransitionComponent(
+                _game, "YOU DIED", new Color(255, 215, 0), _game.BackToMainMenu);
             _activeTurnTransitionComponent = null;
             PlayedCards = new CardStack(_game, this, true);
             _componentFont = DataManager.GetInstance(game).ComponentFont;
@@ -71,7 +75,7 @@ namespace MonoZenith
             float cardHeight = Card.Card.Height;
             
             // Calculate positions of the decks
-            float playedX = _game.ScreenWidth / 2 - cardWidth / 2;
+            float playedX = _game.ScreenWidth / 2f - cardWidth / 2;
             float height = _game.ScreenHeight / 2f - cardHeight / 2;
             
             PlayedCards.UpdatePosition(playedX, height);
@@ -83,7 +87,7 @@ namespace MonoZenith
             _player.InitializeState(_game, this);
             _npc.InitializeState(_game, this);
         }
-
+        
         /// <summary>
         /// Determine the starting player.
         /// </summary>
@@ -122,6 +126,8 @@ namespace MonoZenith
                     _enemyDeathSound.Play();
 
                 _currentWinner = _player;
+                _gameOverTransitionComponent.Content = "ENEMY FELLED";
+                _gameOverTransitionComponent.Color = new Color(255, 215, 0);
                 return _player;
             }
 
@@ -132,6 +138,8 @@ namespace MonoZenith
                 _playerDeathSound.Play();
 
             _currentWinner = _npc;
+            _gameOverTransitionComponent.Content = "YOU DIED";
+            _gameOverTransitionComponent.Color = new Color(180, 30, 30);
             return _npc;
         }
 
@@ -155,24 +163,11 @@ namespace MonoZenith
         }
 
         /// <summary>
-        /// Displays the name of the game winner on the screen.
+        /// Displays the game over message.
         /// </summary>
-        private void DisplayWinnerMessage()
+        private void DisplayGameOverMessage()
         {
-            // Text to be displayed
-            string winnerText = $"{_currentWinner?.Name} wins!";
-
-            // Measure the size of the text
-            Vector2 textSize = _componentFont.MeasureString(winnerText);
-
-            // Calculate the position to center the text
-            Vector2 position = new Vector2(
-                (_game.ScreenWidth / 2f) - (textSize.X / 2),  // Center horizontally
-                (_game.ScreenHeight / 2f) - (textSize.Y / 2)  // Center vertically
-            );
-
-            // Draw the text at the calculated position
-            _game.DrawText(winnerText, position, _componentFont, Color.White);
+            _gameOverTransitionComponent.Draw();
         }
         
         /// <summary>
@@ -201,6 +196,7 @@ namespace MonoZenith
             
             if (HasWinner() != null)
             {
+                _gameOverTransitionComponent.Update(deltaTime);
                 return;
             }
             
@@ -220,7 +216,7 @@ namespace MonoZenith
 
             if (HasWinner() != null)
             {
-                DisplayWinnerMessage();
+                DisplayGameOverMessage();
                 return;
             }
             
