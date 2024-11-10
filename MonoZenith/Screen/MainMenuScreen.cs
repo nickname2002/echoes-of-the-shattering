@@ -31,7 +31,7 @@ public class MainMenuScreen : Screen
             _game, 
             _game.ScreenHeight / 2f + (int)(250 * AppSettings.Scaling.ScaleFactor), 
             "Start Game",
-            StartGame,
+            _game.StartGame,
             startButtonSound);
 
         // Settings button
@@ -41,21 +41,6 @@ public class MainMenuScreen : Screen
             "Settings",
             () => Console.WriteLine("Settings button clicked")
         );
-    }
-
-    /// <summary>
-    /// Start the game when the start button is clicked.
-    /// </summary>
-    private void StartGame()
-    {
-        _game.StartFadeOut(OnFadeOutComplete);
-        return;
-
-        void OnFadeOutComplete()
-        {
-            _game.StartFadeIn();
-            _game.ActiveScreen = Screens.GAME;
-        }
     }
     
     public override void Unload()

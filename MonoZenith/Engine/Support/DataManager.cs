@@ -75,6 +75,7 @@ namespace MonoZenith.Engine.Support
             CardFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1f * AppSettings.Scaling.ScaleFactor);
             IndicatorFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1.25f * AppSettings.Scaling.ScaleFactor);
             TransitionComponentFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 3.5f * AppSettings.Scaling.ScaleFactor);
+            GameOverTransitionComponentFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 5f * AppSettings.Scaling.ScaleFactor);
             
             // Load textures
             MonoZenithLogo = _game.LoadImage("Images/monozenith.png");

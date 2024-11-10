@@ -41,17 +41,29 @@ public partial class Game
             screenToUnload.Unload();
     }
     
+    /// <summary>
+    /// Callback method to return to the main menu.
+    /// </summary>
     public void BackToMainMenu()
     {
-        // Unload game screen
         _gameScreen.Unload();
-        
-        // Start fade-out effect
         StartFadeOut(() =>
         {
-            // Load main menu screen
             _mainMenuScreen.Load();
             ActiveScreen = Screens.MAIN_MENU;
+        });
+    }
+    
+    /// <summary>
+    /// Callback method to start the game.
+    /// </summary>
+    public void StartGame()
+    {
+        _mainMenuScreen.Unload();
+        StartFadeOut(() =>
+        {
+            _gameScreen.Load();
+            ActiveScreen = Screens.GAME;
         });
     }
     

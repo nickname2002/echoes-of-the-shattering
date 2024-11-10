@@ -33,6 +33,9 @@ namespace MonoZenith.Screen
 
         public override void Load()
         {
+            _gameState.InitializeState();
+            _game.StartFadeIn();
+            
             float musicFadeInSpeed = 0.015f;
             if (_backgroundMusic.Volume <= 1 - musicFadeInSpeed)
             {
