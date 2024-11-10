@@ -53,6 +53,27 @@ public class AttackCard : Card
     {
         return _owner.Stamina >= _staminaCost;
     }
+
+    protected override void DrawMetaData()
+    {
+        float scaleCost = 0.5f;
+        float x = _costStaminaTexture.Width * 0.4f * _scale * scaleCost;
+        float y = _costStaminaTexture.Height * 0.4f * _scale * scaleCost;
+        Vector2 scaleVector = new Vector2(x, y);
+
+        _game.DrawImage(
+            _costStaminaTexture,
+            _position - scaleVector,
+            _scale * scaleCost
+        );
+        Vector2 textOffset = _staminaCost >= 10 ? new Vector2(16, 24) : new Vector2(6, 24);
+        _game.DrawText(
+            _staminaCost.ToString(),
+            _position - textOffset * _scale,
+            DataManager.GetInstance(_game).CardFont,
+            Color.White
+        );
+    }
 }
 
 public class LightSwordAttackCard : AttackCard

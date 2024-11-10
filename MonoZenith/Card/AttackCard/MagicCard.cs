@@ -11,11 +11,13 @@ namespace MonoZenith.Card.AttackCard;
 /// </summary>
 public class MagicCard : AttackCard
 {
+    protected Texture2D _costFocusTexture;
     protected float _focusCost;
     
     protected MagicCard(Game game, GameState state, Player owner) : 
         base(game, state, owner)
     {
+        _costFocusTexture = DataManager.GetInstance(_game).CardCostFocus;
         _focusCost = 0;
     }
     
@@ -36,6 +38,29 @@ public class MagicCard : AttackCard
     {
         base.PerformEffect();
         LowerPlayerMana();
+    }
+
+    protected override void DrawMetaData()
+    {
+        base.DrawMetaData();
+
+        float scaleCost = 0.5f;
+        float x = _costStaminaTexture.Width * 0.6f * _scale * scaleCost;
+        float y = _costStaminaTexture.Height * 0.4f * _scale * scaleCost;
+        Vector2 scaleVector = new Vector2(x, y);
+
+        _game.DrawImage(
+            _costFocusTexture,
+            _position - scaleVector + new Vector2(_width, 0),
+            _scale * scaleCost
+        );
+        Vector2 textOffset = _focusCost >= 10 ? new Vector2(32, 24) : new Vector2(20, 24);
+        _game.DrawText(
+            _focusCost.ToString(),
+            _position - textOffset * _scale + new Vector2(_width, 0),
+            DataManager.GetInstance(_game).CardFont,
+            Color.CornflowerBlue
+        );
     }
 }
 

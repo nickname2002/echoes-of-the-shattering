@@ -41,6 +41,8 @@ namespace MonoZenith.Engine.Support
         public Texture2D CardGlintPebble;
         public Texture2D CardFlaskCrimson;
         public Texture2D CardFlaskCerulean;
+        public Texture2D CardCostStamina;
+        public Texture2D CardCostFocus;
 
         // Audio
         public SoundEffect MainMenuMusic;
@@ -105,6 +107,9 @@ namespace MonoZenith.Engine.Support
             CardGlintPebble = _game.LoadImage("Images/Cards/card-glint-peb.png");
             CardFlaskCrimson = _game.LoadImage("Images/Cards/card-crimson.png");
             CardFlaskCerulean = _game.LoadImage("Images/Cards/card-cerulean.png");
+            CardCostStamina = _game.LoadImage("Images/Cards/cost-stamina.png");
+            CardCostFocus = _game.LoadImage("Images/Cards/cost-focus.png");
+
 
             // Load audio
             MainMenuMusic = _game.LoadAudio("Audio/Music/main-menu-music.wav");

@@ -19,6 +19,7 @@ namespace MonoZenith.Card
         protected Texture2D _frontTexture;
         protected Texture2D _backTexture;
         protected Texture2D _hiddenTexture;
+        protected Texture2D _costStaminaTexture;
         protected string _name;
         protected Player _owner;
         protected SoundEffectInstance _soundOnPlay;
@@ -74,6 +75,7 @@ namespace MonoZenith.Card
             _frontTexture = DataManager.GetInstance(_game).CardFront;
             _backTexture = DataManager.GetInstance(_game).CardBack;
             _hiddenTexture = DataManager.GetInstance(_game).CardHidden;
+            _costStaminaTexture = DataManager.GetInstance(_game).CardCostStamina;
             _textureInHand = owner is HumanPlayer ? _frontTexture : _backTexture;
             _width = (int)(_frontTexture.Width * _scale);
             _height = (int)(_frontTexture.Height * _scale);
@@ -191,7 +193,7 @@ namespace MonoZenith.Card
         /// Draw the card.
         /// </summary>
         /// <param name="angle">Rotational Angle</param>
-        /// <param name="active">Boolean to determine if active or back texture should be drawn</param>
+        /// <param name="active">Boolean to determine if metadata should be drawn</param>
         public void Draw(float angle = 0, bool active = false)
         {
             if (Stack == _state.PlayedCards)
@@ -202,12 +204,17 @@ namespace MonoZenith.Card
             
             if(!IsAffordable() && Stack is HandCardStack && _owner is HumanPlayer)
                 _game.DrawImage(_hiddenTexture, _position, _scale, angle);
+
+            if (!active)
+                return;
+
+            DrawMetaData();
         }
 
         /// <summary>
         /// Draw the metadata of the card onto the front side of the card.
         /// </summary>
-        protected void DrawMetaData()
+        protected virtual void DrawMetaData()
         {
             _game.DrawText(
                 _name,

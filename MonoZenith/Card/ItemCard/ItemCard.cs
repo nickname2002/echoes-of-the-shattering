@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoZenith.Engine.Support;
 using MonoZenith.Players;
 
 namespace MonoZenith.Card;
@@ -18,4 +19,9 @@ public class ItemCard : Card
     }
 
     public override bool IsAffordable() => true;
+
+    protected override void DrawMetaData()
+    {
+        return;
+    }
 }
