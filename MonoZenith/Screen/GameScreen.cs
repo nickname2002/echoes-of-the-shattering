@@ -30,7 +30,23 @@ namespace MonoZenith.Screen
                 _backgroundMusic.Stop();
             }
         }
-        
+
+        public override void Load()
+        {
+            _gameState.InitializeState();
+            _game.StartFadeIn();
+            
+            float musicFadeInSpeed = 0.015f;
+            if (_backgroundMusic.Volume <= 1 - musicFadeInSpeed)
+            {
+                _backgroundMusic.Volume += musicFadeInSpeed;
+            }
+            else
+            {
+                _backgroundMusic.Volume = 1;
+            }
+        }
+
         /// <summary>
         /// Update the game state.
         /// </summary>

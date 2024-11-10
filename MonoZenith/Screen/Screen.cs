@@ -16,6 +16,11 @@ namespace MonoZenith.Screen
         /// Removes all side effects of the screen when switching to another screen.
         /// </summary>
         public abstract void Unload();
+
+        /// <summary>
+        /// Load state.
+        /// </summary>
+        public abstract void Load();
         
         /// <summary>
         /// Update state.

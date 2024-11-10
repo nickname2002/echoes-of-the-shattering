@@ -40,6 +40,32 @@ public partial class Game
             screenToUnload.Unload();
     }
     
+    /// <summary>
+    /// Callback method to return to the main menu.
+    /// </summary>
+    public void BackToMainMenu()
+    {
+        _gameScreen.Unload();
+        StartFadeOut(() =>
+        {
+            _mainMenuScreen.Load();
+            ActiveScreen = Screens.MAIN_MENU;
+        });
+    }
+    
+    /// <summary>
+    /// Callback method to start the game.
+    /// </summary>
+    public void StartGame()
+    {
+        _mainMenuScreen.Unload();
+        StartFadeOut(() =>
+        {
+            _gameScreen.Load();
+            ActiveScreen = Screens.GAME;
+        });
+    }
+    
     /* Update game logic. */
     public void Update(GameTime deltaTime)
     {
