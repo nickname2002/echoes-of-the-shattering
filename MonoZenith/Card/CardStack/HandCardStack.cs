@@ -70,7 +70,7 @@ namespace MonoZenith.Card.CardStack
             _cards.AddRange(cardsToAdd);
             
             // Make sure all cards have the same position as the deck
-            UpdatePosition(_game.ScreenWidth / 2 - Card.Width, _game.ScreenHeight / 2);
+            UpdatePosition(_game.ScreenWidth / 2f - Card.Width, _game.ScreenHeight / 2f);
             Shuffle();
         }
         
@@ -127,11 +127,11 @@ namespace MonoZenith.Card.CardStack
         {
             if (GetType().IsSubclassOf(typeof(CardStack)))
             {
-                card.UpdatePosition(x, _position.Y, false);
+                card.UpdatePosition(x, _position.Y);
             }
             else
             {
-                card.UpdatePosition(x, _position.Y, true);
+                card.UpdatePosition(x, _position.Y);
             }
         }
 
@@ -158,7 +158,7 @@ namespace MonoZenith.Card.CardStack
                 // Draw all hovered cards except the last one first
                 if (i < hoveredCards.Count - 1)
                 {
-                    hoveredCard.UpdatePosition(hoveredCardPosition, _position.Y, false);
+                    hoveredCard.UpdatePosition(hoveredCardPosition, _position.Y);
                     hoveredCard.Update(deltaTime);
                 }
             }
@@ -169,7 +169,7 @@ namespace MonoZenith.Card.CardStack
 
             _lastHoveredCard = hoveredCards[^1];
             float lastHoveredCardPosition = cardPositions[_lastHoveredCard];
-            _lastHoveredCard.UpdatePosition(lastHoveredCardPosition, _position.Y - verticalMoveOffset, false);
+            _lastHoveredCard.UpdatePosition(lastHoveredCardPosition, _position.Y - verticalMoveOffset);
             _lastHoveredCard.Update(deltaTime);
         }
     }

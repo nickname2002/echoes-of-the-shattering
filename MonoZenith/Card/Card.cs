@@ -175,34 +175,16 @@ namespace MonoZenith.Card
         {
             _position = position;
         }
-        
+
         /// <summary>
         /// Update the Card's position.
-        /// <paramref name="offset"/> determines if the Card's position
         /// starts on its relative origin (0, 0) or centralised.
         /// </summary>
         /// <param name="x">Positional x</param>
         /// <param name="y">Positional y</param>
-        /// <param name="offset">Boolean to determine whether the card
-        /// should be centralised.</param>
-        public void UpdatePosition(float x, float y, bool offset = true)
+        public void UpdatePosition(float x, float y)
         {
-            float newX;
-            float newY;
-
-            if (offset)
-            {
-                // Centralise the position of the card
-                newX = x - _width * _scale / 2 * AppSettings.Scaling.ScaleFactor;
-                newY = y - _height * _scale / 2 * AppSettings.Scaling.ScaleFactor;
-            }
-            else
-            {
-                newX = x;
-                newY = y;
-            }
-
-            TargetPosition = new Vector2(newX, newY);
+            TargetPosition = new Vector2(x, y);
         }
         
         /// <summary>
