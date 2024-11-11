@@ -202,7 +202,7 @@ namespace MonoZenith.Card.CardStack
             float cardWidth = Card.Width;
 
             // Define the spacing between cards
-            float offset = 20 * AppSettings.Scaling.ScaleFactor;
+            float offset = 30 * AppSettings.Scaling.ScaleFactor;
             float spacing = cardWidth + offset;
 
             // Calculate the total width occupied by all cards including spacing
