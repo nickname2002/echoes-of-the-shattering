@@ -14,6 +14,7 @@ public class FlaskOfCeruleanTearsCard : ItemCard
         base(game, state, owner)
     {
         _focusBoost = 30;
+        _frontTexture = DataManager.GetInstance(_game).CardFlaskCerulean;
         _soundOnPlay = DataManager.GetInstance(_game).FlaskOfCeruleanTears.CreateInstance();
     }
 
@@ -40,6 +41,7 @@ public class FlaskOfCrimsonTearsCard : ItemCard
         base(game, state, owner)
     {
         _healthBoost = 75;
+        _frontTexture = DataManager.GetInstance(_game).CardFlaskCrimson;
         _soundOnPlay = DataManager.GetInstance(_game).FlaskOfCrimsonTears.CreateInstance();
     }
 

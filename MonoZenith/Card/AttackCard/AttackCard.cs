@@ -53,6 +53,31 @@ public class AttackCard : Card
     {
         return _owner.Stamina >= _staminaCost;
     }
+
+    protected override void DrawMetaData()
+    {
+        // Calculate the top-left positions for the icon and text
+        float scaleCost = 0.5f;
+        float x = _costStaminaTexture.Width * 0.4f;
+        float y = _costStaminaTexture.Height * 0.4f;
+        Vector2 scaleVector = new Vector2(x, y) * _scale * scaleCost;
+        Vector2 textOffset = _staminaCost >= 10 ? new Vector2(16, 24) : new Vector2(6, 24);
+
+        // Draw the stamina cost icon
+        _game.DrawImage(
+            _costStaminaTexture,
+            _position - scaleVector,
+            _scale * scaleCost
+        );
+
+        // Draw the stamina cost text
+        _game.DrawText(
+            _staminaCost.ToString(),
+            _position - textOffset * _scale,
+            DataManager.GetInstance(_game).CardFont,
+            Color.White
+        );
+    }
 }
 
 public class LightSwordAttackCard : AttackCard
@@ -62,6 +87,7 @@ public class LightSwordAttackCard : AttackCard
     {
         _staminaCost = 10f;
         _damage = 10;
+        _frontTexture = DataManager.GetInstance(_game).CardLightAttack;
         _soundOnPlay = DataManager.GetInstance(_game).LightSwordAttack.CreateInstance();
         _name = "LightSwordAttackCard";
     }
@@ -74,6 +100,7 @@ public class HeavySwordAttackCard : AttackCard
     {
         _staminaCost = 20f;
         _damage = 20;
+        _frontTexture = DataManager.GetInstance(_game).CardHeavyAttack;
         _soundOnPlay = DataManager.GetInstance(_game).HeavySwordAttack.CreateInstance();
         _name = "HeavySwordAttackCard";
     }

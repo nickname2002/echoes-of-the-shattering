@@ -30,12 +30,19 @@ namespace MonoZenith.Engine.Support
         public Texture2D DeckIndicator;
         public Texture2D ReserveIndicator;
         public Texture2D MimicTearIndicatorDisabled;
-        public Texture2D CardBack;
-        public Texture2D CardFront;
-        public Texture2D CardHidden;
         public Texture2D EndTurnButtonIdleTexture;
         public Texture2D EndTurnButtonHoverTexture;
         public Texture2D EndTurnButtonDisabledTexture;
+        public Texture2D CardBack;
+        public Texture2D CardFront;
+        public Texture2D CardHidden;
+        public Texture2D CardLightAttack;
+        public Texture2D CardHeavyAttack;
+        public Texture2D CardGlintPebble;
+        public Texture2D CardFlaskCrimson;
+        public Texture2D CardFlaskCerulean;
+        public Texture2D CardCostStamina;
+        public Texture2D CardCostFocus;
 
         // Audio
         public SoundEffect MainMenuMusic;
@@ -86,16 +93,24 @@ namespace MonoZenith.Engine.Support
             PlayerCurrent = _game.LoadImage("Images/Player/player-current.png");
             PlayerWaiting = _game.LoadImage("Images/Player/player-waiting.png");
             Backdrop = _game.LoadImage("Images/Backdrops/backdrop.png");
-            CardBack = _game.LoadImage("Images/Cards/back-card-design.png");
-            CardFront = _game.LoadImage("Images/Cards/front-card-design.png");
-            CardHidden = _game.LoadImage("Images/Cards/card-hidden.png");
             EndTurnButtonIdleTexture = _game.LoadImage("Images/EndTurnButton/end-turn-button-idle.png");
             EndTurnButtonHoverTexture = _game.LoadImage("Images/EndTurnButton/end-turn-button-hover.png");
             EndTurnButtonDisabledTexture = _game.LoadImage("Images/EndTurnButton/end-turn-button-disabled.png");
             DeckIndicator = _game.LoadImage("Images/Indicators/deck-indicator.png");
             ReserveIndicator = _game.LoadImage("Images/Indicators/reserve-indicator.png");
             MimicTearIndicatorDisabled = _game.LoadImage("Images/Indicators/mimic-tear-indicator-disabled.png");
-            
+            CardBack = _game.LoadImage("Images/Cards/back-card-design.png");
+            CardFront = _game.LoadImage("Images/Cards/front-card-design.png");
+            CardHidden = _game.LoadImage("Images/Cards/card-hidden.png");
+            CardLightAttack = _game.LoadImage("Images/Cards/card-light-attack.png");
+            CardHeavyAttack = _game.LoadImage("Images/Cards/card-heavy-attack.png");
+            CardGlintPebble = _game.LoadImage("Images/Cards/card-glint-peb.png");
+            CardFlaskCrimson = _game.LoadImage("Images/Cards/card-crimson.png");
+            CardFlaskCerulean = _game.LoadImage("Images/Cards/card-cerulean.png");
+            CardCostStamina = _game.LoadImage("Images/Cards/cost-stamina.png");
+            CardCostFocus = _game.LoadImage("Images/Cards/cost-focus.png");
+
+
             // Load audio
             MainMenuMusic = _game.LoadAudio("Audio/Music/main-menu-music.wav");
             PlayerTurnSound = _game.LoadAudio("Audio/SoundEffects/player-turn-sound.wav");
