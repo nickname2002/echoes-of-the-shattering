@@ -8,12 +8,12 @@ namespace MonoZenith.Card;
 
 public class FlaskOfCeruleanTearsCard : ItemCard
 {
-    private readonly float _focusBoost;
+    public readonly float FocusBoost;
     
     public FlaskOfCeruleanTearsCard(Game game, GameState state, Player owner) : 
         base(game, state, owner)
     {
-        _focusBoost = 30;
+        FocusBoost = 30;
         _frontTexture = DataManager.GetInstance(_game).CardFlaskCerulean;
         _soundOnPlay = DataManager.GetInstance(_game).FlaskOfCeruleanTears.CreateInstance();
     }
@@ -29,18 +29,19 @@ public class FlaskOfCeruleanTearsCard : ItemCard
     /// </summary>
     private void BoostPlayerFocus()
     {
-        _owner.Focus = _owner.Focus + _focusBoost > 30f ? 30f : _owner.Focus + _focusBoost;
+        _owner.Focus = _owner.Focus + FocusBoost + Buff > 30f ? 30f 
+            : _owner.Focus + FocusBoost + Buff;
     }
 }
 
 public class FlaskOfCrimsonTearsCard : ItemCard
 {
-    private readonly float _healthBoost;
+    public readonly float HealthBoost;
     
     public FlaskOfCrimsonTearsCard(Game game, GameState state, Player owner) : 
         base(game, state, owner)
     {
-        _healthBoost = 75;
+        HealthBoost = 75;
         _frontTexture = DataManager.GetInstance(_game).CardFlaskCrimson;
         _soundOnPlay = DataManager.GetInstance(_game).FlaskOfCrimsonTears.CreateInstance();
     }
@@ -56,6 +57,7 @@ public class FlaskOfCrimsonTearsCard : ItemCard
     /// </summary>
     private void HealPlayer()
     {
-        _owner.Health = _owner.Health + _healthBoost > 100f ? 100f : _owner.Health + _healthBoost;
+        _owner.Health = _owner.Health + HealthBoost + Buff > 100f ? 100f 
+            : _owner.Health + HealthBoost + Buff;
     }
 }

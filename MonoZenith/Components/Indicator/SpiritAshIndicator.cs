@@ -1,20 +1,32 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
+using MonoZenith.Engine.Support;
+using MonoZenith.Items;
 
 namespace MonoZenith.Components.Indicator;
 
-public class ItemIndicator : Indicator
+public class SpiritAshIndicator : Indicator
 {
-    // TODO: Add sounds later
+    private readonly SpiritAsh _spiritAsh;
+    private readonly SoundEffectInstance _soundOnClick;
+    private bool _isActive;
     
-    public ItemIndicator(Game g, GameState gs, Vector2 pos, Texture2D tex) : base(g, gs, pos, tex)
+    public SpiritAshIndicator(Game g, GameState gs, Vector2 pos, Texture2D tex, SpiritAsh ash)
+        : base(g, gs, pos, tex)
     {   
-        
+        _spiritAsh = ash;
+        _soundOnClick = DataManager.GetInstance(g).SpiritAshSummonSound.CreateInstance();
+        _isActive = true;
     }
 
     public override void Update(GameTime deltaTime)
     {
         base.Update(deltaTime);
+        if (!IsClicked() || !_isActive) return;
+        _spiritAsh.Update(deltaTime);
+        _soundOnClick.Play();
+        _isActive = false;
     }
 
     /// <summary>
@@ -34,5 +46,16 @@ public class ItemIndicator : Indicator
     public bool IsClicked()
     {
         return IsHovered() && _game.GetMouseButtonDown(MouseButtons.Left);
+    }
+    
+    public override void Draw()
+    {
+        if (_isActive)
+        {
+            _game.DrawImage(_spiritAsh.TextureEnabled, _position, GetScale());
+            return;
+        }
+        
+        _game.DrawImage(_spiritAsh.TextureDisabled, _position, GetScale());
     }
 }

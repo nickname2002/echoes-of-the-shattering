@@ -18,11 +18,13 @@ namespace MonoZenith.Players
     
     internal class NpcPlayer : Player
     {
+        private readonly SoundEffectInstance _retrieveCardsSound;
         private readonly float _originalHealth;
         private readonly float _originalFocus;
         private float _currentMoveDelay;
         private const float MoveDelay = 1.5f;
-        private SoundEffectInstance _retrieveCardsSound;
+        
+        /* TODO: Add SpiritAsh here later. Npc players will use ashes directly, instead of through an indicator. */
         
         public NpcPlayer(Game game, GameState state, string name) : base(game, state, name)
         {

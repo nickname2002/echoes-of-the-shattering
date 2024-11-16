@@ -30,6 +30,7 @@ namespace MonoZenith.Engine.Support
         public Texture2D DeckIndicator;
         public Texture2D ReserveIndicator;
         public Texture2D MimicTearIndicatorDisabled;
+        public Texture2D MimicTearIndicatorEnabled;
         public Texture2D EndTurnButtonIdleTexture;
         public Texture2D EndTurnButtonHoverTexture;
         public Texture2D EndTurnButtonDisabledTexture;
@@ -61,6 +62,7 @@ namespace MonoZenith.Engine.Support
         public SoundEffect PlayerDeathSound;
         public SoundEffect EnemyDeathSound;
         public SoundEffect RetrieveCardsSound;
+        public SoundEffect SpiritAshSummonSound;
         
         private DataManager(Game game)
         {
@@ -98,6 +100,7 @@ namespace MonoZenith.Engine.Support
             EndTurnButtonDisabledTexture = _game.LoadImage("Images/EndTurnButton/end-turn-button-disabled.png");
             DeckIndicator = _game.LoadImage("Images/Indicators/deck-indicator.png");
             ReserveIndicator = _game.LoadImage("Images/Indicators/reserve-indicator.png");
+            MimicTearIndicatorEnabled = _game.LoadImage("Images/Indicators/mimic-tear-indicator-enabled.png");
             MimicTearIndicatorDisabled = _game.LoadImage("Images/Indicators/mimic-tear-indicator-disabled.png");
             CardBack = _game.LoadImage("Images/Cards/back-card-design.png");
             CardFront = _game.LoadImage("Images/Cards/front-card-design.png");
@@ -109,8 +112,7 @@ namespace MonoZenith.Engine.Support
             CardFlaskCerulean = _game.LoadImage("Images/Cards/card-cerulean.png");
             CardCostStamina = _game.LoadImage("Images/Cards/cost-stamina.png");
             CardCostFocus = _game.LoadImage("Images/Cards/cost-focus.png");
-
-
+            
             // Load audio
             MainMenuMusic = _game.LoadAudio("Audio/Music/main-menu-music.wav");
             PlayerTurnSound = _game.LoadAudio("Audio/SoundEffects/player-turn-sound.wav");
@@ -128,6 +130,7 @@ namespace MonoZenith.Engine.Support
             PlayerDeathSound = _game.LoadAudio("Audio/SoundEffects/player-death.wav");
             EnemyDeathSound = _game.LoadAudio("Audio/SoundEffects/enemy-felled.wav");
             RetrieveCardsSound = _game.LoadAudio("Audio/SoundEffects/retrieve-cards.wav");
+            SpiritAshSummonSound = _game.LoadAudio("Audio/SoundEffects/spirit-ash-summon.wav");
         }
 
         // Methode om een SoundEffectInstance te maken en af te spelen
