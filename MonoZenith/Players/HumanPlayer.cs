@@ -147,11 +147,7 @@ namespace MonoZenith.Players
         {
             base.PerformTurn(state);
             _spiritAshIndicator.Update(state.GameTime);
-
-            if (TryPlayCard())
-                return;
-
-            _spiritAshIndicator.Update(state.GameTime);
+            TryPlayCard();
         }
 
         /// <summary>

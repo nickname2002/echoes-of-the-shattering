@@ -32,6 +32,12 @@ public abstract class SpiritAsh
     protected abstract bool Invocable();
 
     /// <summary>
+    /// Check if the AI should play the spirit ash.
+    /// </summary>
+    /// <returns>True if the AI should play the spirit ash; otherwise, false.</returns>
+    public abstract bool ShouldAIPlay(AiState aiState);
+
+    /// <summary>
     /// Update the state of the spirit ash.
     /// </summary>
     /// <param name="deltaTime">The delta time.</param>
@@ -61,5 +67,11 @@ public class MimicTearAsh : SpiritAsh
     protected override bool Invocable()
     {
         return true;
+    }
+
+    public override bool ShouldAIPlay(AiState aiState)
+    {
+        // TODO: Implement more advanced rules later
+        return aiState == AiState.Aggressive;
     }
 }

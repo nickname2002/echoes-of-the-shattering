@@ -10,25 +10,37 @@ public class SpiritAshIndicator : Indicator
 {
     private readonly SpiritAsh _spiritAsh;
     private readonly SoundEffectInstance _soundOnClick;
-    private bool _isActive;
+    private readonly bool _isVisible;
+    public bool IsActive;
     
-    public SpiritAshIndicator(Game g, GameState gs, Vector2 pos, Texture2D tex, SpiritAsh ash)
+    public SpiritAshIndicator(Game g, GameState gs, Vector2 pos, Texture2D tex, SpiritAsh ash, bool visible = true)
         : base(g, gs, pos, tex)
     {   
         _spiritAsh = ash;
         _soundOnClick = DataManager.GetInstance(g).SpiritAshSummonSound.CreateInstance();
-        _isActive = true;
+        IsActive = true;
+        _isVisible = visible;
     }
 
     public override void Update(GameTime deltaTime)
     {
         base.Update(deltaTime);
-        if (!IsClicked() || !_isActive) return;
-        _spiritAsh.Update(deltaTime);
-        _soundOnClick.Play();
-        _isActive = false;
+        if (!IsClicked() || !IsActive) return;
+        InvokeClickEvent(deltaTime);
     }
 
+    /// <summary>
+    /// Trigger the click event of the spirit ash.
+    /// </summary>
+    /// <param name="deltaTime">The delta time.</param>
+    public void InvokeClickEvent(GameTime deltaTime)
+    {
+        if (!IsActive) return;
+        _spiritAsh.Update(deltaTime);
+        _soundOnClick.Play();
+        IsActive = false;
+    }
+    
     /// <summary>
     /// Check if the mouse is currently hovering over the item.
     /// </summary>
@@ -50,7 +62,10 @@ public class SpiritAshIndicator : Indicator
     
     public override void Draw()
     {
-        if (_isActive)
+        if (!_isVisible)
+            return;
+        
+        if (IsActive)
         {
             _game.DrawImage(_spiritAsh.TextureEnabled, _position, GetScale());
             return;
