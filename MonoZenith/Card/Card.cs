@@ -71,7 +71,7 @@ namespace MonoZenith.Card
             _state = state;
             _owner = owner;
             _position = Vector2.Zero;
-            _scale = 0.40f * AppSettings.Scaling.ScaleFactor;
+            _scale = 0.45f * AppSettings.Scaling.ScaleFactor;
             _frontTexture = DataManager.GetInstance(_game).CardFront;
             _backTexture = DataManager.GetInstance(_game).CardBack;
             _hiddenTexture = DataManager.GetInstance(_game).CardHidden;
