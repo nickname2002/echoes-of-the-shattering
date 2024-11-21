@@ -10,16 +10,16 @@ public class SpiritAshIndicator : Indicator
 {
     private readonly SpiritAsh _spiritAsh;
     private readonly SoundEffectInstance _soundOnClick;
-    private readonly bool _isVisible;
-    public bool IsActive;
+    private readonly bool _hasHumanOwner;
+    public bool IsActive { get; set; }
     
-    public SpiritAshIndicator(Game g, GameState gs, Vector2 pos, Texture2D tex, SpiritAsh ash, bool visible = true)
+    public SpiritAshIndicator(Game g, GameState gs, Vector2 pos, Texture2D tex, SpiritAsh ash, bool hasHumanOwner = true)
         : base(g, gs, pos, tex)
     {   
         _spiritAsh = ash;
         _soundOnClick = DataManager.GetInstance(g).SpiritAshSummonSound.CreateInstance();
         IsActive = true;
-        _isVisible = visible;
+        _hasHumanOwner = hasHumanOwner;
     }
 
     public override void Update(GameTime deltaTime)
@@ -62,11 +62,14 @@ public class SpiritAshIndicator : Indicator
     
     public override void Draw()
     {
-        if (!_isVisible)
-            return;
-        
         if (IsActive)
         {
+            if (IsHovered() && _hasHumanOwner)
+            {
+                _game.DrawImage(_spiritAsh.TextureHovered, _position, GetScale());
+                return;
+            }
+            
             _game.DrawImage(_spiritAsh.TextureEnabled, _position, GetScale());
             return;
         }

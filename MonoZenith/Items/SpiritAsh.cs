@@ -13,6 +13,7 @@ public abstract class SpiritAsh
     
     public Texture2D TextureEnabled { get; set; }
     public Texture2D TextureDisabled { get; set; }
+    public Texture2D TextureHovered { get; set; }
     
     protected SpiritAsh(GameState state, Player owner)
     {
@@ -57,6 +58,7 @@ public class MimicTearAsh : SpiritAsh
     {
         TextureDisabled = DataManager.GetInstance(state.Game).MimicTearIndicatorDisabled;
         TextureEnabled = DataManager.GetInstance(state.Game).MimicTearIndicatorEnabled;
+        TextureHovered = DataManager.GetInstance(state.Game).MimicTearIndicatorHover;
     }
 
     protected override void PerformEffect()

@@ -44,7 +44,9 @@ namespace MonoZenith.Players
             base.InitializeState(game, state);
             _spiritAshIndicator = new SpiritAshIndicator(
                 game, state, 
-                new Vector2(game.ScreenWidth * 0.05f, game.ScreenHeight * 0.085f), 
+                new Vector2(
+                    _game.ScreenWidth - 100 * AppSettings.Scaling.ScaleFactor, 
+                    25 * AppSettings.Scaling.ScaleFactor),
                 DataManager.GetInstance(game).MimicTearIndicatorDisabled, 
                 new MimicTearAsh(state, this), 
                 false);
@@ -325,6 +327,8 @@ namespace MonoZenith.Players
             _game.DrawRectangle(Color.Goldenrod, edgePosition, healthWidth + 2, healthHeight + 2);
             _game.DrawRectangle(Color.DarkGray, healthPosition, healthWidth, healthHeight);
             _game.DrawRectangle(Color.DarkRed, healthPosition, (int)(healthWidth * (Health / 100f)), healthHeight);
+            
+            _spiritAshIndicator.Draw();            
         }
     }
 }

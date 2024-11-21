@@ -31,6 +31,7 @@ namespace MonoZenith.Engine.Support
         public Texture2D ReserveIndicator;
         public Texture2D MimicTearIndicatorDisabled;
         public Texture2D MimicTearIndicatorEnabled;
+        public Texture2D MimicTearIndicatorHover;
         public Texture2D EndTurnButtonIdleTexture;
         public Texture2D EndTurnButtonHoverTexture;
         public Texture2D EndTurnButtonDisabledTexture;
@@ -102,6 +103,7 @@ namespace MonoZenith.Engine.Support
             ReserveIndicator = _game.LoadImage("Images/Indicators/reserve-indicator.png");
             MimicTearIndicatorEnabled = _game.LoadImage("Images/Indicators/mimic-tear-indicator-enabled.png");
             MimicTearIndicatorDisabled = _game.LoadImage("Images/Indicators/mimic-tear-indicator-disabled.png");
+            MimicTearIndicatorHover = _game.LoadImage("Images/Indicators/mimic-tear-indicator-hover.png");
             CardBack = _game.LoadImage("Images/Cards/back-card-design.png");
             CardFront = _game.LoadImage("Images/Cards/front-card-design.png");
             CardHidden = _game.LoadImage("Images/Cards/card-hidden.png");
