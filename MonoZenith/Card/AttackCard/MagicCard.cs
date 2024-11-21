@@ -48,9 +48,9 @@ public class MagicCard : AttackCard
         // Calculate the top-right positions for the cost icon and text
         float scaleCost = 0.5f;
         float x = _costStaminaTexture.Width * 0.6f;
-        float y = _costStaminaTexture.Height * 0.5f;
+        float y = _costStaminaTexture.Height * 0.4f;
         Vector2 scaleVector = new Vector2(x, y) * _scale * scaleCost;
-        Vector2 textOffset = _focusCost >= 10 ? new Vector2(32, 32) : new Vector2(20, 32);
+        Vector2 textOffset = _focusCost >= 10 ? new Vector2(32, 24) : new Vector2(20, 24);
 
         // Draw the focus cost icon
         _game.DrawImage(

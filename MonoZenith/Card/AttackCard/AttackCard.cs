@@ -59,9 +59,9 @@ public class AttackCard : Card
         // Calculate the top-left positions for the icon and text
         float scaleCost = 0.5f;
         float x = _costStaminaTexture.Width * 0.4f;
-        float y = _costStaminaTexture.Height * 0.5f;
+        float y = _costStaminaTexture.Height * 0.4f;
         Vector2 scaleVector = new Vector2(x, y) * _scale * scaleCost;
-        Vector2 textOffset = _staminaCost >= 10 ? new Vector2(16, 32) : new Vector2(6, 32);
+        Vector2 textOffset = _staminaCost >= 10 ? new Vector2(16, 24) : new Vector2(6, 24);
 
         // Draw the stamina cost icon
         _game.DrawImage(
