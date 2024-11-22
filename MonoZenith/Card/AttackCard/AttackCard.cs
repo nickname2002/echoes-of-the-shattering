@@ -90,6 +90,7 @@ public class LightSwordAttackCard : AttackCard
         _frontTexture = DataManager.GetInstance(_game).CardLightAttack;
         _soundOnPlay = DataManager.GetInstance(_game).LightSwordAttack.CreateInstance();
         _name = "LightSwordAttackCard";
+        _description = "Deal " + _damage + " damage.";
     }
 }
 
@@ -103,5 +104,6 @@ public class HeavySwordAttackCard : AttackCard
         _frontTexture = DataManager.GetInstance(_game).CardHeavyAttack;
         _soundOnPlay = DataManager.GetInstance(_game).HeavySwordAttack.CreateInstance();
         _name = "HeavySwordAttackCard";
+        _description = "Deal " + _damage + " damage.";
     }
 }

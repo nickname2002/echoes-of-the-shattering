@@ -21,6 +21,7 @@ namespace MonoZenith.Card
         protected Texture2D _hiddenTexture;
         protected Texture2D _costStaminaTexture;
         protected string _name;
+        protected string _description;
         protected Player _owner;
         protected SoundEffectInstance _soundOnPlay;
         
@@ -82,6 +83,7 @@ namespace MonoZenith.Card
             _name = "BaseCard";
             _soundOnPlay = null;
             _name = GetType().Name;
+            _description = "";
         }
 
         public override string ToString()
@@ -205,10 +207,31 @@ namespace MonoZenith.Card
             if(!IsAffordable() && Stack is HandCardStack && _owner is HumanPlayer)
                 _game.DrawImage(_hiddenTexture, _position, _scale, angle);
 
+            if (Stack is not HandCardStack || (Stack is HandCardStack && _owner is HumanPlayer))
+                DrawDescription();
+
             if (!active)
                 return;
 
             DrawMetaData();
+        }
+
+        /// <summary>
+        /// Draw the description of the card onto the front side of the card.
+        /// </summary>
+        protected virtual void DrawDescription()
+        {
+            // TODO: Account for long text and words
+            float offsetX = Width * 0.09f;
+            float offsetY = Height * 0.70f;
+            Vector2 offset = new Vector2(offsetX, offsetY);
+
+            _game.DrawText(
+                _description,
+                _position + offset,
+                DataManager.GetInstance(_game).CardFont,
+                Color.Ivory
+            );
         }
 
         /// <summary>

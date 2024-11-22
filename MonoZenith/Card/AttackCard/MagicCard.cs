@@ -80,5 +80,6 @@ public class GlintStonePebbleCard : MagicCard
         _staminaCost = 5;
         _damage = 15;
         _name = "GlintStonePebbleCard";
+        _description = "Deal " + _damage + " damage.";
     }
 }
