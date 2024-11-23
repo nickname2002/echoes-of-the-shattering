@@ -90,7 +90,7 @@ public class LightSwordAttackCard : AttackCard
         _frontTexture = DataManager.GetInstance(_game).CardLightAttack;
         _soundOnPlay = DataManager.GetInstance(_game).LightSwordAttack.CreateInstance();
         _name = "LightSwordAttackCard";
-        _description.Add("Deal " + _damage + " damage."); // Line 1
+        _description.Add("Deal " + _damage + " damage.");
     }
 
     protected override void UpdateDescription()
@@ -109,7 +109,7 @@ public class HeavySwordAttackCard : AttackCard
         _frontTexture = DataManager.GetInstance(_game).CardHeavyAttack;
         _soundOnPlay = DataManager.GetInstance(_game).HeavySwordAttack.CreateInstance();
         _name = "HeavySwordAttackCard";
-        _description.Add("Deal " + _damage + " damage."); // Line 1
+        _description.Add("Deal " + _damage + " damage.");
     }
 
     protected override void UpdateDescription()
