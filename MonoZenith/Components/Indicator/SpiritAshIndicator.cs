@@ -13,6 +13,10 @@ public class SpiritAshIndicator : Indicator
     private readonly bool _hasHumanOwner;
     public bool IsActive { get; set; }
     
+    public Texture2D TextureEnabled { get; set; }
+    public Texture2D TextureDisabled { get; set; }
+    public Texture2D TextureHovered { get; set; }
+    
     public SpiritAshIndicator(Game g, GameState gs, Vector2 pos, Texture2D tex, SpiritAsh ash, bool hasHumanOwner = true)
         : base(g, gs, pos, tex)
     {   
@@ -20,6 +24,10 @@ public class SpiritAshIndicator : Indicator
         _soundOnClick = DataManager.GetInstance(g).SpiritAshSummonSound.CreateInstance();
         IsActive = true;
         _hasHumanOwner = hasHumanOwner;
+        
+        TextureEnabled = DataManager.GetInstance(g).AshIndicatorEnabled;
+        TextureDisabled = DataManager.GetInstance(g).AshIndicatorDisabled;
+        TextureHovered = DataManager.GetInstance(g).AshIndicatorHovered;
     }
 
     public override void Update(GameTime deltaTime)
@@ -62,18 +70,15 @@ public class SpiritAshIndicator : Indicator
     
     public override void Draw()
     {
-        if (IsActive)
-        {
-            if (IsHovered() && _hasHumanOwner)
-            {
-                _game.DrawImage(_spiritAsh.TextureHovered, _position, GetScale());
-                return;
-            }
-            
-            _game.DrawImage(_spiritAsh.TextureEnabled, _position, GetScale());
-            return;
-        }
-        
-        _game.DrawImage(_spiritAsh.TextureDisabled, _position, GetScale());
+        Texture2D textureToDraw = IsActive
+            ? (IsHovered() && _hasHumanOwner ? TextureHovered : TextureEnabled)
+            : TextureDisabled;
+
+        float spiritAshScale = IsActive
+            ? (IsHovered() && _hasHumanOwner ? 1.0f : 0.7f)
+            : 0.25f;
+
+        _game.DrawImage(textureToDraw, _position, GetScale());
+        _spiritAsh.Draw(_position, spiritAshScale);
     }
 }

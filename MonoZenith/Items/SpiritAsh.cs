@@ -8,17 +8,19 @@ namespace MonoZenith.Items;
 
 public abstract class SpiritAsh
 {
+    protected Game _game;
     protected GameState _state;
     protected Player _owner;
+    protected float _scale;
     
-    public Texture2D TextureEnabled { get; set; }
-    public Texture2D TextureDisabled { get; set; }
-    public Texture2D TextureHovered { get; set; }
+    public Texture2D Texture { get; set; }
     
-    protected SpiritAsh(GameState state, Player owner)
+    protected SpiritAsh(Game g, GameState state, Player owner)
     {
+        _game = g;
         _state = state;
         _owner = owner;
+        _scale = 0.085f * AppSettings.Scaling.ScaleFactor;
     }
     
     /// <summary>
@@ -49,16 +51,34 @@ public abstract class SpiritAsh
             PerformEffect();
         }
     }
+    
+    /// <summary>
+    /// Draw the spirit ash at the specified position.
+    /// </summary>
+    /// <param name="position">The position to draw the spirit ash.</param>
+    /// <param name="alpha">The alpha value of the spirit ash.</param>
+    public void Draw(Vector2 position, float alpha = 1f)
+    {
+        var correctedPosition = new Vector2(
+            position.X - 6 * AppSettings.Scaling.ScaleFactor,
+            position.Y + 6 * AppSettings.Scaling.ScaleFactor);
+        
+        _game.DrawImage(
+            Texture, 
+            correctedPosition,
+            _scale,
+            0,
+            false,
+            alpha);
+    }
 }
 
 public class MimicTearAsh : SpiritAsh
 {
-    public MimicTearAsh(GameState state, Player owner) : 
-        base(state, owner)
+    public MimicTearAsh(Game g, GameState state, Player owner) : 
+        base(g, state, owner)
     {
-        TextureDisabled = DataManager.GetInstance(state.Game).MimicTearIndicatorDisabled;
-        TextureEnabled = DataManager.GetInstance(state.Game).MimicTearIndicatorEnabled;
-        TextureHovered = DataManager.GetInstance(state.Game).MimicTearIndicatorHover;
+        Texture = DataManager.GetInstance(_state.Game).MimicTearAsh;
     }
 
     protected override void PerformEffect()
