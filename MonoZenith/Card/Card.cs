@@ -256,10 +256,12 @@ namespace MonoZenith.Card
             // Retrieve font and calculate scaling factor
             SpriteFont cardFont = DataManager.GetInstance(_game).CardFont;
             float baseTextHeight = cardFont.MeasureString("A").Y; // Reference height
-            float scalingFactor = 100 / cardFont.MeasureString(_description[0]).X;
+            // Create scale based on Card Width with offset
+            float scalingFactor = (Width - 35) / cardFont.MeasureString(_description[0]).X;
+            Console.WriteLine(scalingFactor);
 
             // Adjust scaling so it remains reasonable for very small or large cards
-            scalingFactor = MathHelper.Clamp(scalingFactor, 0.8f, 1.2f);
+            scalingFactor = MathHelper.Clamp(scalingFactor, 0.7f, 1.2f);
 
             int textCount = _description.Count;
             float textHeight = baseTextHeight * scalingFactor;
