@@ -15,7 +15,7 @@ namespace MonoZenith.Players
         private Card.Card _lastHoveredCard;
         private CardStackIndicator _deckIndicator;
         private CardStackIndicator _reserveIndicator;
-        private ItemIndicator _spiritAshIndicator;
+        private SpiritAshIndicator _spiritAshIndicator;
         
         public HumanPlayer(Game game, GameState state, string name) : base(game, state, name)
         {
@@ -30,7 +30,7 @@ namespace MonoZenith.Players
         public override void InitializeState(Game game, GameState state)
         {
             base.InitializeState(game, state);
-
+            
             // Initialize indicators
             _deckIndicator = new CardStackIndicator(
                 game, state, 
@@ -46,12 +46,13 @@ namespace MonoZenith.Players
                     _game.ScreenHeight - 253 * AppSettings.Scaling.ScaleFactor), 
                 DataManager.GetInstance(_game).ReserveIndicator,
                 _reserveCardStack);
-            _spiritAshIndicator = new ItemIndicator(
+            _spiritAshIndicator = new SpiritAshIndicator(
                 game, state, 
                 new Vector2(
                     _game.ScreenWidth - 100 * AppSettings.Scaling.ScaleFactor, 
                     _game.ScreenHeight - 147 * AppSettings.Scaling.ScaleFactor), 
-                DataManager.GetInstance(_game).MimicTearIndicatorDisabled);
+                DataManager.GetInstance(_game).MimicTearIndicatorDisabled, 
+                SpiritAsh);
         }
 
         protected override void FillPlayerDeck()
@@ -145,11 +146,8 @@ namespace MonoZenith.Players
         public override void PerformTurn(GameState state)
         {
             base.PerformTurn(state);
-
-            if (TryPlayCard())
-                return;
-
             _spiritAshIndicator.Update(state.GameTime);
+            TryPlayCard();
         }
 
         /// <summary>

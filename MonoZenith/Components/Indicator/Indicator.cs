@@ -18,7 +18,7 @@ public abstract class Indicator : Component
         _gameState = gs;
         _position = pos;
         _texture = texture;
-    }
+    } 
 
     /// <summary>
     /// Calculate a scale factor that will make the indicator exactly 20 pixels wide.

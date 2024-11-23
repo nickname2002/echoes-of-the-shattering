@@ -58,7 +58,7 @@ public class MagicCard : AttackCard
             _position - scaleVector + new Vector2(_width, 0),
             _scale * scaleCost
         );
-
+        
         // Draw the focus cost text
         _game.DrawText(
             _focusCost.ToString(),

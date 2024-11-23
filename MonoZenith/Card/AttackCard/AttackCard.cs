@@ -39,7 +39,7 @@ public class AttackCard : Card
     /// </summary>
     protected void ApplyEnemyDamage()
     {
-        _enemy.Health -= _damage;
+        _enemy.Health -= _damage + Buff;
     }
 
     public override void PerformEffect()
@@ -69,7 +69,7 @@ public class AttackCard : Card
             _position - scaleVector,
             _scale * scaleCost
         );
-
+        
         // Draw the stamina cost text
         _game.DrawText(
             _staminaCost.ToString(),

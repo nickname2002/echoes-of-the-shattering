@@ -67,6 +67,12 @@ namespace MonoZenith.Card
         /// </summary>
         public CardStack.CardStack Stack { get; set; }
 
+        /// <summary>
+        /// A buff for the card.
+        /// This value should be added to a card's damage/healing.
+        /// </summary>
+        public float Buff { get; set; } = 0;
+
         protected Card(Game game, GameState state, Player owner)
         {
             _game = game;

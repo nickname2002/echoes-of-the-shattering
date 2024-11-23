@@ -11,7 +11,7 @@ namespace MonoZenith
 {
     public class GameState
     {
-        private readonly Game _game;
+        public readonly Game Game;
         public GameTime GameTime;
         private Player? _currentPlayer;
         private Player? _currentWinner;
@@ -50,30 +50,30 @@ namespace MonoZenith
 
         public GameState(Game game)
         {
-            _game = game;
+            Game = game;
             GameTime = new GameTime();
-            _player = new HumanPlayer(_game, this, "Player");
-            _npc = new NpcPlayer(_game, this, "NPC");
+            _player = new HumanPlayer(Game, this, "Player");
+            _npc = new NpcPlayer(Game, this, "NPC");
             _currentPlayer = null;
 
-            var turnTransitionComponentFont = DataManager.GetInstance(_game).TransitionComponentFont;
-            var gameOverTransitionComponentFont = DataManager.GetInstance(_game).GameOverTransitionComponentFont;
+            var turnTransitionComponentFont = DataManager.GetInstance(Game).TransitionComponentFont;
+            var gameOverTransitionComponentFont = DataManager.GetInstance(Game).GameOverTransitionComponentFont;
             _turnTransitionComponentHuman = new TransitionComponent(
-                _game, "YOUR TURN", Color.White, turnTransitionComponentFont);
+                Game, "YOUR TURN", Color.White, turnTransitionComponentFont);
             _turnTransitionComponentNpc = new TransitionComponent(
-                _game, "ENEMY TURN", Color.White, turnTransitionComponentFont);
+                Game, "ENEMY TURN", Color.White, turnTransitionComponentFont);
             _activeTurnTransitionComponent = null;
             _gameOverTransitionComponent = new TransitionComponent(
-                _game, "YOU DIED", new Color(255, 215, 0), gameOverTransitionComponentFont,
+                Game, "YOU DIED", new Color(255, 215, 0), gameOverTransitionComponentFont,
                 1f, 3f, 1f,
-                _game.BackToMainMenu);
+                Game.BackToMainMenu);
             
-            PlayedCards = new CardStack(_game, this, true);
+            PlayedCards = new CardStack(Game, this, true);
             _playerDeathSound = DataManager.GetInstance(game).PlayerDeathSound.CreateInstance();
             _enemyDeathSound = DataManager.GetInstance(game).EnemyDeathSound.CreateInstance();
             _startPlayerTurnSound = DataManager.GetInstance(game).PlayerTurnSound.CreateInstance();
             InitializeState();
-            _endTurnButton = new EndTurnButton(_game, this);
+            _endTurnButton = new EndTurnButton(Game, this);
         }
         
         /// <summary>
@@ -85,8 +85,8 @@ namespace MonoZenith
             
             // Update the position of the played cards
             PlayedCards.UpdatePosition(
-                _game.ScreenWidth / 2f, 
-                _game.ScreenHeight / 2f - Card.Card.Height / 2f);
+                Game.ScreenWidth / 2f, 
+                Game.ScreenHeight / 2f - Card.Card.Height / 2f);
 
             // Determine the starting player
             DetermineStartingPlayer();
@@ -97,8 +97,8 @@ namespace MonoZenith
             _gameOverTransitionComponent.Reset();
             
             // Initialize players
-            _player.InitializeState(_game, this);
-            _npc.InitializeState(_game, this);
+            _player.InitializeState(Game, this);
+            _npc.InitializeState(Game, this);
         }
         
         /// <summary>
@@ -222,8 +222,8 @@ namespace MonoZenith
         public void Draw()
         {
             // Draw backdrop
-            _game.DrawImage(
-                DataManager.GetInstance(_game).Backdrop, 
+            Game.DrawImage(
+                DataManager.GetInstance(Game).Backdrop, 
                 Vector2.Zero, 
                 AppSettings.Scaling.ScaleFactor);
 

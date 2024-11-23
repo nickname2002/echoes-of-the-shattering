@@ -5,24 +5,28 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using MonoZenith.Card;
 using MonoZenith.Card.AttackCard;
+using MonoZenith.Components.Indicator;
 using MonoZenith.Engine.Support;
+using MonoZenith.Items;
+using MonoZenith.Support.Managers;
 
 namespace MonoZenith.Players
 {
-    internal enum AiState
+    public enum AiState
     {
         LowHealth,
         LowFocus,
         Aggressive
     };
     
-    internal class NpcPlayer : Player
+    internal sealed class NpcPlayer : Player
     {
+        private readonly SoundEffectInstance _retrieveCardsSound;
+        private SpiritAshIndicator _spiritAshIndicator;
         private readonly float _originalHealth;
         private readonly float _originalFocus;
         private float _currentMoveDelay;
         private const float MoveDelay = 1.5f;
-        private SoundEffectInstance _retrieveCardsSound;
         
         public NpcPlayer(Game game, GameState state, string name) : base(game, state, name)
         {
@@ -32,6 +36,20 @@ namespace MonoZenith.Players
             _originalHealth = Health;
             _originalFocus = Focus;
             _retrieveCardsSound = DataManager.GetInstance(game).RetrieveCardsSound.CreateInstance();
+            InitializeState(game, state);
+        }
+        
+        public override void InitializeState(Game game, GameState state)
+        {
+            base.InitializeState(game, state);
+            _spiritAshIndicator = new SpiritAshIndicator(
+                game, state, 
+                new Vector2(
+                    _game.ScreenWidth - 100 * AppSettings.Scaling.ScaleFactor, 
+                    25 * AppSettings.Scaling.ScaleFactor),
+                DataManager.GetInstance(game).MimicTearIndicatorDisabled, 
+                new MimicTearAsh(state, this), 
+                false);
         }
 
         /// <summary>
@@ -67,7 +85,14 @@ namespace MonoZenith.Players
         private void PlayStrategicCard()
         {
             var currentState = DetermineState();
-            
+            if (SpiritAsh.ShouldAIPlay(currentState) 
+                && _spiritAshIndicator.IsActive)
+            {
+                _spiritAshIndicator.InvokeClickEvent(_state.GameTime);
+                _currentMoveDelay = 0;
+                return;
+            }
+
             // Buffer actions with strategies 
             var strategies = new List<Func<bool>>
             {
@@ -95,7 +120,7 @@ namespace MonoZenith.Players
 
             if (healthCard == null || !healthCard.IsAffordable()) 
                 return false;
-
+            
             PlayCard(healthCard);
             return true;
         }
@@ -200,17 +225,31 @@ namespace MonoZenith.Players
             foreach (var card in _handStack.Cards)
                 card.Stack = _deckStack;
         }
-
+        
+        /// <summary>
+        /// Check if the player is currently pausing.
+        /// </summary>
+        /// <returns>True if the player is pausing; otherwise, false.</returns>
+        private bool IsPausing()
+        {
+            if (!(_currentMoveDelay < MoveDelay)) return false;
+            _currentMoveDelay += (float)_state.GameTime.ElapsedGameTime.TotalSeconds;
+            return true;
+        }
+        
         public override void PerformTurn(GameState state)
         {
             base.PerformTurn(state);
+            _spiritAshIndicator.Update(state.GameTime);
+            
+            if (IsPausing())
+                return;
             
             if (CardsAvailableToPlay())
             {
                 // If any card is moving, return
-                if (_handStack.Cards.Any(card => card.IsMoving) || _currentMoveDelay < MoveDelay)
+                if (_handStack.Cards.Any(card => card.IsMoving) || IsPausing())
                 {
-                    _currentMoveDelay += (float)state.GameTime.ElapsedGameTime.TotalSeconds;
                     return;
                 }
 
@@ -234,6 +273,7 @@ namespace MonoZenith.Players
             _retrieveCardsSound.Play();
             _state.SwitchingTurns = true;
         }
+        
         
         /// <summary>
         /// Determines if there are any cards in the player's hand that can be played.
@@ -287,6 +327,8 @@ namespace MonoZenith.Players
             _game.DrawRectangle(Color.Goldenrod, edgePosition, healthWidth + 2, healthHeight + 2);
             _game.DrawRectangle(Color.DarkGray, healthPosition, healthWidth, healthHeight);
             _game.DrawRectangle(Color.DarkRed, healthPosition, (int)(healthWidth * (Health / 100f)), healthHeight);
+            
+            _spiritAshIndicator.Draw();            
         }
     }
 }
