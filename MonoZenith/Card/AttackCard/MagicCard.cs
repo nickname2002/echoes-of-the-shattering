@@ -80,5 +80,11 @@ public class GlintStonePebbleCard : MagicCard
         _staminaCost = 5;
         _damage = 15;
         _name = "GlintStonePebbleCard";
+        _description.Add("Deal " + _damage + " damage.");
+    }
+
+    protected override void UpdateDescription()
+    {
+        _description[0] = "Deal " + (_damage + Buff) + " damage.";
     }
 }

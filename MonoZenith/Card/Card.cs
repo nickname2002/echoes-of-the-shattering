@@ -4,6 +4,8 @@ using Microsoft.Xna.Framework.Audio;
 using MonoZenith.Card.CardStack;
 using MonoZenith.Engine.Support;
 using MonoZenith.Players;
+using System.Collections.Generic;
+using System;
 
 namespace MonoZenith.Card
 {
@@ -21,8 +23,10 @@ namespace MonoZenith.Card
         protected Texture2D _hiddenTexture;
         protected Texture2D _costStaminaTexture;
         protected string _name;
+        protected List<string> _description;
         protected Player _owner;
         protected SoundEffectInstance _soundOnPlay;
+        protected float _buff;
         
         /// <summary>
         /// The position of the card.
@@ -69,7 +73,15 @@ namespace MonoZenith.Card
         /// A buff for the card.
         /// This value should be added to a card's damage/healing.
         /// </summary>
-        public float Buff { get; set; } = 0;
+        public float Buff
+        {
+            get => _buff;
+            set
+            {
+                _buff = value;
+                UpdateDescription();
+            }
+        }
 
         protected Card(Game game, GameState state, Player owner)
         {
@@ -88,6 +100,9 @@ namespace MonoZenith.Card
             _name = "BaseCard";
             _soundOnPlay = null;
             _name = GetType().Name;
+            _description = new List<string>();
+            // Description includes max 3 strings of max 15 characters
+            _buff = 0;
         }
 
         public override string ToString()
@@ -211,10 +226,62 @@ namespace MonoZenith.Card
             if(!IsAffordable() && Stack is HandCardStack && _owner is HumanPlayer)
                 _game.DrawImage(_hiddenTexture, _position, _scale, angle);
 
+            if (active)
+                DrawDescription();
+
             if (!active)
                 return;
 
             DrawMetaData();
+        }
+
+        /// <summary>
+        /// Update the description of the card
+        /// </summary>
+        protected virtual void UpdateDescription()
+        {
+            return;
+        }
+
+        /// <summary>
+        /// Draw the description of the card onto the front side of the card with scaling.
+        /// </summary>
+        protected virtual void DrawDescription()
+        {
+            // Set up position offsets based on card
+            float offsetX = Width * 0.5f;
+            float offsetY = Height * 0.72f;
+            Vector2 cardOffset = new Vector2(offsetX, offsetY);
+
+            // Retrieve font and calculate scaling factor
+            SpriteFont cardFont = DataManager.GetInstance(_game).CardFont;
+            float baseTextHeight = cardFont.MeasureString("A").Y; // Reference height
+            // Create scale based on Card Width with offset
+            float scalingFactor = (Width - 35) / cardFont.MeasureString(_description[0]).X;
+            Console.WriteLine(scalingFactor);
+
+            // Adjust scaling so it remains reasonable for very small or large cards
+            scalingFactor = MathHelper.Clamp(scalingFactor, 0.7f, 1.2f);
+
+            int textCount = _description.Count;
+            float textHeight = baseTextHeight * scalingFactor;
+
+            // Calculate vertical offset to center the text dynamically
+            float heightOffset = (textHeight - textCount * textHeight) * 0.5f;
+
+            for (int i = 0; i < textCount; i++)
+            {
+                Vector2 textSize = cardFont.MeasureString(_description[i]) * scalingFactor;
+                float textWidth = 0.5f * textSize.X;
+
+                _game.DrawText(
+                    _description[i],
+                    _position + cardOffset - new Vector2(textWidth, textHeight * i + heightOffset),
+                    DataManager.GetInstance(_game).CardFont,
+                    Color.Ivory,
+                    scalingFactor
+                );
+            }
         }
 
         /// <summary>
@@ -226,7 +293,7 @@ namespace MonoZenith.Card
                 _name,
                 _position,
                 DataManager.GetInstance(_game).CardFont,
-                Color.Black
+                Color.White
             );
         }
     }
