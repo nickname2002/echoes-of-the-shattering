@@ -16,7 +16,7 @@ public class FlaskOfCeruleanTearsCard : ItemCard
         _focusBoost = 30;
         _frontTexture = DataManager.GetInstance(_game).CardFlaskCerulean;
         _soundOnPlay = DataManager.GetInstance(_game).FlaskOfCeruleanTears.CreateInstance();
-        _description = "Restore " + _focusBoost + " FP.";
+        _description.Add("Restore " + _focusBoost + " FP.");
     }
 
     public override void PerformEffect()
@@ -44,7 +44,7 @@ public class FlaskOfCrimsonTearsCard : ItemCard
         _healthBoost = 75;
         _frontTexture = DataManager.GetInstance(_game).CardFlaskCrimson;
         _soundOnPlay = DataManager.GetInstance(_game).FlaskOfCrimsonTears.CreateInstance();
-        _description = "Restore " + _healthBoost + " HP.";
+        _description.Add("Restore " + _healthBoost + " HP.");
     }
 
     public override void PerformEffect()

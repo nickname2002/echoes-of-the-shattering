@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Audio;
 using MonoZenith.Card.CardStack;
 using MonoZenith.Engine.Support;
 using MonoZenith.Players;
+using System.Collections.Generic;
 
 namespace MonoZenith.Card
 {
@@ -21,7 +22,7 @@ namespace MonoZenith.Card
         protected Texture2D _hiddenTexture;
         protected Texture2D _costStaminaTexture;
         protected string _name;
-        protected string _description;
+        protected List<string> _description;
         protected Player _owner;
         protected SoundEffectInstance _soundOnPlay;
         
@@ -83,7 +84,8 @@ namespace MonoZenith.Card
             _name = "BaseCard";
             _soundOnPlay = null;
             _name = GetType().Name;
-            _description = "";
+            _description = new List<string>(); 
+            // Description includes max 3 strings of max 15 characters
         }
 
         public override string ToString()
@@ -207,7 +209,7 @@ namespace MonoZenith.Card
             if(!IsAffordable() && Stack is HandCardStack && _owner is HumanPlayer)
                 _game.DrawImage(_hiddenTexture, _position, _scale, angle);
 
-            if (Stack is not HandCardStack || (Stack is HandCardStack && _owner is HumanPlayer))
+            if (active)
                 DrawDescription();
 
             if (!active)
@@ -221,17 +223,28 @@ namespace MonoZenith.Card
         /// </summary>
         protected virtual void DrawDescription()
         {
-            // TODO: Account for long text and words
-            float offsetX = Width * 0.09f;
-            float offsetY = Height * 0.70f;
-            Vector2 offset = new Vector2(offsetX, offsetY);
+            // Set up position offsets based on card
+            float offsetX = Width * 0.5f;
+            float offsetY = Height * 0.72f;
+            Vector2 cardOffset = new Vector2(offsetX, offsetY);
 
-            _game.DrawText(
-                _description,
-                _position + offset,
-                DataManager.GetInstance(_game).CardFont,
-                Color.Ivory
-            );
+            // Set up position offsets based on the text
+            SpriteFont cardFont = DataManager.GetInstance(_game).CardFont;
+            int textCount = _description.Count;
+            float heightOffset = 10 - (textCount * 10);
+            float textHeight = cardFont.MeasureString(_description[0]).Y;
+
+            for (int i = 0; i < textCount; i++)
+            {
+                float textWidth = 0.5f * cardFont.MeasureString(_description[i]).X;
+
+                _game.DrawText(
+                    _description[i],
+                    _position + cardOffset - new Vector2(textWidth, textHeight * i + heightOffset),
+                    DataManager.GetInstance(_game).CardFont,
+                    Color.Ivory
+                );
+            }
         }
 
         /// <summary>
@@ -243,7 +256,7 @@ namespace MonoZenith.Card
                 _name,
                 _position,
                 DataManager.GetInstance(_game).CardFont,
-                Color.Black
+                Color.White
             );
         }
     }
