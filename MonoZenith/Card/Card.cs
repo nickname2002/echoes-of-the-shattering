@@ -25,6 +25,7 @@ namespace MonoZenith.Card
         protected List<string> _description;
         protected Player _owner;
         protected SoundEffectInstance _soundOnPlay;
+        protected float _buff;
         
         /// <summary>
         /// The position of the card.
@@ -71,7 +72,15 @@ namespace MonoZenith.Card
         /// A buff for the card.
         /// This value should be added to a card's damage/healing.
         /// </summary>
-        public float Buff { get; set; } = 0;
+        public float Buff
+        {
+            get => _buff;
+            set
+            {
+                _buff = value;
+                UpdateDescription();
+            }
+        }
 
         protected Card(Game game, GameState state, Player owner)
         {
@@ -90,8 +99,9 @@ namespace MonoZenith.Card
             _name = "BaseCard";
             _soundOnPlay = null;
             _name = GetType().Name;
-            _description = new List<string>(); 
+            _description = new List<string>();
             // Description includes max 3 strings of max 15 characters
+            _buff = 0;
         }
 
         public override string ToString()
@@ -222,6 +232,14 @@ namespace MonoZenith.Card
                 return;
 
             DrawMetaData();
+        }
+
+        /// <summary>
+        /// Update the description of the card
+        /// </summary>
+        protected virtual void UpdateDescription()
+        {
+            return;
         }
 
         /// <summary>

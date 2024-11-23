@@ -16,7 +16,7 @@ public class FlaskOfCeruleanTearsCard : ItemCard
         FocusBoost = 30;
         _frontTexture = DataManager.GetInstance(_game).CardFlaskCerulean;
         _soundOnPlay = DataManager.GetInstance(_game).FlaskOfCeruleanTears.CreateInstance();
-        _description.Add("Restore " + _focusBoost + " FP.");
+        _description.Add("Restore " + FocusBoost + " FP.");
     }
 
     public override void PerformEffect()
@@ -33,6 +33,11 @@ public class FlaskOfCeruleanTearsCard : ItemCard
         _owner.Focus = _owner.Focus + FocusBoost + Buff > 30f ? 30f 
             : _owner.Focus + FocusBoost + Buff;
     }
+
+    protected override void UpdateDescription()
+    {
+        _description[0] = "Restore " + (FocusBoost + Buff) + " FP.";
+    }
 }
 
 public class FlaskOfCrimsonTearsCard : ItemCard
@@ -45,7 +50,7 @@ public class FlaskOfCrimsonTearsCard : ItemCard
         HealthBoost = 75;
         _frontTexture = DataManager.GetInstance(_game).CardFlaskCrimson;
         _soundOnPlay = DataManager.GetInstance(_game).FlaskOfCrimsonTears.CreateInstance();
-        _description.Add("Restore " + _healthBoost + " HP.");
+        _description.Add("Restore " + (HealthBoost + Buff) + " HP.");
     }
 
     public override void PerformEffect()
@@ -61,5 +66,10 @@ public class FlaskOfCrimsonTearsCard : ItemCard
     {
         _owner.Health = _owner.Health + HealthBoost + Buff > 100f ? 100f 
             : _owner.Health + HealthBoost + Buff;
+    }
+
+    protected override void UpdateDescription()
+    {
+        _description[0] = "Restore " + (HealthBoost + Buff) + " FP.";
     }
 }
