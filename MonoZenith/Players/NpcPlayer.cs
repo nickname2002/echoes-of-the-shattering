@@ -47,8 +47,8 @@ namespace MonoZenith.Players
                 new Vector2(
                     _game.ScreenWidth - 100 * AppSettings.Scaling.ScaleFactor, 
                     25 * AppSettings.Scaling.ScaleFactor),
-                DataManager.GetInstance(game).MimicTearIndicatorDisabled, 
-                new MimicTearAsh(state, this), 
+                DataManager.GetInstance(game).AshIndicatorDisabled, 
+                new MimicTearAsh(_game, state, this), 
                 false);
         }
 

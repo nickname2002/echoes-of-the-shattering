@@ -77,7 +77,7 @@ namespace MonoZenith.Players
             PlayerFont = DataManager.GetInstance(game).PlayerFont;
             
             // Ashes & Buffs
-            SpiritAsh = new MimicTearAsh(state, this);
+            SpiritAsh = new MimicTearAsh(_game, state, this);
             BuffManager = new BuffManager(state, this);
         }
         

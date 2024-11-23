@@ -29,9 +29,12 @@ namespace MonoZenith.Engine.Support
         public Texture2D PlayerWaiting;
         public Texture2D DeckIndicator;
         public Texture2D ReserveIndicator;
-        public Texture2D MimicTearIndicatorDisabled;
-        public Texture2D MimicTearIndicatorEnabled;
-        public Texture2D MimicTearIndicatorHover;
+        
+        public Texture2D AshIndicatorDisabled;
+        public Texture2D AshIndicatorEnabled;
+        public Texture2D AshIndicatorHovered;
+        public Texture2D MimicTearAsh;
+        
         public Texture2D EndTurnButtonIdleTexture;
         public Texture2D EndTurnButtonHoverTexture;
         public Texture2D EndTurnButtonDisabledTexture;
@@ -101,9 +104,12 @@ namespace MonoZenith.Engine.Support
             EndTurnButtonDisabledTexture = _game.LoadImage("Images/EndTurnButton/end-turn-button-disabled.png");
             DeckIndicator = _game.LoadImage("Images/Indicators/deck-indicator.png");
             ReserveIndicator = _game.LoadImage("Images/Indicators/reserve-indicator.png");
-            MimicTearIndicatorEnabled = _game.LoadImage("Images/Indicators/mimic-tear-indicator-enabled.png");
-            MimicTearIndicatorDisabled = _game.LoadImage("Images/Indicators/mimic-tear-indicator-disabled.png");
-            MimicTearIndicatorHover = _game.LoadImage("Images/Indicators/mimic-tear-indicator-hover.png");
+            
+            AshIndicatorDisabled = _game.LoadImage("Images/Indicators/ash-indicator-disabled.png");
+            AshIndicatorEnabled = _game.LoadImage("Images/Indicators/ash-indicator-enabled.png");
+            AshIndicatorHovered = _game.LoadImage("Images/Indicators/ash-indicator-hovered.png");
+            MimicTearAsh = _game.LoadImage("Images/Indicators/SpiritAshes/mimic-tear.png");
+            
             CardBack = _game.LoadImage("Images/Cards/back-card-design.png");
             CardFront = _game.LoadImage("Images/Cards/front-card-design.png");
             CardHidden = _game.LoadImage("Images/Cards/card-hidden.png");
