@@ -5,6 +5,7 @@ using MonoZenith.Card.CardStack;
 using MonoZenith.Engine.Support;
 using MonoZenith.Players;
 using System.Collections.Generic;
+using System;
 
 namespace MonoZenith.Card
 {
@@ -243,7 +244,7 @@ namespace MonoZenith.Card
         }
 
         /// <summary>
-        /// Draw the description of the card onto the front side of the card.
+        /// Draw the description of the card onto the front side of the card with scaling.
         /// </summary>
         protected virtual void DrawDescription()
         {
@@ -252,21 +253,31 @@ namespace MonoZenith.Card
             float offsetY = Height * 0.72f;
             Vector2 cardOffset = new Vector2(offsetX, offsetY);
 
-            // Set up position offsets based on the text
+            // Retrieve font and calculate scaling factor
             SpriteFont cardFont = DataManager.GetInstance(_game).CardFont;
+            float baseTextHeight = cardFont.MeasureString("A").Y; // Reference height
+            float scalingFactor = 100 / cardFont.MeasureString(_description[0]).X;
+
+            // Adjust scaling so it remains reasonable for very small or large cards
+            scalingFactor = MathHelper.Clamp(scalingFactor, 0.8f, 1.2f);
+
             int textCount = _description.Count;
-            float heightOffset = 10 - (textCount * 10);
-            float textHeight = cardFont.MeasureString(_description[0]).Y;
+            float textHeight = baseTextHeight * scalingFactor;
+
+            // Calculate vertical offset to center the text dynamically
+            float heightOffset = (textHeight - textCount * textHeight) * 0.5f;
 
             for (int i = 0; i < textCount; i++)
             {
-                float textWidth = 0.5f * cardFont.MeasureString(_description[i]).X;
+                Vector2 textSize = cardFont.MeasureString(_description[i]) * scalingFactor;
+                float textWidth = 0.5f * textSize.X;
 
                 _game.DrawText(
                     _description[i],
                     _position + cardOffset - new Vector2(textWidth, textHeight * i + heightOffset),
                     DataManager.GetInstance(_game).CardFont,
-                    Color.Ivory
+                    Color.Ivory,
+                    scalingFactor
                 );
             }
         }
