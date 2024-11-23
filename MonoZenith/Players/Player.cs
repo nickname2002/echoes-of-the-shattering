@@ -7,6 +7,8 @@ using MonoZenith.Card;
 using MonoZenith.Card.AttackCard;
 using MonoZenith.Card.CardStack;
 using MonoZenith.Engine.Support;
+using MonoZenith.Items;
+using MonoZenith.Support.Managers;
 
 namespace MonoZenith.Players
 {
@@ -34,6 +36,9 @@ namespace MonoZenith.Players
         protected CardStack _deckStack;
         protected CardStack _reserveCardStack;
         protected HandCardStack _handStack;
+        
+        public SpiritAsh SpiritAsh { get; set; }
+        public BuffManager BuffManager { get; set; }
         
         /// <summary>
         /// The player's deck stack.
@@ -70,6 +75,10 @@ namespace MonoZenith.Players
             PlayerCurrent = DataManager.GetInstance(game).PlayerCurrent;
             PlayerWaiting = DataManager.GetInstance(game).PlayerWaiting;
             PlayerFont = DataManager.GetInstance(game).PlayerFont;
+            
+            // Ashes & Buffs
+            SpiritAsh = new MimicTearAsh(state, this);
+            BuffManager = new BuffManager(state, this);
         }
         
         /// <summary>
@@ -141,6 +150,8 @@ namespace MonoZenith.Players
                 DrawCardsFromDeck();
                 _cardsDrawn = true;
             }
+            
+            BuffManager.Update();
         }
         
         /// <summary>
