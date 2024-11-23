@@ -34,6 +34,7 @@ namespace MonoZenith.Engine.Support
         public Texture2D AshIndicatorEnabled;
         public Texture2D AshIndicatorHovered;
         public Texture2D MimicTearAsh;
+        public Texture2D JellyfishAsh;
         
         public Texture2D EndTurnButtonIdleTexture;
         public Texture2D EndTurnButtonHoverTexture;
@@ -109,6 +110,7 @@ namespace MonoZenith.Engine.Support
             AshIndicatorEnabled = _game.LoadImage("Images/Indicators/ash-indicator-enabled.png");
             AshIndicatorHovered = _game.LoadImage("Images/Indicators/ash-indicator-hovered.png");
             MimicTearAsh = _game.LoadImage("Images/Indicators/SpiritAshes/mimic-tear.png");
+            JellyfishAsh = _game.LoadImage("Images/Indicators/SpiritAshes/jellyfish.png");
             
             CardBack = _game.LoadImage("Images/Cards/back-card-design.png");
             CardFront = _game.LoadImage("Images/Cards/front-card-design.png");

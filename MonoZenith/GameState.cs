@@ -47,6 +47,8 @@ namespace MonoZenith
         /// Triggered by the player to switch turns
         /// </summary>
         public bool SwitchingTurns { get; set; }
+        
+        public int RoundNumber { get; set; }
 
         public GameState(Game game)
         {
@@ -81,6 +83,7 @@ namespace MonoZenith
         /// </summary>
         public void InitializeState()
         {
+            RoundNumber = 1;
             PlayedCards.Clear();
             
             // Update the position of the played cards
@@ -173,6 +176,7 @@ namespace MonoZenith
             }
 
             _activeTurnTransitionComponent = _turnTransitionComponentNpc;
+            RoundNumber++;
         }
 
         /// <summary>

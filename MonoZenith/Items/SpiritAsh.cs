@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Engine.Support;
@@ -97,3 +98,40 @@ public class MimicTearAsh : SpiritAsh
         return aiState == AiState.Aggressive;
     }
 }
+
+public class JellyfishAsh : SpiritAsh
+{
+    public JellyfishAsh(Game g, GameState state, Player owner) :
+        base(g, state, owner)
+    {
+        Texture = DataManager.GetInstance(_state.Game).JellyfishAsh;
+    }
+
+    // TODO: Jellyfish is not used for some readon (but why...)
+    
+    protected override void PerformEffect()
+    {
+        _owner.OpposingPlayer.BuffManager.Debuff = new PoisonEffectDebuff(
+            _state,
+            _owner.OpposingPlayer.BuffManager,
+            10);
+    }
+
+    protected override bool Invocable()
+    {
+        return true;
+    }
+
+    public override bool ShouldAIPlay(AiState aiState)
+    {
+        return _owner.OpposingPlayer.Health >= _owner.OpposingPlayer.OriginalHealth * 0.75f;
+    }
+}
+
+// TODO: Add Wolves ash
+    
+    
+    
+    
+    
+    

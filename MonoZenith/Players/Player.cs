@@ -36,7 +36,8 @@ namespace MonoZenith.Players
         protected CardStack _deckStack;
         protected CardStack _reserveCardStack;
         protected HandCardStack _handStack;
-        
+
+        public float OriginalHealth => 100f;
         public SpiritAsh SpiritAsh { get; set; }
         public BuffManager BuffManager { get; set; }
         
@@ -54,6 +55,11 @@ namespace MonoZenith.Players
         /// The player's hand card stack.
         /// </summary>
         public HandCardStack HandStack => _handStack;
+        
+        /// <summary>
+        /// The player's opponent.
+        /// </summary>
+        public Player OpposingPlayer => _state.CurrentPlayer == this ? _state.OpposingPlayer : _state.CurrentPlayer;
         
         /// <summary>
         /// Check if the player has any moving cards.
@@ -77,8 +83,9 @@ namespace MonoZenith.Players
             PlayerFont = DataManager.GetInstance(game).PlayerFont;
             
             // Ashes & Buffs
-            SpiritAsh = new MimicTearAsh(_game, state, this);
+            // TODO: Make sure players start without any ashes when game starts
             BuffManager = new BuffManager(state, this);
+            SpiritAsh = new JellyfishAsh(_game, state, this);
         }
         
         /// <summary>
@@ -221,8 +228,6 @@ namespace MonoZenith.Players
             {
                 foreach (var card in movingCards)
                     card.Update(_state.GameTime);
-                
-                Console.WriteLine(movingCards.Count);
                 
                 // Filter out cards that are no longer moving
                 movingCards = movingCards.Where(card => card.IsMoving).ToList();
