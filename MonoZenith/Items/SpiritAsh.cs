@@ -1,6 +1,7 @@
-using System;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoZenith.Card;
 using MonoZenith.Engine.Support;
 using MonoZenith.Players;
 using MonoZenith.Support.Managers;
@@ -28,12 +29,6 @@ public abstract class SpiritAsh
     /// Perform the effect of the spirit ash.
     /// </summary>
     protected abstract void PerformEffect();
-    
-    /// <summary>
-    /// Check if the spirit ash can be invoked.
-    /// </summary>
-    /// <returns>True if the spirit ash can be invoked; otherwise, false.</returns>
-    protected abstract bool Invocable();
 
     /// <summary>
     /// Check if the AI should play the spirit ash.
@@ -46,11 +41,8 @@ public abstract class SpiritAsh
     /// </summary>
     /// <param name="deltaTime">The delta time.</param>
     public void Update(GameTime deltaTime)
-    {   
-        if (Invocable())
-        {
-            PerformEffect();
-        }
+    {  
+        PerformEffect();
     }
     
     /// <summary>
@@ -87,11 +79,6 @@ public class MimicTearAsh : SpiritAsh
         _owner.BuffManager.Buff = new CardTwiceAsStrongBuff(_state, _owner.BuffManager);
     }
 
-    protected override bool Invocable()
-    {
-        return true;
-    }
-
     public override bool ShouldAIPlay(AiState aiState)
     {
         // TODO: Implement more advanced rules later
@@ -106,8 +93,6 @@ public class JellyfishAsh : SpiritAsh
     {
         Texture = DataManager.GetInstance(_state.Game).JellyfishAsh;
     }
-
-    // TODO: Jellyfish is not used for some readon (but why...)
     
     protected override void PerformEffect()
     {
@@ -117,18 +102,33 @@ public class JellyfishAsh : SpiritAsh
             10);
     }
 
-    protected override bool Invocable()
-    {
-        return true;
-    }
-
     public override bool ShouldAIPlay(AiState aiState)
     {
         return _owner.OpposingPlayer.Health >= _owner.OpposingPlayer.OriginalHealth * 0.75f;
     }
 }
 
-// TODO: Add Wolves ash
+public class WolvesAsh : SpiritAsh
+{
+    public WolvesAsh(Game g, GameState state, Player owner) : 
+        base(g, state, owner)
+    {
+        Texture = DataManager.GetInstance(_state.Game).WolvesAsh;
+    }
+
+    protected override void PerformEffect()
+    {
+        _owner.MoveSingleCardFromDeckToHand();
+    }
+
+    public override bool ShouldAIPlay(AiState aiState)
+    {
+        bool noHealthFlasksOnLowHealth = _owner.Health <= _owner.OriginalHealth * 0.5f 
+                            && !_owner.DeckStack.Cards.Any(c => c is FlaskOfCrimsonTearsCard);
+        bool playerHasLowHealth = _owner.Health <= _owner.OriginalHealth * 0.5f;
+        return noHealthFlasksOnLowHealth || playerHasLowHealth;
+    }
+}
     
     
     

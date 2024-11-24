@@ -82,10 +82,10 @@ namespace MonoZenith.Players
             PlayerWaiting = DataManager.GetInstance(game).PlayerWaiting;
             PlayerFont = DataManager.GetInstance(game).PlayerFont;
             
-            // Ashes & Buffs
+            // Ashes and buffs
             // TODO: Make sure players start without any ashes when game starts
+            SpiritAsh = new WolvesAsh(game, state, this);
             BuffManager = new BuffManager(state, this);
-            SpiritAsh = new JellyfishAsh(_game, state, this);
         }
         
         /// <summary>
@@ -160,6 +160,18 @@ namespace MonoZenith.Players
             
             BuffManager.Update();
         }
+
+        /// <summary>
+        /// Refill the deck if it is empty.
+        /// </summary>
+        protected void RefillDeckIfEmpty()
+        {
+            if (_deckStack.Count != 0) return;
+            if (_reserveCardStack.Count == 0)
+                return;
+                    
+            MoveCardsFromReserveToDeck();
+        }
         
         /// <summary>
         /// Draw 5 cards from the deck and add them to the player's hand,
@@ -170,17 +182,18 @@ namespace MonoZenith.Players
         {
             for (int i = 0; i < 5; i++)
             {
-                if (_deckStack.Count == 0)
-                {
-                    if (_reserveCardStack.Count == 0)
-                        break;
-                    
-                    MoveCardsFromReserveToDeck();
-                }
-                
-                Card.Card cardToAdd = _deckStack.PopRandomCard();
-                _handStack.AddToFront(cardToAdd);
+                RefillDeckIfEmpty();
+                MoveSingleCardFromDeckToHand();
             }
+        }
+        
+        /// <summary>
+        /// Move a single card from the deck to the hand.
+        /// </summary>
+        public void MoveSingleCardFromDeckToHand()
+        {
+            RefillDeckIfEmpty();
+            _handStack.AddToFront(_deckStack.PopRandomCard());
         }
 
         /// <summary>
