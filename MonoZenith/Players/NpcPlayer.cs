@@ -48,7 +48,7 @@ namespace MonoZenith.Players
                     _game.ScreenWidth - 100 * AppSettings.Scaling.ScaleFactor, 
                     25 * AppSettings.Scaling.ScaleFactor),
                 DataManager.GetInstance(game).AshIndicatorDisabled, 
-                new MimicTearAsh(_game, state, this), 
+                new WolvesAsh(_game, state, this), 
                 false);
         }
 
@@ -58,10 +58,10 @@ namespace MonoZenith.Players
         /// <returns>The state of the NpcPlayer.</returns>
         private AiState DetermineState()
         {
-            if (HealthPercentage() <= 70f)
+            if (HealthPercentage() < 90)
                 return AiState.LowHealth;
             
-            if (FocusPercentage() <= 70f)
+            if (FocusPercentage() <= 60f)
                 return AiState.LowFocus;
             
             return AiState.Aggressive;
