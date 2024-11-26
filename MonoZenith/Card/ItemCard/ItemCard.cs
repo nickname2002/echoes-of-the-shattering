@@ -25,3 +25,40 @@ public class ItemCard : Card
         return;
     }
 }
+
+public class LarvalTearCard : ItemCard
+{
+    public LarvalTearCard(Game game, GameState state, Player owner) :
+        base(game, state, owner)
+    {
+        _frontTexture = DataManager.GetInstance(_game).CardLarvalTear;
+        //TODO CHANGE
+        _soundOnPlay = DataManager.GetInstance(_game).FlaskOfCrimsonTears.CreateInstance();
+        _description.Add("Discard all of your cards");
+        _description.Add("and draw 5 new cards");
+    }
+
+    public override void PerformEffect()
+    {
+        //Owner.MoveCardsFromHandToReserve();
+        //Owner.DrawCardsFromDeck();
+    }
+}
+
+public class BaldachinBlessingCard : ItemCard
+{
+    public BaldachinBlessingCard(Game game, GameState state, Player owner) :
+        base(game, state, owner)
+    {
+        _frontTexture = DataManager.GetInstance(_game).CardBaldachinBless;
+        _soundOnPlay = DataManager.GetInstance(_game).FlaskOfCrimsonTears.CreateInstance();
+        _description.Add("Take 10 damage,");
+        _description.Add("But reduce 50% damage");
+        _description.Add("taken next enemy turn");
+    }
+
+    public override void PerformEffect()
+    {
+
+    }
+}

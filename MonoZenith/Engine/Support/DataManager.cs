@@ -38,16 +38,41 @@ namespace MonoZenith.Engine.Support
         public Texture2D EndTurnButtonIdleTexture;
         public Texture2D EndTurnButtonHoverTexture;
         public Texture2D EndTurnButtonDisabledTexture;
+
         public Texture2D CardBack;
         public Texture2D CardFront;
         public Texture2D CardHidden;
-        public Texture2D CardLightAttack;
-        public Texture2D CardHeavyAttack;
-        public Texture2D CardGlintPebble;
-        public Texture2D CardFlaskCrimson;
-        public Texture2D CardFlaskCerulean;
         public Texture2D CardCostStamina;
         public Texture2D CardCostFocus;
+
+        public Texture2D CardLightAttack;
+        public Texture2D CardHeavyAttack;
+        public Texture2D CardUnsheathe;
+        public Texture2D CardBloodhound;
+        public Texture2D CardEndure;
+        public Texture2D CardDoubleSlash;
+        public Texture2D CardStormcaller;
+        public Texture2D CardQuickstep;
+        public Texture2D CardWarCry;
+        public Texture2D CardRallyingStandard;
+        public Texture2D CardCommandKneel;
+        public Texture2D CardWaterfowlDance;
+
+        public Texture2D CardGlintPebble;
+        public Texture2D CardGlintPhalanx;
+        public Texture2D CardCarianGSword;
+        public Texture2D CardThopsBarrier;
+        public Texture2D CardGreatShard;
+        public Texture2D CardCometAzur;
+
+        public Texture2D CardFlaskCrimson;
+        public Texture2D CardFlaskCerulean;
+        public Texture2D CardWondrousPhysick;
+        public Texture2D CardBaldachinBless;
+        public Texture2D CardLarvalTear;
+        public Texture2D CardWarmingStone;
+        public Texture2D CardPoisonPot;
+        public Texture2D CardThrowingDagger;
 
         // Audio
         public SoundEffect MainMenuMusic;
@@ -113,14 +138,38 @@ namespace MonoZenith.Engine.Support
             CardBack = _game.LoadImage("Images/Cards/back-card-design.png");
             CardFront = _game.LoadImage("Images/Cards/front-card-design.png");
             CardHidden = _game.LoadImage("Images/Cards/card-hidden.png");
-            CardLightAttack = _game.LoadImage("Images/Cards/card-light-attack.png");
-            CardHeavyAttack = _game.LoadImage("Images/Cards/card-heavy-attack.png");
-            CardGlintPebble = _game.LoadImage("Images/Cards/card-glint-peb.png");
-            CardFlaskCrimson = _game.LoadImage("Images/Cards/card-crimson.png");
-            CardFlaskCerulean = _game.LoadImage("Images/Cards/card-cerulean.png");
             CardCostStamina = _game.LoadImage("Images/Cards/cost-stamina.png");
             CardCostFocus = _game.LoadImage("Images/Cards/cost-focus.png");
-            
+
+            CardLightAttack = _game.LoadImage("Images/Cards/card-light-attack.png");
+            CardHeavyAttack = _game.LoadImage("Images/Cards/card-heavy-attack.png");
+            CardUnsheathe = _game.LoadImage("Images/Cards/card-unsheathe.png");
+            CardBloodhound = _game.LoadImage("Images/Cards/card-bloodhound.png");
+            CardEndure = _game.LoadImage("Images/Cards/card-endure.png");
+            CardDoubleSlash = _game.LoadImage("Images/Cards/card-double.png");
+            CardStormcaller = _game.LoadImage("Images/Cards/card-stormcall.png");
+            CardQuickstep = _game.LoadImage("Images/Cards/card-quickstep.png");
+            CardWarCry = _game.LoadImage("Images/Cards/card-war-cry.png");
+            CardRallyingStandard = _game.LoadImage("Images/Cards/card-rallying.png");
+            CardCommandKneel = _game.LoadImage("Images/Cards/card-kneel.png");
+            CardWaterfowlDance = _game.LoadImage("Images/Cards/card-waterfowl.png");
+
+            CardGlintPebble = _game.LoadImage("Images/Cards/card-glint-peb.png");
+            CardGlintPhalanx = _game.LoadImage("Images/Cards/card-phalanx.png");
+            CardCarianGSword = _game.LoadImage("Images/Cards/card-carian-gsword.png");
+            CardThopsBarrier = _game.LoadImage("Images/Cards/card-thops.png");
+            CardGreatShard = _game.LoadImage("Images/Cards/card-great-glint.png");
+            CardCometAzur = _game.LoadImage("Images/Cards/card-comet-azur.png");
+
+            CardFlaskCrimson = _game.LoadImage("Images/Cards/card-crimson.png");
+            CardFlaskCerulean = _game.LoadImage("Images/Cards/card-cerulean.png");
+            CardWondrousPhysick = _game.LoadImage("Images/Cards/card-wondrous.png");
+            CardBaldachinBless = _game.LoadImage("Images/Cards/card-baldachin.png");
+            CardLarvalTear = _game.LoadImage("Images/Cards/card-larval.png");
+            CardWarmingStone = _game.LoadImage("Images/Cards/card-warming.png");
+            CardPoisonPot = _game.LoadImage("Images/Cards/card-poison-pot.png");
+            CardThrowingDagger = _game.LoadImage("Images/Cards/card-throw-dagger.png");
+
             // Load audio
             MainMenuMusic = _game.LoadAudio("Audio/Music/main-menu-music.wav");
             PlayerTurnSound = _game.LoadAudio("Audio/SoundEffects/player-turn-sound.wav");

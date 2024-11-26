@@ -76,10 +76,122 @@ public class GlintStonePebbleCard : MagicCard
     {
         _frontTexture = DataManager.GetInstance(_game).CardGlintPebble;
         _soundOnPlay = DataManager.GetInstance(_game).GlintStonePebble.CreateInstance();
-        _focusCost = 2;
+        _focusCost = 3;
         _staminaCost = 5;
         _damage = 15;
         _name = "GlintStonePebbleCard";
+        _description.Add("Deal " + _damage + " damage.");
+    }
+
+    protected override void UpdateDescription()
+    {
+        _description[0] = "Deal " + (_damage + Buff) + " damage.";
+    }
+}
+
+public class GlintbladePhalanxCard : MagicCard
+{
+    public GlintbladePhalanxCard(Game game, GameState state, Player owner) :
+        base(game, state, owner)
+    {
+        _frontTexture = DataManager.GetInstance(_game).CardGlintPhalanx;
+        //TODO CHANGE
+        _soundOnPlay = DataManager.GetInstance(_game).GlintStonePebble.CreateInstance();
+        _focusCost = 6;
+        _staminaCost = 5;
+        _damage = 10;
+        _name = "GlintbladePhalanxCard";
+        _description.Add("Deal " + _damage + " damage.");
+        _description.Add("For 2 turns");
+    }
+
+    public override void PerformEffect()
+    {
+        //base.PerformEffect();
+    }
+
+    protected override void UpdateDescription()
+    {
+        _description[0] = "Deal " + (_damage + Buff) + " damage.";
+    }
+}
+
+public class ThopsBarrierCard : MagicCard
+{
+    public ThopsBarrierCard(Game game, GameState state, Player owner) :
+        base(game, state, owner)
+    {
+        _frontTexture = DataManager.GetInstance(_game).CardThopsBarrier;
+        //TODO CHANGE
+        _soundOnPlay = DataManager.GetInstance(_game).GlintStonePebble.CreateInstance();
+        _focusCost = 6;
+        _staminaCost = 5;
+        _damage = 0;
+        _name = "ThopsBarrierCard";
+        _description.Add("Ignore all magic");
+        _description.Add("attacks next turn.");
+    }
+
+    public override void PerformEffect()
+    {
+        //base.PerformEffect();
+    }
+}
+
+public class GreatGlintStoneCard : MagicCard
+{
+    public GreatGlintStoneCard(Game game, GameState state, Player owner) :
+        base(game, state, owner)
+    {
+        _frontTexture = DataManager.GetInstance(_game).CardGreatShard;
+        //TODO CHANGE
+        _soundOnPlay = DataManager.GetInstance(_game).GlintStonePebble.CreateInstance();
+        _focusCost = 5;
+        _staminaCost = 10;
+        _damage = 20;
+        _name = "GreatGlintStoneShardCard";
+        _description.Add("Deal " + _damage + " damage.");
+    }
+
+    protected override void UpdateDescription()
+    {
+        _description[0] = "Deal " + (_damage + Buff) + " damage.";
+    }
+}
+
+public class CarianGreatSwordCard : MagicCard
+{
+    public CarianGreatSwordCard(Game game, GameState state, Player owner) :
+        base(game, state, owner)
+    {
+        _frontTexture = DataManager.GetInstance(_game).CardCarianGSword;
+        //TODO CHANGE
+        _soundOnPlay = DataManager.GetInstance(_game).GlintStonePebble.CreateInstance();
+        _focusCost = 8;
+        _staminaCost = 20;
+        _damage = 30;
+        _name = "CarianGreatSwordCard";
+        _description.Add("Deal " + _damage + " damage.");
+    }
+
+    protected override void UpdateDescription()
+    {
+        _description[0] = "Deal " + (_damage + Buff) + " damage.";
+    }
+}
+
+public class CometAzurCard : MagicCard
+{
+    public CometAzurCard(Game game, GameState state, Player owner) :
+        base(game, state, owner)
+    {
+        _frontTexture = DataManager.GetInstance(_game).CardCometAzur;
+        //TODO CHANGE
+        _soundOnPlay = DataManager.GetInstance(_game).GlintStonePebble.CreateInstance();
+        _focusCost = 30;
+        _staminaCost = 30;
+        _damage = 65;
+        _name = "CometAzurCard";
         _description.Add("Deal " + _damage + " damage.");
     }
 

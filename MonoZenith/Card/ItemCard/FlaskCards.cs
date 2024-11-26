@@ -73,3 +73,63 @@ public class FlaskOfCrimsonTearsCard : ItemCard
         _description[0] = "Restore " + (HealthBoost + Buff) + " FP.";
     }
 }
+
+public class FlaskOfWondrousPhysickCard : ItemCard
+{
+    public readonly float HealthBoost;
+    public readonly float FocusBoost;
+
+    public FlaskOfWondrousPhysickCard(Game game, GameState state, Player owner) :
+        base(game, state, owner)
+    {
+        HealthBoost = 50;
+        FocusBoost = 15;
+        _frontTexture = DataManager.GetInstance(_game).CardWondrousPhysick;
+        _soundOnPlay = DataManager.GetInstance(_game).FlaskOfCrimsonTears.CreateInstance();
+        _description.Add("Restore " + (HealthBoost + Buff) + " HP and " + (FocusBoost + Buff) + ".");
+    }
+
+    public override void PerformEffect()
+    {
+        base.PerformEffect();
+        HealAndRestorePlayer();
+    }
+
+    /// <summary>
+    /// Heal the owner.
+    /// </summary>
+    private void HealAndRestorePlayer()
+    {
+        _owner.Health = _owner.Health + HealthBoost + Buff > 100f ? 100f
+            : _owner.Health + HealthBoost + Buff;
+        _owner.Focus = _owner.Focus + FocusBoost + Buff > 30f ? 30f
+            : _owner.Focus + FocusBoost + Buff;
+    }
+
+    protected override void UpdateDescription()
+    {
+        _description[0] = "Restore " + (HealthBoost + Buff) + " HP and " + (FocusBoost + Buff) + ".";
+    }
+}
+
+
+public class WarmingStoneCard : ItemCard
+{
+    public readonly float HealthBoost;
+
+    public WarmingStoneCard(Game game, GameState state, Player owner) :
+        base(game, state, owner)
+    {
+        HealthBoost = 10;
+        _frontTexture = DataManager.GetInstance(_game).CardWarmingStone;
+        //TODO CHANGE
+        _soundOnPlay = DataManager.GetInstance(_game).FlaskOfCrimsonTears.CreateInstance();
+        _description.Add("Restore 10 HP");
+        _description.Add("For 2 turns");
+    }
+
+    public override void PerformEffect()
+    {
+
+    }
+}

@@ -159,7 +159,7 @@ namespace MonoZenith.Players
         /// or draw as many cards as are available if there are fewer than 5
         /// cards in the deck.
         /// </summary>
-        protected void DrawCardsFromDeck()
+        public void DrawCardsFromDeck()
         {
             for (int i = 0; i < 5; i++)
             {

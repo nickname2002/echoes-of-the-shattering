@@ -117,3 +117,57 @@ public class HeavySwordAttackCard : AttackCard
         _description[0] = "Deal " + (_damage + Buff) + " damage.";
     }
 }
+
+public class ThrowingDaggerCard : AttackCard
+{
+    public ThrowingDaggerCard(Game game, GameState state, Player owner) :
+        base(game, state, owner)
+    {
+        _staminaCost = 0f;
+        _damage = 5f;
+        _frontTexture = DataManager.GetInstance(_game).CardThrowingDagger;
+        _soundOnPlay = DataManager.GetInstance(_game).HeavySwordAttack.CreateInstance();
+        _name = "ThrowingDaggerCard";
+        _description.Add("Deal " + _damage + " damage.");
+    }
+
+    protected override void UpdateDescription()
+    {
+        _description[0] = "Deal " + (_damage + Buff) + " damage.";
+    }
+
+    protected override void DrawMetaData()
+    {
+        return;
+    }
+}
+
+public class PoisonPotCard : AttackCard
+{
+    public PoisonPotCard(Game game, GameState state, Player owner) :
+        base(game, state, owner)
+    {
+        _staminaCost = 0f;
+        _damage = 5f;
+        _frontTexture = DataManager.GetInstance(_game).CardPoisonPot;
+        //TODO CHANGE
+        _soundOnPlay = DataManager.GetInstance(_game).FlaskOfCrimsonTears.CreateInstance();
+        _description.Add("Deal " + _damage + " damage.");
+        _description.Add("For 2 turns");
+    }
+
+    public override void PerformEffect()
+    {
+
+    }
+
+    protected override void UpdateDescription()
+    {
+        _description[0] = "Deal " + (_damage + Buff) + " damage.";
+    }
+
+    protected override void DrawMetaData()
+    {
+        return;
+    }
+}

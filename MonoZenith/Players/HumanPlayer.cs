@@ -62,13 +62,28 @@ namespace MonoZenith.Players
                 // Flasks
                 new FlaskOfCrimsonTearsCard(_game, _state, this),
                 new FlaskOfCrimsonTearsCard(_game, _state, this),
-                new FlaskOfCrimsonTearsCard(_game, _state, this),
-                new FlaskOfCrimsonTearsCard(_game, _state, this),
 
                 new FlaskOfCeruleanTearsCard(_game, _state, this),
                 new FlaskOfCeruleanTearsCard(_game, _state, this),
-                new FlaskOfCeruleanTearsCard(_game, _state, this),
-                new FlaskOfCeruleanTearsCard(_game, _state, this),
+
+                new FlaskOfWondrousPhysickCard(_game, _state, this),
+                new FlaskOfWondrousPhysickCard(_game, _state, this),
+
+                new WarmingStoneCard(_game, _state, this),
+                new BaldachinBlessingCard(_game, _state, this),
+                new ThrowingDaggerCard(_game, _state, this),
+                new PoisonPotCard(_game, _state, this),
+                new LarvalTearCard(_game, _state, this),
+                new LarvalTearCard(_game, _state, this),
+
+                new LarvalTearCard(_game, _state, this),
+                new LarvalTearCard(_game, _state, this),
+                new LarvalTearCard(_game, _state, this),
+
+                new LarvalTearCard(_game, _state, this),
+
+
+
 
                 // Basic attacks
                 new LightSwordAttackCard(_game, _state, this),
@@ -78,10 +93,7 @@ namespace MonoZenith.Players
                 new LightSwordAttackCard(_game, _state, this),
                 new LightSwordAttackCard(_game, _state, this),
                 new LightSwordAttackCard(_game, _state, this),
-                new LightSwordAttackCard(_game, _state, this),
 
-                new HeavySwordAttackCard(_game, _state, this),
-                new HeavySwordAttackCard(_game, _state, this),
                 new HeavySwordAttackCard(_game, _state, this),
                 new HeavySwordAttackCard(_game, _state, this),
                 new HeavySwordAttackCard(_game, _state, this),
@@ -91,11 +103,11 @@ namespace MonoZenith.Players
 
                 // Magic attacks
                 new GlintStonePebbleCard(_game, _state, this),
-                new GlintStonePebbleCard(_game, _state, this),
-                new GlintStonePebbleCard(_game, _state, this),
-                new GlintStonePebbleCard(_game, _state, this),
-                new GlintStonePebbleCard(_game, _state, this),
-                new GlintStonePebbleCard(_game, _state, this)
+                new GreatGlintStoneCard(_game, _state, this),
+                new GlintbladePhalanxCard(_game, _state, this),
+                new ThopsBarrierCard(_game, _state, this),
+                new CarianGreatSwordCard(_game, _state, this),
+                new CometAzurCard(_game, _state, this)
             };
             
             _deckStack.AddToFront(deck);
