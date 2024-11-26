@@ -109,6 +109,7 @@ namespace MonoZenith.Players
             _deckStack = new CardStack(game, state);
             _reserveCardStack = new CardStack(game, state);
             _handStack = new HandCardStack(game, state);
+            BuffManager = new BuffManager(state, this);
             FillPlayerDeck();
             ChangeHandStackPosition();
         }
