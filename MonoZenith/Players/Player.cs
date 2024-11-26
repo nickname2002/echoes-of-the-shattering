@@ -36,7 +36,8 @@ namespace MonoZenith.Players
         protected CardStack _deckStack;
         protected CardStack _reserveCardStack;
         protected HandCardStack _handStack;
-        
+
+        public float OriginalHealth => 100f;
         public SpiritAsh SpiritAsh { get; set; }
         public BuffManager BuffManager { get; set; }
         
@@ -54,6 +55,11 @@ namespace MonoZenith.Players
         /// The player's hand card stack.
         /// </summary>
         public HandCardStack HandStack => _handStack;
+        
+        /// <summary>
+        /// The player's opponent.
+        /// </summary>
+        public Player OpposingPlayer => _state.CurrentPlayer == this ? _state.OpposingPlayer : _state.CurrentPlayer;
         
         /// <summary>
         /// Check if the player has any moving cards.
@@ -76,8 +82,9 @@ namespace MonoZenith.Players
             PlayerWaiting = DataManager.GetInstance(game).PlayerWaiting;
             PlayerFont = DataManager.GetInstance(game).PlayerFont;
             
-            // Ashes & Buffs
-            SpiritAsh = new MimicTearAsh(_game, state, this);
+            // Ashes and buffs
+            // TODO: Make sure players start without any ashes when game starts
+            SpiritAsh = new WolvesAsh(game, state, this);
             BuffManager = new BuffManager(state, this);
         }
         
@@ -102,6 +109,7 @@ namespace MonoZenith.Players
             _deckStack = new CardStack(game, state);
             _reserveCardStack = new CardStack(game, state);
             _handStack = new HandCardStack(game, state);
+            BuffManager = new BuffManager(state, this);
             FillPlayerDeck();
             ChangeHandStackPosition();
         }
@@ -153,6 +161,18 @@ namespace MonoZenith.Players
             
             BuffManager.Update();
         }
+
+        /// <summary>
+        /// Refill the deck if it is empty.
+        /// </summary>
+        protected void RefillDeckIfEmpty()
+        {
+            if (_deckStack.Count != 0) return;
+            if (_reserveCardStack.Count == 0)
+                return;
+                    
+            MoveCardsFromReserveToDeck();
+        }
         
         /// <summary>
         /// Draw 5 cards from the deck and add them to the player's hand,
@@ -163,17 +183,18 @@ namespace MonoZenith.Players
         {
             for (int i = 0; i < 5; i++)
             {
-                if (_deckStack.Count == 0)
-                {
-                    if (_reserveCardStack.Count == 0)
-                        break;
-                    
-                    MoveCardsFromReserveToDeck();
-                }
-                
-                Card.Card cardToAdd = _deckStack.PopRandomCard();
-                _handStack.AddToFront(cardToAdd);
+                RefillDeckIfEmpty();
+                MoveSingleCardFromDeckToHand();
             }
+        }
+        
+        /// <summary>
+        /// Move a single card from the deck to the hand.
+        /// </summary>
+        public void MoveSingleCardFromDeckToHand()
+        {
+            RefillDeckIfEmpty();
+            _handStack.AddToFront(_deckStack.PopRandomCard());
         }
 
         /// <summary>
@@ -221,8 +242,6 @@ namespace MonoZenith.Players
             {
                 foreach (var card in movingCards)
                     card.Update(_state.GameTime);
-                
-                Console.WriteLine(movingCards.Count);
                 
                 // Filter out cards that are no longer moving
                 movingCards = movingCards.Where(card => card.IsMoving).ToList();

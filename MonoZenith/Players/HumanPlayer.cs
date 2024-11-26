@@ -6,6 +6,7 @@ using MonoZenith.Card;
 using MonoZenith.Card.AttackCard;
 using MonoZenith.Components.Indicator;
 using MonoZenith.Engine.Support;
+using MonoZenith.Items;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace MonoZenith.Players
@@ -52,7 +53,7 @@ namespace MonoZenith.Players
                     _game.ScreenWidth - 100 * AppSettings.Scaling.ScaleFactor, 
                     _game.ScreenHeight - 147 * AppSettings.Scaling.ScaleFactor), 
                 DataManager.GetInstance(_game).AshIndicatorDisabled, 
-                SpiritAsh);
+                new JellyfishAsh(_game, _state, this));
         }
 
         protected override void FillPlayerDeck()

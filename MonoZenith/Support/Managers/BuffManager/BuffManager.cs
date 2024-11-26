@@ -1,3 +1,4 @@
+using System;
 using MonoZenith.Players;
 
 namespace MonoZenith.Support.Managers;
@@ -14,9 +15,7 @@ public class BuffManager
     {
         State = state;
         Owner = owner;
-        OpposingPlayer = Owner is NpcPlayer && State.CurrentPlayer is HumanPlayer ? 
-            State.CurrentPlayer 
-            : State.OpposingPlayer;
+        OpposingPlayer = Owner.OpposingPlayer;
     }
     
     /// <summary>
@@ -25,5 +24,6 @@ public class BuffManager
     public void Update()
     {
         Buff?.PerformEffect();
+        Debuff?.PerformEffect();
     }
 }
