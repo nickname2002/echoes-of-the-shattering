@@ -69,6 +69,8 @@ public class MagicCard : AttackCard
     }
 }
 
+// Basic Magic card - Glintstone Pebble
+
 public class GlintStonePebbleCard : MagicCard
 {
     public GlintStonePebbleCard(Game game, GameState state, Player owner) : 
@@ -89,6 +91,8 @@ public class GlintStonePebbleCard : MagicCard
     }
 }
 
+// New Magic Cards
+
 public class GlintbladePhalanxCard : MagicCard
 {
     public GlintbladePhalanxCard(Game game, GameState state, Player owner) :
@@ -107,7 +111,9 @@ public class GlintbladePhalanxCard : MagicCard
 
     public override void PerformEffect()
     {
-        //base.PerformEffect();
+        _soundOnPlay.Play();
+        LowerPlayerStamina();
+        LowerPlayerMana();
     }
 
     protected override void UpdateDescription()
@@ -135,6 +141,9 @@ public class ThopsBarrierCard : MagicCard
     public override void PerformEffect()
     {
         //base.PerformEffect();
+        _soundOnPlay.Play();
+        LowerPlayerStamina();
+        LowerPlayerMana();
     }
 }
 

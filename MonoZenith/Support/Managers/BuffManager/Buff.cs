@@ -78,10 +78,10 @@ public class PoisonEffectDebuff : Buff
     private int _roundsLeft;
     private int _currentRoundNumber;
     
-    public PoisonEffectDebuff(GameState state, BuffManager manager, int damagePercentage) : 
+    public PoisonEffectDebuff(GameState state, BuffManager manager, int damagePercentage, int rounds) : 
         base(state, manager)
     {
-        _roundsLeft = 3;
+        _roundsLeft = rounds;
         _damagePercentage = damagePercentage;
         _currentRoundNumber = state.RoundNumber;
         

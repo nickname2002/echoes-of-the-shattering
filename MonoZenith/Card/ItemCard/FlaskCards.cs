@@ -85,6 +85,7 @@ public class FlaskOfWondrousPhysickCard : ItemCard
         HealthBoost = 50;
         FocusBoost = 15;
         _frontTexture = DataManager.GetInstance(_game).CardWondrousPhysick;
+        //TODO CHANGE
         _soundOnPlay = DataManager.GetInstance(_game).FlaskOfCrimsonTears.CreateInstance();
         _description.Add("Restore " + (HealthBoost + Buff) + " HP and " + (FocusBoost + Buff) + ".");
     }
@@ -130,6 +131,6 @@ public class WarmingStoneCard : ItemCard
 
     public override void PerformEffect()
     {
-
+        base.PerformEffect();
     }
 }

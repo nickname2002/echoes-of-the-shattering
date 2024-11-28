@@ -75,32 +75,22 @@ namespace MonoZenith.Players
                 new ThrowingDaggerCard(_game, _state, this),
                 new PoisonPotCard(_game, _state, this),
                 new LarvalTearCard(_game, _state, this),
-                new LarvalTearCard(_game, _state, this),
-
-                new LarvalTearCard(_game, _state, this),
-                new LarvalTearCard(_game, _state, this),
-                new LarvalTearCard(_game, _state, this),
-
-                new LarvalTearCard(_game, _state, this),
-
-
-
 
                 // Basic attacks
                 new LightSwordAttackCard(_game, _state, this),
                 new LightSwordAttackCard(_game, _state, this),
                 new LightSwordAttackCard(_game, _state, this),
-                new LightSwordAttackCard(_game, _state, this),
-                new LightSwordAttackCard(_game, _state, this),
-                new LightSwordAttackCard(_game, _state, this),
-                new LightSwordAttackCard(_game, _state, this),
+                new UnsheatheCard(_game, _state, this),
+                new WarCryCard(_game, _state, this),
+                new QuickstepCard(_game, _state, this),
+                new EndureCard(_game, _state, this),
 
                 new HeavySwordAttackCard(_game, _state, this),
-                new HeavySwordAttackCard(_game, _state, this),
-                new HeavySwordAttackCard(_game, _state, this),
-                new HeavySwordAttackCard(_game, _state, this),
-                new HeavySwordAttackCard(_game, _state, this),
-                new HeavySwordAttackCard(_game, _state, this),
+                new BloodhoundStepCard(_game, _state, this),
+                new DoubleSlashCard(_game, _state, this),
+                new RallyingStandardCard(_game, _state, this),
+                new WaterfowlDanceCard(_game, _state, this),
+                new ICommandTheeKneelCard(_game, _state, this),
 
                 // Magic attacks
                 new GlintStonePebbleCard(_game, _state, this),

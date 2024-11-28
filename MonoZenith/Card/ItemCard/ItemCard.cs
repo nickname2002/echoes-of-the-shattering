@@ -40,8 +40,9 @@ public class LarvalTearCard : ItemCard
 
     public override void PerformEffect()
     {
-        //Owner.MoveCardsFromHandToReserve();
-        //Owner.DrawCardsFromDeck();
+        base.PerformEffect();
+        Owner.MoveCardsFromHandToReserve();
+        Owner.DrawCardsFromDeck();
     }
 }
 
@@ -52,13 +53,13 @@ public class BaldachinBlessingCard : ItemCard
     {
         _frontTexture = DataManager.GetInstance(_game).CardBaldachinBless;
         _soundOnPlay = DataManager.GetInstance(_game).FlaskOfCrimsonTears.CreateInstance();
-        _description.Add("Take 10 damage,");
-        _description.Add("But reduce 50% damage");
-        _description.Add("taken next enemy turn");
+        _description.Add("Reduce damage taken");
+        _description.Add("by half next turn");
+        _description.Add("but take 10 damage");
     }
 
     public override void PerformEffect()
     {
-
+        base.PerformEffect();
     }
 }
