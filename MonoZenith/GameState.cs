@@ -6,6 +6,7 @@ using MonoZenith.Card.CardStack;
 using MonoZenith.Components;
 using MonoZenith.Engine.Support;
 using MonoZenith.Players;
+using MonoZenith.Support.Managers;
 
 namespace MonoZenith
 {
@@ -13,58 +14,31 @@ namespace MonoZenith
     {
         public readonly Game Game;
         public GameTime GameTime;
-        private Player? _currentPlayer;
+        
+        private readonly TransitionComponent _gameOverTransitionComponent;
         private Player? _currentWinner;
         
-        /// <summary>
-        /// Transition components for the turn and game over messages.
-        /// </summary>
-        private readonly TransitionComponent _turnTransitionComponentHuman;
-        private readonly TransitionComponent _turnTransitionComponentNpc;
-        private TransitionComponent? _activeTurnTransitionComponent;
-        private readonly TransitionComponent _gameOverTransitionComponent;
+        public readonly TurnManager TurnManager;
         
-        private readonly HumanPlayer _player;
-        private readonly NpcPlayer _npc;
+        public readonly HumanPlayer Player;
+        public readonly NpcPlayer Npc;
+        
         public readonly CardStack PlayedCards;
-        private readonly EndTurnButton _endTurnButton;
         
         private readonly SoundEffectInstance _playerDeathSound;
         private readonly SoundEffectInstance _enemyDeathSound;
-        private readonly SoundEffectInstance _startPlayerTurnSound;
-        
-        /// <summary>
-        /// The current player.
-        /// </summary>
-        public Player CurrentPlayer => _currentPlayer ?? _player;
-        
-        /// <summary>
-        /// The opposing player.
-        /// </summary>
-        public Player OpposingPlayer => _currentPlayer == _player ? _npc : _player;
-        
-        /// <summary>
-        /// Triggered by the player to switch turns
-        /// </summary>
-        public bool SwitchingTurns { get; set; }
-        
-        public int RoundNumber { get; set; }
 
         public GameState(Game game)
         {
             Game = game;
             GameTime = new GameTime();
-            _player = new HumanPlayer(Game, this, "Player");
-            _npc = new NpcPlayer(Game, this, "NPC");
-            _currentPlayer = null;
-
-            var turnTransitionComponentFont = DataManager.GetInstance(Game).TransitionComponentFont;
-            var gameOverTransitionComponentFont = DataManager.GetInstance(Game).GameOverTransitionComponentFont;
-            _turnTransitionComponentHuman = new TransitionComponent(
-                Game, "YOUR TURN", Color.White, turnTransitionComponentFont);
-            _turnTransitionComponentNpc = new TransitionComponent(
-                Game, "ENEMY TURN", Color.White, turnTransitionComponentFont);
-            _activeTurnTransitionComponent = null;
+         
+            TurnManager = new TurnManager(Game, this);
+            
+            Player = new HumanPlayer(Game, this, "Player");
+            Npc = new NpcPlayer(Game, this, "NPC");
+            
+            var gameOverTransitionComponentFont = DataManager.GetInstance(Game).GameOverTransitionComponentFont; 
             _gameOverTransitionComponent = new TransitionComponent(
                 Game, "YOU DIED", new Color(255, 215, 0), gameOverTransitionComponentFont,
                 1f, 3f, 1f,
@@ -73,9 +47,7 @@ namespace MonoZenith
             PlayedCards = new CardStack(Game, this, true);
             _playerDeathSound = DataManager.GetInstance(game).PlayerDeathSound.CreateInstance();
             _enemyDeathSound = DataManager.GetInstance(game).EnemyDeathSound.CreateInstance();
-            _startPlayerTurnSound = DataManager.GetInstance(game).PlayerTurnSound.CreateInstance();
             InitializeState();
-            _endTurnButton = new EndTurnButton(Game, this);
         }
         
         /// <summary>
@@ -83,7 +55,8 @@ namespace MonoZenith
         /// </summary>
         public void InitializeState()
         {
-            RoundNumber = 1;
+            _currentWinner = null;
+            TurnManager.InitializeState(Player, Npc);
             PlayedCards.Clear();
             
             // Update the position of the played cards
@@ -91,43 +64,11 @@ namespace MonoZenith
                 Game.ScreenWidth / 2f, 
                 Game.ScreenHeight / 2f - Card.Card.Height / 2f);
 
-            // Determine the starting player
-            DetermineStartingPlayer();
-
-            // Reset transition components
-            _turnTransitionComponentHuman.Reset();
-            _turnTransitionComponentNpc.Reset();
             _gameOverTransitionComponent.Reset();
             
             // Initialize players
-            _player.InitializeState(Game, this);
-            _npc.InitializeState(Game, this);
-        }
-        
-        /// <summary>
-        /// Determine the starting player.
-        /// </summary>
-        private void DetermineStartingPlayer()
-        {
-            // If there is a winner from the previous game, they go first.
-            if (_currentWinner != null)
-            {
-                _currentPlayer = _currentWinner;
-                _currentWinner = null;
-                return;
-            }
-
-            // Otherwise, randomly select a player to go first.
-            Random rand = new Random();
-            
-            if (rand.Next(0, 2) == 0)
-            {
-                _currentPlayer = _player;
-            }
-            else
-            {
-                _currentPlayer = _npc;
-            }
+            Player.InitializeState(Game, this);
+            Npc.InitializeState(Game, this);
         }
 
         /// <summary>
@@ -136,47 +77,27 @@ namespace MonoZenith
         /// <returns>The winning player, or null if there is no winner.</returns>
         public Player? HasWinner()
         {
-            if (_npc.Health < 1)
+            if (Npc.Health < 1)
             {
                 if (_currentWinner == null)
                     _enemyDeathSound.Play();
 
-                _currentWinner = _player;
+                _currentWinner = Player;
                 _gameOverTransitionComponent.Content = "ENEMY FELLED";
                 _gameOverTransitionComponent.Color = new Color(255, 215, 0);
-                return _player;
+                return Player;
             }
 
-            if (_player.Health > 0)
+            if (Player.Health > 0)
                 return null;
 
             if (_currentWinner == null)
                 _playerDeathSound.Play();
 
-            _currentWinner = _npc;
+            _currentWinner = Npc;
             _gameOverTransitionComponent.Content = "YOU DIED";
             _gameOverTransitionComponent.Color = new Color(180, 30, 30);
-            return _npc;
-        }
-
-        /// <summary>
-        /// Switches the turn to the next player.
-        /// </summary>
-        private void SwitchTurn()
-        {
-            SwitchingTurns = false;
-            _currentPlayer = _currentPlayer == _player ? _npc : _player;
-            _activeTurnTransitionComponent?.Reset();
-            
-            if (_currentPlayer is HumanPlayer)
-            {
-                _startPlayerTurnSound.Play();
-                _activeTurnTransitionComponent = _turnTransitionComponentHuman;
-                return;
-            }
-
-            _activeTurnTransitionComponent = _turnTransitionComponentNpc;
-            RoundNumber++;
+            return Npc;
         }
 
         /// <summary>
@@ -196,20 +117,13 @@ namespace MonoZenith
             GameTime = deltaTime;
             
             // Make sure all cards are updated
-            _player.Update(deltaTime);
-            _npc.Update(deltaTime);
-            _endTurnButton.Update(deltaTime);
+            Player.Update(deltaTime);
+            Npc.Update(deltaTime);
             PlayedCards.Update(deltaTime);
-            _activeTurnTransitionComponent?.Update(deltaTime);
             
-            // If the player is switching turns, wait for the player to finish moving cards
-            if (SwitchingTurns)
-            {
-                if (_currentPlayer is { HasAnyMovingCards: true })
-                    return;
-
-                SwitchTurn();
-            }
+            // Update the turn manager
+            TurnManager.Update(deltaTime, Player, Npc);
+            if (TurnManager.SwitchingTurns) return;
             
             if (HasWinner() != null)
             {
@@ -217,7 +131,7 @@ namespace MonoZenith
                 return;
             }
             
-            _currentPlayer?.PerformTurn(this);
+            TurnManager.CurrentPlayer?.PerformTurn(this);
         }
         
         /// <summary>
@@ -241,12 +155,14 @@ namespace MonoZenith
             PlayedCards.Draw();
 
             // Draw player cards
-            _player.Draw();
-            _npc.Draw();
-            _endTurnButton.Draw();
+            Player.Draw();
+            Npc.Draw();
+            
+            // Draw UI
+            TurnManager.DrawEndTurnButton();
             
             // Draw turn indicator
-            _activeTurnTransitionComponent?.Draw();
+            TurnManager.DrawTurnTransition();
         }
     }
 }

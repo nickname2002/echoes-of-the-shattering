@@ -1,4 +1,3 @@
-using System;
 using Microsoft.Xna.Framework.Audio;
 using MonoZenith.Card;
 using MonoZenith.Card.AttackCard;
@@ -83,7 +82,7 @@ public class PoisonEffectDebuff : Buff
     {
         _roundsLeft = 3;
         _damagePercentage = damagePercentage;
-        _currentRoundNumber = state.RoundNumber;
+        _currentRoundNumber = state.TurnManager.RoundNumber;
         
         // TODO: Add more fitting sound effect
         _damageSound = DataManager.GetInstance(state.Game).DamageSound;
@@ -91,7 +90,7 @@ public class PoisonEffectDebuff : Buff
     
     private bool RoundSwitched()
     {
-        return _state.RoundNumber != _currentRoundNumber;
+        return _state.TurnManager.RoundNumber != _currentRoundNumber;
     }
     
     public override void PerformEffect()
@@ -99,10 +98,12 @@ public class PoisonEffectDebuff : Buff
         if (BuffRemoved()) return;
         if (!RoundSwitched()) return;
         
-        _currentRoundNumber = _state.RoundNumber;
+        _currentRoundNumber = _state.TurnManager.RoundNumber;
         _roundsLeft--;
-
-        if (_state.CurrentPlayer != _owner) return;
+        
+        if (_owner == null) return;
+        if (_state.TurnManager.CurrentPlayer != _owner) return;
+        
         _owner.Health -= _owner.OriginalHealth * _damagePercentage / 100;
         _damageSound.Play();
     }
