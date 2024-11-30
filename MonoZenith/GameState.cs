@@ -157,12 +157,8 @@ namespace MonoZenith
             // Draw player cards
             Player.Draw();
             Npc.Draw();
-            
-            // Draw UI
-            TurnManager.DrawEndTurnButton();
-            
-            // Draw turn indicator
-            TurnManager.DrawTurnTransition();
+
+            TurnManager.Draw();
         }
     }
 }

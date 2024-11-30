@@ -99,19 +99,9 @@ public class TurnManager
         }
     }
 
-    /// <summary>
-    /// Draw the end turn button
-    /// </summary>
-    public void DrawEndTurnButton()
+    public void Draw()
     {
         _endTurnButton.Draw();
-    }
-    
-    /// <summary>
-    /// Draw the turn transition
-    /// </summary>
-    public void DrawTurnTransition()
-    {
         _activeTurnTransitionComponent?.Draw();
     }
 }
