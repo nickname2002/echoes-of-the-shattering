@@ -14,15 +14,24 @@ public class LevelManager
     {
         Levels = new List<Level>
         {
+            // Test
             new()
             {
                 Backdrop = DataManager.GetInstance(g).Backdrop,
+                SoundTrack = DataManager.GetInstance(g).LimgraveMusic.CreateInstance(),
+                Enemy = new NpcPlayer(g, s, "NPC")
+            },
+            
+            // Test 2 (Limgrave theme)
+            new()
+            {
+                Backdrop = DataManager.GetInstance(g).LimgraveBackdrop,
                 SoundTrack = DataManager.GetInstance(g).LimgraveMusic.CreateInstance(),
                 Enemy = new NpcPlayer(g, s, "Varré")
             }
         };
         
         // TODO: Change later when user can change levels
-        CurrentLevel = Levels[0];
+        CurrentLevel = Levels[1];
     }
 }
