@@ -18,8 +18,8 @@ namespace MonoZenith.Players
         LowFocus,
         Aggressive
     };
-    
-    internal sealed class NpcPlayer : Player
+
+    public sealed class NpcPlayer : Player
     {
         private readonly SoundEffectInstance _retrieveCardsSound;
         private SpiritAshIndicator _spiritAshIndicator;

@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using System;
 using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Card.CardStack;
 using MonoZenith.Components;
 using MonoZenith.Engine.Support;
@@ -17,6 +18,8 @@ namespace MonoZenith
         private Player? _currentPlayer;
         private Player? _currentWinner;
 
+        private Texture2D _backdrop;
+        
         private readonly GameOverManager _gameOverManager;
         
         /// <summary>
@@ -27,7 +30,7 @@ namespace MonoZenith
         private TransitionComponent? _activeTurnTransitionComponent;
         
         private readonly HumanPlayer _player;
-        private readonly NpcPlayer _npc;
+        private NpcPlayer _npc;
         public readonly CardStack PlayedCards;
         private readonly EndTurnButton _endTurnButton;
         
@@ -74,6 +77,16 @@ namespace MonoZenith
 
             InitializeState();
             _endTurnButton = new EndTurnButton(Game, this);
+        }
+
+        /// <summary>
+        /// Set the current level
+        /// </summary>
+        /// <param name="level">The level</param>
+        public void SetLevel(Level level)
+        {
+            _npc = level.Enemy;
+            _backdrop = level.Backdrop;
         }
         
         /// <summary>
@@ -190,7 +203,7 @@ namespace MonoZenith
         {
             // Draw backdrop
             Game.DrawImage(
-                DataManager.GetInstance(Game).Backdrop, 
+                _backdrop, 
                 Vector2.Zero, 
                 AppSettings.Scaling.ScaleFactor);
             

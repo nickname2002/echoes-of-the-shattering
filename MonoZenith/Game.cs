@@ -9,8 +9,12 @@ public partial class Game
     public Screens ActiveScreen;
     private MainMenuScreen _mainMenuScreen;
     private GameScreen _gameScreen;
-    private PauseScreen _pauseScreen; 
+    private OverworldScreen _overworldScreen;
+    private PauseScreen _pauseScreen;
 
+    public GameScreen GetGameScreen() => _gameScreen;
+    public GameState GetGameState() => _gameScreen.GameState;
+    
     /* Initialize game vars and load assets. */
     public void Init()
     {
@@ -28,6 +32,7 @@ public partial class Game
         ActiveScreen = Screens.MAIN_MENU;  
         _mainMenuScreen = new MainMenuScreen(this);
         _gameScreen = new GameScreen(this);
+        _overworldScreen = new OverworldScreen(this);
         _pauseScreen = new PauseScreen(this);
 
         // Start with a fade-in when the game starts
@@ -61,8 +66,8 @@ public partial class Game
         _mainMenuScreen.Unload();
         StartFadeOut(() =>
         {
-            _gameScreen.Load();
-            ActiveScreen = Screens.GAME;
+            _overworldScreen.Load();
+            ActiveScreen = Screens.OVERWORLD;
         });
     }
     
@@ -84,6 +89,12 @@ public partial class Game
                 _gameScreen.Update(deltaTime);
                 break;
 
+            case Screens.OVERWORLD:
+                UnloadOnFadeOut(_mainMenuScreen);
+                _gameScreen.Unload();
+                _overworldScreen.Update(deltaTime);
+                break;
+            
             case Screens.MAIN_MENU:
                 UnloadOnFadeOut(_mainMenuScreen);
                 _gameScreen.Unload();
@@ -109,6 +120,10 @@ public partial class Game
         {
             case Screens.GAME:
                 _gameScreen.Draw();
+                break;
+            
+            case Screens.OVERWORLD:
+                _overworldScreen.Draw();
                 break;
             
             case Screens.MAIN_MENU:
