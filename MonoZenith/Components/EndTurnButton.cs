@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Engine.Support;
 using MonoZenith.Players;
+using MonoZenith.Support.Managers;
 
 namespace MonoZenith.Components;
 
@@ -33,15 +34,19 @@ public sealed class EndTurnButton : Button
         UpdateDimensions();
         Position = new Vector2(
             Game.ScreenWidth - Width - 25 * AppSettings.Scaling.ScaleFactor, 
-            Game.ScreenHeight / 2 - Height / 2);
+            Game.ScreenHeight / 2f - Height / 2f);
         
         SetOnClickAction(() =>
         {
             _endPlayerTurnSound.Play();
-            _gameState.CurrentPlayer.MoveCardsFromHandToReserve();
-            _gameState.CurrentPlayer.MoveCardsFromPlayedToReserve();
-            _gameState.CurrentPlayer.ResetPlayerStamina();
-            _gameState.SwitchingTurns = true;
+            
+            if (_gameState.TurnManager.CurrentPlayer == null) return;
+            
+            _gameState.TurnManager.CurrentPlayer.MoveCardsFromHandToReserve();
+            _gameState.TurnManager.CurrentPlayer.MoveCardsFromPlayedToReserve();
+            _gameState.TurnManager.CurrentPlayer.ResetPlayerStamina();
+            
+            _gameState.TurnManager.SwitchingTurns = true;
             _retrieveCardsSound.Play();
         });
     }
@@ -59,7 +64,7 @@ public sealed class EndTurnButton : Button
     /// </summary>
     private void DetermineCurrentTexture()
     {
-        bool isHumanPlayer = _gameState.CurrentPlayer is HumanPlayer;
+        bool isHumanPlayer = _gameState.TurnManager.CurrentPlayer is HumanPlayer;
         _currentTexture = isHumanPlayer switch
         {
             true when IsHovered() => _activeHoverTexture,
