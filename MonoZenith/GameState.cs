@@ -1,4 +1,4 @@
-﻿#nullable enable
+#nullable enable
 using Microsoft.Xna.Framework;
 using System;
 using Microsoft.Xna.Framework.Audio;
@@ -15,8 +15,13 @@ namespace MonoZenith
         public readonly Game Game;
         public GameTime GameTime;
         
+        /// <summary>
+        /// Transition components for the turn and game over messages.
+        /// </summary>
+        private readonly TransitionComponent _turnTransitionComponentHuman;
+        private readonly TransitionComponent _turnTransitionComponentNpc;
+        private TransitionComponent? _activeTurnTransitionComponent;
         private readonly TransitionComponent _gameOverTransitionComponent;
-        private Player? _currentWinner;
         
         public readonly TurnManager TurnManager;
         
@@ -27,26 +32,36 @@ namespace MonoZenith
         
         private readonly SoundEffectInstance _playerDeathSound;
         private readonly SoundEffectInstance _enemyDeathSound;
+        private readonly SoundEffectInstance _startPlayerTurnSound;
+        
+        /// <summary>
+        /// The current player.
+        /// </summary>
+        public Player CurrentPlayer => _currentPlayer ?? _player;
+        
+        /// <summary>
+        /// The opposing player.
+        /// </summary>
+        public Player OpposingPlayer => _currentPlayer == _player ? _npc : _player;
+        
+        /// <summary>
+        /// Triggered by the player to switch turns
+        /// </summary>
+        public bool SwitchingTurns { get; set; }
+        
+        public int RoundNumber { get; set; }
 
         public GameState(Game game)
         {
             Game = game;
             GameTime = new GameTime();
-         
             TurnManager = new TurnManager(Game, this);
-            
+            _gameOverManager = new GameOverManager(Game);
             Player = new HumanPlayer(Game, this, "Player");
             Npc = new NpcPlayer(Game, this, "NPC");
             
-            var gameOverTransitionComponentFont = DataManager.GetInstance(Game).GameOverTransitionComponentFont; 
-            _gameOverTransitionComponent = new TransitionComponent(
-                Game, "YOU DIED", new Color(255, 215, 0), gameOverTransitionComponentFont,
-                1f, 3f, 1f,
-                Game.BackToMainMenu);
-            
             PlayedCards = new CardStack(Game, this, true);
-            _playerDeathSound = DataManager.GetInstance(game).PlayerDeathSound.CreateInstance();
-            _enemyDeathSound = DataManager.GetInstance(game).EnemyDeathSound.CreateInstance();
+
             InitializeState();
         }
         
@@ -59,11 +74,20 @@ namespace MonoZenith
             TurnManager.InitializeState(Player, Npc);
             PlayedCards.Clear();
             
+            // Initialize managers
+            _gameOverManager.InitializeState();
+            
             // Update the position of the played cards
             PlayedCards.UpdatePosition(
                 Game.ScreenWidth / 2f, 
                 Game.ScreenHeight / 2f - Card.Card.Height / 2f);
 
+            // Determine the starting player
+            DetermineStartingPlayer();
+
+            // Reset transition components
+            _turnTransitionComponentHuman.Reset();
+            _turnTransitionComponentNpc.Reset();
             _gameOverTransitionComponent.Reset();
             
             // Initialize players
@@ -77,27 +101,47 @@ namespace MonoZenith
         /// <returns>The winning player, or null if there is no winner.</returns>
         public Player? HasWinner()
         {
-            if (Npc.Health < 1)
+            if (_npc.Health < 1)
             {
                 if (_currentWinner == null)
                     _enemyDeathSound.Play();
 
-                _currentWinner = Player;
+                _currentWinner = _player;
                 _gameOverTransitionComponent.Content = "ENEMY FELLED";
                 _gameOverTransitionComponent.Color = new Color(255, 215, 0);
-                return Player;
+                return _player;
             }
 
-            if (Player.Health > 0)
+            if (_player.Health > 0)
                 return null;
 
             if (_currentWinner == null)
                 _playerDeathSound.Play();
 
-            _currentWinner = Npc;
+            _currentWinner = _npc;
             _gameOverTransitionComponent.Content = "YOU DIED";
             _gameOverTransitionComponent.Color = new Color(180, 30, 30);
-            return Npc;
+            return _npc;
+        }
+
+        /// <summary>
+        /// Switches the turn to the next player.
+        /// </summary>
+        private void SwitchTurn()
+        {
+            SwitchingTurns = false;
+            _currentPlayer = _currentPlayer == _player ? _npc : _player;
+            _activeTurnTransitionComponent?.Reset();
+            
+            if (_currentPlayer is HumanPlayer)
+            {
+                _startPlayerTurnSound.Play();
+                _activeTurnTransitionComponent = _turnTransitionComponentHuman;
+                return;
+            }
+
+            _activeTurnTransitionComponent = _turnTransitionComponentNpc;
+            RoundNumber++;
         }
 
         /// <summary>
@@ -125,9 +169,9 @@ namespace MonoZenith
             TurnManager.Update(deltaTime, Player, Npc);
             if (TurnManager.SwitchingTurns) return;
             
-            if (HasWinner() != null)
+            if (_gameOverManager.HasWinner(_player, _npc) != null)
             {
-                _gameOverTransitionComponent.Update(deltaTime);
+                _gameOverManager.UpdateGameOverTransition(deltaTime);
                 return;
             }
             
@@ -144,10 +188,10 @@ namespace MonoZenith
                 DataManager.GetInstance(Game).Backdrop, 
                 Vector2.Zero, 
                 AppSettings.Scaling.ScaleFactor);
-
-            if (HasWinner() != null)
+            
+            if (_gameOverManager.HasWinner(_player, _npc) != null)
             {
-                DisplayGameOverMessage();
+                _gameOverManager.DisplayGameOverMessage();
                 return;
             }
             
