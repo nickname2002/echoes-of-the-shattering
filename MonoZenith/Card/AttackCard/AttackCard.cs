@@ -1,8 +1,5 @@
-using System;
-using System.Diagnostics;
+using System.Globalization;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Engine.Support;
 using MonoZenith.Players;
 using MonoZenith.Support.Managers;
@@ -20,7 +17,7 @@ public class AttackCard : Card
     protected AttackCard(Game game, GameState state, Player owner) : 
         base(game, state, owner)
     {
-        _enemy = owner == state.CurrentPlayer ? state.OpposingPlayer : state.CurrentPlayer;
+        _enemy = owner.OpposingPlayer;
         _staminaCost = 0f;
         _damage = 0;
         _soundOnPlay = null;
@@ -73,7 +70,7 @@ public class AttackCard : Card
         
         // Draw the stamina cost text
         _game.DrawText(
-            _staminaCost.ToString(),
+            _staminaCost.ToString(CultureInfo.CurrentCulture),
             _position - textOffset * _scale,
             DataManager.GetInstance(_game).CardFont,
             Color.White

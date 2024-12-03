@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoZenith.Card;
-using MonoZenith.Card.AttackCard;
 using MonoZenith.Card.CardStack;
 using MonoZenith.Engine.Support;
 using MonoZenith.Items;
@@ -14,23 +11,23 @@ namespace MonoZenith.Players
 {
     public abstract class Player
     {
+        private float _originalStamina;
         protected Game _game;
         protected GameState _state;
         protected float _handPosX;
         protected float _handPosY;
-        protected float Scale;
-        protected SpriteFont PlayerFont;
-        private float _originalStamina;
+        protected float _scale;
+        protected SpriteFont _playerFont;
+        protected Vector2 _playerPosition;
+        protected Texture2D _playerIcon;
+        protected readonly Texture2D _playerCurrent;
+        protected bool _cardsDrawn;
         
         public float Health;
         public float Stamina;
         public float Focus;
-        public Vector2 PlayerPosition;
-        public Texture2D PlayerIcon;
-        public readonly Texture2D PlayerCurrent;
         public readonly Texture2D PlayerWaiting;
         public readonly string Name;
-        protected bool _cardsDrawn;
         
         // Card stacks
         protected CardStack _deckStack;
@@ -59,7 +56,7 @@ namespace MonoZenith.Players
         /// <summary>
         /// The player's opponent.
         /// </summary>
-        public Player OpposingPlayer => _state.CurrentPlayer == this ? _state.OpposingPlayer : _state.CurrentPlayer;
+        public Player OpposingPlayer { get; set; }
         
         /// <summary>
         /// Check if the player has any moving cards.
@@ -71,16 +68,16 @@ namespace MonoZenith.Players
             _game = game;
             _state = state;
             Name = name;
-            Scale = 0.15f * AppSettings.Scaling.ScaleFactor;
+            _scale = 0.15f * AppSettings.Scaling.ScaleFactor;
             _handPosX = game.ScreenWidth / 2f;
             
             // ReSharper disable once VirtualMemberCallInConstructor
             InitializeState(game, state);
             
             // Load textures and sound effects for player
-            PlayerCurrent = DataManager.GetInstance(game).PlayerCurrent;
+            _playerCurrent = DataManager.GetInstance(game).PlayerCurrent;
             PlayerWaiting = DataManager.GetInstance(game).PlayerWaiting;
-            PlayerFont = DataManager.GetInstance(game).PlayerFont;
+            _playerFont = DataManager.GetInstance(game).PlayerFont;
             
             // Ashes and buffs
             // TODO: Make sure players start without any ashes when game starts
@@ -288,16 +285,16 @@ namespace MonoZenith.Players
         protected virtual void DrawPlayerUi()
         {
             // Setup properties of UI assets
-            Vector2 iconOffset = GetOffset(PlayerIcon, Scale);
-            Vector2 borderOffset = GetOffset(PlayerCurrent, Scale);
+            Vector2 iconOffset = GetOffset(_playerIcon, _scale);
+            Vector2 borderOffset = GetOffset(_playerCurrent, _scale);
 
             // Check if the player is the current playing player
-            bool currentPlayer = _state.CurrentPlayer == this;
-            Texture2D playerBorder = currentPlayer ? PlayerCurrent : PlayerWaiting;
+            bool currentPlayer = _state.TurnManager.CurrentPlayer == this;
+            Texture2D playerBorder = currentPlayer ? _playerCurrent : PlayerWaiting;
 
             // Draw the assets
-            _game.DrawImage(PlayerIcon, PlayerPosition - iconOffset, Scale, 0);
-            _game.DrawImage(playerBorder, PlayerPosition - borderOffset, Scale, 0);
+            _game.DrawImage(_playerIcon, _playerPosition - iconOffset, _scale, 0);
+            _game.DrawImage(playerBorder, _playerPosition - borderOffset, _scale, 0);
         }
 
         /// <summary>

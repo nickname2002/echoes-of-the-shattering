@@ -11,7 +11,7 @@ using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace MonoZenith.Players
 {
-    internal sealed class HumanPlayer : Player
+    public sealed class HumanPlayer : Player
     {
         private Card.Card _lastHoveredCard;
         private CardStackIndicator _deckIndicator;
@@ -21,16 +21,16 @@ namespace MonoZenith.Players
         public HumanPlayer(Game game, GameState state, string name) : base(game, state, name)
         {
             _handPosY = game.ScreenHeight / 1.45f;
-            PlayerPosition = new Vector2(
+            _playerPosition = new Vector2(
                 game.ScreenWidth * 0.05f, 
                 game.ScreenHeight * 0.915f);
-            PlayerIcon = DataManager.GetInstance(game).Player;
-            InitializeState(game, state);
+            _playerIcon = DataManager.GetInstance(game).Player;
         }
 
         public override void InitializeState(Game game, GameState state)
         {
             base.InitializeState(game, state);
+            OpposingPlayer = state.Npc;
             
             // Initialize indicators
             _deckIndicator = new CardStackIndicator(
@@ -187,19 +187,19 @@ namespace MonoZenith.Players
         protected override void DrawPlayerHealthAndName()
         {
             // Setup offsets and positions for name and player bars
-            Vector2 playerOffset = GetOffset(PlayerCurrent, Scale);
-            Vector2 namePosition = PlayerPosition + new Vector2(playerOffset.X * 1.2f, 0);
+            Vector2 playerOffset = GetOffset(_playerCurrent, _scale);
+            Vector2 namePosition = _playerPosition + new Vector2(playerOffset.X * 1.2f, 0);
             Vector2 shadowPosition = new(1.25f, 1.25f);
-            int healthHeight = (int)(PlayerCurrent.Height * Scale * 0.05f);
+            int healthHeight = (int)(_playerCurrent.Height * _scale * 0.05f);
             int healthWidth = (int)(_game.ScreenWidth * 0.9f);
             int barWidth = (int)(_game.ScreenWidth * 0.3f);
             Vector2 barOffset = new Vector2(0, healthHeight + 4);
-            Vector2 healthPosition = PlayerPosition + new Vector2(0, playerOffset.Y - healthHeight * 4.5f) - new Vector2(1, 1);
+            Vector2 healthPosition = _playerPosition + new Vector2(0, playerOffset.Y - healthHeight * 4.5f) - new Vector2(1, 1);
             Vector2 edgePosition = healthPosition - new Vector2(1, 1);
 
             // Draw name
-            _game.DrawText(Name, namePosition + shadowPosition, PlayerFont, Color.DarkGray);
-            _game.DrawText(Name, namePosition, PlayerFont, Color.White);
+            _game.DrawText(Name, namePosition + shadowPosition, _playerFont, Color.DarkGray);
+            _game.DrawText(Name, namePosition, _playerFont, Color.White);
 
             // Draw Health bar with current health points
             _game.DrawRectangle(Color.Goldenrod, edgePosition, healthWidth + 2, healthHeight + 2);
