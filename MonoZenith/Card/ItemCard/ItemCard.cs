@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Engine.Support;
 using MonoZenith.Players;
+using MonoZenith.Support.Managers;
 
 namespace MonoZenith.Card;
 
@@ -42,6 +43,7 @@ public class LarvalTearCard : ItemCard
     {
         base.PerformEffect();
         Owner.MoveCardsFromHandToReserve();
+        Owner.CardsDrawn = true;
         Owner.DrawCardsFromDeck();
     }
 }

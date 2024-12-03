@@ -33,7 +33,7 @@ public abstract class Buff
 
 public class CardTwiceAsStrongBuff : Buff
 {
-    private readonly int _cardsPlayedOnActivation;
+    protected readonly int _cardsPlayedOnActivation;
     
     public CardTwiceAsStrongBuff(GameState state, BuffManager manager) : 
         base(state, manager)
@@ -70,27 +70,75 @@ public class CardTwiceAsStrongBuff : Buff
     }
 }
 
-public class PoisonEffectDebuff : Buff
+public class MeleeCardTwiceAsStrongBuff : CardTwiceAsStrongBuff
 {
-    private readonly int _damagePercentage;
-    private readonly SoundEffect _damageSound;
-    private int _roundsLeft;
-    private int _currentRoundNumber;
-    
-    public PoisonEffectDebuff(GameState state, BuffManager manager, int damagePercentage, int rounds) : 
+    public MeleeCardTwiceAsStrongBuff(GameState state, BuffManager manager) :
+    base(state, manager)
+    {
+        
+    }
+
+    public override void PerformEffect()
+    {
+        if (BuffRemoved())
+            return;
+
+        foreach (Card.Card card in _owner.HandStack.Cards)
+        {
+            card.Buff = card switch
+            {
+                MagicCard magicCard => card.Buff,
+                AttackCard attackCard => attackCard.Damage,
+                FlaskOfCeruleanTearsCard flaskCerTearsCard => flaskCerTearsCard.FocusBoost,
+                FlaskOfCrimsonTearsCard flaskCrimTearsCard => flaskCrimTearsCard.HealthBoost,
+                _ => card.Buff
+            };
+        }
+    }
+}
+
+public class TurnBuff : Buff
+{
+    protected int _roundsLeft;
+    protected int _currentRoundNumber;
+
+    public TurnBuff(GameState state, BuffManager manager, int rounds) :
         base(state, manager)
     {
         _roundsLeft = rounds;
-        _damagePercentage = damagePercentage;
         _currentRoundNumber = state.TurnManager.RoundNumber;
+    }
+
+    protected bool RoundSwitched()
+    {
+        return _state.TurnManager.RoundNumber != _currentRoundNumber;
+    }
+
+    public override void PerformEffect()
+    {
+    }
+
+    public override bool BuffRemoved()
+    {
+        if (_roundsLeft > 0) return false;
+        _manager.Buff = null;
+        return true;
+    }
+}
+
+
+public class PoisonEffectDebuff : TurnBuff
+{
+    private readonly int _damagePercentage;
+    private readonly SoundEffect _damageSound;
+    
+    public PoisonEffectDebuff(GameState state, BuffManager manager, int rounds, int damagePercentage) : 
+        base(state, manager, rounds)
+    {
+        _damagePercentage = damagePercentage;
         
         // TODO: Add more fitting sound effect
         _damageSound = DataManager.GetInstance(state.Game).DamageSound;
-    }
-    
-    private bool RoundSwitched()
-    {
-        return _state.TurnManager.RoundNumber != _currentRoundNumber;
     }
     
     public override void PerformEffect()
@@ -107,12 +155,97 @@ public class PoisonEffectDebuff : Buff
         _owner.Health -= _owner.OriginalHealth * _damagePercentage / 100;
         _damageSound.Play();
     }
+}
 
-    public override bool BuffRemoved()
+public class HealingEffectBuff : TurnBuff
+{
+    private readonly int _healingPercentage;
+    private readonly SoundEffect _healingSound;
+
+    public HealingEffectBuff(GameState state, BuffManager manager, int rounds, int healingPercentage) :
+        base(state, manager, rounds)
     {
-        if (_roundsLeft > 0) return false;
-        _manager.Buff = null;
-        return true;
+        _healingPercentage = healingPercentage;
+
+        // TODO: Add more fitting sound effect
+        _healingSound = DataManager.GetInstance(state.Game).FlaskOfCeruleanTears;
+    }
+
+    public override void PerformEffect()
+    {
+        if (BuffRemoved()) return;
+        if (!RoundSwitched()) return;
+
+        _currentRoundNumber = _state.TurnManager.RoundNumber;
+        _roundsLeft--;
+
+        if (_owner == null) return;
+        if (_state.TurnManager.CurrentPlayer != _owner) return;
+
+        _owner.Health += _owner.OriginalHealth * _healingPercentage / 100;
+        _healingSound.Play();
     }
 }
 
+public class StaminaEffectDebuff : TurnBuff
+{
+    private readonly int _staminaAmount;
+    private readonly SoundEffect _staminaSound;
+
+    public StaminaEffectDebuff(GameState state, BuffManager manager, int rounds, int staminaAmount) :
+        base(state, manager, rounds)
+    {
+        _staminaAmount = staminaAmount;
+
+        // TODO: Add more fitting sound effect
+        _staminaSound = DataManager.GetInstance(state.Game).FlaskOfCeruleanTears;
+    }
+
+    public override void PerformEffect()
+    {
+        if (BuffRemoved()) return;
+        if (!RoundSwitched()) return;
+
+        _currentRoundNumber = _state.TurnManager.RoundNumber;
+        _roundsLeft--;
+
+        if (_owner == null) return;
+        if (_state.TurnManager.CurrentPlayer != _owner) return;
+
+        _owner.Stamina -= _staminaAmount;
+        //_staminaSound.Play();
+    }
+}
+
+public class CardStaminaBuff : Buff
+{
+    protected readonly int _cardsPlayedOnActivation;
+
+    public CardStaminaBuff(GameState state, BuffManager manager) :
+        base(state, manager)
+    {
+        _cardsPlayedOnActivation = state.PlayedCards.Count;
+    }
+
+    public override void PerformEffect()
+    {
+        if (BuffRemoved())
+            return;
+
+        foreach (Card.Card card in _owner.HandStack.Cards)
+        {
+            //TODO
+        }
+    }
+
+    public override bool BuffRemoved()
+    {
+        if (_state.PlayedCards.Count == _cardsPlayedOnActivation) return false;
+
+        _manager.Buff = null;
+        foreach (Card.Card card in _owner.HandStack.Cards)
+            card.Buff = 0;
+
+        return true;
+    }
+}

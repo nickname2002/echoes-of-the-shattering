@@ -99,8 +99,8 @@ public class JellyfishAsh : SpiritAsh
         _owner.OpposingPlayer.BuffManager.Debuff = new PoisonEffectDebuff(
             _state,
             _owner.OpposingPlayer.BuffManager,
-            10,
-            3);
+            3,
+            10);
     }
 
     public override bool ShouldAIPlay(AiState aiState)

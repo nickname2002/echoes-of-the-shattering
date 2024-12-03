@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Engine.Support;
 using MonoZenith.Players;
+using MonoZenith.Support.Managers;
 
 namespace MonoZenith.Card;
 
@@ -50,7 +51,7 @@ public class FlaskOfCrimsonTearsCard : ItemCard
         HealthBoost = 75;
         _frontTexture = DataManager.GetInstance(_game).CardFlaskCrimson;
         _soundOnPlay = DataManager.GetInstance(_game).FlaskOfCrimsonTears.CreateInstance();
-        _description.Add("Restore " + (HealthBoost + Buff) + " HP.");
+        _description.Add("Restore " + HealthBoost + " HP.");
     }
 
     public override void PerformEffect()
@@ -87,7 +88,7 @@ public class FlaskOfWondrousPhysickCard : ItemCard
         _frontTexture = DataManager.GetInstance(_game).CardWondrousPhysick;
         //TODO CHANGE
         _soundOnPlay = DataManager.GetInstance(_game).FlaskOfCrimsonTears.CreateInstance();
-        _description.Add("Restore " + (HealthBoost + Buff) + " HP and " + (FocusBoost + Buff) + ".");
+        _description.Add("Restore " + HealthBoost + " HP and " + FocusBoost + ".");
     }
 
     public override void PerformEffect()
@@ -125,12 +126,22 @@ public class WarmingStoneCard : ItemCard
         _frontTexture = DataManager.GetInstance(_game).CardWarmingStone;
         //TODO CHANGE
         _soundOnPlay = DataManager.GetInstance(_game).FlaskOfCrimsonTears.CreateInstance();
-        _description.Add("Restore 10 HP");
-        _description.Add("For 2 turns");
+        _description.Add("Restore " + HealthBoost + " HP");
+        _description.Add("For 2 turns.");
     }
 
     public override void PerformEffect()
     {
         base.PerformEffect();
+        _owner.BuffManager.Buff = new HealingEffectBuff(
+        _state, 
+        _owner.BuffManager, 
+        2, 
+        (int)(HealthBoost + Buff));
+    }
+
+    protected override void UpdateDescription()
+    {
+        _description[0] = "Restore " + (HealthBoost + Buff) + " HP";
     }
 }

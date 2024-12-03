@@ -131,7 +131,7 @@ public class UnsheatheCard : AttackCard
         //TODO CHANGE
         _soundOnPlay = DataManager.GetInstance(_game).LightSwordAttack.CreateInstance();
         _name = "UnsheatheCard";
-        _description.Add("Next card deals");
+        _description.Add("Next melee card deals");
         _description.Add("double damage");
     }
 
@@ -139,12 +139,8 @@ public class UnsheatheCard : AttackCard
     {
         _soundOnPlay.Play();
         LowerPlayerStamina();
-
-    }
-
-    protected override void UpdateDescription()
-    {
-        _description[0] = "Deal " + (_damage + Buff) + " damage.";
+        _owner.BuffManager.Buff = new MeleeCardTwiceAsStrongBuff(
+            _state, _owner.BuffManager);
     }
 }
 
@@ -298,6 +294,11 @@ public class StormcallerCard : AttackCard
     public override void PerformEffect()
     {
         base.PerformEffect();
+        _owner.OpposingPlayer.BuffManager.Debuff = new StaminaEffectDebuff(
+        _state,
+        _owner.OpposingPlayer.BuffManager,
+        1,
+        10);
     }
 
     protected override void UpdateDescription()
@@ -346,6 +347,11 @@ public class ICommandTheeKneelCard : AttackCard
     public override void PerformEffect()
     {
         base.PerformEffect();
+        _owner.OpposingPlayer.BuffManager.Debuff = new StaminaEffectDebuff(
+        _state,
+        _owner.OpposingPlayer.BuffManager,
+        1,
+        20);
     }
 
     protected override void UpdateDescription()
@@ -427,8 +433,8 @@ public class PoisonPotCard : AttackCard
         _owner.OpposingPlayer.BuffManager.Debuff = new PoisonEffectDebuff(
         _state,
         _owner.OpposingPlayer.BuffManager,
-        (int)_damage,
-        2);
+        2,
+        (int)(_damage + Buff));
     }
 
     protected override void UpdateDescription()
