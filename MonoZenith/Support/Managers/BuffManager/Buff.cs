@@ -220,11 +220,13 @@ public class StaminaEffectDebuff : TurnBuff
 public class CardStaminaBuff : Buff
 {
     protected readonly int _cardsPlayedOnActivation;
+    private readonly int _staminaAmount;
 
-    public CardStaminaBuff(GameState state, BuffManager manager) :
+    public CardStaminaBuff(GameState state, BuffManager manager, int staminaAmount) :
         base(state, manager)
     {
         _cardsPlayedOnActivation = state.PlayedCards.Count;
+        _staminaAmount = staminaAmount;
     }
 
     public override void PerformEffect()
@@ -234,7 +236,14 @@ public class CardStaminaBuff : Buff
 
         foreach (Card.Card card in _owner.HandStack.Cards)
         {
-            //TODO
+            if(card is MagicCard)
+            {
+                continue;
+            }
+            else if (card is AttackCard attackCard)
+            {
+                attackCard.StaminaCost = attackCard.OriginalStaminaCost - _staminaAmount;
+            }
         }
     }
 
@@ -244,7 +253,10 @@ public class CardStaminaBuff : Buff
 
         _manager.Buff = null;
         foreach (Card.Card card in _owner.HandStack.Cards)
-            card.Buff = 0;
+            if (card is AttackCard attackCard)
+            {
+                attackCard.StaminaCost = attackCard.OriginalStaminaCost;
+            }
 
         return true;
     }

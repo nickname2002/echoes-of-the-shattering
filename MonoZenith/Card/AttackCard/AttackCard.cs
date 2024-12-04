@@ -9,7 +9,8 @@ namespace MonoZenith.Card.AttackCard;
 public class AttackCard : Card
 {
     protected Player _enemy;
-    protected float _staminaCost;
+    public float OriginalStaminaCost;
+    public float StaminaCost;
     protected float _damage;
     
     public float Damage => _damage;
@@ -18,7 +19,8 @@ public class AttackCard : Card
         base(game, state, owner)
     {
         _enemy = owner.OpposingPlayer;
-        _staminaCost = 0f;
+        StaminaCost = 0f;
+        OriginalStaminaCost = StaminaCost;
         _damage = 0;
         _soundOnPlay = null;
         _name = "BaseAttackCard";
@@ -29,7 +31,7 @@ public class AttackCard : Card
     /// </summary>
     protected void LowerPlayerStamina()
     {
-        _owner.Stamina -= _staminaCost;
+        _owner.Stamina -= StaminaCost;
     }
 
     /// <summary>
@@ -49,7 +51,7 @@ public class AttackCard : Card
 
     public override bool IsAffordable()
     {
-        return _owner.Stamina >= _staminaCost;
+        return _owner.Stamina >= StaminaCost;
     }
 
     protected override void DrawMetaData()
@@ -59,7 +61,7 @@ public class AttackCard : Card
         float x = _costStaminaTexture.Width * 0.4f;
         float y = _costStaminaTexture.Height * 0.4f;
         Vector2 scaleVector = new Vector2(x, y) * _scale * scaleCost;
-        Vector2 textOffset = _staminaCost >= 10 ? new Vector2(16, 24) : new Vector2(6, 24);
+        Vector2 textOffset = StaminaCost >= 10 ? new Vector2(16, 24) : new Vector2(6, 24);
 
         // Draw the stamina cost icon
         _game.DrawImage(
@@ -70,7 +72,7 @@ public class AttackCard : Card
         
         // Draw the stamina cost text
         _game.DrawText(
-            _staminaCost.ToString(CultureInfo.CurrentCulture),
+            StaminaCost.ToString(CultureInfo.CurrentCulture),
             _position - textOffset * _scale,
             DataManager.GetInstance(_game).CardFont,
             Color.White
@@ -85,7 +87,8 @@ public class LightSwordAttackCard : AttackCard
     public LightSwordAttackCard(Game game, GameState state, Player owner) : 
         base(game, state, owner)
     {
-        _staminaCost = 10f;
+        StaminaCost = 10f;
+        OriginalStaminaCost = StaminaCost;
         _damage = 10;
         _frontTexture = DataManager.GetInstance(_game).CardLightAttack;
         _soundOnPlay = DataManager.GetInstance(_game).LightSwordAttack.CreateInstance();
@@ -104,7 +107,8 @@ public class HeavySwordAttackCard : AttackCard
     public HeavySwordAttackCard(Game game, GameState state, Player owner) : 
         base(game, state, owner)
     {
-        _staminaCost = 20f;
+        StaminaCost = 20f;
+        OriginalStaminaCost = StaminaCost;
         _damage = 20;
         _frontTexture = DataManager.GetInstance(_game).CardHeavyAttack;
         _soundOnPlay = DataManager.GetInstance(_game).HeavySwordAttack.CreateInstance();
@@ -125,7 +129,8 @@ public class UnsheatheCard : AttackCard
     public UnsheatheCard(Game game, GameState state, Player owner) :
         base(game, state, owner)
     {
-        _staminaCost = 10f;
+        StaminaCost = 10f;
+        OriginalStaminaCost = StaminaCost;
         _damage = 0;
         _frontTexture = DataManager.GetInstance(_game).CardUnsheathe;
         //TODO CHANGE
@@ -149,7 +154,8 @@ public class BloodhoundStepCard : AttackCard
     public BloodhoundStepCard(Game game, GameState state, Player owner) :
         base(game, state, owner)
     {
-        _staminaCost = 25f;
+        StaminaCost = 25f;
+        OriginalStaminaCost = StaminaCost;
         _damage = 20;
         _frontTexture = DataManager.GetInstance(_game).CardBloodhound;
         //TODO CHANGE
@@ -175,7 +181,8 @@ public class QuickstepCard : AttackCard
     public QuickstepCard(Game game, GameState state, Player owner) :
         base(game, state, owner)
     {
-        _staminaCost = 5f;
+        StaminaCost = 5f;
+        OriginalStaminaCost = StaminaCost;
         _damage = 0;
         _frontTexture = DataManager.GetInstance(_game).CardQuickstep;
         //TODO CHANGE
@@ -202,7 +209,8 @@ public class EndureCard : AttackCard
     public EndureCard(Game game, GameState state, Player owner) :
         base(game, state, owner)
     {
-        _staminaCost = 10f;
+        StaminaCost = 10f;
+        OriginalStaminaCost = StaminaCost;
         _damage = 0;
         _frontTexture = DataManager.GetInstance(_game).CardEndure;
         //TODO CHANGE
@@ -229,7 +237,8 @@ public class DoubleSlashCard : AttackCard
     public DoubleSlashCard(Game game, GameState state, Player owner) :
         base(game, state, owner)
     {
-        _staminaCost = 25f;
+        StaminaCost = 25f;
+        OriginalStaminaCost = StaminaCost;
         _damage = 20;
         _frontTexture = DataManager.GetInstance(_game).CardDoubleSlash;
         //TODO CHANGE
@@ -242,6 +251,10 @@ public class DoubleSlashCard : AttackCard
     public override void PerformEffect()
     {
         base.PerformEffect();
+        _owner.BuffManager.Buff = new CardStaminaBuff(
+        _state,
+        _owner.BuffManager,
+        10);
     }
 
     protected override void UpdateDescription()
@@ -255,7 +268,8 @@ public class WarCryCard : AttackCard
     public WarCryCard(Game game, GameState state, Player owner) :
         base(game, state, owner)
     {
-        _staminaCost = 10f;
+        StaminaCost = 10f;
+        OriginalStaminaCost = StaminaCost;
         _damage = 5;
         _frontTexture = DataManager.GetInstance(_game).CardWarCry;
         //TODO CHANGE
@@ -281,7 +295,8 @@ public class StormcallerCard : AttackCard
     public StormcallerCard(Game game, GameState state, Player owner) :
         base(game, state, owner)
     {
-        _staminaCost = 20f;
+        StaminaCost = 20f;
+        OriginalStaminaCost = StaminaCost;
         _damage = 15;
         _frontTexture = DataManager.GetInstance(_game).CardStormcaller;
         //TODO CHANGE
@@ -312,7 +327,8 @@ public class RallyingStandardCard : AttackCard
     public RallyingStandardCard(Game game, GameState state, Player owner) :
         base(game, state, owner)
     {
-        _staminaCost = 15;
+        StaminaCost = 15;
+        OriginalStaminaCost = StaminaCost;
         _damage = 0;
         _frontTexture = DataManager.GetInstance(_game).CardRallyingStandard;
         //TODO CHANGE
@@ -334,7 +350,8 @@ public class ICommandTheeKneelCard : AttackCard
     public ICommandTheeKneelCard(Game game, GameState state, Player owner) :
         base(game, state, owner)
     {
-        _staminaCost = 30f;
+        StaminaCost = 30f;
+        OriginalStaminaCost = StaminaCost;
         _damage = 30;
         _frontTexture = DataManager.GetInstance(_game).CardCommandKneel;
         //TODO CHANGE
@@ -365,7 +382,8 @@ public class WaterfowlDanceCard : AttackCard
     public WaterfowlDanceCard(Game game, GameState state, Player owner) :
         base(game, state, owner)
     {
-        _staminaCost = 30f;
+        StaminaCost = 30f;
+        OriginalStaminaCost = StaminaCost;
         _damage = 40;
         _frontTexture = DataManager.GetInstance(_game).CardWaterfowlDance;
         //TODO CHANGE
@@ -393,7 +411,8 @@ public class ThrowingDaggerCard : AttackCard
     public ThrowingDaggerCard(Game game, GameState state, Player owner) :
         base(game, state, owner)
     {
-        _staminaCost = 0f;
+        StaminaCost = 0f;
+        OriginalStaminaCost = StaminaCost;
         _damage = 5f;
         _frontTexture = DataManager.GetInstance(_game).CardThrowingDagger;
         //TODO CHANGE
@@ -418,7 +437,8 @@ public class PoisonPotCard : AttackCard
     public PoisonPotCard(Game game, GameState state, Player owner) :
         base(game, state, owner)
     {
-        _staminaCost = 0f;
+        StaminaCost = 0f;
+        OriginalStaminaCost = StaminaCost;
         _damage = 5f;
         _frontTexture = DataManager.GetInstance(_game).CardPoisonPot;
         //TODO CHANGE

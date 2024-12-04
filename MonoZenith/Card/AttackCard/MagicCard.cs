@@ -79,7 +79,8 @@ public class GlintStonePebbleCard : MagicCard
         _frontTexture = DataManager.GetInstance(_game).CardGlintPebble;
         _soundOnPlay = DataManager.GetInstance(_game).GlintStonePebble.CreateInstance();
         _focusCost = 3;
-        _staminaCost = 5;
+        StaminaCost = 5;
+        OriginalStaminaCost = StaminaCost;
         _damage = 15;
         _name = "GlintStonePebbleCard";
         _description.Add("Deal " + _damage + " damage.");
@@ -102,7 +103,8 @@ public class GlintbladePhalanxCard : MagicCard
         //TODO CHANGE
         _soundOnPlay = DataManager.GetInstance(_game).GlintStonePebble.CreateInstance();
         _focusCost = 6;
-        _staminaCost = 5;
+        StaminaCost = 5;
+        OriginalStaminaCost = StaminaCost;
         _damage = 10;
         _name = "GlintbladePhalanxCard";
         _description.Add("Deal " + _damage + " damage.");
@@ -131,7 +133,8 @@ public class ThopsBarrierCard : MagicCard
         //TODO CHANGE
         _soundOnPlay = DataManager.GetInstance(_game).GlintStonePebble.CreateInstance();
         _focusCost = 6;
-        _staminaCost = 5;
+        StaminaCost = 5;
+        OriginalStaminaCost = StaminaCost;
         _damage = 0;
         _name = "ThopsBarrierCard";
         _description.Add("Ignore all magic");
@@ -156,7 +159,7 @@ public class GreatGlintStoneCard : MagicCard
         //TODO CHANGE
         _soundOnPlay = DataManager.GetInstance(_game).GlintStonePebble.CreateInstance();
         _focusCost = 5;
-        _staminaCost = 10;
+        StaminaCost = 10;
         _damage = 20;
         _name = "GreatGlintStoneShardCard";
         _description.Add("Deal " + _damage + " damage.");
@@ -177,7 +180,8 @@ public class CarianGreatSwordCard : MagicCard
         //TODO CHANGE
         _soundOnPlay = DataManager.GetInstance(_game).GlintStonePebble.CreateInstance();
         _focusCost = 8;
-        _staminaCost = 20;
+        StaminaCost = 20;
+        OriginalStaminaCost = StaminaCost;
         _damage = 30;
         _name = "CarianGreatSwordCard";
         _description.Add("Deal " + _damage + " damage.");
@@ -198,7 +202,8 @@ public class CometAzurCard : MagicCard
         //TODO CHANGE
         _soundOnPlay = DataManager.GetInstance(_game).GlintStonePebble.CreateInstance();
         _focusCost = 30;
-        _staminaCost = 30;
+        StaminaCost = 30;
+        OriginalStaminaCost = StaminaCost;
         _damage = 65;
         _name = "CometAzurCard";
         _description.Add("Deal " + _damage + " damage.");
