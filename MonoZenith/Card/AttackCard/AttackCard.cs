@@ -229,11 +229,6 @@ public class EndureCard : AttackCard
         1,
         50);
     }
-
-    protected override void UpdateDescription()
-    {
-        _description[0] = "Deal " + (_damage + Buff) + " damage.";
-    }
 }
 
 public class DoubleSlashCard : AttackCard
@@ -281,11 +276,16 @@ public class WarCryCard : AttackCard
         _name = "DoubleSlashCard";
         _description.Add("Deal " + _damage + " damage.");
         _description.Add("+10 damage to");
-        _description.Add("all cards this turn");
+        _description.Add("all cards next turn");
     }
     public override void PerformEffect()
     {
         base.PerformEffect();
+        _owner.BuffManager.Buff = new DamageIncreaseBuff(
+        _state,
+        _owner.BuffManager,
+        1,
+        10);
     }
 
     protected override void UpdateDescription()
@@ -339,13 +339,18 @@ public class RallyingStandardCard : AttackCard
         _soundOnPlay = DataManager.GetInstance(_game).LightSwordAttack.CreateInstance();
         _name = "RallyingStandardCard";
         _description.Add("+10 damage to all");
-        _description.Add("cards for 2 turns");
+        _description.Add("cards next 2 turns");
     }
     public override void PerformEffect()
     {
         _soundOnPlay.Play();
         LowerPlayerStamina();
-
+        base.PerformEffect();
+        _owner.BuffManager.Buff = new DamageIncreaseBuff(
+        _state,
+        _owner.BuffManager,
+        2,
+        10);
     }
 }
 

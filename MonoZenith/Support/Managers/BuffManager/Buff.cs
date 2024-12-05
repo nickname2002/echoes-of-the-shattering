@@ -242,7 +242,9 @@ public class CardStaminaBuff : Buff
             }
             else if (card is AttackCard attackCard)
             {
-                attackCard.StaminaCost = attackCard.OriginalStaminaCost - _staminaAmount;
+                attackCard.StaminaCost = 
+                    attackCard.OriginalStaminaCost - _staminaAmount > 0 ? 
+                    attackCard.OriginalStaminaCost - _staminaAmount : 0;
             }
         }
     }
@@ -282,6 +284,43 @@ public class DamageReductionDebuff : TurnBuff
             card.Buff = card switch
             {
                 AttackCard attackCard => -attackCard.Damage * _reductionPercentage / 100,
+                _ => card.Buff
+            };
+        }
+    }
+
+    public override bool BuffRemoved()
+    {
+        if (_roundsLeft > 0) return false;
+
+        _manager.Buff = null;
+        foreach (Card.Card card in _owner.HandStack.Cards)
+            card.Buff = 0;
+
+        return true;
+    }
+}
+
+public class DamageIncreaseBuff : TurnBuff
+{
+    private readonly int _increaseAmount;
+
+    public DamageIncreaseBuff(GameState state, BuffManager manager, int rounds, int increaseAmount) :
+        base(state, manager, rounds)
+    {
+        _increaseAmount = increaseAmount;
+    }
+
+    public override void PerformEffect()
+    {
+        if (BuffRemoved()) return;
+        if (!RoundSwitched()) return;
+
+        foreach (Card.Card card in _owner.HandStack.Cards)
+        {
+            card.Buff = card switch
+            {
+                AttackCard attackCard => _increaseAmount,
                 _ => card.Buff
             };
         }
