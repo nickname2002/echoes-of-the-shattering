@@ -261,3 +261,40 @@ public class CardStaminaBuff : Buff
         return true;
     }
 }
+
+public class DamageReductionDebuff : TurnBuff
+{
+    private readonly int _reductionPercentage;
+
+    public DamageReductionDebuff(GameState state, BuffManager manager, int rounds, int reductionAmount) :
+        base(state, manager, rounds)
+    {
+        _reductionPercentage = reductionAmount;
+    }
+
+    public override void PerformEffect()
+    {
+        if (BuffRemoved()) return;
+        if (!RoundSwitched()) return;
+
+        foreach (Card.Card card in _owner.HandStack.Cards)
+        {
+            card.Buff = card switch
+            {
+                AttackCard attackCard => -attackCard.Damage * _reductionPercentage / 100,
+                _ => card.Buff
+            };
+        }
+    }
+
+    public override bool BuffRemoved()
+    {
+        if (_roundsLeft > 0) return false;
+
+        _manager.Buff = null;
+        foreach (Card.Card card in _owner.HandStack.Cards)
+            card.Buff = 0;
+
+        return true;
+    }
+}

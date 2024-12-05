@@ -209,7 +209,7 @@ public class EndureCard : AttackCard
     public EndureCard(Game game, GameState state, Player owner) :
         base(game, state, owner)
     {
-        StaminaCost = 10f;
+        StaminaCost = 15f;
         OriginalStaminaCost = StaminaCost;
         _damage = 0;
         _frontTexture = DataManager.GetInstance(_game).CardEndure;
@@ -223,7 +223,11 @@ public class EndureCard : AttackCard
     {
         _soundOnPlay.Play();
         LowerPlayerStamina();
-
+        _owner.OpposingPlayer.BuffManager.Debuff = new DamageReductionDebuff(
+        _state,
+        _owner.OpposingPlayer.BuffManager,
+        1,
+        50);
     }
 
     protected override void UpdateDescription()

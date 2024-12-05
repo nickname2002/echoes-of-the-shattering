@@ -204,7 +204,7 @@ public class CometAzurCard : MagicCard
         _focusCost = 30;
         StaminaCost = 30;
         OriginalStaminaCost = StaminaCost;
-        _damage = 65;
+        _damage = 45;
         _name = "CometAzurCard";
         _description.Add("Deal " + _damage + " damage.");
     }

@@ -60,8 +60,19 @@ public class BaldachinBlessingCard : ItemCard
         _description.Add("but take 10 damage");
     }
 
+    public override bool IsAffordable()
+    {
+        return _owner.Health > 10;
+    }
+
     public override void PerformEffect()
     {
         base.PerformEffect();
+        _owner.Health -= 10;
+        _owner.OpposingPlayer.BuffManager.Debuff = new DamageReductionDebuff(
+        _state,
+        _owner.OpposingPlayer.BuffManager,
+        1,
+        50);
     }
 }
