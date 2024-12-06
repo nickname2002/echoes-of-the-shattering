@@ -69,10 +69,10 @@ public class BaldachinBlessingCard : ItemCard
     {
         base.PerformEffect();
         _owner.Health -= 10;
-        _owner.OpposingPlayer.BuffManager.Debuff = new DamageReductionDebuff(
+        _owner.OpposingPlayer.BuffManager.Debuffs.Add(new DamageReductionDebuff(
         _state,
         _owner.OpposingPlayer.BuffManager,
         1,
-        50);
+        50));
     }
 }

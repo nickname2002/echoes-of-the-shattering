@@ -133,11 +133,11 @@ public class WarmingStoneCard : ItemCard
     public override void PerformEffect()
     {
         base.PerformEffect();
-        _owner.BuffManager.Buff = new HealingEffectBuff(
+        _owner.BuffManager.Buffs.Add(new HealingEffectBuff(
         _state, 
         _owner.BuffManager, 
         2, 
-        (int)(HealthBoost + Buff));
+        (int)(HealthBoost + Buff)));
     }
 
     protected override void UpdateDescription()

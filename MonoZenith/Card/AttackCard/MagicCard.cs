@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Engine.Support;
 using MonoZenith.Players;
+using MonoZenith.Support.Managers;
 
 namespace MonoZenith.Card.AttackCard;
 
@@ -107,8 +108,8 @@ public class GlintbladePhalanxCard : MagicCard
         OriginalStaminaCost = StaminaCost;
         _damage = 10;
         _name = "GlintbladePhalanxCard";
-        _description.Add("Deal " + _damage + " damage.");
-        _description.Add("For 2 turns");
+        _description.Add("Deal " + _damage + " damage");
+        _description.Add("For 2 turns.");
     }
 
     public override void PerformEffect()
@@ -116,11 +117,16 @@ public class GlintbladePhalanxCard : MagicCard
         _soundOnPlay.Play();
         LowerPlayerStamina();
         LowerPlayerMana();
+        _owner.OpposingPlayer.BuffManager.Debuffs.Add(new PoisonEffectDebuff(
+        _state,
+        _owner.OpposingPlayer.BuffManager,
+        2,
+        (int)(_damage + Buff)));
     }
 
     protected override void UpdateDescription()
     {
-        _description[0] = "Deal " + (_damage + Buff) + " damage.";
+        _description[0] = "Deal " + (_damage + Buff) + " damage";
     }
 }
 
@@ -147,6 +153,11 @@ public class ThopsBarrierCard : MagicCard
         _soundOnPlay.Play();
         LowerPlayerStamina();
         LowerPlayerMana();
+        _owner.OpposingPlayer.BuffManager.Debuffs.Add(new ThopsDebuff(
+        _state,
+        _owner.OpposingPlayer.BuffManager,
+        1,
+        100));
     }
 }
 
