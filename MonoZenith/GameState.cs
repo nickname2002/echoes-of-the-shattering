@@ -70,8 +70,6 @@ namespace MonoZenith
         {
             GameTime = deltaTime;
             
-            Console.WriteLine(Npc.Health);
-            
             // Make sure all cards are updated
             Player.Update(deltaTime);
             Npc.Update(deltaTime);
