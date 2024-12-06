@@ -23,6 +23,7 @@ namespace MonoZenith.Engine.Support
         public Texture2D MainMenuBackdrop;
         public Texture2D MainMenuHoverIndicator;
         public Texture2D Backdrop;
+        public Texture2D LimgraveBackdrop;
         public Texture2D Player;
         public Texture2D Npc;
         public Texture2D PlayerCurrent;
@@ -102,6 +103,7 @@ namespace MonoZenith.Engine.Support
             PlayerCurrent = _game.LoadImage("Images/Player/player-current.png");
             PlayerWaiting = _game.LoadImage("Images/Player/player-waiting.png");
             Backdrop = _game.LoadImage("Images/Backdrops/backdrop.png");
+            LimgraveBackdrop = _game.LoadImage("Images/Backdrops/limgrave-backdrop.png");
             EndTurnButtonIdleTexture = _game.LoadImage("Images/EndTurnButton/end-turn-button-idle.png");
             EndTurnButtonHoverTexture = _game.LoadImage("Images/EndTurnButton/end-turn-button-hover.png");
             EndTurnButtonDisabledTexture = _game.LoadImage("Images/EndTurnButton/end-turn-button-disabled.png");

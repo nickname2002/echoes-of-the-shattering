@@ -2,20 +2,24 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using MonoZenith.Engine.Support;
+using MonoZenith.Support.Managers;
 
 namespace MonoZenith.Screen
 {
-    internal class GameScreen : Screen
+    public class GameScreen : Screen
     {
-        private readonly GameState _gameState;
-        private readonly SoundEffectInstance _backgroundMusic;
+        private SoundEffectInstance _backgroundMusic;
+
+        public GameState GameState { get; }
 
         public GameScreen(Game game) : base(game)
         {
-            _gameState = new GameState(game);
+            GameState = new GameState(game);
             _backgroundMusic = DataManager.GetInstance(game).LimgraveMusic.CreateInstance();
             _backgroundMusic.IsLooped = true;
         }
+        
+        public void SetBackgroundMusic(SoundEffectInstance music) => _backgroundMusic = music;
 
         public override void Unload()
         {
@@ -33,7 +37,7 @@ namespace MonoZenith.Screen
 
         public override void Load()
         {
-            _gameState.InitializeState();
+            GameState.InitializeState();
             _game.StartFadeIn();
             
             float musicFadeInSpeed = 0.015f;
@@ -55,7 +59,7 @@ namespace MonoZenith.Screen
         {
             _backgroundMusic.Play();
             _backgroundMusic.Volume = 1;
-            _gameState.Update(deltaTime);
+            GameState.Update(deltaTime);
         }
 
         /// <summary>
@@ -63,7 +67,7 @@ namespace MonoZenith.Screen
         /// </summary>
         public override void Draw()
         {
-            _gameState.Draw();
+            GameState.Draw();
         }
     }
 }
