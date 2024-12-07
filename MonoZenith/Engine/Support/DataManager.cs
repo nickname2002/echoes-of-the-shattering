@@ -83,20 +83,45 @@ namespace MonoZenith.Engine.Support
         public SoundEffect LimgraveMusic;
         public SoundEffect StartButtonSound;
         public SoundEffect PlayerTurnSound;
-        public SoundEffect DamageSound;
-        public SoundEffect HealingSound;
-        public SoundEffect LightSwordAttack;
-        public SoundEffect CardSound2;
-        public SoundEffect HeavySwordAttack;
-        public SoundEffect GlintStonePebble;
-        public SoundEffect FlaskOfCrimsonTears;
-        public SoundEffect FlaskOfCeruleanTears;
         public SoundEffect EndPlayerTurnSound;
         public SoundEffect PlayerDeathSound;
         public SoundEffect EnemyDeathSound;
         public SoundEffect RetrieveCardsSound;
         public SoundEffect SpiritAshSummonSound;
-        
+
+        public SoundEffect DamageSound;
+        public SoundEffect CardSound2;
+        public SoundEffect HealingSound;
+
+        public SoundEffect LightSwordSound;
+        public SoundEffect HeavySwordSound;
+        public SoundEffect UnsheatheSound;
+        public SoundEffect BloodhoundSound;
+        public SoundEffect EndureSound;
+        public SoundEffect DoubleSlashSound;
+        public SoundEffect StormcallerSound;
+        public SoundEffect QuickstepSound;
+        public SoundEffect WarCrySound;
+        public SoundEffect RallyingSound;
+        public SoundEffect CommandKneelSound;
+        public SoundEffect WaterfowlDanceSound;
+
+        public SoundEffect GlintPebbleSound;
+        public SoundEffect GlintPhalanxSound;
+        public SoundEffect CarianGSwordSound;
+        public SoundEffect ThopsBarrierSound;
+        public SoundEffect GreatShardSound;
+        public SoundEffect CometAzurSound;
+
+        public SoundEffect FlaskCrimsonSound;
+        public SoundEffect FlaskCeruleanSound;
+        public SoundEffect WondrousPhysickSound;
+        public SoundEffect BaldachinBlessSound;
+        public SoundEffect LarvalTearSound;
+        public SoundEffect WarmingStoneSound;
+        public SoundEffect PoisonPotSound;
+        public SoundEffect ThrowingDaggerSound;
+
         private DataManager(Game game)
         {
             _game = game;
@@ -183,19 +208,44 @@ namespace MonoZenith.Engine.Support
             PlayerTurnSound = _game.LoadAudio("Audio/SoundEffects/player-turn-sound.wav");
             LimgraveMusic = _game.LoadAudio("Audio/Music/limgrave-music.wav");
             StartButtonSound = _game.LoadAudio("Audio/SoundEffects/start-button-sound.wav");
-            DamageSound = _game.LoadAudio("Audio/SoundEffects/damage-sound.wav");
-            HealingSound = _game.LoadAudio("Audio/SoundEffects/healing-sound.wav");
-            LightSwordAttack = _game.LoadAudio("Audio/SoundEffects/light-sword-attack.wav");
-            CardSound2 = _game.LoadAudio("Audio/SoundEffects/card-sound2.wav");
-            HeavySwordAttack = _game.LoadAudio("Audio/SoundEffects/heavy-sword-attack.wav");
-            GlintStonePebble = _game.LoadAudio("Audio/SoundEffects/glintstone-pebble.wav");
-            FlaskOfCrimsonTears = _game.LoadAudio("Audio/SoundEffects/flask-of-crimson-tears.wav");
-            FlaskOfCeruleanTears = _game.LoadAudio("Audio/SoundEffects/flask-of-cerulean-tears.wav");
             EndPlayerTurnSound = _game.LoadAudio("Audio/SoundEffects/end-turn-sound-effect.wav");
             PlayerDeathSound = _game.LoadAudio("Audio/SoundEffects/player-death.wav");
             EnemyDeathSound = _game.LoadAudio("Audio/SoundEffects/enemy-felled.wav");
             RetrieveCardsSound = _game.LoadAudio("Audio/SoundEffects/retrieve-cards.wav");
             SpiritAshSummonSound = _game.LoadAudio("Audio/SoundEffects/spirit-ash-summon.wav");
+
+            DamageSound = _game.LoadAudio("Audio/SoundEffects/damage-sound.wav");
+            HealingSound = _game.LoadAudio("Audio/SoundEffects/healing-sound.wav");
+            CardSound2 = _game.LoadAudio("Audio/SoundEffects/card-sound2.wav");
+
+            LightSwordSound = _game.LoadAudio("Audio/SoundEffects/light-sword-attack.wav");
+            HeavySwordSound = _game.LoadAudio("Audio/SoundEffects/heavy-sword-attack.wav");
+            UnsheatheSound = _game.LoadAudio("Audio/SoundEffects/heavy-sword-attack.wav");
+            BloodhoundSound = _game.LoadAudio("Audio/SoundEffects/heavy-sword-attack.wav");
+            EndureSound = _game.LoadAudio("Audio/SoundEffects/heavy-sword-attack.wav");
+            DoubleSlashSound = _game.LoadAudio("Audio/SoundEffects/heavy-sword-attack.wav");
+            StormcallerSound = _game.LoadAudio("Audio/SoundEffects/heavy-sword-attack.wav");
+            QuickstepSound = _game.LoadAudio("Audio/SoundEffects/heavy-sword-attack.wav");
+            WarCrySound = _game.LoadAudio("Audio/SoundEffects/heavy-sword-attack.wav");
+            RallyingSound = _game.LoadAudio("Audio/SoundEffects/heavy-sword-attack.wav");
+            CommandKneelSound = _game.LoadAudio("Audio/SoundEffects/heavy-sword-attack.wav");
+            WaterfowlDanceSound = _game.LoadAudio("Audio/SoundEffects/heavy-sword-attack.wav");
+
+            GlintPebbleSound = _game.LoadAudio("Audio/SoundEffects/glintstone-pebble.wav");
+            GlintPhalanxSound = _game.LoadAudio("Audio/SoundEffects/heavy-sword-attack.wav");
+            CarianGSwordSound = _game.LoadAudio("Audio/SoundEffects/heavy-sword-attack.wav");
+            ThopsBarrierSound = _game.LoadAudio("Audio/SoundEffects/heavy-sword-attack.wav");
+            GreatShardSound = _game.LoadAudio("Audio/SoundEffects/heavy-sword-attack.wav");
+            CometAzurSound = _game.LoadAudio("Audio/SoundEffects/heavy-sword-attack.wav");
+
+            FlaskCrimsonSound = _game.LoadAudio("Audio/SoundEffects/flask-of-crimson-tears.wav");
+            FlaskCeruleanSound = _game.LoadAudio("Audio/SoundEffects/flask-of-cerulean-tears.wav");
+            WondrousPhysickSound = _game.LoadAudio("Audio/SoundEffects/heavy-sword-attack.wav");
+            BaldachinBlessSound = _game.LoadAudio("Audio/SoundEffects/heavy-sword-attack.wav");
+            LarvalTearSound = _game.LoadAudio("Audio/SoundEffects/heavy-sword-attack.wav");
+            WarmingStoneSound = _game.LoadAudio("Audio/SoundEffects/heavy-sword-attack.wav");
+            PoisonPotSound = _game.LoadAudio("Audio/SoundEffects/heavy-sword-attack.wav");
+            ThrowingDaggerSound = _game.LoadAudio("Audio/SoundEffects/heavy-sword-attack.wav");
         }
 
         // Methode om een SoundEffectInstance te maken en af te spelen

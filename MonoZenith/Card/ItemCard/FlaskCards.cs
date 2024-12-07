@@ -16,7 +16,7 @@ public class FlaskOfCeruleanTearsCard : ItemCard
     {
         FocusBoost = 30;
         _frontTexture = DataManager.GetInstance(_game).CardFlaskCerulean;
-        _soundOnPlay = DataManager.GetInstance(_game).FlaskOfCeruleanTears.CreateInstance();
+        _soundOnPlay = DataManager.GetInstance(_game).FlaskCeruleanSound.CreateInstance();
         _description.Add("Restore " + FocusBoost + " FP.");
     }
 
@@ -50,7 +50,7 @@ public class FlaskOfCrimsonTearsCard : ItemCard
     {
         HealthBoost = 75;
         _frontTexture = DataManager.GetInstance(_game).CardFlaskCrimson;
-        _soundOnPlay = DataManager.GetInstance(_game).FlaskOfCrimsonTears.CreateInstance();
+        _soundOnPlay = DataManager.GetInstance(_game).FlaskCrimsonSound.CreateInstance();
         _description.Add("Restore " + HealthBoost + " HP.");
     }
 
@@ -86,8 +86,7 @@ public class FlaskOfWondrousPhysickCard : ItemCard
         HealthBoost = 50;
         FocusBoost = 15;
         _frontTexture = DataManager.GetInstance(_game).CardWondrousPhysick;
-        //TODO CHANGE
-        _soundOnPlay = DataManager.GetInstance(_game).FlaskOfCrimsonTears.CreateInstance();
+        _soundOnPlay = DataManager.GetInstance(_game).WondrousPhysickSound.CreateInstance();
         _description.Add("Restore " + HealthBoost + " HP and " + FocusBoost + ".");
     }
 
@@ -124,8 +123,7 @@ public class WarmingStoneCard : ItemCard
     {
         HealthBoost = 10;
         _frontTexture = DataManager.GetInstance(_game).CardWarmingStone;
-        //TODO CHANGE
-        _soundOnPlay = DataManager.GetInstance(_game).FlaskOfCrimsonTears.CreateInstance();
+        _soundOnPlay = DataManager.GetInstance(_game).WarmingStoneSound.CreateInstance();
         _description.Add("Restore " + HealthBoost + " HP");
         _description.Add("For 2 turns.");
     }
@@ -134,9 +132,9 @@ public class WarmingStoneCard : ItemCard
     {
         base.PerformEffect();
         _owner.BuffManager.Buffs.Add(new HealingEffectBuff(
-        _state, 
-        _owner.BuffManager, 
-        2, 
+        _state,
+        _owner.BuffManager,
+        2,
         (int)(HealthBoost + Buff)));
     }
 

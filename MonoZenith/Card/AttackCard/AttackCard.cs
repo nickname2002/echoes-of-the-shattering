@@ -92,7 +92,7 @@ public class LightSwordAttackCard : AttackCard
         OriginalStaminaCost = StaminaCost;
         _damage = 10;
         _frontTexture = DataManager.GetInstance(_game).CardLightAttack;
-        _soundOnPlay = DataManager.GetInstance(_game).LightSwordAttack.CreateInstance();
+        _soundOnPlay = DataManager.GetInstance(_game).LightSwordSound.CreateInstance();
         _name = "LightSwordAttackCard";
         _description.Add("Deal " + _damage + " damage.");
     }
@@ -112,7 +112,7 @@ public class HeavySwordAttackCard : AttackCard
         OriginalStaminaCost = StaminaCost;
         _damage = 20;
         _frontTexture = DataManager.GetInstance(_game).CardHeavyAttack;
-        _soundOnPlay = DataManager.GetInstance(_game).HeavySwordAttack.CreateInstance();
+        _soundOnPlay = DataManager.GetInstance(_game).HeavySwordSound.CreateInstance();
         _name = "HeavySwordAttackCard";
         _description.Add("Deal " + _damage + " damage.");
     }
@@ -134,8 +134,7 @@ public class UnsheatheCard : AttackCard
         OriginalStaminaCost = StaminaCost;
         _damage = 0;
         _frontTexture = DataManager.GetInstance(_game).CardUnsheathe;
-        //TODO CHANGE
-        _soundOnPlay = DataManager.GetInstance(_game).LightSwordAttack.CreateInstance();
+        _soundOnPlay = DataManager.GetInstance(_game).UnsheatheSound.CreateInstance();
         _name = "UnsheatheCard";
         _description.Add("Next melee card deals");
         _description.Add("double damage");
@@ -159,8 +158,7 @@ public class BloodhoundStepCard : AttackCard
         OriginalStaminaCost = StaminaCost;
         _damage = 20;
         _frontTexture = DataManager.GetInstance(_game).CardBloodhound;
-        //TODO CHANGE
-        _soundOnPlay = DataManager.GetInstance(_game).LightSwordAttack.CreateInstance();
+        _soundOnPlay = DataManager.GetInstance(_game).BloodhoundSound.CreateInstance();
         _name = "BloodhoundStepCard";
         _description.Add("Deal " + _damage + " damage.");
         _description.Add("Ignore next");
@@ -191,8 +189,7 @@ public class QuickstepCard : AttackCard
         OriginalStaminaCost = StaminaCost;
         _damage = 0;
         _frontTexture = DataManager.GetInstance(_game).CardQuickstep;
-        //TODO CHANGE
-        _soundOnPlay = DataManager.GetInstance(_game).LightSwordAttack.CreateInstance();
+        _soundOnPlay = DataManager.GetInstance(_game).QuickstepSound.CreateInstance();
         _name = "QuickstepCard";
         _description.Add("Ignore next");
         _description.Add("enemy attack");
@@ -218,8 +215,7 @@ public class EndureCard : AttackCard
         OriginalStaminaCost = StaminaCost;
         _damage = 0;
         _frontTexture = DataManager.GetInstance(_game).CardEndure;
-        //TODO CHANGE
-        _soundOnPlay = DataManager.GetInstance(_game).LightSwordAttack.CreateInstance();
+        _soundOnPlay = DataManager.GetInstance(_game).EndureSound.CreateInstance();
         _name = "EndureCard";
         _description.Add("Reduce damage taken");
         _description.Add("by half next turn");
@@ -245,8 +241,7 @@ public class DoubleSlashCard : AttackCard
         OriginalStaminaCost = StaminaCost;
         _damage = 20;
         _frontTexture = DataManager.GetInstance(_game).CardDoubleSlash;
-        //TODO CHANGE
-        _soundOnPlay = DataManager.GetInstance(_game).LightSwordAttack.CreateInstance();
+        _soundOnPlay = DataManager.GetInstance(_game).DoubleSlashSound.CreateInstance();
         _name = "DoubleSlashCard";
         _description.Add("Deal " + _damage + " damage.");
         _description.Add("Next attack costs");
@@ -276,8 +271,7 @@ public class WarCryCard : AttackCard
         OriginalStaminaCost = StaminaCost;
         _damage = 5;
         _frontTexture = DataManager.GetInstance(_game).CardWarCry;
-        //TODO CHANGE
-        _soundOnPlay = DataManager.GetInstance(_game).LightSwordAttack.CreateInstance();
+        _soundOnPlay = DataManager.GetInstance(_game).WarCrySound.CreateInstance();
         _name = "DoubleSlashCard";
         _description.Add("Deal " + _damage + " damage.");
         _description.Add("+10 damage to");
@@ -308,8 +302,7 @@ public class StormcallerCard : AttackCard
         OriginalStaminaCost = StaminaCost;
         _damage = 15;
         _frontTexture = DataManager.GetInstance(_game).CardStormcaller;
-        //TODO CHANGE
-        _soundOnPlay = DataManager.GetInstance(_game).LightSwordAttack.CreateInstance();
+        _soundOnPlay = DataManager.GetInstance(_game).StormcallerSound.CreateInstance();
         _name = "StormcallerCard";
         _description.Add("Deal " + _damage + " damage.");
         _description.Add("Reduce stamina of");
@@ -340,8 +333,7 @@ public class RallyingStandardCard : AttackCard
         OriginalStaminaCost = StaminaCost;
         _damage = 0;
         _frontTexture = DataManager.GetInstance(_game).CardRallyingStandard;
-        //TODO CHANGE
-        _soundOnPlay = DataManager.GetInstance(_game).LightSwordAttack.CreateInstance();
+        _soundOnPlay = DataManager.GetInstance(_game).RallyingSound.CreateInstance();
         _name = "RallyingStandardCard";
         _description.Add("+ 10 damage to all");
         _description.Add("cards next 2 turns");
@@ -368,8 +360,7 @@ public class ICommandTheeKneelCard : AttackCard
         OriginalStaminaCost = StaminaCost;
         _damage = 30;
         _frontTexture = DataManager.GetInstance(_game).CardCommandKneel;
-        //TODO CHANGE
-        _soundOnPlay = DataManager.GetInstance(_game).LightSwordAttack.CreateInstance();
+        _soundOnPlay = DataManager.GetInstance(_game).CommandKneelSound.CreateInstance();
         _name = "ICommandTheeKneelCard";
         _description.Add("Deal " + _damage + " damage.");
         _description.Add("Reduce stamina of");
@@ -400,8 +391,7 @@ public class WaterfowlDanceCard : AttackCard
         OriginalStaminaCost = StaminaCost;
         _damage = 40;
         _frontTexture = DataManager.GetInstance(_game).CardWaterfowlDance;
-        //TODO CHANGE
-        _soundOnPlay = DataManager.GetInstance(_game).LightSwordAttack.CreateInstance();
+        _soundOnPlay = DataManager.GetInstance(_game).WaterfowlDanceSound.CreateInstance();
         _name = "DoubleSlashCard";
         _description.Add("Deal " + _damage + " damage.");
         _description.Add("Ignore next");
@@ -434,8 +424,7 @@ public class ThrowingDaggerCard : AttackCard
         OriginalStaminaCost = StaminaCost;
         _damage = 5f;
         _frontTexture = DataManager.GetInstance(_game).CardThrowingDagger;
-        //TODO CHANGE
-        _soundOnPlay = DataManager.GetInstance(_game).LightSwordAttack.CreateInstance();
+        _soundOnPlay = DataManager.GetInstance(_game).ThrowingDaggerSound.CreateInstance();
         _name = "ThrowingDaggerCard";
         _description.Add("Deal " + _damage + " damage.");
     }
@@ -460,8 +449,7 @@ public class PoisonPotCard : AttackCard
         OriginalStaminaCost = StaminaCost;
         _damage = 5f;
         _frontTexture = DataManager.GetInstance(_game).CardPoisonPot;
-        //TODO CHANGE
-        _soundOnPlay = DataManager.GetInstance(_game).FlaskOfCrimsonTears.CreateInstance();
+        _soundOnPlay = DataManager.GetInstance(_game).PoisonPotSound.CreateInstance();
         _description.Add("Deal " + _damage + " damage.");
         _description.Add("For 2 turns");
     }

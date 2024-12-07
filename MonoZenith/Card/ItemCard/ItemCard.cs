@@ -33,8 +33,7 @@ public class LarvalTearCard : ItemCard
         base(game, state, owner)
     {
         _frontTexture = DataManager.GetInstance(_game).CardLarvalTear;
-        //TODO CHANGE
-        _soundOnPlay = DataManager.GetInstance(_game).FlaskOfCrimsonTears.CreateInstance();
+        _soundOnPlay = DataManager.GetInstance(_game).LarvalTearSound.CreateInstance();
         _description.Add("Discard all of your cards");
         _description.Add("and draw 5 new cards");
     }
@@ -54,7 +53,7 @@ public class BaldachinBlessingCard : ItemCard
         base(game, state, owner)
     {
         _frontTexture = DataManager.GetInstance(_game).CardBaldachinBless;
-        _soundOnPlay = DataManager.GetInstance(_game).FlaskOfCrimsonTears.CreateInstance();
+        _soundOnPlay = DataManager.GetInstance(_game).BaldachinBlessSound.CreateInstance();
         _description.Add("Reduce damage taken");
         _description.Add("by half next turn");
         _description.Add("but take 10 damage");
