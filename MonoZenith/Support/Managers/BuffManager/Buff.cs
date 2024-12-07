@@ -178,7 +178,7 @@ public class HealingEffectBuff : TurnBuff
         _healingPercentage = healingPercentage;
 
         // TODO: Add more fitting sound effect
-        _healingSound = DataManager.GetInstance(state.Game).FlaskOfCeruleanTears;
+        _healingSound = DataManager.GetInstance(state.Game).FlaskCeruleanSound;
     }
 
     public override void PerformEffect()
@@ -208,7 +208,7 @@ public class StaminaEffectDebuff : TurnBuff
         _staminaAmount = staminaAmount;
 
         // TODO: Add more fitting sound effect
-        _staminaSound = DataManager.GetInstance(state.Game).FlaskOfCeruleanTears;
+        _staminaSound = DataManager.GetInstance(state.Game).FlaskCeruleanSound;
     }
 
     public override void PerformEffect()
