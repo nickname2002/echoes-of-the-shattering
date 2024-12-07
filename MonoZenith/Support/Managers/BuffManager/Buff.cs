@@ -192,7 +192,8 @@ public class HealingEffectBuff : TurnBuff
         if (_owner == null) return;
         if (_state.TurnManager.CurrentPlayer != _owner) return;
 
-        _owner.Health += _owner.OriginalHealth * _healingPercentage / 100;
+        _owner.Health = _owner.OriginalHealth * _healingPercentage / 100 > 100 ?
+            100 : _owner.OriginalHealth * _healingPercentage / 100;
         _healingSound.Play();
     }
 }
@@ -294,6 +295,7 @@ public class DamageReductionDebuff : TurnBuff
     public override void PerformEffect()
     {
         if (BuffRemoved()) return;
+        if (CheckEvasionDebuff()) return;
         if (!RoundSwitched()) return;
 
         _currentRoundNumber = _state.TurnManager.RoundNumber;
@@ -318,6 +320,11 @@ public class DamageReductionDebuff : TurnBuff
             card.Buff = 0;
 
         return true;
+    }
+
+    public bool CheckEvasionDebuff()
+    {
+        return _owner.BuffManager.Debuffs.OfType<DamageEvasionDebuff>().Any();
     }
 }
 
@@ -345,6 +352,7 @@ public class DamageEvasionDebuff : TurnBuff
         {
             card.Buff = card switch
             {
+                MagicCard magicCard => -magicCard.Damage,
                 AttackCard attackCard => -attackCard.Damage,
                 _ => card.Buff
             };
@@ -420,6 +428,7 @@ public class DamageIncreaseBuff : TurnBuff
         {
             card.Buff = card switch
             {
+                MagicCard magicCard => _increaseAmount,
                 AttackCard attackCard => _increaseAmount,
                 _ => card.Buff
             };

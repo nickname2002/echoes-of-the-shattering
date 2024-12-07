@@ -71,7 +71,7 @@ public class BaldachinBlessingCard : ItemCard
         _owner.OpposingPlayer.BuffManager.Debuffs.Add(new DamageReductionDebuff(
         _state,
         _owner.OpposingPlayer.BuffManager,
-        1,
+        2,
         50));
     }
 }

@@ -161,7 +161,7 @@ public class BloodhoundStepCard : AttackCard
         _soundOnPlay = DataManager.GetInstance(_game).BloodhoundSound.CreateInstance();
         _name = "BloodhoundStepCard";
         _description.Add("Deal " + _damage + " damage.");
-        _description.Add("Ignore next");
+        _description.Add("Ignore the next");
         _description.Add("enemy attack");
     }
     public override void PerformEffect()
@@ -191,7 +191,7 @@ public class QuickstepCard : AttackCard
         _frontTexture = DataManager.GetInstance(_game).CardQuickstep;
         _soundOnPlay = DataManager.GetInstance(_game).QuickstepSound.CreateInstance();
         _name = "QuickstepCard";
-        _description.Add("Ignore next");
+        _description.Add("Ignore the next");
         _description.Add("enemy attack");
     }
     public override void PerformEffect()
@@ -201,7 +201,7 @@ public class QuickstepCard : AttackCard
         _owner.OpposingPlayer.BuffManager.Debuffs.Add(new DamageEvasionDebuff(
         _state,
         _owner.OpposingPlayer.BuffManager,
-        1,
+        2,
         1));
     }
 }
@@ -227,7 +227,7 @@ public class EndureCard : AttackCard
         _owner.OpposingPlayer.BuffManager.Debuffs.Add(new DamageReductionDebuff(
         _state,
         _owner.OpposingPlayer.BuffManager,
-        1,
+        2,
         50));
     }
 }
@@ -273,7 +273,7 @@ public class WarCryCard : AttackCard
         _frontTexture = DataManager.GetInstance(_game).CardWarCry;
         _soundOnPlay = DataManager.GetInstance(_game).WarCrySound.CreateInstance();
         _name = "DoubleSlashCard";
-        _description.Add("Deal " + _damage + " damage.");
+        _description.Add("Deal " + _damage + " damage and");
         _description.Add("+10 damage to");
         _description.Add("all cards next turn");
     }
@@ -289,7 +289,7 @@ public class WarCryCard : AttackCard
 
     protected override void UpdateDescription()
     {
-        _description[0] = "Deal " + (_damage + Buff) + " damage.";
+        _description[0] = "Deal " + (_damage + Buff) + " damage and";
     }
 }
 
@@ -362,7 +362,7 @@ public class ICommandTheeKneelCard : AttackCard
         _frontTexture = DataManager.GetInstance(_game).CardCommandKneel;
         _soundOnPlay = DataManager.GetInstance(_game).CommandKneelSound.CreateInstance();
         _name = "ICommandTheeKneelCard";
-        _description.Add("Deal " + _damage + " damage.");
+        _description.Add("Deal " + _damage + " damage and");
         _description.Add("Reduce stamina of");
         _description.Add("enemy by 20 next turn");
     }
@@ -378,7 +378,7 @@ public class ICommandTheeKneelCard : AttackCard
 
     protected override void UpdateDescription()
     {
-        _description[0] = "Deal " + (_damage + Buff) + " damage.";
+        _description[0] = "Deal " + (_damage + Buff) + " damage and";
     }
 }
 
@@ -394,7 +394,7 @@ public class WaterfowlDanceCard : AttackCard
         _soundOnPlay = DataManager.GetInstance(_game).WaterfowlDanceSound.CreateInstance();
         _name = "DoubleSlashCard";
         _description.Add("Deal " + _damage + " damage.");
-        _description.Add("Ignore next");
+        _description.Add("Ignore the next");
         _description.Add("3 enemy attacks");
     }
     public override void PerformEffect()
@@ -403,7 +403,7 @@ public class WaterfowlDanceCard : AttackCard
         _owner.OpposingPlayer.BuffManager.Debuffs.Add(new DamageEvasionDebuff(
         _state,
         _owner.OpposingPlayer.BuffManager,
-        1,
+        2,
         3));
     }
 
