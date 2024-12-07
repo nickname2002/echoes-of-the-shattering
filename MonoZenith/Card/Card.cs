@@ -5,11 +5,11 @@ using MonoZenith.Card.CardStack;
 using MonoZenith.Engine.Support;
 using MonoZenith.Players;
 using System.Collections.Generic;
-using System;
+using MonoZenith.Items;
 
 namespace MonoZenith.Card
 {
-    public abstract class Card
+    public abstract class Card : Item
     {
         protected Game _game;
         protected GameState _state;

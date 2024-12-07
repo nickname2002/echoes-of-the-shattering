@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Audio;
 using MonoZenith.Components;
 using MonoZenith.Engine.Support;
 using MonoZenith.Players;
+using MonoZenith.Screen.RewardPanel;
 
 namespace MonoZenith.Support.Managers;
 
@@ -13,25 +14,44 @@ public class GameOverManager
     private readonly TransitionComponent _gameOverTransitionComponent;
     private readonly SoundEffectInstance _playerDeathSound;
     private readonly SoundEffectInstance _enemyDeathSound;
+    private readonly RewardPanel _rewardPanel;
+    
+    public bool TransitionComplete { get; set; }
+    public Player? Winner => _currentWinner;
 
     public GameOverManager(Game game)
     {
         var dataManager = DataManager.GetInstance(game);
-        _gameOverTransitionComponent = new TransitionComponent(
-            game, "YOU DIED", Color.Gold, dataManager.GameOverTransitionComponentFont,
-            1f, 3f, 1f, game.BackToMainMenu);
-
+        TransitionComplete = false;
         _playerDeathSound = dataManager.PlayerDeathSound.CreateInstance();
         _enemyDeathSound = dataManager.EnemyDeathSound.CreateInstance();
+        var newItemSound = dataManager.NewItemSound.CreateInstance();
+        _gameOverTransitionComponent = new TransitionComponent(
+            game, "YOU DIED", Color.Gold, dataManager.GameOverTransitionComponentFont,
+            1f, 3f, 1f, () =>
+            {
+                if (_currentWinner is NpcPlayer)
+                {
+                    game.BackToMainMenu();
+                    return;
+                }
+                
+                TransitionComplete = true;
+                newItemSound.Play();
+            });
+        _rewardPanel = new RewardPanel(game);
     }
 
     /// <summary>
     /// Reset the state of the GameOverManager.
     /// </summary>
-    public void InitializeState()
+    /// <param name="reward">Reward the player will receive if they win.</param>>
+    public void InitializeState(Reward reward)
     {
         _currentWinner = null;
+        TransitionComplete = false;
         _gameOverTransitionComponent.Reset();
+        _rewardPanel.Initialize(reward);
     }
 
     /// <summary>
@@ -51,16 +71,13 @@ public class GameOverManager
         return null;
     }
 
-    /// <summary>
-    /// Displays the game over message.
-    /// </summary>
-    public void DisplayGameOverMessage() => _gameOverTransitionComponent.Draw();
-
-    /// <summary>
-    /// Updates the transition component.
-    /// </summary>
-    /// <param name="deltaTime">The time since the last update.</param>
-    public void UpdateGameOverTransition(GameTime deltaTime) => _gameOverTransitionComponent.Update(deltaTime);
+    public void UpdateRewardPanel(GameTime deltaTime) => _rewardPanel.Update(deltaTime);
+    
+    public void UpdateTransitionComponent(GameTime deltaTime) => _gameOverTransitionComponent.Update(deltaTime);
+    
+    public void DrawRewardPanel() => _rewardPanel.Draw();
+    
+    public void DrawTransitionComponent() => _gameOverTransitionComponent.Draw();
 
     private Player HandleWin(Player winner, string message, Color color, SoundEffectInstance soundEffect)
     {
