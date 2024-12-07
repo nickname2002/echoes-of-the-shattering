@@ -4,6 +4,7 @@
     {
         NONE,
         GAME,
+        OVERWORLD,
         PAUSE,
         MAIN_MENU
     }

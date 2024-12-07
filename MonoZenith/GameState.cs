@@ -1,5 +1,7 @@
 #nullable enable
+using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Card.CardStack;
 using MonoZenith.Engine.Support;
 using MonoZenith.Players;
@@ -13,9 +15,10 @@ namespace MonoZenith
         public GameTime GameTime;
         public readonly TurnManager TurnManager;
         public readonly GameOverManager GameOverManager;
-        public readonly HumanPlayer Player;
-        public readonly NpcPlayer Npc;
+        public HumanPlayer Player;
+        public NpcPlayer Npc;
         public readonly CardStack PlayedCards;
+        private Texture2D? _backdrop;
 
         public GameState(Game game)
         {
@@ -26,6 +29,17 @@ namespace MonoZenith
             Player = new HumanPlayer(Game, this, "Player");
             Npc = new NpcPlayer(Game, this, "NPC");
             PlayedCards = new CardStack(Game, this, true);
+            InitializeState();
+        }
+
+        /// <summary>
+        /// Set the current level
+        /// </summary>
+        /// <param name="level">The level</param>
+        public void SetLevel(Level level)
+        {
+            Npc = level.Enemy;
+            _backdrop = level.Backdrop;
             InitializeState();
         }
         
@@ -81,7 +95,7 @@ namespace MonoZenith
         {
             // Draw backdrop
             Game.DrawImage(
-                DataManager.GetInstance(Game).Backdrop, 
+                _backdrop, 
                 Vector2.Zero, 
                 AppSettings.Scaling.ScaleFactor);
             
