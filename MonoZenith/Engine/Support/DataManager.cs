@@ -135,7 +135,6 @@ namespace MonoZenith.Engine.Support
         public SoundEffect LarvalTearSound;
         public SoundEffect WarmingStoneSound;
         public SoundEffect PoisonPotSound;
-        public SoundEffect ThrowingDaggerSound;
 
         private DataManager(Game game)
         {
