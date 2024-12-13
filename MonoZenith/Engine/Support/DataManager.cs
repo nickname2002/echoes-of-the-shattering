@@ -17,6 +17,7 @@ namespace MonoZenith.Engine.Support
         public SpriteFont IndicatorFont;
         public SpriteFont TransitionComponentFont;
         public SpriteFont GameOverTransitionComponentFont;
+        public SpriteFont RewardFont;
         
         // Textures
         public Texture2D MonoZenithLogo;
@@ -24,6 +25,7 @@ namespace MonoZenith.Engine.Support
         public Texture2D MainMenuHoverIndicator;
         public Texture2D Backdrop;
         public Texture2D LimgraveBackdrop;
+        public Texture2D CaelidBackdrop;
         public Texture2D Player;
         public Texture2D Npc;
         public Texture2D PlayerCurrent;
@@ -31,13 +33,23 @@ namespace MonoZenith.Engine.Support
         public Texture2D DeckIndicator;
         public Texture2D ReserveIndicator;
         
+        // Remembrances
+        public Texture2D RemembranceOfTheStarscourge;
+        
+        // Indicators
         public Texture2D AshIndicatorDisabled;
         public Texture2D AshIndicatorEnabled;
         public Texture2D AshIndicatorHovered;
         
+        // Spirit ashes
         public Texture2D MimicTearAsh;
         public Texture2D JellyfishAsh;
         public Texture2D WolvesAsh;
+        
+        // Reward panel
+        public Texture2D RewardContainer;
+        public Texture2D CollectRewardButton;
+        public Texture2D CollectRewardButtonHover;
         
         public Texture2D EndTurnButtonIdleTexture;
         public Texture2D EndTurnButtonHoverTexture;
@@ -88,6 +100,9 @@ namespace MonoZenith.Engine.Support
         public SoundEffect EnemyDeathSound;
         public SoundEffect RetrieveCardsSound;
         public SoundEffect SpiritAshSummonSound;
+        public SoundEffect ThrowingDaggerSound;
+        public SoundEffect NewItemSound; 
+        
 
         public SoundEffect DamageSound;
         public SoundEffect CardSound2;
@@ -143,6 +158,7 @@ namespace MonoZenith.Engine.Support
             IndicatorFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1.25f * AppSettings.Scaling.ScaleFactor);
             TransitionComponentFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 3.5f * AppSettings.Scaling.ScaleFactor);
             GameOverTransitionComponentFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 5f * AppSettings.Scaling.ScaleFactor);
+            RewardFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1.3f * AppSettings.Scaling.ScaleFactor);
             
             // Load textures
             MonoZenithLogo = _game.LoadImage("Images/monozenith.png");
@@ -154,19 +170,30 @@ namespace MonoZenith.Engine.Support
             PlayerWaiting = _game.LoadImage("Images/Player/player-waiting.png");
             Backdrop = _game.LoadImage("Images/Backdrops/backdrop.png");
             LimgraveBackdrop = _game.LoadImage("Images/Backdrops/limgrave-backdrop.png");
+            CaelidBackdrop = _game.LoadImage("Images/Backdrops/caelid-backdrop.png");
             EndTurnButtonIdleTexture = _game.LoadImage("Images/EndTurnButton/end-turn-button-idle.png");
             EndTurnButtonHoverTexture = _game.LoadImage("Images/EndTurnButton/end-turn-button-hover.png");
             EndTurnButtonDisabledTexture = _game.LoadImage("Images/EndTurnButton/end-turn-button-disabled.png");
             DeckIndicator = _game.LoadImage("Images/Indicators/deck-indicator.png");
             ReserveIndicator = _game.LoadImage("Images/Indicators/reserve-indicator.png");
             
+            // Remembrances
+            RemembranceOfTheStarscourge = _game.LoadImage("Images/Remembrances/remembrance-of-starscourge.png");
+            
+            // Ash indicators
             AshIndicatorDisabled = _game.LoadImage("Images/Indicators/ash-indicator-disabled.png");
             AshIndicatorEnabled = _game.LoadImage("Images/Indicators/ash-indicator-enabled.png");
             AshIndicatorHovered = _game.LoadImage("Images/Indicators/ash-indicator-hovered.png");
             
+            // Spirit ashes
             MimicTearAsh = _game.LoadImage("Images/Indicators/SpiritAshes/mimic-tear.png");
             JellyfishAsh = _game.LoadImage("Images/Indicators/SpiritAshes/jellyfish.png");
             WolvesAsh = _game.LoadImage("Images/Indicators/SpiritAshes/wolves.png");
+            
+            // Reward panel
+            RewardContainer = _game.LoadImage("Images/RewardPanel/reward-container.png");
+            CollectRewardButton = _game.LoadImage("Images/RewardPanel/collect-button.png");
+            CollectRewardButtonHover = _game.LoadImage("Images/RewardPanel/collect-button-hover.png");
             
             CardBack = _game.LoadImage("Images/Cards/back-card-design.png");
             CardFront = _game.LoadImage("Images/Cards/front-card-design.png");
@@ -213,6 +240,7 @@ namespace MonoZenith.Engine.Support
             EnemyDeathSound = _game.LoadAudio("Audio/SoundEffects/enemy-felled.wav");
             RetrieveCardsSound = _game.LoadAudio("Audio/SoundEffects/retrieve-cards.wav");
             SpiritAshSummonSound = _game.LoadAudio("Audio/SoundEffects/spirit-ash-summon.wav");
+            NewItemSound = _game.LoadAudio("Audio/SoundEffects/new-item.wav");
 
             DamageSound = _game.LoadAudio("Audio/SoundEffects/damage-sound.wav");
             HealingSound = _game.LoadAudio("Audio/SoundEffects/healing-sound.wav");

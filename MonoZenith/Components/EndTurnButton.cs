@@ -18,7 +18,7 @@ public sealed class EndTurnButton : Button
     private readonly SoundEffectInstance _endPlayerTurnSound;
     private Texture2D _currentTexture;
     private GameState _gameState;
-    private float textureScale;
+    private float _textureScale;
 
     public EndTurnButton(Game g, GameState gs, float scale = 1f) : 
         base(g, Vector2.Zero, 0, 0, "", 0, Color.Black, Color.Black, 0, Color.Black)
@@ -30,7 +30,7 @@ public sealed class EndTurnButton : Button
         _endPlayerTurnSound = DataManager.GetInstance(g).EndPlayerTurnSound.CreateInstance();
         _currentTexture = _activeIdleTexture;
         _gameState = gs;
-        textureScale = scale * 0.25f * AppSettings.Scaling.ScaleFactor;
+        _textureScale = scale * 0.25f * AppSettings.Scaling.ScaleFactor;
         UpdateDimensions();
         Position = new Vector2(
             Game.ScreenWidth - Width - 25 * AppSettings.Scaling.ScaleFactor, 
@@ -53,8 +53,8 @@ public sealed class EndTurnButton : Button
 
     private void UpdateDimensions()
     {
-        Width = (int)(_activeIdleTexture.Width * textureScale);
-        Height = (int)(_activeIdleTexture.Height * textureScale);
+        Width = (int)(_activeIdleTexture.Width * _textureScale);
+        Height = (int)(_activeIdleTexture.Height * _textureScale);
     }
 
     /// <summary>
@@ -81,6 +81,6 @@ public sealed class EndTurnButton : Button
 
     public override void Draw()
     {
-        Game.DrawImage(_currentTexture, Position, textureScale);
+        Game.DrawImage(_currentTexture, Position, _textureScale);
     }
 }
