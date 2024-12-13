@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Engine.Support;
 using MonoZenith.Players;
+using MonoZenith.Support.Managers;
 
 namespace MonoZenith.Card;
 
@@ -15,7 +16,7 @@ public class FlaskOfCeruleanTearsCard : ItemCard
     {
         FocusBoost = 30;
         _frontTexture = DataManager.GetInstance(_game).CardFlaskCerulean;
-        _soundOnPlay = DataManager.GetInstance(_game).FlaskOfCeruleanTears.CreateInstance();
+        _soundOnPlay = DataManager.GetInstance(_game).FlaskCeruleanSound.CreateInstance();
         _description.Add("Restore " + FocusBoost + " FP.");
     }
 
@@ -49,8 +50,8 @@ public class FlaskOfCrimsonTearsCard : ItemCard
     {
         HealthBoost = 75;
         _frontTexture = DataManager.GetInstance(_game).CardFlaskCrimson;
-        _soundOnPlay = DataManager.GetInstance(_game).FlaskOfCrimsonTears.CreateInstance();
-        _description.Add("Restore " + (HealthBoost + Buff) + " HP.");
+        _soundOnPlay = DataManager.GetInstance(_game).FlaskCrimsonSound.CreateInstance();
+        _description.Add("Restore " + HealthBoost + " HP.");
     }
 
     public override void PerformEffect()
@@ -70,6 +71,75 @@ public class FlaskOfCrimsonTearsCard : ItemCard
 
     protected override void UpdateDescription()
     {
-        _description[0] = "Restore " + (HealthBoost + Buff) + " FP.";
+        _description[0] = "Restore " + (HealthBoost + Buff) + " HP.";
+    }
+}
+
+public class FlaskOfWondrousPhysickCard : ItemCard
+{
+    public readonly float HealthBoost;
+    public readonly float FocusBoost;
+
+    public FlaskOfWondrousPhysickCard(Game game, GameState state, Player owner) :
+        base(game, state, owner)
+    {
+        HealthBoost = 50;
+        FocusBoost = 15;
+        _frontTexture = DataManager.GetInstance(_game).CardWondrousPhysick;
+        _soundOnPlay = DataManager.GetInstance(_game).WondrousPhysickSound.CreateInstance();
+        _description.Add("Restore " + HealthBoost + " HP and " + FocusBoost + ".");
+    }
+
+    public override void PerformEffect()
+    {
+        base.PerformEffect();
+        HealAndRestorePlayer();
+    }
+
+    /// <summary>
+    /// Heal the owner.
+    /// </summary>
+    private void HealAndRestorePlayer()
+    {
+        _owner.Health = _owner.Health + HealthBoost + Buff > 100f ? 100f
+            : _owner.Health + HealthBoost + Buff;
+        _owner.Focus = _owner.Focus + FocusBoost + Buff > 30f ? 30f
+            : _owner.Focus + FocusBoost + Buff;
+    }
+
+    protected override void UpdateDescription()
+    {
+        _description[0] = "Restore " + (HealthBoost + Buff) + " HP and " + (FocusBoost + Buff) + ".";
+    }
+}
+
+
+public class WarmingStoneCard : ItemCard
+{
+    public readonly float HealthBoost;
+
+    public WarmingStoneCard(Game game, GameState state, Player owner) :
+        base(game, state, owner)
+    {
+        HealthBoost = 10;
+        _frontTexture = DataManager.GetInstance(_game).CardWarmingStone;
+        _soundOnPlay = DataManager.GetInstance(_game).WarmingStoneSound.CreateInstance();
+        _description.Add("Restore " + HealthBoost + " HP");
+        _description.Add("For 2 turns.");
+    }
+
+    public override void PerformEffect()
+    {
+        base.PerformEffect();
+        _owner.BuffManager.Buffs.Add(new HealingEffectBuff(
+        _state,
+        _owner.BuffManager,
+        2,
+        (int)(HealthBoost + Buff)));
+    }
+
+    protected override void UpdateDescription()
+    {
+        _description[0] = "Restore " + (HealthBoost + Buff) + " HP";
     }
 }

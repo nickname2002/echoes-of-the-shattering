@@ -54,37 +54,88 @@ namespace MonoZenith.Engine.Support
         public Texture2D EndTurnButtonIdleTexture;
         public Texture2D EndTurnButtonHoverTexture;
         public Texture2D EndTurnButtonDisabledTexture;
+
         public Texture2D CardBack;
         public Texture2D CardFront;
         public Texture2D CardHidden;
-        public Texture2D CardLightAttack;
-        public Texture2D CardHeavyAttack;
-        public Texture2D CardGlintPebble;
-        public Texture2D CardFlaskCrimson;
-        public Texture2D CardFlaskCerulean;
         public Texture2D CardCostStamina;
         public Texture2D CardCostFocus;
+
+        public Texture2D CardLightAttack;
+        public Texture2D CardHeavyAttack;
+        public Texture2D CardUnsheathe;
+        public Texture2D CardBloodhound;
+        public Texture2D CardEndure;
+        public Texture2D CardDoubleSlash;
+        public Texture2D CardStormcaller;
+        public Texture2D CardQuickstep;
+        public Texture2D CardWarCry;
+        public Texture2D CardRallyingStandard;
+        public Texture2D CardCommandKneel;
+        public Texture2D CardWaterfowlDance;
+
+        public Texture2D CardGlintPebble;
+        public Texture2D CardGlintPhalanx;
+        public Texture2D CardCarianGSword;
+        public Texture2D CardThopsBarrier;
+        public Texture2D CardGreatShard;
+        public Texture2D CardCometAzur;
+
+        public Texture2D CardFlaskCrimson;
+        public Texture2D CardFlaskCerulean;
+        public Texture2D CardWondrousPhysick;
+        public Texture2D CardBaldachinBless;
+        public Texture2D CardLarvalTear;
+        public Texture2D CardWarmingStone;
+        public Texture2D CardPoisonPot;
+        public Texture2D CardThrowingDagger;
 
         // Audio
         public SoundEffect MainMenuMusic;
         public SoundEffect LimgraveMusic;
         public SoundEffect StartButtonSound;
         public SoundEffect PlayerTurnSound;
-        public SoundEffect DamageSound;
-        public SoundEffect HealingSound;
-        public SoundEffect LightSwordAttack;
-        public SoundEffect CardSound2;
-        public SoundEffect HeavySwordAttack;
-        public SoundEffect GlintStonePebble;
-        public SoundEffect FlaskOfCrimsonTears;
-        public SoundEffect FlaskOfCeruleanTears;
         public SoundEffect EndPlayerTurnSound;
         public SoundEffect PlayerDeathSound;
         public SoundEffect EnemyDeathSound;
         public SoundEffect RetrieveCardsSound;
         public SoundEffect SpiritAshSummonSound;
+        public SoundEffect ThrowingDaggerSound;
         public SoundEffect NewItemSound; 
         
+
+        public SoundEffect DamageSound;
+        public SoundEffect CardSound2;
+        public SoundEffect HealingSound;
+
+        public SoundEffect LightSwordSound;
+        public SoundEffect HeavySwordSound;
+        public SoundEffect UnsheatheSound;
+        public SoundEffect BloodhoundSound;
+        public SoundEffect EndureSound;
+        public SoundEffect DoubleSlashSound;
+        public SoundEffect StormcallerSound;
+        public SoundEffect QuickstepSound;
+        public SoundEffect WarCrySound;
+        public SoundEffect RallyingSound;
+        public SoundEffect CommandKneelSound;
+        public SoundEffect WaterfowlDanceSound;
+
+        public SoundEffect GlintPebbleSound;
+        public SoundEffect GlintPhalanxSound;
+        public SoundEffect CarianGSwordSound;
+        public SoundEffect ThopsBarrierSound;
+        public SoundEffect GreatShardSound;
+        public SoundEffect CometAzurSound;
+
+        public SoundEffect FlaskCrimsonSound;
+        public SoundEffect FlaskCeruleanSound;
+        public SoundEffect WondrousPhysickSound;
+        public SoundEffect BaldachinBlessSound;
+        public SoundEffect LarvalTearSound;
+        public SoundEffect WarmingStoneSound;
+        public SoundEffect PoisonPotSound;
+
         private DataManager(Game game)
         {
             _game = game;
@@ -146,33 +197,82 @@ namespace MonoZenith.Engine.Support
             CardBack = _game.LoadImage("Images/Cards/back-card-design.png");
             CardFront = _game.LoadImage("Images/Cards/front-card-design.png");
             CardHidden = _game.LoadImage("Images/Cards/card-hidden.png");
-            CardLightAttack = _game.LoadImage("Images/Cards/card-light-attack.png");
-            CardHeavyAttack = _game.LoadImage("Images/Cards/card-heavy-attack.png");
-            CardGlintPebble = _game.LoadImage("Images/Cards/card-glint-peb.png");
-            CardFlaskCrimson = _game.LoadImage("Images/Cards/card-crimson.png");
-            CardFlaskCerulean = _game.LoadImage("Images/Cards/card-cerulean.png");
             CardCostStamina = _game.LoadImage("Images/Cards/cost-stamina.png");
             CardCostFocus = _game.LoadImage("Images/Cards/cost-focus.png");
-            
+
+            CardLightAttack = _game.LoadImage("Images/Cards/card-light-attack.png");
+            CardHeavyAttack = _game.LoadImage("Images/Cards/card-heavy-attack.png");
+            CardUnsheathe = _game.LoadImage("Images/Cards/card-unsheathe.png");
+            CardBloodhound = _game.LoadImage("Images/Cards/card-bloodhound.png");
+            CardEndure = _game.LoadImage("Images/Cards/card-endure.png");
+            CardDoubleSlash = _game.LoadImage("Images/Cards/card-double.png");
+            CardStormcaller = _game.LoadImage("Images/Cards/card-stormcall.png");
+            CardQuickstep = _game.LoadImage("Images/Cards/card-quickstep.png");
+            CardWarCry = _game.LoadImage("Images/Cards/card-war-cry.png");
+            CardRallyingStandard = _game.LoadImage("Images/Cards/card-rallying.png");
+            CardCommandKneel = _game.LoadImage("Images/Cards/card-kneel.png");
+            CardWaterfowlDance = _game.LoadImage("Images/Cards/card-waterfowl.png");
+
+            CardGlintPebble = _game.LoadImage("Images/Cards/card-glint-peb.png");
+            CardGlintPhalanx = _game.LoadImage("Images/Cards/card-phalanx.png");
+            CardCarianGSword = _game.LoadImage("Images/Cards/card-carian-gsword.png");
+            CardThopsBarrier = _game.LoadImage("Images/Cards/card-thops.png");
+            CardGreatShard = _game.LoadImage("Images/Cards/card-great-glint.png");
+            CardCometAzur = _game.LoadImage("Images/Cards/card-comet-azur.png");
+
+            CardFlaskCrimson = _game.LoadImage("Images/Cards/card-crimson.png");
+            CardFlaskCerulean = _game.LoadImage("Images/Cards/card-cerulean.png");
+            CardWondrousPhysick = _game.LoadImage("Images/Cards/card-wondrous.png");
+            CardBaldachinBless = _game.LoadImage("Images/Cards/card-baldachin.png");
+            CardLarvalTear = _game.LoadImage("Images/Cards/card-larval.png");
+            CardWarmingStone = _game.LoadImage("Images/Cards/card-warming.png");
+            CardPoisonPot = _game.LoadImage("Images/Cards/card-poison-pot.png");
+            CardThrowingDagger = _game.LoadImage("Images/Cards/card-throw-dagger.png");
+
             // Load audio
             MainMenuMusic = _game.LoadAudio("Audio/Music/main-menu-music.wav");
             PlayerTurnSound = _game.LoadAudio("Audio/SoundEffects/player-turn-sound.wav");
             LimgraveMusic = _game.LoadAudio("Audio/Music/limgrave-music.wav");
             StartButtonSound = _game.LoadAudio("Audio/SoundEffects/start-button-sound.wav");
-            DamageSound = _game.LoadAudio("Audio/SoundEffects/damage-sound.wav");
-            HealingSound = _game.LoadAudio("Audio/SoundEffects/healing-sound.wav");
-            LightSwordAttack = _game.LoadAudio("Audio/SoundEffects/light-sword-attack.wav");
-            CardSound2 = _game.LoadAudio("Audio/SoundEffects/card-sound2.wav");
-            HeavySwordAttack = _game.LoadAudio("Audio/SoundEffects/heavy-sword-attack.wav");
-            GlintStonePebble = _game.LoadAudio("Audio/SoundEffects/glintstone-pebble.wav");
-            FlaskOfCrimsonTears = _game.LoadAudio("Audio/SoundEffects/flask-of-crimson-tears.wav");
-            FlaskOfCeruleanTears = _game.LoadAudio("Audio/SoundEffects/flask-of-cerulean-tears.wav");
             EndPlayerTurnSound = _game.LoadAudio("Audio/SoundEffects/end-turn-sound-effect.wav");
             PlayerDeathSound = _game.LoadAudio("Audio/SoundEffects/player-death.wav");
             EnemyDeathSound = _game.LoadAudio("Audio/SoundEffects/enemy-felled.wav");
             RetrieveCardsSound = _game.LoadAudio("Audio/SoundEffects/retrieve-cards.wav");
             SpiritAshSummonSound = _game.LoadAudio("Audio/SoundEffects/spirit-ash-summon.wav");
             NewItemSound = _game.LoadAudio("Audio/SoundEffects/new-item.wav");
+
+            DamageSound = _game.LoadAudio("Audio/SoundEffects/damage-sound.wav");
+            HealingSound = _game.LoadAudio("Audio/SoundEffects/healing-sound.wav");
+            CardSound2 = _game.LoadAudio("Audio/SoundEffects/card-sound2.wav");
+
+            LightSwordSound = _game.LoadAudio("Audio/SoundEffects/light-sword-attack.wav");
+            HeavySwordSound = _game.LoadAudio("Audio/SoundEffects/heavy-sword-attack.wav");
+            UnsheatheSound = _game.LoadAudio("Audio/SoundEffects/unsheathe.wav");
+            BloodhoundSound = _game.LoadAudio("Audio/SoundEffects/bloodhound.wav");
+            EndureSound = _game.LoadAudio("Audio/SoundEffects/endure.wav");
+            DoubleSlashSound = _game.LoadAudio("Audio/SoundEffects/double-slash.wav");
+            StormcallerSound = _game.LoadAudio("Audio/SoundEffects/stormcaller.wav");
+            QuickstepSound = _game.LoadAudio("Audio/SoundEffects/quickstep.wav");
+            WarCrySound = _game.LoadAudio("Audio/SoundEffects/warcry.wav");
+            RallyingSound = _game.LoadAudio("Audio/SoundEffects/rallying.wav");
+            CommandKneelSound = _game.LoadAudio("Audio/SoundEffects/command-kneel.wav");
+            WaterfowlDanceSound = _game.LoadAudio("Audio/SoundEffects/waterfowl.wav");
+
+            GlintPebbleSound = _game.LoadAudio("Audio/SoundEffects/glintstone-pebble.wav");
+            GlintPhalanxSound = _game.LoadAudio("Audio/SoundEffects/glint-phalanx.wav");
+            CarianGSwordSound = _game.LoadAudio("Audio/SoundEffects/cariang-sword.wav");
+            ThopsBarrierSound = _game.LoadAudio("Audio/SoundEffects/thops-barrier.wav");
+            GreatShardSound = _game.LoadAudio("Audio/SoundEffects/great-shard.wav");
+            CometAzurSound = _game.LoadAudio("Audio/SoundEffects/comet-azur.wav");
+
+            FlaskCrimsonSound = _game.LoadAudio("Audio/SoundEffects/flask-of-crimson-tears.wav");
+            FlaskCeruleanSound = _game.LoadAudio("Audio/SoundEffects/flask-of-cerulean-tears.wav");
+            WondrousPhysickSound = _game.LoadAudio("Audio/SoundEffects/wondrous-physick.wav");
+            BaldachinBlessSound = _game.LoadAudio("Audio/SoundEffects/baldachin-bless.wav");
+            LarvalTearSound = _game.LoadAudio("Audio/SoundEffects/larval-tear.wav");
+            WarmingStoneSound = _game.LoadAudio("Audio/SoundEffects/warming-stone.wav");
+            PoisonPotSound = _game.LoadAudio("Audio/SoundEffects/poison-pot.wav");
+            ThrowingDaggerSound = _game.LoadAudio("Audio/SoundEffects/throwing-dagger.wav");
         }
 
         // Methode om een SoundEffectInstance te maken en af te spelen

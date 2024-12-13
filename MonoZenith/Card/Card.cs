@@ -276,7 +276,7 @@ namespace MonoZenith.Card
 
                 _game.DrawText(
                     _description[i],
-                    _position + cardOffset - new Vector2(textWidth, textHeight * i + heightOffset),
+                    _position + cardOffset - new Vector2(textWidth, -textHeight * i - heightOffset),
                     DataManager.GetInstance(_game).CardFont,
                     Color.Ivory,
                     scalingFactor

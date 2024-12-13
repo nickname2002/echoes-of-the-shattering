@@ -76,7 +76,7 @@ public class MimicTearAsh : SpiritAsh
 
     protected override void PerformEffect()
     {
-        _owner.BuffManager.Buff = new CardTwiceAsStrongBuff(_state, _owner.BuffManager);
+        _owner.BuffManager.Buffs.Add(new CardTwiceAsStrongBuff(_state, _owner.BuffManager));
     }
 
     public override bool ShouldAIPlay(AiState aiState)
@@ -96,10 +96,11 @@ public class JellyfishAsh : SpiritAsh
     
     protected override void PerformEffect()
     {
-        _owner.OpposingPlayer.BuffManager.Debuff = new PoisonEffectDebuff(
+        _owner.OpposingPlayer.BuffManager.Debuffs.Add(new PoisonEffectDebuff(
             _state,
             _owner.OpposingPlayer.BuffManager,
-            10);
+            3,
+            10));
     }
 
     public override bool ShouldAIPlay(AiState aiState)

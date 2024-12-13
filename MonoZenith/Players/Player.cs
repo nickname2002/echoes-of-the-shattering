@@ -21,7 +21,7 @@ namespace MonoZenith.Players
         protected Vector2 _playerPosition;
         protected Texture2D _playerIcon;
         protected readonly Texture2D _playerCurrent;
-        protected bool _cardsDrawn;
+        public bool CardsDrawn;
         
         public float Health;
         public float Stamina;
@@ -100,7 +100,7 @@ namespace MonoZenith.Players
             Stamina = 30f;
             Focus = 30f;
             _originalStamina = 30f;
-            _cardsDrawn = false;
+            CardsDrawn = false;
             
             // Initialize card stacks
             _deckStack = new CardStack(game, state);
@@ -150,10 +150,10 @@ namespace MonoZenith.Players
         public virtual void PerformTurn(GameState state)
         {
             // Draw cards from hand only once
-            if (_handStack.Count == 0 && !_cardsDrawn)
+            if (_handStack.Count == 0 && !CardsDrawn)
             {
                 DrawCardsFromDeck();
-                _cardsDrawn = true;
+                CardsDrawn = true;
             }
             
             BuffManager.Update();
@@ -176,7 +176,7 @@ namespace MonoZenith.Players
         /// or draw as many cards as are available if there are fewer than 5
         /// cards in the deck.
         /// </summary>
-        protected void DrawCardsFromDeck()
+        public void DrawCardsFromDeck()
         {
             for (int i = 0; i < 5; i++)
             {
@@ -202,7 +202,7 @@ namespace MonoZenith.Players
             List<Card.Card> cardsFromHand = _handStack.Cards;
             _reserveCardStack.AddToFront(cardsFromHand); 
             _handStack.Clear();
-            _cardsDrawn = false;
+            CardsDrawn = false;
         }
         
         /// <summary>
@@ -252,8 +252,8 @@ namespace MonoZenith.Players
         protected void PlayCard(Card.Card card)
         {
             _state.PlayedCards.AddToBottom(card);
-            card.PerformEffect();
             _handStack.Remove(card);
+            card.PerformEffect();
             _game.DebugLog(this.Name + " playing card: " + card);
         }
 
