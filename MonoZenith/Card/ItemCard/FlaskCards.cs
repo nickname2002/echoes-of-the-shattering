@@ -71,7 +71,7 @@ public class FlaskOfCrimsonTearsCard : ItemCard
 
     protected override void UpdateDescription()
     {
-        _description[0] = "Restore " + (HealthBoost + Buff) + " FP.";
+        _description[0] = "Restore " + (HealthBoost + Buff) + " HP.";
     }
 }
 

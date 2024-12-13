@@ -129,7 +129,6 @@ public class TurnBuff : Buff
     }
 }
 
-
 public class PoisonEffectDebuff : TurnBuff
 {
     private readonly int _damagePercentage;
