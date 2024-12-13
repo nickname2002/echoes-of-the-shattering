@@ -4,7 +4,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Card.CardStack;
 using MonoZenith.Engine.Support;
+using MonoZenith.Items;
 using MonoZenith.Players;
+using MonoZenith.Screen.RewardPanel;
 using MonoZenith.Support.Managers;
 
 namespace MonoZenith
@@ -17,6 +19,7 @@ namespace MonoZenith
         public readonly GameOverManager GameOverManager;
         public HumanPlayer Player;
         public NpcPlayer Npc;
+        public Reward Reward;
         public readonly CardStack PlayedCards;
         private Texture2D? _backdrop;
 
@@ -28,6 +31,10 @@ namespace MonoZenith
             GameOverManager = new GameOverManager(Game);
             Player = new HumanPlayer(Game, this, "Player");
             Npc = new NpcPlayer(Game, this, "NPC");
+            Reward = new Reward(
+                DataManager.GetInstance(game).WolvesAsh,
+                "Wolves Spirit Ash",
+                typeof(WolvesAsh));
             PlayedCards = new CardStack(Game, this, true);
             InitializeState();
         }
@@ -40,6 +47,7 @@ namespace MonoZenith
         {
             Npc = level.Enemy;
             _backdrop = level.Backdrop;
+            Reward = level.Reward;
             InitializeState();
         }
         
@@ -49,7 +57,7 @@ namespace MonoZenith
         public void InitializeState()
         {
             TurnManager.InitializeState(Player, Npc);
-            GameOverManager.InitializeState();
+            GameOverManager.InitializeState(Reward);
             PlayedCards.Clear();
             
             // Update the position of the played cards
@@ -81,7 +89,13 @@ namespace MonoZenith
             
             if (GameOverManager.HasWinner(Player, Npc) != null)
             {
-                GameOverManager.UpdateGameOverTransition(deltaTime);
+                if (GameOverManager is { Winner: HumanPlayer, TransitionComplete: true })
+                {
+                    GameOverManager.UpdateRewardPanel(deltaTime);
+                    return;
+                }
+                
+                GameOverManager.UpdateTransitionComponent(deltaTime);
                 return;
             }
             
@@ -101,7 +115,12 @@ namespace MonoZenith
             
             if (GameOverManager.HasWinner(Player, Npc) != null)
             {
-                GameOverManager.DisplayGameOverMessage();
+                GameOverManager.DrawTransitionComponent();
+
+                if (GameOverManager is not { Winner: HumanPlayer, TransitionComplete: true }) 
+                    return;
+                
+                GameOverManager.DrawRewardPanel();
                 return;
             }
             

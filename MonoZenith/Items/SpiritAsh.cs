@@ -8,7 +8,7 @@ using MonoZenith.Support.Managers;
 
 namespace MonoZenith.Items;
 
-public abstract class SpiritAsh
+public abstract class SpiritAsh : Item
 {
     protected Game _game;
     protected GameState _state;
