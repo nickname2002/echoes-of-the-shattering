@@ -192,8 +192,8 @@ public class HealingEffectBuff : TurnBuff
         if (_owner == null) return;
         if (_state.TurnManager.CurrentPlayer != _owner) return;
 
-        _owner.Health = _owner.OriginalHealth * _healingPercentage / 100 > 100 ?
-            100 : _owner.OriginalHealth * _healingPercentage / 100;
+        _owner.Health = _owner.Health + _owner.OriginalHealth * _healingPercentage / 100 > 100 ?
+            100 : _owner.Health + _owner.OriginalHealth * _healingPercentage / 100;
         _healingSound.Play();
     }
 }
