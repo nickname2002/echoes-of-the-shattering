@@ -23,11 +23,11 @@ public sealed class EndTurnButton : Button
     public EndTurnButton(Game g, GameState gs, float scale = 1f) : 
         base(g, Vector2.Zero, 0, 0, "", 0, Color.Black, Color.Black, 0, Color.Black)
     {
-        _activeIdleTexture = DataManager.GetInstance(g).EndTurnButtonIdleTexture;
-        _activeHoverTexture = DataManager.GetInstance(g).EndTurnButtonHoverTexture;
-        _disabledTexture = DataManager.GetInstance(g).EndTurnButtonDisabledTexture;
-        _retrieveCardsSound = DataManager.GetInstance(g).RetrieveCardsSound.CreateInstance();
-        _endPlayerTurnSound = DataManager.GetInstance(g).EndPlayerTurnSound.CreateInstance();
+        _activeIdleTexture = DataManager.GetInstance().EndTurnButtonIdleTexture;
+        _activeHoverTexture = DataManager.GetInstance().EndTurnButtonHoverTexture;
+        _disabledTexture = DataManager.GetInstance().EndTurnButtonDisabledTexture;
+        _retrieveCardsSound = DataManager.GetInstance().RetrieveCardsSound.CreateInstance();
+        _endPlayerTurnSound = DataManager.GetInstance().EndPlayerTurnSound.CreateInstance();
         _currentTexture = _activeIdleTexture;
         _gameState = gs;
         _textureScale = scale * 0.25f * AppSettings.Scaling.ScaleFactor;

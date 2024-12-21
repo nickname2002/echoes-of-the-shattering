@@ -1,5 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
+using static MonoZenith.Game;
 
 namespace MonoZenith;
 
@@ -10,9 +11,8 @@ public class Collider
     public int Width { get; }
     public int Height { get; }
 
-    public Collider(Game g, Vector2 pos, int width, int height)
+    public Collider(Vector2 pos, int width, int height)
     {
-        _game = g;
         _position = pos;
         Width = width;
         Height = height;
@@ -43,6 +43,6 @@ public class Collider
     /// </summary>
     public void Draw()
     {
-        _game.DrawRectangle(Color.Red, _position, Width, Height);
+        DrawRectangle(Color.Red, _position, Width, Height);
     }
 }

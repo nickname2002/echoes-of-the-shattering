@@ -6,17 +6,17 @@ namespace MonoZenith;
 
 public partial class Game
 {
-    public Screens ActiveScreen;
-    private MainMenuScreen _mainMenuScreen;
-    private GameScreen _gameScreen;
-    private OverworldScreen _overworldScreen;
-    private PauseScreen _pauseScreen;
+    public static Screens ActiveScreen;
+    private static MainMenuScreen _mainMenuScreen;
+    private static GameScreen _gameScreen;
+    private static OverworldScreen _overworldScreen;
+    private static PauseScreen _pauseScreen;
 
-    public GameScreen GetGameScreen() => _gameScreen;
-    public GameState GetGameState() => _gameScreen.GameState;
+    public static GameScreen GetGameScreen() => _gameScreen;
+    public static GameState GetGameState() => _gameScreen.GameState;
     
     /* Initialize game vars and load assets. */
-    public void Init()
+    public static void Init()
     {
         // Screen Setup
         SetScreenSizeAutomatically();
@@ -27,19 +27,19 @@ public partial class Game
     /// <summary>
     /// Initialize all screens.
     /// </summary>
-    public void InitializeScreens()
+    public static void InitializeScreens()
     {
         ActiveScreen = Screens.MAIN_MENU;  
-        _mainMenuScreen = new MainMenuScreen(this);
-        _gameScreen = new GameScreen(this);
-        _overworldScreen = new OverworldScreen(this);
-        _pauseScreen = new PauseScreen(this);
+        _mainMenuScreen = new MainMenuScreen();
+        _gameScreen = new GameScreen();
+        _overworldScreen = new OverworldScreen();
+        _pauseScreen = new PauseScreen();
 
         // Start with a fade-in when the game starts
         StartFadeIn();
     }
 
-    private void UnloadOnFadeOut(Screen.Screen screenToUnload)
+    private static void UnloadOnFadeOut(Screen.Screen screenToUnload)
     {
         if (IsFadingOut)
             screenToUnload.Unload();
@@ -48,7 +48,7 @@ public partial class Game
     /// <summary>
     /// Callback method to return to the main menu.
     /// </summary>
-    public void BackToMainMenu()
+    public static void BackToMainMenu()
     {
         _gameScreen.Unload();
         StartFadeOut(() =>
@@ -61,7 +61,7 @@ public partial class Game
     /// <summary>
     /// Callback method to start the game.
     /// </summary>
-    public void StartGame()
+    public static void StartGame()
     {
         _mainMenuScreen.Unload();
         StartFadeOut(() =>
@@ -72,7 +72,7 @@ public partial class Game
     }
     
     /* Update game logic. */
-    public void Update(GameTime deltaTime)
+    public static void Update(GameTime deltaTime)
     {
         // Update fade effect if active
         if (IsFadingIn || IsFadingOut)
@@ -113,7 +113,7 @@ public partial class Game
     }
     
     /* Draw objects/backdrop. */
-    public void Draw()
+    public static void Draw()
     {
         // Draw the active screen
         switch (ActiveScreen)

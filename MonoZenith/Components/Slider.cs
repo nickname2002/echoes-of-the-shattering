@@ -25,7 +25,7 @@ public class Slider : Component
     private SpriteFont _font;
     
     public Slider(Game g, Vector2 pos, int width, int height, int min, int max) 
-        : base(g, pos, width, height)
+        : base(pos, width, height)
     {
         Min = min;
         Max = max;
@@ -39,7 +39,7 @@ public class Slider : Component
         TextColor = Color.Black;
         
         _sliding = false;
-        _font = DataManager.GetInstance(g).ComponentFont;
+        _font = DataManager.GetInstance().ComponentFont;
     }
 
     /* Check if mouse is hovering over slider. */

@@ -16,8 +16,8 @@ public class MainMenuOptionButton : Button
         base(g, Vector2.Zero, 0, 0, content, 1, Color.White, Color.Black, 0, Color.Black)
     {
         SetOnClickAction(a);
-        _font = DataManager.GetInstance(Game).StartMenuFont;
-        _hoverIndicator = DataManager.GetInstance(Game).MainMenuHoverIndicator;
+        _font = DataManager.GetInstance().StartMenuFont;
+        _hoverIndicator = DataManager.GetInstance().MainMenuHoverIndicator;
         _hoverIndicatorScale = 0.3f;
         Width = (int)_font.MeasureString(Content).X;
         Height = (int)_font.MeasureString(Content).Y;

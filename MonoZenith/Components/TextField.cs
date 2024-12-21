@@ -22,7 +22,7 @@ public class TextField : Component
     public Color BorderColor { get; set; }
     
     public TextField(Game g, Vector2 pos, int width, int height, int fontScale) : 
-        base(g, pos, width, height)
+        base(pos, width, height)
     {
         _game = g;
         Content = "";
@@ -215,7 +215,7 @@ public class TextField : Component
             Game.DrawText(
                 Content + "|",
                 Position,
-                DataManager.GetInstance(_game).ComponentFont,
+                DataManager.GetInstance().ComponentFont,
                 ContentColor, 
                 _fontScale);
         }
@@ -224,7 +224,7 @@ public class TextField : Component
             Game.DrawText(
                 Content, 
                 Position,
-                DataManager.GetInstance(_game).ComponentFont, 
+                DataManager.GetInstance().ComponentFont, 
                 ContentColor, 
                 _fontScale);
         }

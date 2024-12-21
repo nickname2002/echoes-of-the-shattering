@@ -20,9 +20,9 @@ public class CollectRewardButton : Button
         float scale = 1f) 
         : base(g, pos, 0, 0, "", 0, Color.Black, Color.Black, 0, Color.Black)
     {
-        _texture = DataManager.GetInstance(g).CollectRewardButton;
-        _hoverTexture = DataManager.GetInstance(g).CollectRewardButtonHover;
-        _rewardCollectedSound = DataManager.GetInstance(g).EndPlayerTurnSound.CreateInstance();
+        _texture = DataManager.GetInstance().CollectRewardButton;
+        _hoverTexture = DataManager.GetInstance().CollectRewardButtonHover;
+        _rewardCollectedSound = DataManager.GetInstance().EndPlayerTurnSound.CreateInstance();
         _currentTexture = _texture;
         _textureScale = scale;
     }

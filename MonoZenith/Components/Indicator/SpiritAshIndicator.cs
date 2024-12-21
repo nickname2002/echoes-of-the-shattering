@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Engine.Support;
 using MonoZenith.Items;
+using static MonoZenith.Game;
 
 namespace MonoZenith.Components.Indicator;
 
@@ -17,17 +18,17 @@ public class SpiritAshIndicator : Indicator
     public Texture2D TextureDisabled { get; set; }
     public Texture2D TextureHovered { get; set; }
     
-    public SpiritAshIndicator(Game g, GameState gs, Vector2 pos, Texture2D tex, SpiritAsh ash, bool hasHumanOwner = true)
-        : base(g, gs, pos, tex)
+    public SpiritAshIndicator(GameState gs, Vector2 pos, Texture2D tex, SpiritAsh ash, bool hasHumanOwner = true)
+        : base(gs, pos, tex)
     {   
         _spiritAsh = ash;
-        _soundOnClick = DataManager.GetInstance(g).SpiritAshSummonSound.CreateInstance();
+        _soundOnClick = DataManager.GetInstance().SpiritAshSummonSound.CreateInstance();
         IsActive = true;
         _hasHumanOwner = hasHumanOwner;
         
-        TextureEnabled = DataManager.GetInstance(g).AshIndicatorEnabled;
-        TextureDisabled = DataManager.GetInstance(g).AshIndicatorDisabled;
-        TextureHovered = DataManager.GetInstance(g).AshIndicatorHovered;
+        TextureEnabled = DataManager.GetInstance().AshIndicatorEnabled;
+        TextureDisabled = DataManager.GetInstance().AshIndicatorDisabled;
+        TextureHovered = DataManager.GetInstance().AshIndicatorHovered;
     }
 
     public override void Update(GameTime deltaTime)
@@ -55,8 +56,8 @@ public class SpiritAshIndicator : Indicator
     /// <returns>True if the mouse is hovering over the item, false otherwise.</returns>
     public bool IsHovered()
     {
-        return _game.GetMousePosition().X > Position.X && _game.GetMousePosition().X < Position.X + Width && 
-               _game.GetMousePosition().Y > Position.Y && _game.GetMousePosition().Y < Position.Y + Height;
+        return GetMousePosition().X > Position.X && GetMousePosition().X < Position.X + Width && 
+               GetMousePosition().Y > Position.Y && GetMousePosition().Y < Position.Y + Height;
     }
     
     /// <summary>
@@ -65,7 +66,7 @@ public class SpiritAshIndicator : Indicator
     /// <returns>True if the left mouse button is pressed and the mouse is hovering over the item, false otherwise.</returns>
     public bool IsClicked()
     {
-        return IsHovered() && _game.GetMouseButtonDown(MouseButtons.Left);
+        return IsHovered() && GetMouseButtonDown(MouseButtons.Left);
     }
     
     public override void Draw()
@@ -78,7 +79,7 @@ public class SpiritAshIndicator : Indicator
             ? (IsHovered() && _hasHumanOwner ? 1.0f : 0.7f)
             : 0.25f;
 
-        _game.DrawImage(textureToDraw, _position, GetScale());
+        DrawImage(textureToDraw, _position, GetScale());
         _spiritAsh.Draw(_position, spiritAshScale);
     }
 }

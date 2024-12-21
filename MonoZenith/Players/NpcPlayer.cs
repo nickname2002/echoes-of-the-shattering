@@ -9,6 +9,7 @@ using MonoZenith.Components.Indicator;
 using MonoZenith.Engine.Support;
 using MonoZenith.Items;
 using MonoZenith.Support.Managers;
+using static MonoZenith.Game;
 
 namespace MonoZenith.Players
 {
@@ -28,27 +29,26 @@ namespace MonoZenith.Players
         private float _currentMoveDelay;
         private const float MoveDelay = 1.5f;
         
-        public NpcPlayer(Game game, GameState state, string name) : base(game, state, name)
+        public NpcPlayer(GameState state, string name) : base(state, name)
         {
             _handPosY = 25 * AppSettings.Scaling.ScaleFactor;
-            _playerPosition = new Vector2(game.ScreenWidth * 0.05f, game.ScreenHeight * 0.085f);
-            _playerIcon = DataManager.GetInstance(game).Npc;
+            _playerPosition = new Vector2(ScreenWidth * 0.05f, ScreenHeight * 0.085f);
+            _playerIcon = DataManager.GetInstance().Npc;
             _originalHealth = Health;
             _originalFocus = Focus;
-            _retrieveCardsSound = DataManager.GetInstance(game).RetrieveCardsSound.CreateInstance();
+            _retrieveCardsSound = DataManager.GetInstance().RetrieveCardsSound.CreateInstance();
         }
         
-        public override void InitializeState(Game game, GameState state)
+        public override void InitializeState(GameState state)
         {
-            base.InitializeState(game, state);
+            base.InitializeState(state);
             OpposingPlayer = state.Player;
             
-            _spiritAshIndicator = new SpiritAshIndicator(
-                game, state, 
+            _spiritAshIndicator = new SpiritAshIndicator(state, 
                 new Vector2(
-                    _game.ScreenWidth - 100 * AppSettings.Scaling.ScaleFactor, 
+                    ScreenWidth - 100 * AppSettings.Scaling.ScaleFactor, 
                     25 * AppSettings.Scaling.ScaleFactor),
-                DataManager.GetInstance(game).AshIndicatorDisabled, 
+                DataManager.GetInstance().AshIndicatorDisabled, 
                 new WolvesAsh(_game, state, this), 
                 false);
         }
@@ -186,14 +186,14 @@ namespace MonoZenith.Players
                 new FlaskOfCeruleanTearsCard(_game, _state, this),
 
                 // Basic attacks
-                new LightSwordAttackCard(_game, _state, this),
-                new LightSwordAttackCard(_game, _state, this),
-                new LightSwordAttackCard(_game, _state, this),
-                new LightSwordAttackCard(_game, _state, this),
-                new LightSwordAttackCard(_game, _state, this),
-                new LightSwordAttackCard(_game, _state, this),
-                new LightSwordAttackCard(_game, _state, this),
-                new LightSwordAttackCard(_game, _state, this),
+                new LightSwordAttackCard(_state, this),
+                new LightSwordAttackCard(_state, this),
+                new LightSwordAttackCard(_state, this),
+                new LightSwordAttackCard(_state, this),
+                new LightSwordAttackCard(_state, this),
+                new LightSwordAttackCard(_state, this),
+                new LightSwordAttackCard(_state, this),
+                new LightSwordAttackCard(_state, this),
 
                 new HeavySwordAttackCard(_game, _state, this),
                 new HeavySwordAttackCard(_game, _state, this),
@@ -217,10 +217,10 @@ namespace MonoZenith.Players
             
             // Set the starting position of the cards when moving from the deck to the hand
             _deckStack.UpdatePosition(
-                _game.ScreenWidth / 2f,
+                ScreenWidth / 2f,
                 -Card.Card.Height);
             _reserveCardStack.UpdatePosition(
-                _game.ScreenWidth / 2f,
+                ScreenWidth / 2f,
                 -Card.Card.Height);
             
             foreach (var card in _handStack.Cards)
@@ -316,18 +316,18 @@ namespace MonoZenith.Players
             Vector2 namePosition = _playerPosition + new Vector2(playerOffset.X * 1.2f, -playerOffset.Y * 0.875f);
             Vector2 shadowPosition = new(1.25f, 1.25f);
             int healthHeight = (int)(_playerCurrent.Height * _scale * 0.05f);
-            int healthWidth = (int)(_game.ScreenWidth * 0.9f);
+            int healthWidth = (int)(ScreenWidth * 0.9f);
             Vector2 healthPosition = _playerPosition + new Vector2(0, -playerOffset.Y) + new Vector2(1, 1);
             Vector2 edgePosition = healthPosition - new Vector2(1, 1);
 
             // Draw name
-            _game.DrawText(Name, namePosition + shadowPosition, _playerFont, Color.DarkGray);
-            _game.DrawText(Name, namePosition, _playerFont, Color.White);
+            DrawText(Name, namePosition + shadowPosition, _playerFont, Color.DarkGray);
+            DrawText(Name, namePosition, _playerFont, Color.White);
 
             // Draw Health bar with current health points
-            _game.DrawRectangle(Color.Goldenrod, edgePosition, healthWidth + 2, healthHeight + 2);
-            _game.DrawRectangle(Color.DarkGray, healthPosition, healthWidth, healthHeight);
-            _game.DrawRectangle(Color.DarkRed, healthPosition, (int)(healthWidth * (Health / 100f)), healthHeight);
+            DrawRectangle(Color.Goldenrod, edgePosition, healthWidth + 2, healthHeight + 2);
+            DrawRectangle(Color.DarkGray, healthPosition, healthWidth, healthHeight);
+            DrawRectangle(Color.DarkRed, healthPosition, (int)(healthWidth * (Health / 100f)), healthHeight);
             
             _spiritAshIndicator.Draw();            
         }

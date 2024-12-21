@@ -5,21 +5,20 @@ using MonoZenith.Card;
 using MonoZenith.Engine.Support;
 using MonoZenith.Players;
 using MonoZenith.Support.Managers;
+using static MonoZenith.Game;
 
 namespace MonoZenith.Items;
 
 public abstract class SpiritAsh : Item
 {
-    protected Game _game;
     protected GameState _state;
     protected Player _owner;
     protected float _scale;
     
     public Texture2D Texture { get; set; }
     
-    protected SpiritAsh(Game g, GameState state, Player owner)
+    protected SpiritAsh(GameState state, Player owner)
     {
-        _game = g;
         _state = state;
         _owner = owner;
         _scale = 0.085f * AppSettings.Scaling.ScaleFactor;
@@ -56,7 +55,7 @@ public abstract class SpiritAsh : Item
             position.X - 6 * AppSettings.Scaling.ScaleFactor,
             position.Y + 6 * AppSettings.Scaling.ScaleFactor);
         
-        _game.DrawImage(
+        DrawImage(
             Texture, 
             correctedPosition,
             _scale,
@@ -69,9 +68,9 @@ public abstract class SpiritAsh : Item
 public class MimicTearAsh : SpiritAsh
 {
     public MimicTearAsh(Game g, GameState state, Player owner) : 
-        base(g, state, owner)
+        base(state, owner)
     {
-        Texture = DataManager.GetInstance(_state.Game).MimicTearAsh;
+        Texture = DataManager.GetInstance().MimicTearAsh;
     }
 
     protected override void PerformEffect()
@@ -89,9 +88,9 @@ public class MimicTearAsh : SpiritAsh
 public class JellyfishAsh : SpiritAsh
 {
     public JellyfishAsh(Game g, GameState state, Player owner) :
-        base(g, state, owner)
+        base(state, owner)
     {
-        Texture = DataManager.GetInstance(_state.Game).JellyfishAsh;
+        Texture = DataManager.GetInstance().JellyfishAsh;
     }
     
     protected override void PerformEffect()
@@ -112,9 +111,9 @@ public class JellyfishAsh : SpiritAsh
 public class WolvesAsh : SpiritAsh
 {
     public WolvesAsh(Game g, GameState state, Player owner) : 
-        base(g, state, owner)
+        base(state, owner)
     {
-        Texture = DataManager.GetInstance(_state.Game).WolvesAsh;
+        Texture = DataManager.GetInstance().WolvesAsh;
     }
 
     protected override void PerformEffect()

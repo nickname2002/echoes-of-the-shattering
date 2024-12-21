@@ -1,12 +1,12 @@
 using System;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
+using static MonoZenith.Game;
 
 namespace MonoZenith.Engine.Support
 {
     public class DataManager
     {
-        private readonly Game _game;
         private static DataManager _instance;
         
         // Fonts
@@ -136,143 +136,152 @@ namespace MonoZenith.Engine.Support
         public SoundEffect WarmingStoneSound;
         public SoundEffect PoisonPotSound;
 
-        private DataManager(Game game)
+        private DataManager()
         {
-            _game = game;
             LoadData();
         }
 
-        public static DataManager GetInstance(Game game)
+        public static DataManager GetInstance()
         {
-            return _instance ??= new DataManager(game);
+            return _instance ??= new DataManager();
+        }
+
+        private void LoadFonts()
+        {
+            ComponentFont = LoadFont("Fonts/pixel.ttf", 1 * AppSettings.Scaling.ScaleFactor);
+            StartMenuFont = LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1.75f * AppSettings.Scaling.ScaleFactor);
+            PlayerFont = LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1.5f * AppSettings.Scaling.ScaleFactor);
+            CardFont = LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1f * AppSettings.Scaling.ScaleFactor);
+            IndicatorFont = LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1.25f * AppSettings.Scaling.ScaleFactor);
+            TransitionComponentFont = LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 3.5f * AppSettings.Scaling.ScaleFactor);
+            GameOverTransitionComponentFont = LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 5f * AppSettings.Scaling.ScaleFactor);
+            RewardFont = LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1.3f * AppSettings.Scaling.ScaleFactor);
+        }
+
+        private void LoadTextures()
+        {
+            MonoZenithLogo = LoadImage("Images/monozenith.png");
+            MainMenuBackdrop = LoadImage("Images/MainMenu/main-menu-backdrop.png");
+            MainMenuHoverIndicator = LoadImage("Images/MainMenu/menu-item-indicator.png");
+            Player = LoadImage("Images/Player/vargram.png");
+            Npc = LoadImage("Images/Player/varre.png");
+            PlayerCurrent = LoadImage("Images/Player/player-current.png");
+            PlayerWaiting = LoadImage("Images/Player/player-waiting.png");
+            Backdrop = LoadImage("Images/Backdrops/backdrop.png");
+            LimgraveBackdrop = LoadImage("Images/Backdrops/limgrave-backdrop.png");
+            CaelidBackdrop = LoadImage("Images/Backdrops/caelid-backdrop.png");
+            EndTurnButtonIdleTexture = LoadImage("Images/EndTurnButton/end-turn-button-idle.png");
+            EndTurnButtonHoverTexture = LoadImage("Images/EndTurnButton/end-turn-button-hover.png");
+            EndTurnButtonDisabledTexture = LoadImage("Images/EndTurnButton/end-turn-button-disabled.png");
+            DeckIndicator = LoadImage("Images/Indicators/deck-indicator.png");
+            ReserveIndicator = LoadImage("Images/Indicators/reserve-indicator.png");
+            
+            // Remembrances
+            RemembranceOfTheStarscourge = LoadImage("Images/Remembrances/remembrance-of-starscourge.png");
+            
+            // Ash indicators
+            AshIndicatorDisabled = LoadImage("Images/Indicators/ash-indicator-disabled.png");
+            AshIndicatorEnabled = LoadImage("Images/Indicators/ash-indicator-enabled.png");
+            AshIndicatorHovered = LoadImage("Images/Indicators/ash-indicator-hovered.png");
+            
+            // Spirit ashes
+            MimicTearAsh = LoadImage("Images/Indicators/SpiritAshes/mimic-tear.png");
+            JellyfishAsh = LoadImage("Images/Indicators/SpiritAshes/jellyfish.png");
+            WolvesAsh = LoadImage("Images/Indicators/SpiritAshes/wolves.png");
+            
+            // Reward panel
+            RewardContainer = LoadImage("Images/RewardPanel/reward-container.png");
+            CollectRewardButton = LoadImage("Images/RewardPanel/collect-button.png");
+            CollectRewardButtonHover = LoadImage("Images/RewardPanel/collect-button-hover.png");
+            
+            CardBack = LoadImage("Images/Cards/back-card-design.png");
+            CardFront = LoadImage("Images/Cards/front-card-design.png");
+            CardHidden = LoadImage("Images/Cards/card-hidden.png");
+            CardCostStamina = LoadImage("Images/Cards/cost-stamina.png");
+            CardCostFocus = LoadImage("Images/Cards/cost-focus.png");
+
+            CardLightAttack = LoadImage("Images/Cards/card-light-attack.png");
+            CardHeavyAttack = LoadImage("Images/Cards/card-heavy-attack.png");
+            CardUnsheathe = LoadImage("Images/Cards/card-unsheathe.png");
+            CardBloodhound = LoadImage("Images/Cards/card-bloodhound.png");
+            CardEndure = LoadImage("Images/Cards/card-endure.png");
+            CardDoubleSlash = LoadImage("Images/Cards/card-double.png");
+            CardStormcaller = LoadImage("Images/Cards/card-stormcall.png");
+            CardQuickstep = LoadImage("Images/Cards/card-quickstep.png");
+            CardWarCry = LoadImage("Images/Cards/card-war-cry.png");
+            CardRallyingStandard = LoadImage("Images/Cards/card-rallying.png");
+            CardCommandKneel = LoadImage("Images/Cards/card-kneel.png");
+            CardWaterfowlDance = LoadImage("Images/Cards/card-waterfowl.png");
+
+            CardGlintPebble = LoadImage("Images/Cards/card-glint-peb.png");
+            CardGlintPhalanx = LoadImage("Images/Cards/card-phalanx.png");
+            CardCarianGSword = LoadImage("Images/Cards/card-carian-gsword.png");
+            CardThopsBarrier = LoadImage("Images/Cards/card-thops.png");
+            CardGreatShard = LoadImage("Images/Cards/card-great-glint.png");
+            CardCometAzur = LoadImage("Images/Cards/card-comet-azur.png");
+
+            CardFlaskCrimson = LoadImage("Images/Cards/card-crimson.png");
+            CardFlaskCerulean = LoadImage("Images/Cards/card-cerulean.png");
+            CardWondrousPhysick = LoadImage("Images/Cards/card-wondrous.png");
+            CardBaldachinBless = LoadImage("Images/Cards/card-baldachin.png");
+            CardLarvalTear = LoadImage("Images/Cards/card-larval.png");
+            CardWarmingStone = LoadImage("Images/Cards/card-warming.png");
+            CardPoisonPot = LoadImage("Images/Cards/card-poison-pot.png");
+            CardThrowingDagger = LoadImage("Images/Cards/card-throw-dagger.png");
+        }
+        
+        private void LoadSoundEffects()
+        {
+            MainMenuMusic = LoadAudio("Audio/Music/main-menu-music.wav");
+            PlayerTurnSound = LoadAudio("Audio/SoundEffects/player-turn-sound.wav");
+            LimgraveMusic = LoadAudio("Audio/Music/limgrave-music.wav");
+            StartButtonSound = LoadAudio("Audio/SoundEffects/start-button-sound.wav");
+            EndPlayerTurnSound = LoadAudio("Audio/SoundEffects/end-turn-sound-effect.wav");
+            PlayerDeathSound = LoadAudio("Audio/SoundEffects/player-death.wav");
+            EnemyDeathSound = LoadAudio("Audio/SoundEffects/enemy-felled.wav");
+            RetrieveCardsSound = LoadAudio("Audio/SoundEffects/retrieve-cards.wav");
+            SpiritAshSummonSound = LoadAudio("Audio/SoundEffects/spirit-ash-summon.wav");
+            NewItemSound = LoadAudio("Audio/SoundEffects/new-item.wav");
+
+            DamageSound = LoadAudio("Audio/SoundEffects/damage-sound.wav");
+            HealingSound = LoadAudio("Audio/SoundEffects/healing-sound.wav");
+            CardSound2 = LoadAudio("Audio/SoundEffects/card-sound2.wav");
+
+            LightSwordSound = LoadAudio("Audio/SoundEffects/light-sword-attack.wav");
+            HeavySwordSound = LoadAudio("Audio/SoundEffects/heavy-sword-attack.wav");
+            UnsheatheSound = LoadAudio("Audio/SoundEffects/unsheathe.wav");
+            BloodhoundSound = LoadAudio("Audio/SoundEffects/bloodhound.wav");
+            EndureSound = LoadAudio("Audio/SoundEffects/endure.wav");
+            DoubleSlashSound = LoadAudio("Audio/SoundEffects/double-slash.wav");
+            StormcallerSound = LoadAudio("Audio/SoundEffects/stormcaller.wav");
+            QuickstepSound = LoadAudio("Audio/SoundEffects/quickstep.wav");
+            WarCrySound = LoadAudio("Audio/SoundEffects/warcry.wav");
+            RallyingSound = LoadAudio("Audio/SoundEffects/rallying.wav");
+            CommandKneelSound = LoadAudio("Audio/SoundEffects/command-kneel.wav");
+            WaterfowlDanceSound = LoadAudio("Audio/SoundEffects/waterfowl.wav");
+
+            GlintPebbleSound = LoadAudio("Audio/SoundEffects/glintstone-pebble.wav");
+            GlintPhalanxSound = LoadAudio("Audio/SoundEffects/glint-phalanx.wav");
+            CarianGSwordSound = LoadAudio("Audio/SoundEffects/cariang-sword.wav");
+            ThopsBarrierSound = LoadAudio("Audio/SoundEffects/thops-barrier.wav");
+            GreatShardSound = LoadAudio("Audio/SoundEffects/great-shard.wav");
+            CometAzurSound = LoadAudio("Audio/SoundEffects/comet-azur.wav");
+
+            FlaskCrimsonSound = LoadAudio("Audio/SoundEffects/flask-of-crimson-tears.wav");
+            FlaskCeruleanSound = LoadAudio("Audio/SoundEffects/flask-of-cerulean-tears.wav");
+            WondrousPhysickSound = LoadAudio("Audio/SoundEffects/wondrous-physick.wav");
+            BaldachinBlessSound = LoadAudio("Audio/SoundEffects/baldachin-bless.wav");
+            LarvalTearSound = LoadAudio("Audio/SoundEffects/larval-tear.wav");
+            WarmingStoneSound = LoadAudio("Audio/SoundEffects/warming-stone.wav");
+            PoisonPotSound = LoadAudio("Audio/SoundEffects/poison-pot.wav");
+            ThrowingDaggerSound = LoadAudio("Audio/SoundEffects/throwing-dagger.wav");
         }
         
         public void LoadData()
         {
-            // Load fonts
-            ComponentFont = _game.LoadFont("Fonts/pixel.ttf", 1 * AppSettings.Scaling.ScaleFactor);
-            StartMenuFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1.75f * AppSettings.Scaling.ScaleFactor);
-            PlayerFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1.5f * AppSettings.Scaling.ScaleFactor);
-            CardFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1f * AppSettings.Scaling.ScaleFactor);
-            IndicatorFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1.25f * AppSettings.Scaling.ScaleFactor);
-            TransitionComponentFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 3.5f * AppSettings.Scaling.ScaleFactor);
-            GameOverTransitionComponentFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 5f * AppSettings.Scaling.ScaleFactor);
-            RewardFont = _game.LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1.3f * AppSettings.Scaling.ScaleFactor);
-            
-            // Load textures
-            MonoZenithLogo = _game.LoadImage("Images/monozenith.png");
-            MainMenuBackdrop = _game.LoadImage("Images/MainMenu/main-menu-backdrop.png");
-            MainMenuHoverIndicator = _game.LoadImage("Images/MainMenu/menu-item-indicator.png");
-            Player = _game.LoadImage("Images/Player/vargram.png");
-            Npc = _game.LoadImage("Images/Player/varre.png");
-            PlayerCurrent = _game.LoadImage("Images/Player/player-current.png");
-            PlayerWaiting = _game.LoadImage("Images/Player/player-waiting.png");
-            Backdrop = _game.LoadImage("Images/Backdrops/backdrop.png");
-            LimgraveBackdrop = _game.LoadImage("Images/Backdrops/limgrave-backdrop.png");
-            CaelidBackdrop = _game.LoadImage("Images/Backdrops/caelid-backdrop.png");
-            EndTurnButtonIdleTexture = _game.LoadImage("Images/EndTurnButton/end-turn-button-idle.png");
-            EndTurnButtonHoverTexture = _game.LoadImage("Images/EndTurnButton/end-turn-button-hover.png");
-            EndTurnButtonDisabledTexture = _game.LoadImage("Images/EndTurnButton/end-turn-button-disabled.png");
-            DeckIndicator = _game.LoadImage("Images/Indicators/deck-indicator.png");
-            ReserveIndicator = _game.LoadImage("Images/Indicators/reserve-indicator.png");
-            
-            // Remembrances
-            RemembranceOfTheStarscourge = _game.LoadImage("Images/Remembrances/remembrance-of-starscourge.png");
-            
-            // Ash indicators
-            AshIndicatorDisabled = _game.LoadImage("Images/Indicators/ash-indicator-disabled.png");
-            AshIndicatorEnabled = _game.LoadImage("Images/Indicators/ash-indicator-enabled.png");
-            AshIndicatorHovered = _game.LoadImage("Images/Indicators/ash-indicator-hovered.png");
-            
-            // Spirit ashes
-            MimicTearAsh = _game.LoadImage("Images/Indicators/SpiritAshes/mimic-tear.png");
-            JellyfishAsh = _game.LoadImage("Images/Indicators/SpiritAshes/jellyfish.png");
-            WolvesAsh = _game.LoadImage("Images/Indicators/SpiritAshes/wolves.png");
-            
-            // Reward panel
-            RewardContainer = _game.LoadImage("Images/RewardPanel/reward-container.png");
-            CollectRewardButton = _game.LoadImage("Images/RewardPanel/collect-button.png");
-            CollectRewardButtonHover = _game.LoadImage("Images/RewardPanel/collect-button-hover.png");
-            
-            CardBack = _game.LoadImage("Images/Cards/back-card-design.png");
-            CardFront = _game.LoadImage("Images/Cards/front-card-design.png");
-            CardHidden = _game.LoadImage("Images/Cards/card-hidden.png");
-            CardCostStamina = _game.LoadImage("Images/Cards/cost-stamina.png");
-            CardCostFocus = _game.LoadImage("Images/Cards/cost-focus.png");
-
-            CardLightAttack = _game.LoadImage("Images/Cards/card-light-attack.png");
-            CardHeavyAttack = _game.LoadImage("Images/Cards/card-heavy-attack.png");
-            CardUnsheathe = _game.LoadImage("Images/Cards/card-unsheathe.png");
-            CardBloodhound = _game.LoadImage("Images/Cards/card-bloodhound.png");
-            CardEndure = _game.LoadImage("Images/Cards/card-endure.png");
-            CardDoubleSlash = _game.LoadImage("Images/Cards/card-double.png");
-            CardStormcaller = _game.LoadImage("Images/Cards/card-stormcall.png");
-            CardQuickstep = _game.LoadImage("Images/Cards/card-quickstep.png");
-            CardWarCry = _game.LoadImage("Images/Cards/card-war-cry.png");
-            CardRallyingStandard = _game.LoadImage("Images/Cards/card-rallying.png");
-            CardCommandKneel = _game.LoadImage("Images/Cards/card-kneel.png");
-            CardWaterfowlDance = _game.LoadImage("Images/Cards/card-waterfowl.png");
-
-            CardGlintPebble = _game.LoadImage("Images/Cards/card-glint-peb.png");
-            CardGlintPhalanx = _game.LoadImage("Images/Cards/card-phalanx.png");
-            CardCarianGSword = _game.LoadImage("Images/Cards/card-carian-gsword.png");
-            CardThopsBarrier = _game.LoadImage("Images/Cards/card-thops.png");
-            CardGreatShard = _game.LoadImage("Images/Cards/card-great-glint.png");
-            CardCometAzur = _game.LoadImage("Images/Cards/card-comet-azur.png");
-
-            CardFlaskCrimson = _game.LoadImage("Images/Cards/card-crimson.png");
-            CardFlaskCerulean = _game.LoadImage("Images/Cards/card-cerulean.png");
-            CardWondrousPhysick = _game.LoadImage("Images/Cards/card-wondrous.png");
-            CardBaldachinBless = _game.LoadImage("Images/Cards/card-baldachin.png");
-            CardLarvalTear = _game.LoadImage("Images/Cards/card-larval.png");
-            CardWarmingStone = _game.LoadImage("Images/Cards/card-warming.png");
-            CardPoisonPot = _game.LoadImage("Images/Cards/card-poison-pot.png");
-            CardThrowingDagger = _game.LoadImage("Images/Cards/card-throw-dagger.png");
-
-            // Load audio
-            MainMenuMusic = _game.LoadAudio("Audio/Music/main-menu-music.wav");
-            PlayerTurnSound = _game.LoadAudio("Audio/SoundEffects/player-turn-sound.wav");
-            LimgraveMusic = _game.LoadAudio("Audio/Music/limgrave-music.wav");
-            StartButtonSound = _game.LoadAudio("Audio/SoundEffects/start-button-sound.wav");
-            EndPlayerTurnSound = _game.LoadAudio("Audio/SoundEffects/end-turn-sound-effect.wav");
-            PlayerDeathSound = _game.LoadAudio("Audio/SoundEffects/player-death.wav");
-            EnemyDeathSound = _game.LoadAudio("Audio/SoundEffects/enemy-felled.wav");
-            RetrieveCardsSound = _game.LoadAudio("Audio/SoundEffects/retrieve-cards.wav");
-            SpiritAshSummonSound = _game.LoadAudio("Audio/SoundEffects/spirit-ash-summon.wav");
-            NewItemSound = _game.LoadAudio("Audio/SoundEffects/new-item.wav");
-
-            DamageSound = _game.LoadAudio("Audio/SoundEffects/damage-sound.wav");
-            HealingSound = _game.LoadAudio("Audio/SoundEffects/healing-sound.wav");
-            CardSound2 = _game.LoadAudio("Audio/SoundEffects/card-sound2.wav");
-
-            LightSwordSound = _game.LoadAudio("Audio/SoundEffects/light-sword-attack.wav");
-            HeavySwordSound = _game.LoadAudio("Audio/SoundEffects/heavy-sword-attack.wav");
-            UnsheatheSound = _game.LoadAudio("Audio/SoundEffects/unsheathe.wav");
-            BloodhoundSound = _game.LoadAudio("Audio/SoundEffects/bloodhound.wav");
-            EndureSound = _game.LoadAudio("Audio/SoundEffects/endure.wav");
-            DoubleSlashSound = _game.LoadAudio("Audio/SoundEffects/double-slash.wav");
-            StormcallerSound = _game.LoadAudio("Audio/SoundEffects/stormcaller.wav");
-            QuickstepSound = _game.LoadAudio("Audio/SoundEffects/quickstep.wav");
-            WarCrySound = _game.LoadAudio("Audio/SoundEffects/warcry.wav");
-            RallyingSound = _game.LoadAudio("Audio/SoundEffects/rallying.wav");
-            CommandKneelSound = _game.LoadAudio("Audio/SoundEffects/command-kneel.wav");
-            WaterfowlDanceSound = _game.LoadAudio("Audio/SoundEffects/waterfowl.wav");
-
-            GlintPebbleSound = _game.LoadAudio("Audio/SoundEffects/glintstone-pebble.wav");
-            GlintPhalanxSound = _game.LoadAudio("Audio/SoundEffects/glint-phalanx.wav");
-            CarianGSwordSound = _game.LoadAudio("Audio/SoundEffects/cariang-sword.wav");
-            ThopsBarrierSound = _game.LoadAudio("Audio/SoundEffects/thops-barrier.wav");
-            GreatShardSound = _game.LoadAudio("Audio/SoundEffects/great-shard.wav");
-            CometAzurSound = _game.LoadAudio("Audio/SoundEffects/comet-azur.wav");
-
-            FlaskCrimsonSound = _game.LoadAudio("Audio/SoundEffects/flask-of-crimson-tears.wav");
-            FlaskCeruleanSound = _game.LoadAudio("Audio/SoundEffects/flask-of-cerulean-tears.wav");
-            WondrousPhysickSound = _game.LoadAudio("Audio/SoundEffects/wondrous-physick.wav");
-            BaldachinBlessSound = _game.LoadAudio("Audio/SoundEffects/baldachin-bless.wav");
-            LarvalTearSound = _game.LoadAudio("Audio/SoundEffects/larval-tear.wav");
-            WarmingStoneSound = _game.LoadAudio("Audio/SoundEffects/warming-stone.wav");
-            PoisonPotSound = _game.LoadAudio("Audio/SoundEffects/poison-pot.wav");
-            ThrowingDaggerSound = _game.LoadAudio("Audio/SoundEffects/throwing-dagger.wav");
+            LoadFonts();
+            LoadTextures();
+            LoadSoundEffects();
         }
 
         // Methode om een SoundEffectInstance te maken en af te spelen

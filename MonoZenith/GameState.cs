@@ -29,13 +29,13 @@ namespace MonoZenith
             GameTime = new GameTime();
             TurnManager = new TurnManager(Game, this);
             GameOverManager = new GameOverManager(Game);
-            Player = new HumanPlayer(Game, this, "Player");
-            Npc = new NpcPlayer(Game, this, "NPC");
+            Player = new HumanPlayer(this, "Player");
+            Npc = new NpcPlayer(this, "NPC");
             Reward = new Reward(
-                DataManager.GetInstance(game).WolvesAsh,
+                DataManager.GetInstance().WolvesAsh,
                 "Wolves Spirit Ash",
                 typeof(WolvesAsh));
-            PlayedCards = new CardStack(Game, this, true);
+            PlayedCards = new CardStack(this, true);
             InitializeState();
         }
 
@@ -66,8 +66,8 @@ namespace MonoZenith
                 Game.ScreenHeight / 2f - Card.Card.Height / 2f);
             
             // Initialize players
-            Player.InitializeState(Game, this);
-            Npc.InitializeState(Game, this);
+            Player.InitializeState(this);
+            Npc.InitializeState(this);
         }
         
         /// <summary>

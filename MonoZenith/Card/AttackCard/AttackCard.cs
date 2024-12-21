@@ -1,9 +1,9 @@
-using System;
 using System.Globalization;
 using Microsoft.Xna.Framework;
 using MonoZenith.Engine.Support;
 using MonoZenith.Players;
 using MonoZenith.Support.Managers;
+using static MonoZenith.Game;
 
 namespace MonoZenith.Card.AttackCard;
 
@@ -16,8 +16,8 @@ public class AttackCard : Card
     
     public float Damage => _damage;
     
-    protected AttackCard(Game game, GameState state, Player owner) : 
-        base(game, state, owner)
+    protected AttackCard(GameState state, Player owner) : 
+        base(state, owner)
     {
         _enemy = owner.OpposingPlayer;
         StaminaCost = 0f;
@@ -65,17 +65,17 @@ public class AttackCard : Card
         Vector2 textOffset = StaminaCost >= 10 ? new Vector2(16, 24) : new Vector2(6, 24);
 
         // Draw the stamina cost icon
-        _game.DrawImage(
+        DrawImage(
             _costStaminaTexture,
             _position - scaleVector,
             _scale * scaleCost
         );
         
         // Draw the stamina cost text
-        _game.DrawText(
+        DrawText(
             StaminaCost.ToString(CultureInfo.CurrentCulture),
             _position - textOffset * _scale,
-            DataManager.GetInstance(_game).CardFont,
+            DataManager.GetInstance().CardFont,
             Color.White
         );
     }
@@ -85,14 +85,14 @@ public class AttackCard : Card
 
 public class LightSwordAttackCard : AttackCard
 {
-    public LightSwordAttackCard(Game game, GameState state, Player owner) : 
-        base(game, state, owner)
+    public LightSwordAttackCard(GameState state, Player owner) : 
+        base(state, owner)
     {
         StaminaCost = 10f;
         OriginalStaminaCost = StaminaCost;
         _damage = 10;
-        _frontTexture = DataManager.GetInstance(_game).CardLightAttack;
-        _soundOnPlay = DataManager.GetInstance(_game).LightSwordSound.CreateInstance();
+        _frontTexture = DataManager.GetInstance().CardLightAttack;
+        _soundOnPlay = DataManager.GetInstance().LightSwordSound.CreateInstance();
         _name = "LightSwordAttackCard";
         _description.Add("Deal " + _damage + " damage.");
     }
@@ -106,13 +106,13 @@ public class LightSwordAttackCard : AttackCard
 public class HeavySwordAttackCard : AttackCard
 {
     public HeavySwordAttackCard(Game game, GameState state, Player owner) : 
-        base(game, state, owner)
+        base(state, owner)
     {
         StaminaCost = 20f;
         OriginalStaminaCost = StaminaCost;
         _damage = 20;
-        _frontTexture = DataManager.GetInstance(_game).CardHeavyAttack;
-        _soundOnPlay = DataManager.GetInstance(_game).HeavySwordSound.CreateInstance();
+        _frontTexture = DataManager.GetInstance().CardHeavyAttack;
+        _soundOnPlay = DataManager.GetInstance().HeavySwordSound.CreateInstance();
         _name = "HeavySwordAttackCard";
         _description.Add("Deal " + _damage + " damage.");
     }
@@ -128,13 +128,13 @@ public class HeavySwordAttackCard : AttackCard
 public class UnsheatheCard : AttackCard
 {
     public UnsheatheCard(Game game, GameState state, Player owner) :
-        base(game, state, owner)
+        base(state, owner)
     {
         StaminaCost = 10f;
         OriginalStaminaCost = StaminaCost;
         _damage = 0;
-        _frontTexture = DataManager.GetInstance(_game).CardUnsheathe;
-        _soundOnPlay = DataManager.GetInstance(_game).UnsheatheSound.CreateInstance();
+        _frontTexture = DataManager.GetInstance().CardUnsheathe;
+        _soundOnPlay = DataManager.GetInstance().UnsheatheSound.CreateInstance();
         _name = "UnsheatheCard";
         _description.Add("Next melee card deals");
         _description.Add("double damage");
@@ -152,13 +152,13 @@ public class UnsheatheCard : AttackCard
 public class BloodhoundStepCard : AttackCard
 {
     public BloodhoundStepCard(Game game, GameState state, Player owner) :
-        base(game, state, owner)
+        base(state, owner)
     {
         StaminaCost = 25f;
         OriginalStaminaCost = StaminaCost;
         _damage = 20;
-        _frontTexture = DataManager.GetInstance(_game).CardBloodhound;
-        _soundOnPlay = DataManager.GetInstance(_game).BloodhoundSound.CreateInstance();
+        _frontTexture = DataManager.GetInstance().CardBloodhound;
+        _soundOnPlay = DataManager.GetInstance().BloodhoundSound.CreateInstance();
         _name = "BloodhoundStepCard";
         _description.Add("Deal " + _damage + " damage.");
         _description.Add("Ignore the next");
@@ -183,13 +183,13 @@ public class BloodhoundStepCard : AttackCard
 public class QuickstepCard : AttackCard
 {
     public QuickstepCard(Game game, GameState state, Player owner) :
-        base(game, state, owner)
+        base(state, owner)
     {
         StaminaCost = 10f;
         OriginalStaminaCost = StaminaCost;
         _damage = 0;
-        _frontTexture = DataManager.GetInstance(_game).CardQuickstep;
-        _soundOnPlay = DataManager.GetInstance(_game).QuickstepSound.CreateInstance();
+        _frontTexture = DataManager.GetInstance().CardQuickstep;
+        _soundOnPlay = DataManager.GetInstance().QuickstepSound.CreateInstance();
         _name = "QuickstepCard";
         _description.Add("Ignore the next");
         _description.Add("enemy attack");
@@ -209,13 +209,13 @@ public class QuickstepCard : AttackCard
 public class EndureCard : AttackCard
 {
     public EndureCard(Game game, GameState state, Player owner) :
-        base(game, state, owner)
+        base(state, owner)
     {
         StaminaCost = 15f;
         OriginalStaminaCost = StaminaCost;
         _damage = 0;
-        _frontTexture = DataManager.GetInstance(_game).CardEndure;
-        _soundOnPlay = DataManager.GetInstance(_game).EndureSound.CreateInstance();
+        _frontTexture = DataManager.GetInstance().CardEndure;
+        _soundOnPlay = DataManager.GetInstance().EndureSound.CreateInstance();
         _name = "EndureCard";
         _description.Add("Reduce damage taken");
         _description.Add("by half next turn");
@@ -235,13 +235,13 @@ public class EndureCard : AttackCard
 public class DoubleSlashCard : AttackCard
 {
     public DoubleSlashCard(Game game, GameState state, Player owner) :
-        base(game, state, owner)
+        base(state, owner)
     {
         StaminaCost = 25f;
         OriginalStaminaCost = StaminaCost;
         _damage = 20;
-        _frontTexture = DataManager.GetInstance(_game).CardDoubleSlash;
-        _soundOnPlay = DataManager.GetInstance(_game).DoubleSlashSound.CreateInstance();
+        _frontTexture = DataManager.GetInstance().CardDoubleSlash;
+        _soundOnPlay = DataManager.GetInstance().DoubleSlashSound.CreateInstance();
         _name = "DoubleSlashCard";
         _description.Add("Deal " + _damage + " damage.");
         _description.Add("Next attack costs");
@@ -265,13 +265,13 @@ public class DoubleSlashCard : AttackCard
 public class WarCryCard : AttackCard
 {
     public WarCryCard(Game game, GameState state, Player owner) :
-        base(game, state, owner)
+        base(state, owner)
     {
         StaminaCost = 10f;
         OriginalStaminaCost = StaminaCost;
         _damage = 5;
-        _frontTexture = DataManager.GetInstance(_game).CardWarCry;
-        _soundOnPlay = DataManager.GetInstance(_game).WarCrySound.CreateInstance();
+        _frontTexture = DataManager.GetInstance().CardWarCry;
+        _soundOnPlay = DataManager.GetInstance().WarCrySound.CreateInstance();
         _name = "DoubleSlashCard";
         _description.Add("Deal " + _damage + " damage and");
         _description.Add("+10 damage to");
@@ -296,13 +296,13 @@ public class WarCryCard : AttackCard
 public class StormcallerCard : AttackCard
 {
     public StormcallerCard(Game game, GameState state, Player owner) :
-        base(game, state, owner)
+        base(state, owner)
     {
         StaminaCost = 20f;
         OriginalStaminaCost = StaminaCost;
         _damage = 15;
-        _frontTexture = DataManager.GetInstance(_game).CardStormcaller;
-        _soundOnPlay = DataManager.GetInstance(_game).StormcallerSound.CreateInstance();
+        _frontTexture = DataManager.GetInstance().CardStormcaller;
+        _soundOnPlay = DataManager.GetInstance().StormcallerSound.CreateInstance();
         _name = "StormcallerCard";
         _description.Add("Deal " + _damage + " damage.");
         _description.Add("Reduce stamina of");
@@ -327,13 +327,13 @@ public class StormcallerCard : AttackCard
 public class RallyingStandardCard : AttackCard
 {
     public RallyingStandardCard(Game game, GameState state, Player owner) :
-        base(game, state, owner)
+        base(state, owner)
     {
         StaminaCost = 15;
         OriginalStaminaCost = StaminaCost;
         _damage = 0;
-        _frontTexture = DataManager.GetInstance(_game).CardRallyingStandard;
-        _soundOnPlay = DataManager.GetInstance(_game).RallyingSound.CreateInstance();
+        _frontTexture = DataManager.GetInstance().CardRallyingStandard;
+        _soundOnPlay = DataManager.GetInstance().RallyingSound.CreateInstance();
         _name = "RallyingStandardCard";
         _description.Add("+ 10 damage to all");
         _description.Add("cards next 2 turns");
@@ -353,14 +353,14 @@ public class RallyingStandardCard : AttackCard
 
 public class ICommandTheeKneelCard : AttackCard
 {
-    public ICommandTheeKneelCard(Game game, GameState state, Player owner) :
-        base(game, state, owner)
+    public ICommandTheeKneelCard(GameState state, Player owner) :
+        base(state, owner)
     {
         StaminaCost = 30f;
         OriginalStaminaCost = StaminaCost;
         _damage = 30;
-        _frontTexture = DataManager.GetInstance(_game).CardCommandKneel;
-        _soundOnPlay = DataManager.GetInstance(_game).CommandKneelSound.CreateInstance();
+        _frontTexture = DataManager.GetInstance().CardCommandKneel;
+        _soundOnPlay = DataManager.GetInstance().CommandKneelSound.CreateInstance();
         _name = "ICommandTheeKneelCard";
         _description.Add("Deal " + _damage + " damage and");
         _description.Add("Reduce stamina of");
@@ -385,13 +385,13 @@ public class ICommandTheeKneelCard : AttackCard
 public class WaterfowlDanceCard : AttackCard
 {
     public WaterfowlDanceCard(Game game, GameState state, Player owner) :
-        base(game, state, owner)
+        base(state, owner)
     {
         StaminaCost = 30f;
         OriginalStaminaCost = StaminaCost;
         _damage = 40;
-        _frontTexture = DataManager.GetInstance(_game).CardWaterfowlDance;
-        _soundOnPlay = DataManager.GetInstance(_game).WaterfowlDanceSound.CreateInstance();
+        _frontTexture = DataManager.GetInstance().CardWaterfowlDance;
+        _soundOnPlay = DataManager.GetInstance().WaterfowlDanceSound.CreateInstance();
         _name = "DoubleSlashCard";
         _description.Add("Deal " + _damage + " damage.");
         _description.Add("Ignore the next");
@@ -418,13 +418,13 @@ public class WaterfowlDanceCard : AttackCard
 public class ThrowingDaggerCard : AttackCard
 {
     public ThrowingDaggerCard(Game game, GameState state, Player owner) :
-        base(game, state, owner)
+        base(state, owner)
     {
         StaminaCost = 0f;
         OriginalStaminaCost = StaminaCost;
         _damage = 5f;
-        _frontTexture = DataManager.GetInstance(_game).CardThrowingDagger;
-        _soundOnPlay = DataManager.GetInstance(_game).ThrowingDaggerSound.CreateInstance();
+        _frontTexture = DataManager.GetInstance().CardThrowingDagger;
+        _soundOnPlay = DataManager.GetInstance().ThrowingDaggerSound.CreateInstance();
         _name = "ThrowingDaggerCard";
         _description.Add("Deal " + _damage + " damage.");
     }
@@ -443,13 +443,13 @@ public class ThrowingDaggerCard : AttackCard
 public class PoisonPotCard : AttackCard
 {
     public PoisonPotCard(Game game, GameState state, Player owner) :
-        base(game, state, owner)
+        base(state, owner)
     {
         StaminaCost = 0f;
         OriginalStaminaCost = StaminaCost;
         _damage = 5f;
-        _frontTexture = DataManager.GetInstance(_game).CardPoisonPot;
-        _soundOnPlay = DataManager.GetInstance(_game).PoisonPotSound.CreateInstance();
+        _frontTexture = DataManager.GetInstance().CardPoisonPot;
+        _soundOnPlay = DataManager.GetInstance().PoisonPotSound.CreateInstance();
         _description.Add("Deal " + _damage + " damage.");
         _description.Add("For 2 turns");
     }

@@ -1,9 +1,9 @@
-using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Engine.Support;
 using MonoZenith.Players;
 using MonoZenith.Support.Managers;
+using static MonoZenith.Game;
 
 namespace MonoZenith.Card.AttackCard;
 
@@ -16,9 +16,9 @@ public class MagicCard : AttackCard
     protected float _focusCost;
     
     protected MagicCard(Game game, GameState state, Player owner) : 
-        base(game, state, owner)
+        base(state, owner)
     {
-        _costFocusTexture = DataManager.GetInstance(_game).CardCostFocus;
+        _costFocusTexture = DataManager.GetInstance().CardCostFocus;
         _focusCost = 0;
     }
     
@@ -54,17 +54,17 @@ public class MagicCard : AttackCard
         Vector2 textOffset = _focusCost >= 10 ? new Vector2(32, 24) : new Vector2(20, 24);
 
         // Draw the focus cost icon
-        _game.DrawImage(
+        DrawImage(
             _costFocusTexture,
             _position - scaleVector + new Vector2(_width, 0),
             _scale * scaleCost
         );
         
         // Draw the focus cost text
-        _game.DrawText(
+        DrawText(
             _focusCost.ToString(),
             _position - textOffset * _scale + new Vector2(_width, 0),
-            DataManager.GetInstance(_game).CardFont,
+            DataManager.GetInstance().CardFont,
             Color.CornflowerBlue
         );
     }
@@ -77,8 +77,8 @@ public class GlintStonePebbleCard : MagicCard
     public GlintStonePebbleCard(Game game, GameState state, Player owner) : 
         base(game, state, owner)
     {
-        _frontTexture = DataManager.GetInstance(_game).CardGlintPebble;
-        _soundOnPlay = DataManager.GetInstance(_game).GlintPebbleSound.CreateInstance();
+        _frontTexture = DataManager.GetInstance().CardGlintPebble;
+        _soundOnPlay = DataManager.GetInstance().GlintPebbleSound.CreateInstance();
         _focusCost = 3;
         StaminaCost = 5;
         OriginalStaminaCost = StaminaCost;
@@ -100,8 +100,8 @@ public class GlintbladePhalanxCard : MagicCard
     public GlintbladePhalanxCard(Game game, GameState state, Player owner) :
         base(game, state, owner)
     {
-        _frontTexture = DataManager.GetInstance(_game).CardGlintPhalanx;
-        _soundOnPlay = DataManager.GetInstance(_game).GlintPhalanxSound.CreateInstance();
+        _frontTexture = DataManager.GetInstance().CardGlintPhalanx;
+        _soundOnPlay = DataManager.GetInstance().GlintPhalanxSound.CreateInstance();
         _focusCost = 6;
         StaminaCost = 5;
         OriginalStaminaCost = StaminaCost;
@@ -134,8 +134,8 @@ public class ThopsBarrierCard : MagicCard
     public ThopsBarrierCard(Game game, GameState state, Player owner) :
         base(game, state, owner)
     {
-        _frontTexture = DataManager.GetInstance(_game).CardThopsBarrier;
-        _soundOnPlay = DataManager.GetInstance(_game).ThopsBarrierSound.CreateInstance();
+        _frontTexture = DataManager.GetInstance().CardThopsBarrier;
+        _soundOnPlay = DataManager.GetInstance().ThopsBarrierSound.CreateInstance();
         _focusCost = 6;
         StaminaCost = 5;
         OriginalStaminaCost = StaminaCost;
@@ -164,8 +164,8 @@ public class GreatGlintStoneCard : MagicCard
     public GreatGlintStoneCard(Game game, GameState state, Player owner) :
         base(game, state, owner)
     {
-        _frontTexture = DataManager.GetInstance(_game).CardGreatShard;
-        _soundOnPlay = DataManager.GetInstance(_game).GreatShardSound.CreateInstance();
+        _frontTexture = DataManager.GetInstance().CardGreatShard;
+        _soundOnPlay = DataManager.GetInstance().GreatShardSound.CreateInstance();
         _focusCost = 5;
         StaminaCost = 10;
         _damage = 20;
@@ -184,8 +184,8 @@ public class CarianGreatSwordCard : MagicCard
     public CarianGreatSwordCard(Game game, GameState state, Player owner) :
         base(game, state, owner)
     {
-        _frontTexture = DataManager.GetInstance(_game).CardCarianGSword;
-        _soundOnPlay = DataManager.GetInstance(_game).CarianGSwordSound.CreateInstance();
+        _frontTexture = DataManager.GetInstance().CardCarianGSword;
+        _soundOnPlay = DataManager.GetInstance().CarianGSwordSound.CreateInstance();
         _focusCost = 8;
         StaminaCost = 20;
         OriginalStaminaCost = StaminaCost;
@@ -205,8 +205,8 @@ public class CometAzurCard : MagicCard
     public CometAzurCard(Game game, GameState state, Player owner) :
         base(game, state, owner)
     {
-        _frontTexture = DataManager.GetInstance(_game).CardCometAzur;
-        _soundOnPlay = DataManager.GetInstance(_game).CometAzurSound.CreateInstance();
+        _frontTexture = DataManager.GetInstance().CardCometAzur;
+        _soundOnPlay = DataManager.GetInstance().CometAzurSound.CreateInstance();
         _focusCost = 30;
         StaminaCost = 30;
         OriginalStaminaCost = StaminaCost;

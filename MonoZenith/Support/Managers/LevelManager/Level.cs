@@ -20,7 +20,7 @@ public class Level
     /// <param name="s">The game state.</param>
     public void Initialize(Game g, GameState s)
     {
-        Enemy.InitializeState(g, s);
+        Enemy.InitializeState(s);
         SoundTrack.IsLooped = true;
     }
 }
