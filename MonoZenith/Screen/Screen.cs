@@ -5,13 +5,6 @@ namespace MonoZenith.Screen
 {
     public abstract class Screen
     {
-        protected Game _game;
-
-        protected Screen(Game game)
-        {
-            _game = game;
-        }
-
         /// <summary>
         /// Removes all side effects of the screen when switching to another screen.
         /// </summary>

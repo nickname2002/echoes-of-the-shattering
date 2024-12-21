@@ -8,8 +8,8 @@ namespace MonoZenith.Card;
 
 public class ItemCard : Card
 {   
-    protected ItemCard(Game game, GameState state, Player owner) : 
-        base(game, state, owner)
+    protected ItemCard(GameState state, Player owner) : 
+        base(state, owner)
     {
         _owner = owner;
     }
@@ -30,10 +30,10 @@ public class ItemCard : Card
 public class LarvalTearCard : ItemCard
 {
     public LarvalTearCard(Game game, GameState state, Player owner) :
-        base(game, state, owner)
+        base(state, owner)
     {
-        _frontTexture = DataManager.GetInstance(_game).CardLarvalTear;
-        _soundOnPlay = DataManager.GetInstance(_game).LarvalTearSound.CreateInstance();
+        _frontTexture = DataManager.GetInstance().CardLarvalTear;
+        _soundOnPlay = DataManager.GetInstance().LarvalTearSound.CreateInstance();
         _description.Add("Discard all of your cards");
         _description.Add("and draw 5 new cards");
     }
@@ -50,10 +50,10 @@ public class LarvalTearCard : ItemCard
 public class BaldachinBlessingCard : ItemCard
 {
     public BaldachinBlessingCard(Game game, GameState state, Player owner) :
-        base(game, state, owner)
+        base(state, owner)
     {
-        _frontTexture = DataManager.GetInstance(_game).CardBaldachinBless;
-        _soundOnPlay = DataManager.GetInstance(_game).BaldachinBlessSound.CreateInstance();
+        _frontTexture = DataManager.GetInstance().CardBaldachinBless;
+        _soundOnPlay = DataManager.GetInstance().BaldachinBlessSound.CreateInstance();
         _description.Add("Reduce damage taken");
         _description.Add("by half next turn");
         _description.Add("but take 10 damage");

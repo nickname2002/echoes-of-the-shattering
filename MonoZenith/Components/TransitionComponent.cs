@@ -34,7 +34,7 @@ public class TransitionComponent : Component
         float fadeInDuration = 0.5f,
         float displayDuration = 1f,
         float fadeOutDuration = 0.5f,
-        Action? actionAfterFadeOut = null) : base(g, Vector2.Zero, 0, 0)
+        Action? actionAfterFadeOut = null) : base(Vector2.Zero, 0, 0)
     {
         _isFadingOut = false;
         _actionAfterFadeOut = actionAfterFadeOut;

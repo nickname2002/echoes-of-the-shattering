@@ -6,12 +6,12 @@ using MonoZenith.Engine.Support;
 using MonoZenith.Players;
 using System.Collections.Generic;
 using MonoZenith.Items;
+using static MonoZenith.Game;
 
 namespace MonoZenith.Card
 {
     public abstract class Card : Item
     {
-        protected Game _game;
         protected GameState _state;
         protected Vector2 _position;
         protected static int _width;
@@ -83,17 +83,16 @@ namespace MonoZenith.Card
             }
         }
 
-        protected Card(Game game, GameState state, Player owner)
+        protected Card(GameState state, Player owner)
         {
-            _game = game;
             _state = state;
             _owner = owner;
             _position = Vector2.Zero;
             _scale = 0.40f * AppSettings.Scaling.ScaleFactor;
-            _frontTexture = DataManager.GetInstance(_game).CardFront;
-            _backTexture = DataManager.GetInstance(_game).CardBack;
-            _hiddenTexture = DataManager.GetInstance(_game).CardHidden;
-            _costStaminaTexture = DataManager.GetInstance(_game).CardCostStamina;
+            _frontTexture = DataManager.GetInstance().CardFront;
+            _backTexture = DataManager.GetInstance().CardBack;
+            _hiddenTexture = DataManager.GetInstance().CardHidden;
+            _costStaminaTexture = DataManager.GetInstance().CardCostStamina;
             _textureInHand = owner is HumanPlayer ? _frontTexture : _backTexture;
             _width = (int)(_frontTexture.Width * _scale);
             _height = (int)(_frontTexture.Height * _scale);
@@ -116,7 +115,7 @@ namespace MonoZenith.Card
         /// <returns>Returns if the player is hovering over the card.</returns>
         public bool IsHovered()
         {
-            Point mousePosition = _game.GetMousePosition();
+            Point mousePosition = GetMousePosition();
             bool inXRange = mousePosition.X >= _position.X && mousePosition.X <= _position.X + _width;
             bool inYRange = mousePosition.Y >= _position.Y && mousePosition.Y <= _position.Y + _height;
             return inXRange && inYRange;
@@ -128,7 +127,7 @@ namespace MonoZenith.Card
         /// <returns>If the card is clicked.</returns>
         public bool IsClicked()
         {
-            return IsHovered() && _game.GetMouseButtonDown(MouseButtons.Left);
+            return IsHovered() && GetMouseButtonDown(MouseButtons.Left);
         }
 
         /// <summary>
@@ -221,10 +220,10 @@ namespace MonoZenith.Card
                 active = true;
             
             Texture2D currentTexture = active ? _frontTexture : _textureInHand;
-            _game.DrawImage(currentTexture, _position, _scale, angle);
+            DrawImage(currentTexture, _position, _scale, angle);
             
             if(!IsAffordable() && Stack is HandCardStack && _owner is HumanPlayer)
-                _game.DrawImage(_hiddenTexture, _position, _scale, angle);
+                DrawImage(_hiddenTexture, _position, _scale, angle);
 
             if (active)
                 DrawDescription();
@@ -254,7 +253,7 @@ namespace MonoZenith.Card
             Vector2 cardOffset = new Vector2(offsetX, offsetY);
 
             // Retrieve font and calculate scaling factor
-            SpriteFont cardFont = DataManager.GetInstance(_game).CardFont;
+            SpriteFont cardFont = DataManager.GetInstance().CardFont;
             float baseTextHeight = cardFont.MeasureString("A").Y; // Reference height
             
             // Create scale based on Card Width with offset
@@ -274,10 +273,10 @@ namespace MonoZenith.Card
                 Vector2 textSize = cardFont.MeasureString(_description[i]) * scalingFactor;
                 float textWidth = 0.5f * textSize.X;
 
-                _game.DrawText(
+                DrawText(
                     _description[i],
                     _position + cardOffset - new Vector2(textWidth, -textHeight * i - heightOffset),
-                    DataManager.GetInstance(_game).CardFont,
+                    DataManager.GetInstance().CardFont,
                     Color.Ivory,
                     scalingFactor
                 );
@@ -289,10 +288,10 @@ namespace MonoZenith.Card
         /// </summary>
         protected virtual void DrawMetaData()
         {
-            _game.DrawText(
+            DrawText(
                 _name,
                 _position,
-                DataManager.GetInstance(_game).CardFont,
+                DataManager.GetInstance().CardFont,
                 Color.White
             );
         }

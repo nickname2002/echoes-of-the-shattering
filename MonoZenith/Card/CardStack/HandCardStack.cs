@@ -4,8 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Engine.Support;
 using MonoZenith.Players;
-using MonoZenith.Support;
-using static MonoZenith.Engine.Support.AppSettings;
+using static MonoZenith.Game;
 
 namespace MonoZenith.Card.CardStack
 {
@@ -18,11 +17,11 @@ namespace MonoZenith.Card.CardStack
         public readonly Texture2D CardBack;
         public readonly Texture2D CardFront;
         
-        public HandCardStack(Game game, GameState state) : base(game, state, true)
+        public HandCardStack(GameState state) : base(state, true)
         {
             // Load in Textures
-            CardBack = DataManager.GetInstance(game).CardBack;
-            CardFront = DataManager.GetInstance(game).CardFront;
+            CardBack = DataManager.GetInstance().CardBack;
+            CardFront = DataManager.GetInstance().CardFront;
         }
 
         /// <summary>
@@ -70,7 +69,7 @@ namespace MonoZenith.Card.CardStack
             _cards.AddRange(cardsToAdd);
             
             // Make sure all cards have the same position as the deck
-            UpdatePosition(_game.ScreenWidth / 2f - Card.Width, _game.ScreenHeight / 2f);
+            UpdatePosition(ScreenWidth / 2f - Card.Width, ScreenHeight / 2f);
             Shuffle();
         }
         

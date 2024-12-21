@@ -12,18 +12,18 @@ public class LevelManager
     public List<Level> Levels { get; }
     public Level CurrentLevel { get; set; }
 
-    public LevelManager(Game g, GameState s)
+    public LevelManager(GameState s)
     {
         Levels = new List<Level>
         {
             // Test
             new()
             {
-                Backdrop = DataManager.GetInstance(g).Backdrop,
-                SoundTrack = DataManager.GetInstance(g).LimgraveMusic.CreateInstance(),
-                Enemy = new NpcPlayer(g, s, "NPC"),
+                Backdrop = DataManager.GetInstance().Backdrop,
+                SoundTrack = DataManager.GetInstance().LimgraveMusic.CreateInstance(),
+                Enemy = new NpcPlayer(s, "NPC"),
                 Reward = new Reward(
-                    DataManager.GetInstance(g).MimicTearAsh,
+                    DataManager.GetInstance().MimicTearAsh,
                     "Mimic Tear Ash",
                     typeof(MimicTearAsh))
             },
@@ -31,11 +31,11 @@ public class LevelManager
             // Test 2 (Limgrave theme)
             new()
             {
-                Backdrop = DataManager.GetInstance(g).LimgraveBackdrop,
-                SoundTrack = DataManager.GetInstance(g).LimgraveMusic.CreateInstance(),
-                Enemy = new NpcPlayer(g, s, "Varré"),
+                Backdrop = DataManager.GetInstance().LimgraveBackdrop,
+                SoundTrack = DataManager.GetInstance().LimgraveMusic.CreateInstance(),
+                Enemy = new NpcPlayer(s, "Varré"),
                 Reward = new Reward(
-                    DataManager.GetInstance(g).WolvesAsh,
+                    DataManager.GetInstance().WolvesAsh,
                     "Wolves Spirit Ash",
                     typeof(WolvesAsh))
             },
@@ -43,11 +43,11 @@ public class LevelManager
             // Test 3 (Caelid theme)
             new()
             {
-                Backdrop = DataManager.GetInstance(g).CaelidBackdrop,
-                SoundTrack = DataManager.GetInstance(g).LimgraveMusic.CreateInstance(),
-                Enemy = new NpcPlayer(g, s, "Varré"),
+                Backdrop = DataManager.GetInstance().CaelidBackdrop,
+                SoundTrack = DataManager.GetInstance().LimgraveMusic.CreateInstance(),
+                Enemy = new NpcPlayer(s, "Varré"),
                 Reward = new Reward(
-                    DataManager.GetInstance(g).RemembranceOfTheStarscourge,
+                    DataManager.GetInstance().RemembranceOfTheStarscourge,
                     "Radahn's Remembrance",
                     typeof(WolvesAsh))
             }

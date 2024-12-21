@@ -140,7 +140,7 @@ public class PoisonEffectDebuff : TurnBuff
         _damagePercentage = damagePercentage;
         
         // TODO: Add more fitting sound effect
-        _damageSound = DataManager.GetInstance(state.Game).DamageSound;
+        _damageSound = DataManager.GetInstance().DamageSound;
     }
     
     public override void PerformEffect()
@@ -177,7 +177,7 @@ public class HealingEffectBuff : TurnBuff
         _healingPercentage = healingPercentage;
 
         // TODO: Add more fitting sound effect
-        _healingSound = DataManager.GetInstance(state.Game).FlaskCeruleanSound;
+        _healingSound = DataManager.GetInstance().FlaskCeruleanSound;
     }
 
     public override void PerformEffect()
@@ -208,7 +208,7 @@ public class StaminaEffectDebuff : TurnBuff
         _staminaAmount = staminaAmount;
 
         // TODO: Add more fitting sound effect
-        _staminaSound = DataManager.GetInstance(state.Game).FlaskCeruleanSound;
+        _staminaSound = DataManager.GetInstance().FlaskCeruleanSound;
     }
 
     public override void PerformEffect()

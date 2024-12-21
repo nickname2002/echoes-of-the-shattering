@@ -5,6 +5,7 @@ using MonoZenith.Components;
 using MonoZenith.Engine.Support;
 using MonoZenith.Players;
 using MonoZenith.Screen.RewardPanel;
+using static MonoZenith.Game;
 
 namespace MonoZenith.Support.Managers;
 
@@ -21,7 +22,7 @@ public class GameOverManager
 
     public GameOverManager(Game game)
     {
-        var dataManager = DataManager.GetInstance(game);
+        var dataManager = DataManager.GetInstance();
         TransitionComplete = false;
         _playerDeathSound = dataManager.PlayerDeathSound.CreateInstance();
         _enemyDeathSound = dataManager.EnemyDeathSound.CreateInstance();
@@ -32,14 +33,14 @@ public class GameOverManager
             {
                 if (_currentWinner is NpcPlayer)
                 {
-                    game.BackToMainMenu();
+                    BackToMainMenu();
                     return;
                 }
                 
                 TransitionComplete = true;
                 newItemSound.Play();
             });
-        _rewardPanel = new RewardPanel(game);
+        _rewardPanel = new RewardPanel();
     }
 
     /// <summary>

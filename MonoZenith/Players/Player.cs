@@ -6,6 +6,7 @@ using MonoZenith.Card.CardStack;
 using MonoZenith.Engine.Support;
 using MonoZenith.Items;
 using MonoZenith.Support.Managers;
+using static MonoZenith.Game;
 
 namespace MonoZenith.Players
 {
@@ -63,37 +64,35 @@ namespace MonoZenith.Players
         /// </summary>
         public bool HasAnyMovingCards => _reserveCardStack.GetMovingCards().Count > 0;
 
-        protected Player(Game game, GameState state, string name)
+        protected Player(GameState state, string name)
         {
-            _game = game;
             _state = state;
             Name = name;
             _scale = 0.15f * AppSettings.Scaling.ScaleFactor;
-            _handPosX = game.ScreenWidth / 2f;
+            _handPosX = ScreenWidth / 2f;
             
             // ReSharper disable once VirtualMemberCallInConstructor
-            InitializeState(game, state);
+            InitializeState(state);
             
             // Load textures and sound effects for player
-            _playerCurrent = DataManager.GetInstance(game).PlayerCurrent;
-            PlayerWaiting = DataManager.GetInstance(game).PlayerWaiting;
-            _playerFont = DataManager.GetInstance(game).PlayerFont;
+            _playerCurrent = DataManager.GetInstance().PlayerCurrent;
+            PlayerWaiting = DataManager.GetInstance().PlayerWaiting;
+            _playerFont = DataManager.GetInstance().PlayerFont;
             
             // Ashes and buffs
             // TODO: Make sure players start without any ashes when game starts
-            SpiritAsh = new WolvesAsh(game, state, this);
+            SpiritAsh = new WolvesAsh(Instance, state, this);
             BuffManager = new BuffManager(state, this);
         }
-        
+
         /// <summary>
         /// Initialize the player's state.
         /// </summary>
-        /// <param name="game">The game.</param>
         /// <param name="state">The game state.</param>
         /// <remarks>
         /// This method initializes the player properties and card stacks.
         /// </remarks>
-        public virtual void InitializeState(Game game, GameState state)
+        public virtual void InitializeState(GameState state)
         {
             // Initialize player properties
             Health = 100f;
@@ -103,9 +102,9 @@ namespace MonoZenith.Players
             CardsDrawn = false;
             
             // Initialize card stacks
-            _deckStack = new CardStack(game, state);
-            _reserveCardStack = new CardStack(game, state);
-            _handStack = new HandCardStack(game, state);
+            _deckStack = new CardStack(state);
+            _reserveCardStack = new CardStack(state);
+            _handStack = new HandCardStack(state);
             BuffManager = new BuffManager(state, this);
             FillPlayerDeck();
             ChangeHandStackPosition();
@@ -254,7 +253,7 @@ namespace MonoZenith.Players
             _state.PlayedCards.AddToBottom(card);
             _handStack.Remove(card);
             card.PerformEffect();
-            _game.DebugLog(this.Name + " playing card: " + card);
+            DebugLog(this.Name + " playing card: " + card);
         }
 
         /// <summary>
@@ -293,8 +292,8 @@ namespace MonoZenith.Players
             Texture2D playerBorder = currentPlayer ? _playerCurrent : PlayerWaiting;
 
             // Draw the assets
-            _game.DrawImage(_playerIcon, _playerPosition - iconOffset, _scale, 0);
-            _game.DrawImage(playerBorder, _playerPosition - borderOffset, _scale, 0);
+            DrawImage(_playerIcon, _playerPosition - iconOffset, _scale, 0);
+            DrawImage(playerBorder, _playerPosition - borderOffset, _scale, 0);
         }
 
         /// <summary>

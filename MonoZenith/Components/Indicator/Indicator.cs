@@ -1,20 +1,19 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Engine.Support;
+using static MonoZenith.Game;
 
 namespace MonoZenith.Components.Indicator;
 
 public abstract class Indicator : Component
 {
-    protected Game _game;
     protected GameState _gameState;
     protected Texture2D _texture;
     protected Vector2 _position;
     
-    protected Indicator(Game g, GameState gs, Vector2 pos, Texture2D texture) : 
-        base(g, pos, 0, 0)
+    protected Indicator(GameState gs, Vector2 pos, Texture2D texture) : 
+        base(pos, 0, 0)
     {
-        _game = g;
         _gameState = gs;
         _position = pos;
         _texture = texture;
@@ -45,6 +44,6 @@ public abstract class Indicator : Component
     /// </summary>
     public override void Draw()
     {
-        _game.DrawImage(_texture, _position, GetScale());
+        DrawImage(_texture, _position, GetScale());
     }
 }

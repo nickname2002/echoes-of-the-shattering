@@ -1,13 +1,13 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using static MonoZenith.Game;
 
 namespace MonoZenith;
 
 public class Particle
 {
     private Random _random;
-    private readonly Game _game;
     private readonly Texture2D _texture;
     public Vector2 Position { get; set; }
     public Vector2 Velocity { get; set; }
@@ -18,7 +18,6 @@ public class Particle
 
     public Particle(
         Random r, 
-        MonoZenith.Game g, 
         Texture2D texture, 
         Vector2 position, 
         Vector2 velocity, 
@@ -26,7 +25,6 @@ public class Particle
         int size, 
         float lifespan)
     {
-        _game = g;
         _texture = texture;
         _random = r;
         Position = position;
@@ -69,7 +67,7 @@ public class Particle
     {
         if (_texture == null)
         {
-            _game.DrawRectangle(
+            DrawRectangle(
                 Color, 
                 Position, 
                 Size, 
@@ -77,6 +75,6 @@ public class Particle
             return;
         }
         
-        _game.DrawImage(_texture, Position);
+        DrawImage(_texture, Position);
     }
 }

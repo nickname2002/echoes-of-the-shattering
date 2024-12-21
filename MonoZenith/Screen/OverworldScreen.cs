@@ -2,17 +2,13 @@ using System;
 using Microsoft.Xna.Framework;
 using MonoZenith.Support;
 using MonoZenith.Support.Managers;
+using static MonoZenith.Game;
 
 namespace MonoZenith.Screen;
 
 public class OverworldScreen : Screen
 {
-    public LevelManager LevelManager { get; set; }
-
-    public OverworldScreen(Game game) : base(game)
-    {
-        LevelManager = new LevelManager(game, game.GetGameState());
-    }
+    public LevelManager LevelManager { get; set; } = new(GetGameState());
 
     public override void Unload()
     {
@@ -29,11 +25,11 @@ public class OverworldScreen : Screen
     /// </summary>
     private void ActivateSelectedLevel()
     {
-        LevelManager.CurrentLevel.Initialize(_game, _game.GetGameState());
-        _game.GetGameScreen().SetBackgroundMusic(LevelManager.CurrentLevel.SoundTrack);
-        _game.GetGameState().SetLevel(LevelManager.CurrentLevel);
-        _game.GetGameScreen().Load();
-        _game.ActiveScreen = Screens.GAME;
+        LevelManager.CurrentLevel.Initialize(Game.Instance, GetGameState());
+        GetGameScreen().SetBackgroundMusic(LevelManager.CurrentLevel.SoundTrack);
+        GetGameState().SetLevel(LevelManager.CurrentLevel);
+        GetGameScreen().Load();
+        ActiveScreen = Screens.GAME;
     }
     
     public override void Update(GameTime deltaTime)

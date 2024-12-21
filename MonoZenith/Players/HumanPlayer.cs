@@ -8,6 +8,7 @@ using MonoZenith.Components.Indicator;
 using MonoZenith.Engine.Support;
 using MonoZenith.Items;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
+using static MonoZenith.Game;
 
 namespace MonoZenith.Players
 {
@@ -18,41 +19,38 @@ namespace MonoZenith.Players
         private CardStackIndicator _reserveIndicator;
         private SpiritAshIndicator _spiritAshIndicator;
         
-        public HumanPlayer(Game game, GameState state, string name) : base(game, state, name)
+        public HumanPlayer(GameState state, string name) : base(state, name)
         {
-            _handPosY = game.ScreenHeight / 1.45f;
+            _handPosY = ScreenHeight / 1.45f;
             _playerPosition = new Vector2(
-                game.ScreenWidth * 0.05f, 
-                game.ScreenHeight * 0.915f);
-            _playerIcon = DataManager.GetInstance(game).Player;
+                ScreenWidth * 0.05f, 
+                ScreenHeight * 0.915f);
+            _playerIcon = DataManager.GetInstance().Player;
         }
 
-        public override void InitializeState(Game game, GameState state)
+        public override void InitializeState(GameState state)
         {
-            base.InitializeState(game, state);
+            base.InitializeState(state);
             OpposingPlayer = state.Npc;
             
             // Initialize indicators
-            _deckIndicator = new CardStackIndicator(
-                game, state, 
+            _deckIndicator = new CardStackIndicator(state, 
                 new Vector2(
-                    _game.ScreenWidth - 185 * AppSettings.Scaling.ScaleFactor, 
-                    _game.ScreenHeight - 200 * AppSettings.Scaling.ScaleFactor), 
-                DataManager.GetInstance(_game).DeckIndicator,
+                    ScreenWidth - 185 * AppSettings.Scaling.ScaleFactor, 
+                    ScreenHeight - 200 * AppSettings.Scaling.ScaleFactor), 
+                DataManager.GetInstance().DeckIndicator,
                 _deckStack);
-            _reserveIndicator = new CardStackIndicator(
-                game, state, 
+            _reserveIndicator = new CardStackIndicator(state, 
                 new Vector2(
-                    _game.ScreenWidth - 100 * AppSettings.Scaling.ScaleFactor, 
-                    _game.ScreenHeight - 253 * AppSettings.Scaling.ScaleFactor), 
-                DataManager.GetInstance(_game).ReserveIndicator,
+                    ScreenWidth - 100 * AppSettings.Scaling.ScaleFactor, 
+                    ScreenHeight - 253 * AppSettings.Scaling.ScaleFactor), 
+                DataManager.GetInstance().ReserveIndicator,
                 _reserveCardStack);
-            _spiritAshIndicator = new SpiritAshIndicator(
-                game, state, 
+            _spiritAshIndicator = new SpiritAshIndicator(state, 
                 new Vector2(
-                    _game.ScreenWidth - 100 * AppSettings.Scaling.ScaleFactor, 
-                    _game.ScreenHeight - 147 * AppSettings.Scaling.ScaleFactor), 
-                DataManager.GetInstance(_game).AshIndicatorDisabled, 
+                    ScreenWidth - 100 * AppSettings.Scaling.ScaleFactor, 
+                    ScreenHeight - 147 * AppSettings.Scaling.ScaleFactor), 
+                DataManager.GetInstance().AshIndicatorDisabled, 
                 new JellyfishAsh(_game, _state, this));
         }
 
@@ -77,9 +75,9 @@ namespace MonoZenith.Players
                 new LarvalTearCard(_game, _state, this),
 
                 // Basic attacks
-                new LightSwordAttackCard(_game, _state, this),
-                new LightSwordAttackCard(_game, _state, this),
-                new LightSwordAttackCard(_game, _state, this),
+                new LightSwordAttackCard(_state, this),
+                new LightSwordAttackCard(_state, this),
+                new LightSwordAttackCard(_state, this),
                 new UnsheatheCard(_game, _state, this),
                 new WarCryCard(_game, _state, this),
                 new QuickstepCard(_game, _state, this),
@@ -90,7 +88,7 @@ namespace MonoZenith.Players
                 new DoubleSlashCard(_game, _state, this),
                 new RallyingStandardCard(_game, _state, this),
                 new WaterfowlDanceCard(_game, _state, this),
-                new ICommandTheeKneelCard(_game, _state, this),
+                new ICommandTheeKneelCard(_state, this),
 
                 // Magic attacks
                 new GlintStonePebbleCard(_game, _state, this),
@@ -105,11 +103,11 @@ namespace MonoZenith.Players
             
             // Set the starting position of the cards when moving from the deck to the hand
             _deckStack.SetPosition(new Vector2(
-                _game.ScreenWidth / 2f,
-                _game.ScreenHeight + Card.Card.Height / 2f));
+                ScreenWidth / 2f,
+                ScreenHeight + Card.Card.Height / 2f));
             _reserveCardStack.SetPosition(new Vector2(
-                _game.ScreenWidth / 2f,
-                _game.ScreenHeight + Card.Card.Height / 2f));
+                ScreenWidth / 2f,
+                ScreenHeight + Card.Card.Height / 2f));
             
             foreach (var card in _handStack.Cards)
                 card.Stack = _deckStack;
@@ -191,30 +189,30 @@ namespace MonoZenith.Players
             Vector2 namePosition = _playerPosition + new Vector2(playerOffset.X * 1.2f, 0);
             Vector2 shadowPosition = new(1.25f, 1.25f);
             int healthHeight = (int)(_playerCurrent.Height * _scale * 0.05f);
-            int healthWidth = (int)(_game.ScreenWidth * 0.9f);
-            int barWidth = (int)(_game.ScreenWidth * 0.3f);
+            int healthWidth = (int)(ScreenWidth * 0.9f);
+            int barWidth = (int)(ScreenWidth * 0.3f);
             Vector2 barOffset = new Vector2(0, healthHeight + 4);
             Vector2 healthPosition = _playerPosition + new Vector2(0, playerOffset.Y - healthHeight * 4.5f) - new Vector2(1, 1);
             Vector2 edgePosition = healthPosition - new Vector2(1, 1);
 
             // Draw name
-            _game.DrawText(Name, namePosition + shadowPosition, _playerFont, Color.DarkGray);
-            _game.DrawText(Name, namePosition, _playerFont, Color.White);
+            DrawText(Name, namePosition + shadowPosition, _playerFont, Color.DarkGray);
+            DrawText(Name, namePosition, _playerFont, Color.White);
 
             // Draw Health bar with current health points
-            _game.DrawRectangle(Color.Goldenrod, edgePosition, healthWidth + 2, healthHeight + 2);
-            _game.DrawRectangle(Color.DarkGray, healthPosition, healthWidth, healthHeight);
-            _game.DrawRectangle(Color.DarkRed, healthPosition, (int)(healthWidth * (Health / 100f)), healthHeight);
+            DrawRectangle(Color.Goldenrod, edgePosition, healthWidth + 2, healthHeight + 2);
+            DrawRectangle(Color.DarkGray, healthPosition, healthWidth, healthHeight);
+            DrawRectangle(Color.DarkRed, healthPosition, (int)(healthWidth * (Health / 100f)), healthHeight);
 
             // Draw Focus bar with current focus points
-            _game.DrawRectangle(Color.Goldenrod, edgePosition + barOffset, barWidth + 2, healthHeight + 2);
-            _game.DrawRectangle(Color.DarkGray, healthPosition + barOffset, barWidth, healthHeight);
-            _game.DrawRectangle(Color.MediumBlue, healthPosition + barOffset, (int)(barWidth * (Focus / 30f)), healthHeight);
+            DrawRectangle(Color.Goldenrod, edgePosition + barOffset, barWidth + 2, healthHeight + 2);
+            DrawRectangle(Color.DarkGray, healthPosition + barOffset, barWidth, healthHeight);
+            DrawRectangle(Color.MediumBlue, healthPosition + barOffset, (int)(barWidth * (Focus / 30f)), healthHeight);
 
             // Draw Stamina bar with current stamina points
-            _game.DrawRectangle(Color.Goldenrod, edgePosition + barOffset * 2, barWidth + 2, healthHeight + 2);
-            _game.DrawRectangle(Color.DarkGray, healthPosition + barOffset * 2, barWidth, healthHeight);
-            _game.DrawRectangle(Color.ForestGreen, healthPosition + barOffset * 2, (int)(barWidth * (Stamina / 30f)),
+            DrawRectangle(Color.Goldenrod, edgePosition + barOffset * 2, barWidth + 2, healthHeight + 2);
+            DrawRectangle(Color.DarkGray, healthPosition + barOffset * 2, barWidth, healthHeight);
+            DrawRectangle(Color.ForestGreen, healthPosition + barOffset * 2, (int)(barWidth * (Stamina / 30f)),
                 healthHeight);
         }
 

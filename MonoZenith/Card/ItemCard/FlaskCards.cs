@@ -12,11 +12,11 @@ public class FlaskOfCeruleanTearsCard : ItemCard
     public readonly float FocusBoost;
     
     public FlaskOfCeruleanTearsCard(Game game, GameState state, Player owner) : 
-        base(game, state, owner)
+        base(state, owner)
     {
         FocusBoost = 30;
-        _frontTexture = DataManager.GetInstance(_game).CardFlaskCerulean;
-        _soundOnPlay = DataManager.GetInstance(_game).FlaskCeruleanSound.CreateInstance();
+        _frontTexture = DataManager.GetInstance().CardFlaskCerulean;
+        _soundOnPlay = DataManager.GetInstance().FlaskCeruleanSound.CreateInstance();
         _description.Add("Restore " + FocusBoost + " FP.");
     }
 
@@ -46,11 +46,11 @@ public class FlaskOfCrimsonTearsCard : ItemCard
     public readonly float HealthBoost;
     
     public FlaskOfCrimsonTearsCard(Game game, GameState state, Player owner) : 
-        base(game, state, owner)
+        base(state, owner)
     {
         HealthBoost = 75;
-        _frontTexture = DataManager.GetInstance(_game).CardFlaskCrimson;
-        _soundOnPlay = DataManager.GetInstance(_game).FlaskCrimsonSound.CreateInstance();
+        _frontTexture = DataManager.GetInstance().CardFlaskCrimson;
+        _soundOnPlay = DataManager.GetInstance().FlaskCrimsonSound.CreateInstance();
         _description.Add("Restore " + HealthBoost + " HP.");
     }
 
@@ -81,12 +81,12 @@ public class FlaskOfWondrousPhysickCard : ItemCard
     public readonly float FocusBoost;
 
     public FlaskOfWondrousPhysickCard(Game game, GameState state, Player owner) :
-        base(game, state, owner)
+        base(state, owner)
     {
         HealthBoost = 50;
         FocusBoost = 15;
-        _frontTexture = DataManager.GetInstance(_game).CardWondrousPhysick;
-        _soundOnPlay = DataManager.GetInstance(_game).WondrousPhysickSound.CreateInstance();
+        _frontTexture = DataManager.GetInstance().CardWondrousPhysick;
+        _soundOnPlay = DataManager.GetInstance().WondrousPhysickSound.CreateInstance();
         _description.Add("Restore " + HealthBoost + " HP and " + FocusBoost + ".");
     }
 
@@ -119,11 +119,11 @@ public class WarmingStoneCard : ItemCard
     public readonly float HealthBoost;
 
     public WarmingStoneCard(Game game, GameState state, Player owner) :
-        base(game, state, owner)
+        base(state, owner)
     {
         HealthBoost = 10;
-        _frontTexture = DataManager.GetInstance(_game).CardWarmingStone;
-        _soundOnPlay = DataManager.GetInstance(_game).WarmingStoneSound.CreateInstance();
+        _frontTexture = DataManager.GetInstance().CardWarmingStone;
+        _soundOnPlay = DataManager.GetInstance().WarmingStoneSound.CreateInstance();
         _description.Add("Restore " + HealthBoost + " HP");
         _description.Add("For 2 turns.");
     }

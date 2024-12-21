@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Card.CardStack;
 using MonoZenith.Engine.Support;
+using static MonoZenith.Game;
 
 namespace MonoZenith.Components.Indicator;
 
@@ -13,11 +14,11 @@ public class CardStackIndicator : Indicator
     private readonly SpriteFont _font;
     private string _countToDisplay;
     
-    public CardStackIndicator(Game g, GameState gs, Vector2 pos, Texture2D texture, CardStack cs) : 
-        base(g, gs, pos, texture)
+    public CardStackIndicator(GameState gs, Vector2 pos, Texture2D texture, CardStack cs) : 
+        base(gs, pos, texture)
     {
         _container = cs;
-        _font = DataManager.GetInstance(_game).IndicatorFont;
+        _font = DataManager.GetInstance().IndicatorFont;
         _countToDisplay = _container.Count.ToString();
     }
 
@@ -29,7 +30,7 @@ public class CardStackIndicator : Indicator
     public override void Draw()
     {
         base.Draw();
-        _game.DrawText(
+        DrawText(
             _countToDisplay, 
             _position + new Vector2(
                 _texture.Width * GetScale() - 27.5f * AppSettings.Scaling.ScaleFactor, 

@@ -37,7 +37,6 @@ public class ParticleManager
     {
         var particle = new Particle(
             _r,
-            _game,
             texture,
             position,
             velocity,

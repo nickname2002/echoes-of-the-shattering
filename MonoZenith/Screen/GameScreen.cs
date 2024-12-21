@@ -1,8 +1,6 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using MonoZenith.Engine.Support;
-using MonoZenith.Support.Managers;
 
 namespace MonoZenith.Screen
 {
@@ -12,10 +10,10 @@ namespace MonoZenith.Screen
 
         public GameState GameState { get; }
 
-        public GameScreen(Game game) : base(game)
+        public GameScreen()
         {
-            GameState = new GameState(game);
-            _backgroundMusic = DataManager.GetInstance(game).LimgraveMusic.CreateInstance();
+            GameState = new GameState(Game.Instance);
+            _backgroundMusic = DataManager.GetInstance().LimgraveMusic.CreateInstance();
             _backgroundMusic.IsLooped = true;
         }
         
@@ -38,7 +36,7 @@ namespace MonoZenith.Screen
         public override void Load()
         {
             GameState.InitializeState();
-            _game.StartFadeIn();
+            Game.StartFadeIn();
             
             float musicFadeInSpeed = 0.015f;
             if (_backgroundMusic.Volume <= 1 - musicFadeInSpeed)

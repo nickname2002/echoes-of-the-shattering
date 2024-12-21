@@ -9,7 +9,6 @@ namespace MonoZenith.Card.CardStack
 {
     public class CardStack
     {
-        protected Game _game;
         protected GameState _state;
         protected Vector2 _position;
         protected List<Card> _cards = new();
@@ -17,9 +16,8 @@ namespace MonoZenith.Card.CardStack
         public int Count => _cards.Count;
         private bool _horizontalStack;
         
-        public CardStack(Game game, GameState state, bool horizontalStack = false)
+        public CardStack(GameState state, bool horizontalStack = false)
         {
-            _game = game;
             _state = state;
             _horizontalStack = horizontalStack;
         }
