@@ -31,8 +31,12 @@ namespace MonoZenith.Card
         /// <summary>
         /// The position of the card.
         /// </summary>
-        public Vector2 Position => _position;
-        
+        public Vector2 Position
+        {
+            get => _position;
+            set => _position = value;
+        }
+
         /// <summary>
         /// The target position of the card.
         /// </summary>
@@ -224,12 +228,12 @@ namespace MonoZenith.Card
             
             if(!IsAffordable() && Stack is HandCardStack && _owner is HumanPlayer)
                 DrawImage(_hiddenTexture, _position, _scale, angle);
-
-            if (active)
-                DrawDescription();
-
+            
             if (!active)
                 return;
+            
+            if (active)
+                DrawDescription();
 
             DrawMetaData();
         }

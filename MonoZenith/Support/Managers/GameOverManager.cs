@@ -31,7 +31,7 @@ public class GameOverManager
             game, "YOU DIED", Color.Gold, dataManager.GameOverTransitionComponentFont,
             1f, 3f, 1f, () =>
             {
-                if (_currentWinner is NpcPlayer)
+                if (_currentWinner is NpcPlayer || _rewardPanel?.Reward == null)
                 {
                     BackToMainMenu();
                     return;
@@ -47,7 +47,7 @@ public class GameOverManager
     /// Reset the state of the GameOverManager.
     /// </summary>
     /// <param name="reward">Reward the player will receive if they win.</param>>
-    public void InitializeState(Reward reward)
+    public void InitializeState(Reward? reward)
     {
         _currentWinner = null;
         TransitionComplete = false;

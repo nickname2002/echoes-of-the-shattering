@@ -15,7 +15,7 @@ public class MagicCard : AttackCard
     protected Texture2D _costFocusTexture;
     protected float _focusCost;
     
-    protected MagicCard(Game game, GameState state, Player owner) : 
+    protected MagicCard(GameState state, Player owner) : 
         base(state, owner)
     {
         _costFocusTexture = DataManager.GetInstance().CardCostFocus;
@@ -74,8 +74,8 @@ public class MagicCard : AttackCard
 
 public class GlintStonePebbleCard : MagicCard
 {
-    public GlintStonePebbleCard(Game game, GameState state, Player owner) : 
-        base(game, state, owner)
+    public GlintStonePebbleCard(GameState state, Player owner) : 
+        base(state, owner)
     {
         _frontTexture = DataManager.GetInstance().CardGlintPebble;
         _soundOnPlay = DataManager.GetInstance().GlintPebbleSound.CreateInstance();
@@ -97,8 +97,8 @@ public class GlintStonePebbleCard : MagicCard
 
 public class GlintbladePhalanxCard : MagicCard
 {
-    public GlintbladePhalanxCard(Game game, GameState state, Player owner) :
-        base(game, state, owner)
+    public GlintbladePhalanxCard(GameState state, Player owner) :
+        base(state, owner)
     {
         _frontTexture = DataManager.GetInstance().CardGlintPhalanx;
         _soundOnPlay = DataManager.GetInstance().GlintPhalanxSound.CreateInstance();
@@ -131,8 +131,8 @@ public class GlintbladePhalanxCard : MagicCard
 
 public class ThopsBarrierCard : MagicCard
 {
-    public ThopsBarrierCard(Game game, GameState state, Player owner) :
-        base(game, state, owner)
+    public ThopsBarrierCard(GameState state, Player owner) :
+        base(state, owner)
     {
         _frontTexture = DataManager.GetInstance().CardThopsBarrier;
         _soundOnPlay = DataManager.GetInstance().ThopsBarrierSound.CreateInstance();
@@ -161,8 +161,8 @@ public class ThopsBarrierCard : MagicCard
 
 public class GreatGlintStoneCard : MagicCard
 {
-    public GreatGlintStoneCard(Game game, GameState state, Player owner) :
-        base(game, state, owner)
+    public GreatGlintStoneCard(GameState state, Player owner) :
+        base(state, owner)
     {
         _frontTexture = DataManager.GetInstance().CardGreatShard;
         _soundOnPlay = DataManager.GetInstance().GreatShardSound.CreateInstance();
@@ -181,8 +181,8 @@ public class GreatGlintStoneCard : MagicCard
 
 public class CarianGreatSwordCard : MagicCard
 {
-    public CarianGreatSwordCard(Game game, GameState state, Player owner) :
-        base(game, state, owner)
+    public CarianGreatSwordCard(GameState state, Player owner) :
+        base(state, owner)
     {
         _frontTexture = DataManager.GetInstance().CardCarianGSword;
         _soundOnPlay = DataManager.GetInstance().CarianGSwordSound.CreateInstance();
@@ -202,8 +202,8 @@ public class CarianGreatSwordCard : MagicCard
 
 public class CometAzurCard : MagicCard
 {
-    public CometAzurCard(Game game, GameState state, Player owner) :
-        base(game, state, owner)
+    public CometAzurCard(GameState state, Player owner) :
+        base(state, owner)
     {
         _frontTexture = DataManager.GetInstance().CardCometAzur;
         _soundOnPlay = DataManager.GetInstance().CometAzurSound.CreateInstance();

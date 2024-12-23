@@ -81,7 +81,7 @@ namespace MonoZenith.Players
             
             // Ashes and buffs
             // TODO: Make sure players start without any ashes when game starts
-            SpiritAsh = new WolvesAsh(Instance, state, this);
+            SpiritAsh = new WolvesAsh(state, this);
             BuffManager = new BuffManager(state, this);
         }
 

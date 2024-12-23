@@ -23,7 +23,7 @@ namespace MonoZenith.Engine.Support
         public Texture2D MonoZenithLogo;
         public Texture2D MainMenuBackdrop;
         public Texture2D MainMenuHoverIndicator;
-        public Texture2D Backdrop;
+        public Texture2D LiurniaBackdrop;
         public Texture2D LimgraveBackdrop;
         public Texture2D CaelidBackdrop;
         public Texture2D Player;
@@ -167,7 +167,7 @@ namespace MonoZenith.Engine.Support
             Npc = LoadImage("Images/Player/varre.png");
             PlayerCurrent = LoadImage("Images/Player/player-current.png");
             PlayerWaiting = LoadImage("Images/Player/player-waiting.png");
-            Backdrop = LoadImage("Images/Backdrops/backdrop.png");
+            LiurniaBackdrop = LoadImage("Images/Backdrops/backdrop.png");
             LimgraveBackdrop = LoadImage("Images/Backdrops/limgrave-backdrop.png");
             CaelidBackdrop = LoadImage("Images/Backdrops/caelid-backdrop.png");
             EndTurnButtonIdleTexture = LoadImage("Images/EndTurnButton/end-turn-button-idle.png");

@@ -38,8 +38,7 @@ public abstract class SpiritAsh : Item
     /// <summary>
     /// Update the state of the spirit ash.
     /// </summary>
-    /// <param name="deltaTime">The delta time.</param>
-    public void Update(GameTime deltaTime)
+    public void Update()
     {  
         PerformEffect();
     }
@@ -67,7 +66,7 @@ public abstract class SpiritAsh : Item
 
 public class MimicTearAsh : SpiritAsh
 {
-    public MimicTearAsh(Game g, GameState state, Player owner) : 
+    public MimicTearAsh(GameState state, Player owner) : 
         base(state, owner)
     {
         Texture = DataManager.GetInstance().MimicTearAsh;
@@ -87,7 +86,7 @@ public class MimicTearAsh : SpiritAsh
 
 public class JellyfishAsh : SpiritAsh
 {
-    public JellyfishAsh(Game g, GameState state, Player owner) :
+    public JellyfishAsh(GameState state, Player owner) :
         base(state, owner)
     {
         Texture = DataManager.GetInstance().JellyfishAsh;
@@ -110,7 +109,7 @@ public class JellyfishAsh : SpiritAsh
 
 public class WolvesAsh : SpiritAsh
 {
-    public WolvesAsh(Game g, GameState state, Player owner) : 
+    public WolvesAsh(GameState state, Player owner) : 
         base(state, owner)
     {
         Texture = DataManager.GetInstance().WolvesAsh;

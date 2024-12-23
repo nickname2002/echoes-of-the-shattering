@@ -1,10 +1,8 @@
 #nullable enable
-using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Card.CardStack;
 using MonoZenith.Engine.Support;
-using MonoZenith.Items;
 using MonoZenith.Players;
 using MonoZenith.Screen.RewardPanel;
 using MonoZenith.Support.Managers;
@@ -19,7 +17,7 @@ namespace MonoZenith
         public readonly GameOverManager GameOverManager;
         public HumanPlayer Player;
         public NpcPlayer Npc;
-        public Reward Reward;
+        public Reward? Reward;
         public readonly CardStack PlayedCards;
         private Texture2D? _backdrop;
 
@@ -31,10 +29,6 @@ namespace MonoZenith
             GameOverManager = new GameOverManager(Game);
             Player = new HumanPlayer(this, "Player");
             Npc = new NpcPlayer(this, "NPC");
-            Reward = new Reward(
-                DataManager.GetInstance().WolvesAsh,
-                "Wolves Spirit Ash",
-                typeof(WolvesAsh));
             PlayedCards = new CardStack(this, true);
             InitializeState();
         }
@@ -117,7 +111,8 @@ namespace MonoZenith
             {
                 GameOverManager.DrawTransitionComponent();
 
-                if (GameOverManager is not { Winner: HumanPlayer, TransitionComplete: true }) 
+                if (GameOverManager is not { Winner: HumanPlayer, TransitionComplete: true } 
+                    || Reward == null) 
                     return;
                 
                 GameOverManager.DrawRewardPanel();
