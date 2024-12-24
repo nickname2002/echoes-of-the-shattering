@@ -42,7 +42,7 @@ public class MainMenuScreen : Screen
         );
     }
     
-    public override void Unload()
+    public override void Unload(Action unOnloadComplete = null)
     {
         float musicFadeOutSpeed = 0.015f;
         
@@ -53,6 +53,7 @@ public class MainMenuScreen : Screen
         }
         
         _mainMenuMusic.Stop(); 
+        unOnloadComplete?.Invoke();
     }
     
     public override void Load()

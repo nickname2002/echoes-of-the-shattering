@@ -13,9 +13,9 @@ public class Level
     public Texture2D Backdrop { get; init; }
     public SoundEffectInstance SoundTrack { get; init; }
     public NpcPlayer Enemy { get; init; }
-
     public Reward? Reward { get; init; }
     public List<Card.Card> EnemyDeck { get; init; }
+    public Level? SecondPhase { get; init; }
 
     /// <summary>
     /// Reset the state of the Level.

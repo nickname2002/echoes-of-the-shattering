@@ -31,14 +31,24 @@ public class GameOverManager
             game, "YOU DIED", Color.Gold, dataManager.GameOverTransitionComponentFont,
             1f, 3f, 1f, () =>
             {
-                if (_currentWinner is NpcPlayer || _rewardPanel?.Reward == null)
+                if (_currentWinner is HumanPlayer) TryLoadSecondPhase();
+                if (_currentWinner is NpcPlayer)
+                {
+                    BackToMainMenu();
+                    return;
+                }
+
+                if (_rewardPanel?.Reward == null && 
+                    LevelManager.CurrentLevel.SecondPhase == GetGameState().CurrentLevel)
                 {
                     BackToMainMenu();
                     return;
                 }
                 
                 TransitionComplete = true;
-                newItemSound.Play();
+                
+                if (_rewardPanel?.Reward != null)
+                    newItemSound.Play();
             });
         _rewardPanel = new RewardPanel();
     }

@@ -13,7 +13,6 @@ namespace MonoZenith.Players
     public abstract class Player
     {
         private float _originalStamina;
-        protected Game _game;
         protected GameState _state;
         protected float _handPosX;
         protected float _handPosY;

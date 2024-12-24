@@ -23,15 +23,31 @@ namespace MonoZenith.Engine.Support
         public Texture2D MonoZenithLogo;
         public Texture2D MainMenuBackdrop;
         public Texture2D MainMenuHoverIndicator;
-        public Texture2D LiurniaBackdrop;
-        public Texture2D LimgraveBackdrop;
-        public Texture2D CaelidBackdrop;
-        public Texture2D Player;
-        public Texture2D Npc;
         public Texture2D PlayerCurrent;
         public Texture2D PlayerWaiting;
         public Texture2D DeckIndicator;
         public Texture2D ReserveIndicator;
+        
+        // Player icons
+        public Texture2D Player;
+        public Texture2D DefaultEnemyPortrait;
+        
+        // Backdrops
+        public Texture2D LiurniaBackdrop;
+        public Texture2D LimgraveBackdrop;
+        public Texture2D CaelidBackdrop;
+        public Texture2D CastleSolBackdrop;
+        public Texture2D DarkMoonBackdrop;
+        public Texture2D InsideErdtreeBackdrop;
+        public Texture2D LeyndellBackdrop;
+        public Texture2D LeyndellFireBackdrop;
+        public Texture2D MaleniaRestplaceBackdrop;
+        public Texture2D MohgBackdrop;
+        public Texture2D NokronBackdrop;
+        public Texture2D RayaLucariaBackdrop;
+        public Texture2D RoundtableHoldBackdrop;
+        public Texture2D StormveilBackdrop;
+        public Texture2D AltusPlateauBackdrop;
         
         // Remembrances
         public Texture2D RemembranceOfTheStarscourge;
@@ -92,7 +108,6 @@ namespace MonoZenith.Engine.Support
 
         // Audio
         public SoundEffect MainMenuMusic;
-        public SoundEffect LimgraveMusic;
         public SoundEffect StartButtonSound;
         public SoundEffect PlayerTurnSound;
         public SoundEffect EndPlayerTurnSound;
@@ -103,6 +118,9 @@ namespace MonoZenith.Engine.Support
         public SoundEffect ThrowingDaggerSound;
         public SoundEffect NewItemSound; 
         
+        // Sound tracks
+        public SoundEffect LimgraveSoundtrack;
+        public SoundEffect MohgSoundtrack;
 
         public SoundEffect DamageSound;
         public SoundEffect CardSound2;
@@ -150,7 +168,7 @@ namespace MonoZenith.Engine.Support
         {
             ComponentFont = LoadFont("Fonts/pixel.ttf", 1 * AppSettings.Scaling.ScaleFactor);
             StartMenuFont = LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1.75f * AppSettings.Scaling.ScaleFactor);
-            PlayerFont = LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1.5f * AppSettings.Scaling.ScaleFactor);
+            PlayerFont = LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1.1f * AppSettings.Scaling.ScaleFactor);
             CardFont = LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1f * AppSettings.Scaling.ScaleFactor);
             IndicatorFont = LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1.25f * AppSettings.Scaling.ScaleFactor);
             TransitionComponentFont = LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 3.5f * AppSettings.Scaling.ScaleFactor);
@@ -163,18 +181,34 @@ namespace MonoZenith.Engine.Support
             MonoZenithLogo = LoadImage("Images/monozenith.png");
             MainMenuBackdrop = LoadImage("Images/MainMenu/main-menu-backdrop.png");
             MainMenuHoverIndicator = LoadImage("Images/MainMenu/menu-item-indicator.png");
-            Player = LoadImage("Images/Player/vargram.png");
-            Npc = LoadImage("Images/Player/varre.png");
             PlayerCurrent = LoadImage("Images/Player/player-current.png");
             PlayerWaiting = LoadImage("Images/Player/player-waiting.png");
-            LiurniaBackdrop = LoadImage("Images/Backdrops/backdrop.png");
-            LimgraveBackdrop = LoadImage("Images/Backdrops/limgrave-backdrop.png");
-            CaelidBackdrop = LoadImage("Images/Backdrops/caelid-backdrop.png");
             EndTurnButtonIdleTexture = LoadImage("Images/EndTurnButton/end-turn-button-idle.png");
             EndTurnButtonHoverTexture = LoadImage("Images/EndTurnButton/end-turn-button-hover.png");
             EndTurnButtonDisabledTexture = LoadImage("Images/EndTurnButton/end-turn-button-disabled.png");
             DeckIndicator = LoadImage("Images/Indicators/deck-indicator.png");
             ReserveIndicator = LoadImage("Images/Indicators/reserve-indicator.png");
+            
+            // Player icons
+            Player = LoadImage("Images/Player/Tarnished.png");
+            DefaultEnemyPortrait = LoadImage("Images/Player/White Mask Varré.png");
+            
+            // Backdrops
+            LiurniaBackdrop = LoadImage("Images/Backdrops/backdrop.png");
+            LimgraveBackdrop = LoadImage("Images/Backdrops/limgrave-backdrop.png");
+            CaelidBackdrop = LoadImage("Images/Backdrops/caelid-backdrop.png");
+            CastleSolBackdrop = LoadImage("Images/Backdrops/castle-sol-backdrop.png");
+            DarkMoonBackdrop = LoadImage("Images/Backdrops/dark-moon-backdrop.png");
+            InsideErdtreeBackdrop = LoadImage("Images/Backdrops/inside-erdtree-backdrop.png");
+            LeyndellBackdrop = LoadImage("Images/Backdrops/leyndell-backdrop.png");
+            LeyndellFireBackdrop = LoadImage("Images/Backdrops/leyndell-fire-backdrop.png");
+            MaleniaRestplaceBackdrop = LoadImage("Images/Backdrops/malenia-restplace-backdrop.png");
+            MohgBackdrop = LoadImage("Images/Backdrops/mohg-backdrop.png");
+            NokronBackdrop = LoadImage("Images/Backdrops/nokron-backdrop.png");
+            RayaLucariaBackdrop = LoadImage("Images/Backdrops/raya-lucaria-backdrop.png");
+            RoundtableHoldBackdrop = LoadImage("Images/Backdrops/roundtable-hold-backdrop.png");
+            StormveilBackdrop = LoadImage("Images/Backdrops/stormveil-backdrop.png");
+            AltusPlateauBackdrop = LoadImage("Images/Backdrops/altus-plateau-backdrop.png");
             
             // Remembrances
             RemembranceOfTheStarscourge = LoadImage("Images/Remembrances/remembrance-of-starscourge.png");
@@ -234,7 +268,6 @@ namespace MonoZenith.Engine.Support
         {
             MainMenuMusic = LoadAudio("Audio/Music/main-menu-music.wav");
             PlayerTurnSound = LoadAudio("Audio/SoundEffects/player-turn-sound.wav");
-            LimgraveMusic = LoadAudio("Audio/Music/limgrave-music.wav");
             StartButtonSound = LoadAudio("Audio/SoundEffects/start-button-sound.wav");
             EndPlayerTurnSound = LoadAudio("Audio/SoundEffects/end-turn-sound-effect.wav");
             PlayerDeathSound = LoadAudio("Audio/SoundEffects/player-death.wav");
@@ -242,6 +275,9 @@ namespace MonoZenith.Engine.Support
             RetrieveCardsSound = LoadAudio("Audio/SoundEffects/retrieve-cards.wav");
             SpiritAshSummonSound = LoadAudio("Audio/SoundEffects/spirit-ash-summon.wav");
             NewItemSound = LoadAudio("Audio/SoundEffects/new-item.wav");
+            
+            LimgraveSoundtrack = LoadAudio("Audio/Music/limgrave-music.wav");
+            MohgSoundtrack = LoadAudio("Audio/Music/mohg-battle-soundtrack.wav");
 
             DamageSound = LoadAudio("Audio/SoundEffects/damage-sound.wav");
             HealingSound = LoadAudio("Audio/SoundEffects/healing-sound.wav");

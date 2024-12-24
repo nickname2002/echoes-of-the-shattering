@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Card;
 using MonoZenith.Card.AttackCard;
 using MonoZenith.Components.Indicator;
@@ -31,11 +32,11 @@ namespace MonoZenith.Players
 
         public List<Card.Card> CardsInDeck { get; set; } = new();
 
-        public NpcPlayer(GameState state, string name) : base(state, name)
+        public NpcPlayer(GameState state, string name, Texture2D playerIcon) : base(state, name)
         {
             _handPosY = 25 * AppSettings.Scaling.ScaleFactor;
             _playerPosition = new Vector2(ScreenWidth * 0.05f, ScreenHeight * 0.085f);
-            _playerIcon = DataManager.GetInstance().Npc;
+            _playerIcon = playerIcon;
             _originalHealth = Health;
             _originalFocus = Focus;
             _retrieveCardsSound = DataManager.GetInstance().RetrieveCardsSound.CreateInstance();

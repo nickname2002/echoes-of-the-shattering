@@ -10,7 +10,7 @@ public class OverworldScreen : Screen
 {
     public LevelManager LevelManager { get; set; } = new();
 
-    public override void Unload()
+    public override void Unload(Action unOnloadComplete = null)
     {
         
     }

@@ -5,10 +5,12 @@ namespace MonoZenith.Screen
 {
     public abstract class Screen
     {
+        public bool IsUnloading { get; set; } = false;
+        
         /// <summary>
         /// Removes all side effects of the screen when switching to another screen.
         /// </summary>
-        public abstract void Unload();
+        public abstract void Unload(Action unOnloadComplete = null);
 
         /// <summary>
         /// Load state.

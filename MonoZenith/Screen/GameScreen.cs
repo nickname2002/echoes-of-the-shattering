@@ -1,35 +1,36 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
-using MonoZenith.Engine.Support;
 
 namespace MonoZenith.Screen
 {
     public class GameScreen : Screen
     {
-        private SoundEffectInstance _backgroundMusic;
-
+        private SoundEffectInstance? _backgroundMusic;
         public GameState GameState { get; }
+        
 
         public GameScreen()
         {
             GameState = new GameState(Game.Instance);
-            _backgroundMusic = DataManager.GetInstance().LimgraveMusic.CreateInstance();
-            _backgroundMusic.IsLooped = true;
         }
-        
+
         public void SetBackgroundMusic(SoundEffectInstance music) => _backgroundMusic = music;
 
-        public override void Unload()
+        public override void Unload(Action onUnloadComplete = null)
         {
             float musicFadeOutSpeed = 0.015f;
 
-            if (_backgroundMusic.Volume >= musicFadeOutSpeed)
+            if (_backgroundMusic != null && _backgroundMusic.Volume >= musicFadeOutSpeed)
             {
                 _backgroundMusic.Volume -= musicFadeOutSpeed;
+                IsUnloading = true;
             }
             else
             {
-                _backgroundMusic.Stop();
+                if (_backgroundMusic != null) _backgroundMusic.Stop();
+                IsUnloading = false;
+                onUnloadComplete?.Invoke();
             }
         }
 
@@ -37,15 +38,15 @@ namespace MonoZenith.Screen
         {
             GameState.InitializeState();
             Game.StartFadeIn();
-            
+
             float musicFadeInSpeed = 0.015f;
-            if (_backgroundMusic.Volume <= 1 - musicFadeInSpeed)
+            if (_backgroundMusic != null && _backgroundMusic.Volume <= 1 - musicFadeInSpeed)
             {
                 _backgroundMusic.Volume += musicFadeInSpeed;
             }
             else
             {
-                _backgroundMusic.Volume = 1;
+                if (_backgroundMusic != null) _backgroundMusic.Volume = 1;
             }
         }
 
@@ -55,8 +56,12 @@ namespace MonoZenith.Screen
         /// <param name="deltaTime">The time since the last update.</param>
         public override void Update(GameTime deltaTime)
         {
-            _backgroundMusic.Play();
-            _backgroundMusic.Volume = 1;
+            if (_backgroundMusic != null)
+            {
+                _backgroundMusic.Play();
+                _backgroundMusic.Volume = 1;
+            }
+
             GameState.Update(deltaTime);
         }
 

@@ -21,6 +21,8 @@ namespace MonoZenith
         public readonly CardStack PlayedCards;
         private Texture2D? _backdrop;
 
+        public Level? CurrentLevel { get; private set; }
+
         public GameState(Game game)
         {
             Game = game;
@@ -28,7 +30,7 @@ namespace MonoZenith
             TurnManager = new TurnManager(Game, this);
             GameOverManager = new GameOverManager(Game);
             Player = new HumanPlayer(this, "Player");
-            Npc = new NpcPlayer(this, "NPC");
+            Npc = new NpcPlayer(this, "NPC", DataManager.GetInstance().DefaultEnemyPortrait);
             PlayedCards = new CardStack(this, true);
             InitializeState();
         }
@@ -39,6 +41,7 @@ namespace MonoZenith
         /// <param name="level">The level</param>
         public void SetLevel(Level level)
         {
+            CurrentLevel = level;
             Npc = level.Enemy;
             _backdrop = level.Backdrop;
             Reward = level.Reward;
