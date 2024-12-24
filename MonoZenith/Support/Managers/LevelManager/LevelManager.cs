@@ -753,14 +753,14 @@ public class LevelManager
                 Enemy = _enemies["Malenia, Blade of Miquella"],
                 Backdrop = DataManager.GetInstance().MaleniaRestplaceBackdrop, 
                 Reward = _rewards["Malenia, Blade of Miquella"],
-                SoundTrack = DataManager.GetInstance().LimgraveSoundtrack.CreateInstance(),  // TODO: Malenia fight music
+                SoundTrack = DataManager.GetInstance().MaleniaSoundtrack.CreateInstance(),  
                 EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Malenia, Blade of Miquella"], _decks["Malenia, Blade of Miquella"]),
                 SecondPhase = new Level     // Malenia, Goddess of Rot
                 {
                     Enemy = _enemies["Malenia, Goddess of Rot"],
                     Backdrop = DataManager.GetInstance().MaleniaRestplaceBackdrop, 
                     Reward = _rewards["Malenia, Goddess of Rot"],
-                    SoundTrack = DataManager.GetInstance().LimgraveSoundtrack.CreateInstance(),  // TODO: Malenia fight music
+                    SoundTrack = DataManager.GetInstance().GoddessOfRotSoundtrack.CreateInstance(),
                     EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Malenia, Goddess of Rot"], _decks["Malenia, Goddess of Rot"])
                 }
             },

@@ -17,20 +17,18 @@ namespace MonoZenith.Screen
 
         public void SetBackgroundMusic(SoundEffectInstance music) => _backgroundMusic = music;
 
-        public override void Unload(Action onUnloadComplete = null)
+        public override void Unload(float fadeSpeed = 0.015f, Action unOnloadComplete = null)
         {
-            float musicFadeOutSpeed = 0.015f;
+            float musicFadeOutSpeed = fadeSpeed;
 
             if (_backgroundMusic != null && _backgroundMusic.Volume >= musicFadeOutSpeed)
             {
                 _backgroundMusic.Volume -= musicFadeOutSpeed;
-                IsUnloading = true;
             }
             else
             {
                 if (_backgroundMusic != null) _backgroundMusic.Stop();
-                IsUnloading = false;
-                onUnloadComplete?.Invoke();
+                unOnloadComplete?.Invoke();
             }
         }
 
@@ -56,7 +54,8 @@ namespace MonoZenith.Screen
         /// <param name="deltaTime">The time since the last update.</param>
         public override void Update(GameTime deltaTime)
         {
-            if (_backgroundMusic != null)
+            if (_backgroundMusic != null && 
+                !(Game.IsFadingOut || Game.IsFadingIn))
             {
                 _backgroundMusic.Play();
                 _backgroundMusic.Volume = 1;

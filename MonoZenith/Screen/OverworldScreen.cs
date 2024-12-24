@@ -10,7 +10,7 @@ public class OverworldScreen : Screen
 {
     public LevelManager LevelManager { get; set; } = new();
 
-    public override void Unload(Action unOnloadComplete = null)
+    public override void Unload(float fadeSpeed = 0.015f, Action unOnloadComplete = null)
     {
         
     }

@@ -121,6 +121,8 @@ namespace MonoZenith.Engine.Support
         // Sound tracks
         public SoundEffect LimgraveSoundtrack;
         public SoundEffect MohgSoundtrack;
+        public SoundEffect MaleniaSoundtrack;
+        public SoundEffect GoddessOfRotSoundtrack;
 
         public SoundEffect DamageSound;
         public SoundEffect CardSound2;
@@ -278,6 +280,8 @@ namespace MonoZenith.Engine.Support
             
             LimgraveSoundtrack = LoadAudio("Audio/Music/limgrave-music.wav");
             MohgSoundtrack = LoadAudio("Audio/Music/mohg-battle-soundtrack.wav");
+            MaleniaSoundtrack = LoadAudio("Audio/Music/malenia-battle-soundtrack.wav");
+            GoddessOfRotSoundtrack = LoadAudio("Audio/Music/goddess-of-rot-battle-soundtrack.wav");
 
             DamageSound = LoadAudio("Audio/SoundEffects/damage-sound.wav");
             HealingSound = LoadAudio("Audio/SoundEffects/healing-sound.wav");

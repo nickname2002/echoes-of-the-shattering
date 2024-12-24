@@ -92,9 +92,9 @@ public partial class Game
         _gameScreen.Unload();
         StartFadeOut(onFadeOutComplete: () =>
         {
-            LevelManager.CurrentLevel.SecondPhase?.Initialize(GetGameState());
-            if (LevelManager.CurrentLevel.SecondPhase != null)
-                GetGameState().SetLevel(LevelManager.CurrentLevel.SecondPhase);
+            LevelManager.CurrentLevel.SecondPhase.Initialize(GetGameState());
+            GetGameState().SetLevel(LevelManager.CurrentLevel.SecondPhase);
+            GetGameScreen().SetBackgroundMusic(LevelManager.CurrentLevel.SecondPhase.SoundTrack);
             _gameScreen.Load(); 
         }); 
     }
@@ -106,15 +106,6 @@ public partial class Game
         if (IsFadingIn || IsFadingOut)
         {
             _fadeEffect.Update();
-        }
-        
-        // Don't continue until all unloading screens are done
-        foreach (var screen in _screens)
-        {
-            if (screen == null) continue;
-            if (!screen.IsUnloading) continue;
-            screen.Unload();
-            return;
         }
         
         // Update the active screen
