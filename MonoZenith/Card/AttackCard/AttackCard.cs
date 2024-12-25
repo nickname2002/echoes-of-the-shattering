@@ -123,7 +123,7 @@ public class HeavySwordAttackCard : AttackCard
     }
 }
 
-// New Attack Cards
+// Reward Attack Cards
 
 public class UnsheatheCard : AttackCard
 {
@@ -351,6 +351,8 @@ public class RallyingStandardCard : AttackCard
     }
 }
 
+// Boss Reward Attack Cards
+
 public class ICommandTheeKneelCard : AttackCard
 {
     public ICommandTheeKneelCard(GameState state, Player owner) :
@@ -392,7 +394,7 @@ public class WaterfowlDanceCard : AttackCard
         _damage = 40;
         _frontTexture = DataManager.GetInstance().CardWaterfowlDance;
         _soundOnPlay = DataManager.GetInstance().WaterfowlDanceSound.CreateInstance();
-        _name = "DoubleSlashCard";
+        _name = "WaterfowlDanceCard";
         _description.Add("Deal " + _damage + " damage.");
         _description.Add("Ignore the next");
         _description.Add("3 enemy attacks");
@@ -405,6 +407,136 @@ public class WaterfowlDanceCard : AttackCard
         _owner.OpposingPlayer.BuffManager,
         2,
         3));
+    }
+
+    protected override void UpdateDescription()
+    {
+        _description[0] = "Deal " + (_damage + Buff) + " damage.";
+    }
+}
+
+public class StarcallerCryCard : AttackCard
+{
+    public StarcallerCryCard(Game game, GameState state, Player owner) :
+        base(state, owner)
+    {
+        StaminaCost = 30f;
+        OriginalStaminaCost = StaminaCost;
+        _damage = 40;
+        _frontTexture = DataManager.GetInstance().CardStarcallerCry;
+        //TODO: Change sound and effect
+        _soundOnPlay = DataManager.GetInstance().WaterfowlDanceSound.CreateInstance();
+        _name = "StarcallerCryCard";
+        _description.Add("Deal " + _damage + " damage.");
+    }
+    public override void PerformEffect()
+    {
+        base.PerformEffect();
+
+    }
+
+    protected override void UpdateDescription()
+    {
+        _description[0] = "Deal " + (_damage + Buff) + " damage.";
+    }
+}
+
+public class CursedBloodSliceCard : AttackCard
+{
+    public CursedBloodSliceCard(Game game, GameState state, Player owner) :
+        base(state, owner)
+    {
+        StaminaCost = 30f;
+        OriginalStaminaCost = StaminaCost;
+        _damage = 40;
+        _frontTexture = DataManager.GetInstance().CardCursedSlice;
+        //TODO: Change sound and effect
+        _soundOnPlay = DataManager.GetInstance().WaterfowlDanceSound.CreateInstance();
+        _name = "CursedBloodSliceCard";
+        _description.Add("Deal " + _damage + " damage.");
+    }
+    public override void PerformEffect()
+    {
+        base.PerformEffect();
+
+    }
+
+    protected override void UpdateDescription()
+    {
+        _description[0] = "Deal " + (_damage + Buff) + " damage.";
+    }
+}
+
+public class BloodboonRitualCard : AttackCard
+{
+    public BloodboonRitualCard(Game game, GameState state, Player owner) :
+        base(state, owner)
+    {
+        StaminaCost = 30f;
+        OriginalStaminaCost = StaminaCost;
+        _damage = 40;
+        _frontTexture = DataManager.GetInstance().CardBloodboon;
+        //TODO: Change sound and effect
+        _soundOnPlay = DataManager.GetInstance().WaterfowlDanceSound.CreateInstance();
+        _name = "StarcallerCryCard";
+        _description.Add("Deal " + _damage + " damage.");
+    }
+    public override void PerformEffect()
+    {
+        base.PerformEffect();
+
+    }
+
+    protected override void UpdateDescription()
+    {
+        _description[0] = "Deal " + (_damage + Buff) + " damage.";
+    }
+}
+
+public class RegalRoarCard : AttackCard
+{
+    public RegalRoarCard(Game game, GameState state, Player owner) :
+        base(state, owner)
+    {
+        StaminaCost = 30f;
+        OriginalStaminaCost = StaminaCost;
+        _damage = 40;
+        _frontTexture = DataManager.GetInstance().CardRegalRoar;
+        //TODO: Change sound and effect
+        _soundOnPlay = DataManager.GetInstance().WaterfowlDanceSound.CreateInstance();
+        _name = "StarcallerCryCard";
+        _description.Add("Deal " + _damage + " damage.");
+    }
+    public override void PerformEffect()
+    {
+        base.PerformEffect();
+
+    }
+
+    protected override void UpdateDescription()
+    {
+        _description[0] = "Deal " + (_damage + Buff) + " damage.";
+    }
+}
+
+public class WaveOfGoldCard : AttackCard
+{
+    public WaveOfGoldCard(Game game, GameState state, Player owner) :
+        base(state, owner)
+    {
+        StaminaCost = 30f;
+        OriginalStaminaCost = StaminaCost;
+        _damage = 40;
+        _frontTexture = DataManager.GetInstance().CardWaveOfGold;
+        //TODO: Change sound and effect
+        _soundOnPlay = DataManager.GetInstance().WaterfowlDanceSound.CreateInstance();
+        _name = "WaveOfGoldCard";
+        _description.Add("Deal " + _damage + " damage.");
+    }
+    public override void PerformEffect()
+    {
+        base.PerformEffect();
+
     }
 
     protected override void UpdateDescription()

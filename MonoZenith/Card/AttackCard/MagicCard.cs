@@ -70,7 +70,7 @@ public class MagicCard : AttackCard
     }
 }
 
-// Basic Magic card - Glintstone Pebble
+// Basic Magic Card - Glintstone Pebble
 
 public class GlintStonePebbleCard : MagicCard
 {
@@ -93,7 +93,7 @@ public class GlintStonePebbleCard : MagicCard
     }
 }
 
-// New Magic Cards
+// Reward Magic Cards
 
 public class GlintbladePhalanxCard : MagicCard
 {
@@ -200,6 +200,8 @@ public class CarianGreatSwordCard : MagicCard
     }
 }
 
+// Boss Reward Magic Card
+
 public class CometAzurCard : MagicCard
 {
     public CometAzurCard(Game game, GameState state, Player owner) :
@@ -212,6 +214,28 @@ public class CometAzurCard : MagicCard
         OriginalStaminaCost = StaminaCost;
         _damage = 45;
         _name = "CometAzurCard";
+        _description.Add("Deal " + _damage + " damage.");
+    }
+
+    protected override void UpdateDescription()
+    {
+        _description[0] = "Deal " + (_damage + Buff) + " damage.";
+    }
+}
+
+public class MoonlightGreatswordCard : MagicCard
+{
+    public MoonlightGreatswordCard(Game game, GameState state, Player owner) :
+        base(game, state, owner)
+    {
+        _frontTexture = DataManager.GetInstance().CardMoonlight;
+        //TODO: Change sound and effect
+        _soundOnPlay = DataManager.GetInstance().CometAzurSound.CreateInstance();
+        _focusCost = 30;
+        StaminaCost = 30;
+        OriginalStaminaCost = StaminaCost;
+        _damage = 45;
+        _name = "MoonlightGreatswordCard";
         _description.Add("Deal " + _damage + " damage.");
     }
 

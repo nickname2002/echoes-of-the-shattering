@@ -71,8 +71,6 @@ namespace MonoZenith.Engine.Support
         public Texture2D CardQuickstep;
         public Texture2D CardWarCry;
         public Texture2D CardRallyingStandard;
-        public Texture2D CardCommandKneel;
-        public Texture2D CardWaterfowlDance;
 
         public Texture2D CardGlintPebble;
         public Texture2D CardGlintPhalanx;
@@ -89,6 +87,15 @@ namespace MonoZenith.Engine.Support
         public Texture2D CardWarmingStone;
         public Texture2D CardPoisonPot;
         public Texture2D CardThrowingDagger;
+
+        public Texture2D CardCommandKneel;
+        public Texture2D CardWaterfowlDance;
+        public Texture2D CardStarcallerCry;
+        public Texture2D CardCursedSlice;
+        public Texture2D CardBloodboon;
+        public Texture2D CardRegalRoar;
+        public Texture2D CardWaveOfGold;
+        public Texture2D CardMoonlight;
 
         // Audio
         public SoundEffect MainMenuMusic;
@@ -210,8 +217,6 @@ namespace MonoZenith.Engine.Support
             CardQuickstep = LoadImage("Images/Cards/card-quickstep.png");
             CardWarCry = LoadImage("Images/Cards/card-war-cry.png");
             CardRallyingStandard = LoadImage("Images/Cards/card-rallying.png");
-            CardCommandKneel = LoadImage("Images/Cards/card-kneel.png");
-            CardWaterfowlDance = LoadImage("Images/Cards/card-waterfowl.png");
 
             CardGlintPebble = LoadImage("Images/Cards/card-glint-peb.png");
             CardGlintPhalanx = LoadImage("Images/Cards/card-phalanx.png");
@@ -228,8 +233,17 @@ namespace MonoZenith.Engine.Support
             CardWarmingStone = LoadImage("Images/Cards/card-warming.png");
             CardPoisonPot = LoadImage("Images/Cards/card-poison-pot.png");
             CardThrowingDagger = LoadImage("Images/Cards/card-throw-dagger.png");
+
+            CardCommandKneel = LoadImage("Images/Cards/card-kneel.png");
+            CardWaterfowlDance = LoadImage("Images/Cards/card-waterfowl.png");
+            CardStarcallerCry = LoadImage("Images/Cards/card-starcaller.png");
+            CardCursedSlice = LoadImage("Images/Cards/card-cursed-slice.png");
+            CardBloodboon = LoadImage("Images/Cards/card-bloodboon.png");
+            CardRegalRoar = LoadImage("Images/Cards/card-regal-roar.png");
+            CardWaveOfGold = LoadImage("Images/Cards/card-wave-gold.png");
+            CardMoonlight = LoadImage("Images/Cards/card-moonlight.png");
         }
-        
+
         private void LoadSoundEffects()
         {
             MainMenuMusic = LoadAudio("Audio/Music/main-menu-music.wav");
