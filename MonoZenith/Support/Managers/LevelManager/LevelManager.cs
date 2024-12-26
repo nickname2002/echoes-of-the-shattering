@@ -426,15 +426,8 @@ public class LevelManager
             },
             ["Malenia, Goddess of Rot"] = new()
             {
-                // (typeof(WaterfowlDanceCard), 3),
-                // (typeof(LightSwordAttackCard), 8),
-                // (typeof(PoisonPotCard), 5),
-                // (typeof(FlaskOfCrimsonTearsCard), 2),
-                // (typeof(EndureCard), 5),
-                // (typeof(ThrowingDaggerCard), 4),
-                // (typeof(RallyingStandardCard), 3)
-                (typeof(LightSwordAttackCard), 6),
-                (typeof(HeavySwordAttackCard), 5),
+                (typeof(WaterfowlDanceCard), 3),
+                (typeof(LightSwordAttackCard), 8),
                 (typeof(PoisonPotCard), 5),
                 (typeof(FlaskOfCrimsonTearsCard), 2),
                 (typeof(EndureCard), 5),
