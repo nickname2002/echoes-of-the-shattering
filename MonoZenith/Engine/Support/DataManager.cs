@@ -93,6 +93,7 @@ namespace MonoZenith.Engine.Support
         public Texture2D CardStarcallerCry;
         public Texture2D CardCursedSlice;
         public Texture2D CardBloodboon;
+        public Texture2D CardDestinedDeath;
         public Texture2D CardRegalRoar;
         public Texture2D CardWaveOfGold;
         public Texture2D CardMoonlight;
@@ -239,6 +240,7 @@ namespace MonoZenith.Engine.Support
             CardStarcallerCry = LoadImage("Images/Cards/card-starcaller.png");
             CardCursedSlice = LoadImage("Images/Cards/card-cursed-slice.png");
             CardBloodboon = LoadImage("Images/Cards/card-bloodboon.png");
+            CardDestinedDeath = LoadImage("Images/Cards/card-destined.png");
             CardRegalRoar = LoadImage("Images/Cards/card-regal-roar.png");
             CardWaveOfGold = LoadImage("Images/Cards/card-wave-gold.png");
             CardMoonlight = LoadImage("Images/Cards/card-moonlight.png");

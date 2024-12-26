@@ -478,7 +478,33 @@ public class BloodboonRitualCard : AttackCard
         _frontTexture = DataManager.GetInstance().CardBloodboon;
         //TODO: Change sound and effect
         _soundOnPlay = DataManager.GetInstance().WaterfowlDanceSound.CreateInstance();
-        _name = "StarcallerCryCard";
+        _name = "BloodboonRitualCard";
+        _description.Add("Deal " + _damage + " damage.");
+    }
+    public override void PerformEffect()
+    {
+        base.PerformEffect();
+
+    }
+
+    protected override void UpdateDescription()
+    {
+        _description[0] = "Deal " + (_damage + Buff) + " damage.";
+    }
+}
+
+public class DestinedDeathCard : AttackCard
+{
+    public DestinedDeathCard(Game game, GameState state, Player owner) :
+        base(state, owner)
+    {
+        StaminaCost = 30f;
+        OriginalStaminaCost = StaminaCost;
+        _damage = 40;
+        _frontTexture = DataManager.GetInstance().CardDestinedDeath;
+        //TODO: Change sound and effect
+        _soundOnPlay = DataManager.GetInstance().WaterfowlDanceSound.CreateInstance();
+        _name = "DestinedDeathCard";
         _description.Add("Deal " + _damage + " damage.");
     }
     public override void PerformEffect()
@@ -504,7 +530,7 @@ public class RegalRoarCard : AttackCard
         _frontTexture = DataManager.GetInstance().CardRegalRoar;
         //TODO: Change sound and effect
         _soundOnPlay = DataManager.GetInstance().WaterfowlDanceSound.CreateInstance();
-        _name = "StarcallerCryCard";
+        _name = "RegalRoarCard";
         _description.Add("Deal " + _damage + " damage.");
     }
     public override void PerformEffect()
