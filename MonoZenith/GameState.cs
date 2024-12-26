@@ -148,7 +148,6 @@ namespace MonoZenith
                     return;
                 }
                 
-                Console.WriteLine("Updating game over transition component");
                 GameOverManager.UpdateTransitionComponent(deltaTime);
                 return;
             }
