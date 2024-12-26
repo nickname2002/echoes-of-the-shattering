@@ -182,7 +182,7 @@ namespace MonoZenith.Players
             _reserveIndicator.Update(deltaTime);
         }
 
-        protected override void DrawPlayerHealthAndName()
+        public override void DrawPlayerHealthAndName()
         {
             // Setup offsets and positions for name and player bars
             Vector2 playerOffset = GetOffset(_playerCurrent, _scale);
@@ -216,7 +216,7 @@ namespace MonoZenith.Players
                 healthHeight);
         }
 
-        protected override void DrawPlayerUi()
+        public override void DrawPlayerUi()
         {
             base.DrawPlayerUi();
             _deckIndicator.Draw();

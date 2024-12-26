@@ -37,8 +37,11 @@ public class GameOverManager
                     return;
                 }
 
-                if (_rewardPanel?.Reward == null && 
+                // TODO: Add this updated code in other branch
+                
+                if ((_rewardPanel?.Reward == null && 
                     LevelManager.CurrentLevel.SecondPhase == GetGameState().CurrentLevel)
+                    || (_rewardPanel?.Reward == null && LevelManager.CurrentLevel.SecondPhase == null))
                 {
                     BackToMainMenu();
                     return;
@@ -113,9 +116,6 @@ public class GameOverManager
     
     private Player HandleWin(Player winner, string message, Color color, SoundEffectInstance soundEffect)
     {
-        if (_currentWinner == null)
-            soundEffect.Play();
-
         bool inFirstPhase = 
             LevelManager.CurrentLevel.SecondPhase != null
             && GetGameState().CurrentLevel != LevelManager.CurrentLevel.SecondPhase;
@@ -123,8 +123,14 @@ public class GameOverManager
         if (inFirstPhase && winner is HumanPlayer)
         {
             ConfigureTransitionForSecondPhase();
-            return _currentWinner = winner;
+            return winner;
         }
+
+        if (GetGameState().StateType != GameStateType.EndGame)
+            return winner;
+        
+        if (_currentWinner == null)
+            soundEffect.Play();
         
         ConfigureTransitionDefault(message, color);
         return _currentWinner = winner;

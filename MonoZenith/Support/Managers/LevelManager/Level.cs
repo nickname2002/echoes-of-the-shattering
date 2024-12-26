@@ -16,6 +16,9 @@ public class Level
     public Reward? Reward { get; init; }
     public List<Card.Card> EnemyDeck { get; init; }
     public Level? SecondPhase { get; init; }
+    public List<SoundEffectInstance> VoiceLinesBattleStart = new();
+    public List<SoundEffectInstance> VoiceLinesBattleLoss = new();
+    public List<SoundEffectInstance> VoiceLinesBattleVictory = new();
 
     /// <summary>
     /// Reset the state of the Level.

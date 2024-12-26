@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Card;
 using MonoZenith.Card.AttackCard;
@@ -68,7 +69,7 @@ public class LevelManager
         ConfigureDecks();
         ConfigureLevels();
         
-        CurrentLevel = GetLevelFromEnemy("Malenia, Blade of Miquella");
+        CurrentLevel = GetLevelFromEnemy("Mohg, Lord of Blood");
     }
     
     private Level GetLevelFromEnemy(string enemyName)
@@ -734,7 +735,21 @@ public class LevelManager
                 Backdrop = DataManager.GetInstance().MohgBackdrop,  
                 Reward = _rewards["Mohg, Lord of Blood"],
                 SoundTrack = DataManager.GetInstance().MohgSoundtrack.CreateInstance(), 
-                EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Mohg, Lord of Blood"], _decks["Mohg, Lord of Blood"])
+                EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Mohg, Lord of Blood"], _decks["Mohg, Lord of Blood"]),
+                VoiceLinesBattleStart = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Mohg/mohg-start-voiceline-1.wav").CreateInstance(),
+                    Game.LoadAudio("Audio/VoiceLines/Mohg/mohg-start-voiceline-2.wav").CreateInstance(),
+                },
+                VoiceLinesBattleLoss = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Mohg/mohg-loss-voiceline.wav").CreateInstance(),
+                },
+                VoiceLinesBattleVictory = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Mohg/mohg-win-voiceline-1.wav").CreateInstance(),
+                    Game.LoadAudio("Audio/VoiceLines/Mohg/mohg-win-voiceline-2.wav").CreateInstance(),
+                }
             },
             
             // Commander Niall

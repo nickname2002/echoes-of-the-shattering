@@ -294,7 +294,7 @@ namespace MonoZenith.Players
             _deckStack.Update(deltaTime);
         }
 
-        protected override void DrawPlayerHealthAndName()
+        public override void DrawPlayerHealthAndName()
         {
             // Setup offsets and positions for name and health bar
             Vector2 playerOffset = GetOffset(_playerCurrent, _scale);
