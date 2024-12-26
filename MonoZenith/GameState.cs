@@ -1,5 +1,6 @@
 #nullable enable
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Card.CardStack;
 using MonoZenith.Engine.Support;
@@ -74,6 +75,13 @@ namespace MonoZenith
         public void Update(GameTime deltaTime)
         {
             GameTime = deltaTime;
+            
+            // Make sure the cards are only drawn when the music starts playing
+            if (Game.GetGameScreen().BackgroundMusic != null &&
+                Game.GetGameScreen().BackgroundMusic!.State != SoundState.Playing)
+            {
+                return;
+            }
             
             // Make sure all cards are updated
             Player.Update(deltaTime);

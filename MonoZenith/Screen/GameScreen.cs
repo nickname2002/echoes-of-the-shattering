@@ -1,4 +1,5 @@
-﻿using System;
+﻿#nullable enable
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 
@@ -7,17 +8,13 @@ namespace MonoZenith.Screen
     public class GameScreen : Screen
     {
         private SoundEffectInstance? _backgroundMusic;
-        public GameState GameState { get; }
-        
+        public GameState GameState { get; } = new(Game.Instance);
 
-        public GameScreen()
-        {
-            GameState = new GameState(Game.Instance);
-        }
+        public SoundEffectInstance? BackgroundMusic => _backgroundMusic;
 
         public void SetBackgroundMusic(SoundEffectInstance music) => _backgroundMusic = music;
 
-        public override void Unload(float fadeSpeed = 0.015f, Action unOnloadComplete = null)
+        public override void Unload(float fadeSpeed = 0.015f, Action? unOnloadComplete = null)
         {
             float musicFadeOutSpeed = fadeSpeed;
 

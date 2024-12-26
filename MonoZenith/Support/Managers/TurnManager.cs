@@ -39,10 +39,8 @@ public class TurnManager
     public TurnManager(Game g, GameState s)
     {
         var turnTransitionComponentFont = DataManager.GetInstance().TransitionComponentFont;
-        _turnTransitionComponentHuman = new TransitionComponent(
-            g, "YOUR TURN", Color.White, turnTransitionComponentFont);
-        _turnTransitionComponentNpc = new TransitionComponent(
-            g, "ENEMY TURN", Color.White, turnTransitionComponentFont);
+        _turnTransitionComponentHuman = new TransitionComponent("YOUR TURN", Color.White, turnTransitionComponentFont);
+        _turnTransitionComponentNpc = new TransitionComponent("ENEMY TURN", Color.White, turnTransitionComponentFont);
         _activeTurnTransitionComponent = null;
         _startPlayerTurnSound = DataManager.GetInstance().PlayerTurnSound.CreateInstance();
         _endTurnButton = new EndTurnButton(g, s);

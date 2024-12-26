@@ -27,8 +27,7 @@ public class GameOverManager
         _playerDeathSound = dataManager.PlayerDeathSound.CreateInstance();
         _enemyDeathSound = dataManager.EnemyDeathSound.CreateInstance();
         var newItemSound = dataManager.NewItemSound.CreateInstance();
-        _gameOverTransitionComponent = new TransitionComponent(
-            game, "YOU DIED", Color.Gold, dataManager.GameOverTransitionComponentFont,
+        _gameOverTransitionComponent = new TransitionComponent("YOU DIED", Color.Gold, dataManager.GameOverTransitionComponentFont,
             1f, 3f, 1f, () =>
             {
                 if (_currentWinner is HumanPlayer) TryLoadSecondPhase();
@@ -90,15 +89,44 @@ public class GameOverManager
     
     public void DrawTransitionComponent() => _gameOverTransitionComponent.Draw();
 
+    /// <summary>
+    /// Configure transition properties for transitioning from the level to the reward/main menu.
+    /// </summary>
+    /// <param name="message">Message to display.</param>
+    /// <param name="color">Color of the message.</param>
+    private void ConfigureTransitionDefault(string message, Color color)
+    {
+        _gameOverTransitionComponent.Content = message;
+        _gameOverTransitionComponent.Color = color;
+    }
+    
+    /// <summary>
+    /// Configure transition properties for transitioning from the first to second phase.
+    /// </summary>
+    private void ConfigureTransitionForSecondPhase()
+    {
+        _gameOverTransitionComponent.Content = "";
+        _gameOverTransitionComponent.Color = Color.White;
+        _gameOverTransitionComponent.SetTempTransitionTimers(
+            fadeInDuration: 0f, displayDuration: 0f, fadeOutDuration: 0f);
+    }
+    
     private Player HandleWin(Player winner, string message, Color color, SoundEffectInstance soundEffect)
     {
         if (_currentWinner == null)
             soundEffect.Play();
 
-        _currentWinner = winner;
-        _gameOverTransitionComponent.Content = message;
-        _gameOverTransitionComponent.Color = color;
+        bool inFirstPhase = 
+            LevelManager.CurrentLevel.SecondPhase != null
+            && GetGameState().CurrentLevel != LevelManager.CurrentLevel.SecondPhase;
 
-        return winner;
+        if (inFirstPhase && winner is HumanPlayer)
+        {
+            ConfigureTransitionForSecondPhase();
+            return _currentWinner = winner;
+        }
+        
+        ConfigureTransitionDefault(message, color);
+        return _currentWinner = winner;
     }
 }
