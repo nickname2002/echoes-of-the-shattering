@@ -37,10 +37,10 @@ public class GameOverManager
                     BackToMainMenu();
                     return;
                 }
-                
+
                 if ((_rewardPanel?.Reward == null && 
-                    LevelManager.CurrentLevel.SecondPhase == GetGameState().CurrentLevel)
-                    || (_rewardPanel?.Reward == null && LevelManager.CurrentLevel.SecondPhase == null))
+                     LevelManager.CurrentLevel.SecondPhase == GetGameState().CurrentLevel)
+                     || (_rewardPanel?.Reward == null && LevelManager.CurrentLevel.SecondPhase == null))
                 {
                     BackToMainMenu();
                     return;
