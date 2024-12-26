@@ -33,4 +33,13 @@
         GRACE,
         POWER
     }
+    
+    public enum GameStateType
+    {
+        PlayingStartingVoiceLines,
+        InGame,
+        PlayingDeathVoiceLines,
+        PlayingVictoryVoiceLines,
+        EndGame
+    }
 }

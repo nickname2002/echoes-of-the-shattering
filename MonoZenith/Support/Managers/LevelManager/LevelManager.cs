@@ -69,7 +69,7 @@ public class LevelManager
         ConfigureDecks();
         ConfigureLevels();
         
-        CurrentLevel = GetLevelFromEnemy("Mohg, Lord of Blood");
+        CurrentLevel = GetLevelFromEnemy("Malenia, Blade of Miquella");
     }
     
     private Level GetLevelFromEnemy(string enemyName)
@@ -426,8 +426,15 @@ public class LevelManager
             },
             ["Malenia, Goddess of Rot"] = new()
             {
-                (typeof(WaterfowlDanceCard), 3),
-                (typeof(LightSwordAttackCard), 8),
+                // (typeof(WaterfowlDanceCard), 3),
+                // (typeof(LightSwordAttackCard), 8),
+                // (typeof(PoisonPotCard), 5),
+                // (typeof(FlaskOfCrimsonTearsCard), 2),
+                // (typeof(EndureCard), 5),
+                // (typeof(ThrowingDaggerCard), 4),
+                // (typeof(RallyingStandardCard), 3)
+                (typeof(LightSwordAttackCard), 6),
+                (typeof(HeavySwordAttackCard), 5),
                 (typeof(PoisonPotCard), 5),
                 (typeof(FlaskOfCrimsonTearsCard), 2),
                 (typeof(EndureCard), 5),
@@ -770,13 +777,38 @@ public class LevelManager
                 Reward = _rewards["Malenia, Blade of Miquella"],
                 SoundTrack = DataManager.GetInstance().MaleniaSoundtrack.CreateInstance(),  
                 EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Malenia, Blade of Miquella"], _decks["Malenia, Blade of Miquella"]),
+                VoiceLinesBattleStart = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Malenia/malenia-p1-start-voiceline-1.wav").CreateInstance(),
+                    Game.LoadAudio("Audio/VoiceLines/Malenia/malenia-p1-start-voiceline-2.wav").CreateInstance(),
+                    Game.LoadAudio("Audio/VoiceLines/Malenia/malenia-p1-start-voiceline-3.wav").CreateInstance()
+                },
+                VoiceLinesBattleLoss = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Malenia/malenia-p1-loss-voiceline-1.wav").CreateInstance()
+                },
                 SecondPhase = new Level     // Malenia, Goddess of Rot
                 {
                     Enemy = _enemies["Malenia, Goddess of Rot"],
                     Backdrop = DataManager.GetInstance().MaleniaRestplaceBackdrop, 
                     Reward = _rewards["Malenia, Goddess of Rot"],
                     SoundTrack = DataManager.GetInstance().GoddessOfRotSoundtrack.CreateInstance(),
-                    EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Malenia, Goddess of Rot"], _decks["Malenia, Goddess of Rot"])
+                    EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Malenia, Goddess of Rot"], _decks["Malenia, Goddess of Rot"]),
+                    VoiceLinesBattleStart = new List<SoundEffectInstance>
+                    {
+                        Game.LoadAudio("Audio/VoiceLines/Malenia/malenia-p2-start-voiceline-1.wav").CreateInstance(),
+                        Game.LoadAudio("Audio/VoiceLines/Malenia/malenia-p2-start-voiceline-2.wav").CreateInstance()
+                    },
+                    VoiceLinesBattleLoss = new List<SoundEffectInstance>
+                    {
+                        Game.LoadAudio("Audio/VoiceLines/Malenia/malenia-p2-loss-voiceline-2.wav").CreateInstance(),
+                        Game.LoadAudio("Audio/VoiceLines/Malenia/malenia-p2-loss-voiceline-1.wav").CreateInstance()
+                    },
+                    VoiceLinesBattleVictory = new List<SoundEffectInstance>
+                    {
+                        Game.LoadAudio("Audio/VoiceLines/Malenia/malenia-p2-win-voiceline-1.wav").CreateInstance(),
+                        Game.LoadAudio("Audio/VoiceLines/Malenia/malenia-p2-win-voiceline-2.wav").CreateInstance()
+                    }
                 }
             },
             

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using MonoZenith.Screen;
@@ -89,6 +90,9 @@ public partial class Game
     {
         if (LevelManager.CurrentLevel.SecondPhase == null) return;
         if (GetGameState().CurrentLevel == LevelManager.CurrentLevel.SecondPhase) return;
+        
+        Console.WriteLine("Load second phase...");
+        
         _gameScreen.Unload();
         StartFadeOut(onFadeOutComplete: () =>
         {

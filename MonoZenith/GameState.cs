@@ -1,45 +1,55 @@
 #nullable enable
 using System;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Card.CardStack;
 using MonoZenith.Engine.Support;
 using MonoZenith.Players;
 using MonoZenith.Screen.RewardPanel;
 using MonoZenith.Support.Managers;
-using System.Collections.Generic;
+using MonoZenith.Support;
 
 namespace MonoZenith
 {
     public class GameState
     {
+        /// <summary>
+        /// Game and properties
+        /// </summary>
         public readonly Game Game;
         public GameTime GameTime;
+        
+        /// <summary>
+        /// Managers
+        /// </summary>
         public readonly TurnManager TurnManager;
         public readonly GameOverManager GameOverManager;
+        public readonly VoiceLineManager VoiceLineManager;
+        
+        /// <summary>
+        /// Players
+        /// </summary>
         public readonly HumanPlayer Player;
         public NpcPlayer Npc;
+        
         public Reward? Reward;
         public readonly CardStack PlayedCards;
         private Texture2D? _backdrop;
-        private GameStateType _stateType;
-        private Queue<SoundEffectInstance>? _voiceQueue;
-        private SoundEffectInstance? _currentPlayingVoiceLine;
         
         public Level? CurrentLevel { get; private set; }
-        public GameStateType StateType => _stateType;
+        public GameStateType StateType { get; set; }
 
         public GameState(Game game)
         {
             Game = game;
             GameTime = new GameTime();
             TurnManager = new TurnManager(Game, this);
-            GameOverManager = new GameOverManager(Game);
+            GameOverManager = new GameOverManager();
+            VoiceLineManager = new VoiceLineManager();
             Player = new HumanPlayer(this, "Player");
             Npc = new NpcPlayer(this, "NPC", DataManager.GetInstance().DefaultEnemyPortrait);
             PlayedCards = new CardStack(this, true);
-            _stateType = GameStateType.PlayingStartingVoiceLines;
+            StateType = GameStateType.PlayingStartingVoiceLines;
             InitializeState();
         }
         
@@ -54,9 +64,8 @@ namespace MonoZenith
             _backdrop = level.Backdrop;
             Reward = level.Reward;
 
-            InitializeVoiceQueue(level.VoiceLinesBattleStart);
-            PlayNextVoiceLine();
-            _stateType = GameStateType.PlayingStartingVoiceLines;
+            VoiceLineManager.InitializeVoiceQueue(level.VoiceLinesBattleStart);
+            StateType = GameStateType.PlayingStartingVoiceLines;
 
             InitializeState();
         }
@@ -79,50 +88,6 @@ namespace MonoZenith
             Player.InitializeState(this);
             Npc.InitializeState(this);
         }
-        
-        public bool PlayingVoiceLines => _stateType 
-                is GameStateType.PlayingStartingVoiceLines 
-                or GameStateType.PlayingDeathVoiceLines 
-                or GameStateType.PlayingVictoryVoiceLines;
-
-        private void UpdateStartingVoiceLines()
-        {
-            if (_currentPlayingVoiceLine?.State == SoundState.Playing) return;
-
-            if (_voiceQueue is { Count: > 0 })
-            {
-                PlayNextVoiceLine();
-                return;
-            }
-
-            _stateType = GameStateType.InGame;
-        }
-
-        private void UpdateDeathVoiceLines()
-        {
-            if (_currentPlayingVoiceLine?.State == SoundState.Playing) return;
-
-            if (_voiceQueue is { Count: > 0 })
-            {
-                PlayNextVoiceLine();
-                return;
-            }
-
-            _stateType = GameStateType.EndGame;
-        }
-
-        private void UpdateVictoryVoiceLines()
-        {
-            if (_currentPlayingVoiceLine?.State == SoundState.Playing) return;
-
-            if (_voiceQueue is { Count: > 0 })
-            {
-                PlayNextVoiceLine();
-                return;
-            }
-
-            _stateType = GameStateType.EndGame;
-        }
 
         /// <summary>
         /// Update the game state.
@@ -132,18 +97,18 @@ namespace MonoZenith
         {
             GameTime = deltaTime;
             
-            switch (_stateType)
+            switch (StateType)
             {
                 case GameStateType.PlayingStartingVoiceLines:
-                    UpdateStartingVoiceLines();
+                    VoiceLineManager.UpdateStartingVoiceLines();
                     return;
                 case GameStateType.InGame:
                     break;
                 case GameStateType.PlayingDeathVoiceLines:
-                    UpdateDeathVoiceLines();
+                    VoiceLineManager.UpdateDeathVoiceLines();
                     return;
                 case GameStateType.PlayingVictoryVoiceLines:
-                    UpdateVictoryVoiceLines();
+                    VoiceLineManager.UpdateVictoryVoiceLines();
                     return;
                 case GameStateType.EndGame:
                     break;
@@ -161,17 +126,17 @@ namespace MonoZenith
             var winner = GameOverManager.HasWinner(Player, Npc);
             if (winner != null)
             {
-                if (_stateType == GameStateType.InGame)
+                if (StateType == GameStateType.InGame)
                 {
                     if (winner is HumanPlayer)
                     {
-                        _stateType = GameStateType.PlayingVictoryVoiceLines;
-                        InitializeVoiceQueue(LevelManager.CurrentLevel.VoiceLinesBattleVictory); 
+                        StateType = GameStateType.PlayingVictoryVoiceLines;
+                        VoiceLineManager.InitializeVoiceQueue(CurrentLevel?.VoiceLinesBattleVictory); 
                     }
                     else
                     {
-                        _stateType = GameStateType.PlayingDeathVoiceLines;
-                        InitializeVoiceQueue(LevelManager.CurrentLevel.VoiceLinesBattleLoss); 
+                        StateType = GameStateType.PlayingDeathVoiceLines;
+                        VoiceLineManager.InitializeVoiceQueue(CurrentLevel?.VoiceLinesBattleLoss); 
                     }
 
                     return;
@@ -182,7 +147,8 @@ namespace MonoZenith
                     GameOverManager.UpdateRewardPanel(deltaTime);
                     return;
                 }
-        
+                
+                Console.WriteLine("Updating game over transition component");
                 GameOverManager.UpdateTransitionComponent(deltaTime);
                 return;
             }
@@ -228,45 +194,5 @@ namespace MonoZenith
 
             TurnManager.Draw();
         }
-
-        /// <summary>
-        /// Initialize a new voice queue.
-        /// </summary>
-        /// <param name="voiceLines">The list of voice lines to initialize the queue with.</param>
-        private void InitializeVoiceQueue(List<SoundEffectInstance>? voiceLines)
-        {
-            if (voiceLines == null || voiceLines.Count == 0)
-            {
-                _voiceQueue = null; 
-                return;
-            }
-
-            _voiceQueue = new Queue<SoundEffectInstance>(voiceLines);
-            _currentPlayingVoiceLine = null; 
-        }
-
-        /// <summary>
-        /// Play the next voice line in the queue.
-        /// </summary>
-        private void PlayNextVoiceLine()
-        {
-            if (_voiceQueue == null || _voiceQueue.Count == 0)
-            {
-                _currentPlayingVoiceLine = null; 
-                return;
-            }
-
-            _currentPlayingVoiceLine = _voiceQueue.Dequeue();
-            _currentPlayingVoiceLine.Play();
-        }
-    }
-
-    public enum GameStateType
-    {
-        PlayingStartingVoiceLines,
-        InGame,
-        PlayingDeathVoiceLines,
-        PlayingVictoryVoiceLines,
-        EndGame
     }
 }

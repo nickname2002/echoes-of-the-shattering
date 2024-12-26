@@ -54,8 +54,8 @@ namespace MonoZenith.Screen
             if (_backgroundMusic != null && 
                 !(Game.IsFadingOut || Game.IsFadingIn))
             {
+                _backgroundMusic.Volume = 0.5f;
                 _backgroundMusic.Play();
-                _backgroundMusic.Volume = 1;
             }
 
             GameState.Update(deltaTime);
