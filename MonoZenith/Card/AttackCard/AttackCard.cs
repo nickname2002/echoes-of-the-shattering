@@ -105,7 +105,7 @@ public class LightSwordAttackCard : AttackCard
 
 public class HeavySwordAttackCard : AttackCard
 {
-    public HeavySwordAttackCard(Game game, GameState state, Player owner) : 
+    public HeavySwordAttackCard(GameState state, Player owner) : 
         base(state, owner)
     {
         StaminaCost = 20f;
@@ -127,7 +127,7 @@ public class HeavySwordAttackCard : AttackCard
 
 public class UnsheatheCard : AttackCard
 {
-    public UnsheatheCard(Game game, GameState state, Player owner) :
+    public UnsheatheCard(GameState state, Player owner) :
         base(state, owner)
     {
         StaminaCost = 10f;
@@ -151,7 +151,7 @@ public class UnsheatheCard : AttackCard
 
 public class BloodhoundStepCard : AttackCard
 {
-    public BloodhoundStepCard(Game game, GameState state, Player owner) :
+    public BloodhoundStepCard(GameState state, Player owner) :
         base(state, owner)
     {
         StaminaCost = 25f;
@@ -182,7 +182,7 @@ public class BloodhoundStepCard : AttackCard
 
 public class QuickstepCard : AttackCard
 {
-    public QuickstepCard(Game game, GameState state, Player owner) :
+    public QuickstepCard(GameState state, Player owner) :
         base(state, owner)
     {
         StaminaCost = 10f;
@@ -208,7 +208,7 @@ public class QuickstepCard : AttackCard
 
 public class EndureCard : AttackCard
 {
-    public EndureCard(Game game, GameState state, Player owner) :
+    public EndureCard(GameState state, Player owner) :
         base(state, owner)
     {
         StaminaCost = 15f;
@@ -234,7 +234,7 @@ public class EndureCard : AttackCard
 
 public class DoubleSlashCard : AttackCard
 {
-    public DoubleSlashCard(Game game, GameState state, Player owner) :
+    public DoubleSlashCard(GameState state, Player owner) :
         base(state, owner)
     {
         StaminaCost = 25f;
@@ -264,7 +264,7 @@ public class DoubleSlashCard : AttackCard
 
 public class WarCryCard : AttackCard
 {
-    public WarCryCard(Game game, GameState state, Player owner) :
+    public WarCryCard(GameState state, Player owner) :
         base(state, owner)
     {
         StaminaCost = 10f;
@@ -295,7 +295,7 @@ public class WarCryCard : AttackCard
 
 public class StormcallerCard : AttackCard
 {
-    public StormcallerCard(Game game, GameState state, Player owner) :
+    public StormcallerCard(GameState state, Player owner) :
         base(state, owner)
     {
         StaminaCost = 20f;
@@ -326,7 +326,7 @@ public class StormcallerCard : AttackCard
 
 public class RallyingStandardCard : AttackCard
 {
-    public RallyingStandardCard(Game game, GameState state, Player owner) :
+    public RallyingStandardCard(GameState state, Player owner) :
         base(state, owner)
     {
         StaminaCost = 15;
@@ -384,7 +384,7 @@ public class ICommandTheeKneelCard : AttackCard
 
 public class WaterfowlDanceCard : AttackCard
 {
-    public WaterfowlDanceCard(Game game, GameState state, Player owner) :
+    public WaterfowlDanceCard(GameState state, Player owner) :
         base(state, owner)
     {
         StaminaCost = 30f;
@@ -417,7 +417,7 @@ public class WaterfowlDanceCard : AttackCard
 
 public class ThrowingDaggerCard : AttackCard
 {
-    public ThrowingDaggerCard(Game game, GameState state, Player owner) :
+    public ThrowingDaggerCard(GameState state, Player owner) :
         base(state, owner)
     {
         StaminaCost = 0f;
@@ -442,7 +442,7 @@ public class ThrowingDaggerCard : AttackCard
 
 public class PoisonPotCard : AttackCard
 {
-    public PoisonPotCard(Game game, GameState state, Player owner) :
+    public PoisonPotCard(GameState state, Player owner) :
         base(state, owner)
     {
         StaminaCost = 0f;

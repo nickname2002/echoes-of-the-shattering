@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using MonoZenith.Screen;
 using MonoZenith.Support;
+using MonoZenith.Support.Managers;
 
 namespace MonoZenith;
 
@@ -11,6 +13,7 @@ public partial class Game
     private static GameScreen _gameScreen;
     private static OverworldScreen _overworldScreen;
     private static PauseScreen _pauseScreen;
+    private static List<Screen.Screen> _screens;
 
     public static GameScreen GetGameScreen() => _gameScreen;
     public static GameState GetGameState() => _gameScreen.GameState;
@@ -21,6 +24,7 @@ public partial class Game
         // Screen Setup
         SetScreenSizeAutomatically();
         // SetScreenSize(1600, 900);
+        // SetScreenFullScreen(true);
         SetWindowTitle("Echoes of the Shattering");
     }
 
@@ -34,6 +38,13 @@ public partial class Game
         _gameScreen = new GameScreen();
         _overworldScreen = new OverworldScreen();
         _pauseScreen = new PauseScreen();
+        _screens = new List<Screen.Screen>
+        {
+            _mainMenuScreen,
+            _gameScreen,
+            _overworldScreen,
+            _pauseScreen
+        };
 
         // Start with a fade-in when the game starts
         StartFadeIn();
@@ -71,6 +82,23 @@ public partial class Game
         });
     }
     
+    /// <summary>
+    /// Load second phase of a level.
+    /// </summary>
+    public static void TryLoadSecondPhase()
+    {
+        if (LevelManager.CurrentLevel.SecondPhase == null) return;
+        if (GetGameState().CurrentLevel == LevelManager.CurrentLevel.SecondPhase) return;
+        _gameScreen.Unload();
+        StartFadeOut(onFadeOutComplete: () =>
+        {
+            LevelManager.CurrentLevel.SecondPhase.Initialize(GetGameState());
+            GetGameState().SetLevel(LevelManager.CurrentLevel.SecondPhase);
+            GetGameScreen().SetBackgroundMusic(LevelManager.CurrentLevel.SecondPhase.SoundTrack);
+            _gameScreen.Load(); 
+        }); 
+    }
+    
     /* Update game logic. */
     public static void Update(GameTime deltaTime)
     {
@@ -97,7 +125,7 @@ public partial class Game
             
             case Screens.MAIN_MENU:
                 UnloadOnFadeOut(_mainMenuScreen);
-                _gameScreen.Unload();
+                _gameScreen.Unload(); 
                 _mainMenuScreen.Update(deltaTime);
                 break;
 

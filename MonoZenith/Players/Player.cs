@@ -13,7 +13,6 @@ namespace MonoZenith.Players
     public abstract class Player
     {
         private float _originalStamina;
-        protected Game _game;
         protected GameState _state;
         protected float _handPosX;
         protected float _handPosY;
@@ -81,7 +80,7 @@ namespace MonoZenith.Players
             
             // Ashes and buffs
             // TODO: Make sure players start without any ashes when game starts
-            SpiritAsh = new WolvesAsh(Instance, state, this);
+            SpiritAsh = new WolvesAsh(state, this);
             BuffManager = new BuffManager(state, this);
         }
 

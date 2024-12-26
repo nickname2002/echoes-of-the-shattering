@@ -1,10 +1,9 @@
 #nullable enable
-using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Card.CardStack;
 using MonoZenith.Engine.Support;
-using MonoZenith.Items;
 using MonoZenith.Players;
 using MonoZenith.Screen.RewardPanel;
 using MonoZenith.Support.Managers;
@@ -19,9 +18,11 @@ namespace MonoZenith
         public readonly GameOverManager GameOverManager;
         public HumanPlayer Player;
         public NpcPlayer Npc;
-        public Reward Reward;
+        public Reward? Reward;
         public readonly CardStack PlayedCards;
         private Texture2D? _backdrop;
+
+        public Level? CurrentLevel { get; private set; }
 
         public GameState(Game game)
         {
@@ -30,11 +31,7 @@ namespace MonoZenith
             TurnManager = new TurnManager(Game, this);
             GameOverManager = new GameOverManager(Game);
             Player = new HumanPlayer(this, "Player");
-            Npc = new NpcPlayer(this, "NPC");
-            Reward = new Reward(
-                DataManager.GetInstance().WolvesAsh,
-                "Wolves Spirit Ash",
-                typeof(WolvesAsh));
+            Npc = new NpcPlayer(this, "NPC", DataManager.GetInstance().DefaultEnemyPortrait);
             PlayedCards = new CardStack(this, true);
             InitializeState();
         }
@@ -45,6 +42,7 @@ namespace MonoZenith
         /// <param name="level">The level</param>
         public void SetLevel(Level level)
         {
+            CurrentLevel = level;
             Npc = level.Enemy;
             _backdrop = level.Backdrop;
             Reward = level.Reward;
@@ -77,6 +75,13 @@ namespace MonoZenith
         public void Update(GameTime deltaTime)
         {
             GameTime = deltaTime;
+            
+            // Make sure the cards are only drawn when the music starts playing
+            if (Game.GetGameScreen().BackgroundMusic != null &&
+                Game.GetGameScreen().BackgroundMusic!.State != SoundState.Playing)
+            {
+                return;
+            }
             
             // Make sure all cards are updated
             Player.Update(deltaTime);
@@ -117,7 +122,8 @@ namespace MonoZenith
             {
                 GameOverManager.DrawTransitionComponent();
 
-                if (GameOverManager is not { Winner: HumanPlayer, TransitionComplete: true }) 
+                if (GameOverManager is not { Winner: HumanPlayer, TransitionComplete: true } 
+                    || Reward == null) 
                     return;
                 
                 GameOverManager.DrawRewardPanel();

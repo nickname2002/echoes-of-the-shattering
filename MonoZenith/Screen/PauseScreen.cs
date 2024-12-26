@@ -5,7 +5,7 @@ namespace MonoZenith.Screen
 {
     internal class PauseScreen : Screen
     {
-        public override void Unload()
+        public override void Unload(float fadeSpeed = 0.015f, Action unOnloadComplete = null)
         {
             throw new NotImplementedException();
         }

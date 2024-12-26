@@ -8,9 +8,9 @@ namespace MonoZenith.Screen;
 
 public class OverworldScreen : Screen
 {
-    public LevelManager LevelManager { get; set; } = new(GetGameState());
+    public LevelManager LevelManager { get; set; } = new();
 
-    public override void Unload()
+    public override void Unload(float fadeSpeed = 0.015f, Action unOnloadComplete = null)
     {
         
     }
@@ -25,7 +25,7 @@ public class OverworldScreen : Screen
     /// </summary>
     private void ActivateSelectedLevel()
     {
-        LevelManager.CurrentLevel.Initialize(Game.Instance, GetGameState());
+        LevelManager.CurrentLevel.Initialize(GetGameState());
         GetGameScreen().SetBackgroundMusic(LevelManager.CurrentLevel.SoundTrack);
         GetGameState().SetLevel(LevelManager.CurrentLevel);
         GetGameScreen().Load();
