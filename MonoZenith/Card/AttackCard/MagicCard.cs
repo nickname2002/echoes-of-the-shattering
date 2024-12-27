@@ -225,8 +225,8 @@ public class CometAzurCard : MagicCard
 
 public class MoonlightGreatswordCard : MagicCard
 {
-    public MoonlightGreatswordCard(Game game, GameState state, Player owner) :
-        base(game, state, owner)
+    public MoonlightGreatswordCard(GameState state, Player owner) :
+        base(state, owner)
     {
         _frontTexture = DataManager.GetInstance().CardMoonlight;
         //TODO: Change sound and effect

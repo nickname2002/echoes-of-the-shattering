@@ -417,7 +417,7 @@ public class WaterfowlDanceCard : AttackCard
 
 public class StarcallerCryCard : AttackCard
 {
-    public StarcallerCryCard(Game game, GameState state, Player owner) :
+    public StarcallerCryCard(GameState state, Player owner) :
         base(state, owner)
     {
         StaminaCost = 30f;
@@ -437,7 +437,7 @@ public class StarcallerCryCard : AttackCard
         _owner.OpposingPlayer.BuffManager.Debuffs.Add(new StaminaEffectDebuff(
         _state,
         _owner.OpposingPlayer.BuffManager,
-        ,
+        2,
         15));
     }
 
@@ -449,7 +449,7 @@ public class StarcallerCryCard : AttackCard
 
 public class CursedBloodSliceCard : AttackCard
 {
-    public CursedBloodSliceCard(Game game, GameState state, Player owner) :
+    public CursedBloodSliceCard(GameState state, Player owner) :
         base(state, owner)
     {
         StaminaCost = 30f;
@@ -475,7 +475,7 @@ public class CursedBloodSliceCard : AttackCard
 
 public class BloodboonRitualCard : AttackCard
 {
-    public BloodboonRitualCard(Game game, GameState state, Player owner) :
+    public BloodboonRitualCard(GameState state, Player owner) :
         base(state, owner)
     {
         StaminaCost = 30f;
@@ -509,7 +509,7 @@ public class DestinedDeathCard : AttackCard
 {
     private int _healthReduction;
 
-    public DestinedDeathCard(Game game, GameState state, Player owner) :
+    public DestinedDeathCard(GameState state, Player owner) :
         base(state, owner)
     {
         StaminaCost = 30f;
@@ -543,7 +543,7 @@ public class DestinedDeathCard : AttackCard
 
 public class RegalRoarCard : AttackCard
 {
-    public RegalRoarCard(Game game, GameState state, Player owner) :
+    public RegalRoarCard(GameState state, Player owner) :
         base(state, owner)
     {
         StaminaCost = 30f;
@@ -574,7 +574,7 @@ public class RegalRoarCard : AttackCard
 
 public class WaveOfGoldCard : AttackCard
 {
-    public WaveOfGoldCard(Game game, GameState state, Player owner) :
+    public WaveOfGoldCard(GameState state, Player owner) :
         base(state, owner)
     {
         StaminaCost = 30f;
