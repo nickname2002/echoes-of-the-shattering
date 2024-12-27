@@ -425,7 +425,7 @@ public class StarcallerCryCard : AttackCard
         _damage = 40;
         _frontTexture = DataManager.GetInstance().CardStarcallerCry;
         //TODO: Change sound and effect
-        _soundOnPlay = DataManager.GetInstance().WaterfowlDanceSound.CreateInstance();
+        _soundOnPlay = DataManager.GetInstance().StarcallerCrySound.CreateInstance();
         _name = "StarcallerCryCard";
         _description.Add("Deal " + _damage + " damage.");
     }
@@ -451,7 +451,7 @@ public class CursedBloodSliceCard : AttackCard
         _damage = 40;
         _frontTexture = DataManager.GetInstance().CardCursedSlice;
         //TODO: Change sound and effect
-        _soundOnPlay = DataManager.GetInstance().WaterfowlDanceSound.CreateInstance();
+        _soundOnPlay = DataManager.GetInstance().CursedSliceSound.CreateInstance();
         _name = "CursedBloodSliceCard";
         _description.Add("Deal " + _damage + " damage.");
     }
@@ -474,22 +474,28 @@ public class BloodboonRitualCard : AttackCard
     {
         StaminaCost = 30f;
         OriginalStaminaCost = StaminaCost;
-        _damage = 40;
+        _damage = 15;
         _frontTexture = DataManager.GetInstance().CardBloodboon;
-        //TODO: Change sound and effect
-        _soundOnPlay = DataManager.GetInstance().WaterfowlDanceSound.CreateInstance();
+        _soundOnPlay = DataManager.GetInstance().BloodboonSound1.CreateInstance();
         _name = "BloodboonRitualCard";
+        _description.Add("Damage restores health.");
         _description.Add("Deal " + _damage + " damage.");
+        _description.Add("this and next 2 turns.");
     }
     public override void PerformEffect()
     {
         base.PerformEffect();
-
+        _owner.OpposingPlayer.BuffManager.Debuffs.Add(new BloodboonDebuff(
+        _state,
+        _owner.OpposingPlayer.BuffManager,
+        2,
+        (int)(_damage + Buff)));
+        _owner.Health = _owner.Health + _damage > 100 ? 100 : _owner.Health + _damage;
     }
 
     protected override void UpdateDescription()
     {
-        _description[0] = "Deal " + (_damage + Buff) + " damage.";
+        _description[1] = "Deal " + (_damage + Buff) + " damage.";
     }
 }
 
@@ -503,7 +509,7 @@ public class DestinedDeathCard : AttackCard
         _damage = 40;
         _frontTexture = DataManager.GetInstance().CardDestinedDeath;
         //TODO: Change sound and effect
-        _soundOnPlay = DataManager.GetInstance().WaterfowlDanceSound.CreateInstance();
+        _soundOnPlay = DataManager.GetInstance().DestinedDeathSound.CreateInstance();
         _name = "DestinedDeathCard";
         _description.Add("Deal " + _damage + " damage.");
     }
@@ -529,7 +535,7 @@ public class RegalRoarCard : AttackCard
         _damage = 40;
         _frontTexture = DataManager.GetInstance().CardRegalRoar;
         //TODO: Change sound and effect
-        _soundOnPlay = DataManager.GetInstance().WaterfowlDanceSound.CreateInstance();
+        _soundOnPlay = DataManager.GetInstance().RegalRoarSound.CreateInstance();
         _name = "RegalRoarCard";
         _description.Add("Deal " + _damage + " damage.");
     }
@@ -555,7 +561,7 @@ public class WaveOfGoldCard : AttackCard
         _damage = 40;
         _frontTexture = DataManager.GetInstance().CardWaveOfGold;
         //TODO: Change sound and effect
-        _soundOnPlay = DataManager.GetInstance().WaterfowlDanceSound.CreateInstance();
+        _soundOnPlay = DataManager.GetInstance().WaveOfGoldSound.CreateInstance();
         _name = "WaveOfGoldCard";
         _description.Add("Deal " + _damage + " damage.");
     }
@@ -609,12 +615,12 @@ public class PoisonPotCard : AttackCard
         _frontTexture = DataManager.GetInstance().CardPoisonPot;
         _soundOnPlay = DataManager.GetInstance().PoisonPotSound.CreateInstance();
         _description.Add("Deal " + _damage + " damage.");
-        _description.Add("For 2 turns");
+        _description.Add("next 2 turns");
     }
 
     public override void PerformEffect()
     {
-        base.PerformEffect();
+        _soundOnPlay.Play();
         _owner.OpposingPlayer.BuffManager.Debuffs.Add(new PoisonEffectDebuff(
         _state,
         _owner.OpposingPlayer.BuffManager,

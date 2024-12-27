@@ -230,7 +230,7 @@ public class MoonlightGreatswordCard : MagicCard
     {
         _frontTexture = DataManager.GetInstance().CardMoonlight;
         //TODO: Change sound and effect
-        _soundOnPlay = DataManager.GetInstance().CometAzurSound.CreateInstance();
+        _soundOnPlay = DataManager.GetInstance().MoonlightSound.CreateInstance();
         _focusCost = 30;
         StaminaCost = 30;
         OriginalStaminaCost = StaminaCost;

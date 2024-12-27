@@ -445,3 +445,55 @@ public class DamageIncreaseBuff : TurnBuff
         return true;
     }
 }
+
+public class BloodboonDebuff : TurnBuff
+{
+    private readonly int _damagePercentage;
+    private readonly SoundEffect _damageSound2;
+    private readonly SoundEffect _damageSound3;
+
+    public BloodboonDebuff(GameState state, BuffManager manager, int rounds, int damagePercentage) :
+        base(state, manager, rounds)
+    {
+        _damagePercentage = damagePercentage;
+
+        _damageSound2 = DataManager.GetInstance().BloodboonSound2;
+        _damageSound3 = DataManager.GetInstance().BloodboonSound3;
+    }
+
+    public override void PerformEffect()
+    {
+        if (BuffRemoved()) return;
+        if (!RoundSwitched()) return;
+
+        if (_roundsLeft == 2)
+        {
+            _damageSound2.Play();
+        }
+        else
+        {
+            _damageSound3.Play();
+        }
+
+        _currentRoundNumber = _state.TurnManager.RoundNumber;
+        _roundsLeft--;
+
+        if (_owner == null) return;
+        if (_state.TurnManager.CurrentPlayer != _owner) return;
+
+        _owner.Health -= _owner.OriginalHealth * _damagePercentage / 100;
+
+        float enemyHealth = _owner.OpposingPlayer.Health;
+        float orgEnemyHealth = _owner.OpposingPlayer.OriginalHealth;
+
+        _owner.OpposingPlayer.Health = enemyHealth + orgEnemyHealth * _damagePercentage / 100 > 100 ?
+            100 : enemyHealth + orgEnemyHealth * _damagePercentage / 100;
+    }
+
+    public override bool BuffRemoved()
+    {
+        if (_roundsLeft > 0) return false;
+        _manager.Debuffs.Remove(this);
+        return true;
+    }
+}
