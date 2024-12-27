@@ -12,6 +12,7 @@ namespace MonoZenith.Support.Managers;
 public class GameOverManager
 {
     private Player? _currentWinner;
+    private Player? _secretWinner;
     private readonly TransitionComponent _gameOverTransitionComponent;
     private readonly SoundEffectInstance _playerDeathSound;
     private readonly SoundEffectInstance _enemyDeathSound;
@@ -20,7 +21,7 @@ public class GameOverManager
     public bool TransitionComplete { get; set; }
     public Player? Winner => _currentWinner;
 
-    public GameOverManager(Game game)
+    public GameOverManager()
     {
         var dataManager = DataManager.GetInstance();
         TransitionComplete = false;
@@ -30,7 +31,7 @@ public class GameOverManager
         _gameOverTransitionComponent = new TransitionComponent("YOU DIED", Color.Gold, dataManager.GameOverTransitionComponentFont,
             1f, 3f, 1f, () =>
             {
-                if (_currentWinner is HumanPlayer) TryLoadSecondPhase();
+                if (_secretWinner is HumanPlayer) TryLoadSecondPhase();
                 if (_currentWinner is NpcPlayer)
                 {
                     BackToMainMenu();
@@ -39,7 +40,7 @@ public class GameOverManager
 
                 if ((_rewardPanel?.Reward == null && 
                      LevelManager.CurrentLevel.SecondPhase == GetGameState().CurrentLevel)
-                    || (_rewardPanel?.Reward == null && LevelManager.CurrentLevel.SecondPhase == null))
+                     || (_rewardPanel?.Reward == null && LevelManager.CurrentLevel.SecondPhase == null))
                 {
                     BackToMainMenu();
                     return;
@@ -60,6 +61,7 @@ public class GameOverManager
     public void InitializeState(Reward? reward)
     {
         _currentWinner = null;
+        _secretWinner = null;
         TransitionComplete = false;
         _gameOverTransitionComponent.Reset();
         _rewardPanel.Initialize(reward);
@@ -114,9 +116,6 @@ public class GameOverManager
     
     private Player HandleWin(Player winner, string message, Color color, SoundEffectInstance soundEffect)
     {
-        if (_currentWinner == null)
-            soundEffect.Play();
-
         bool inFirstPhase = 
             LevelManager.CurrentLevel.SecondPhase != null
             && GetGameState().CurrentLevel != LevelManager.CurrentLevel.SecondPhase;
@@ -124,8 +123,15 @@ public class GameOverManager
         if (inFirstPhase && winner is HumanPlayer)
         {
             ConfigureTransitionForSecondPhase();
-            return _currentWinner = winner;
+            _secretWinner = winner;
+            return winner;
         }
+
+        if (GetGameState().StateType != GameStateType.EndGame)
+            return winner;
+        
+        if (_currentWinner == null)
+            soundEffect.Play();
         
         ConfigureTransitionDefault(message, color);
         return _currentWinner = winner;

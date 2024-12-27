@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Card;
 using MonoZenith.Card.AttackCard;
@@ -734,7 +735,21 @@ public class LevelManager
                 Backdrop = DataManager.GetInstance().MohgBackdrop,  
                 Reward = _rewards["Mohg, Lord of Blood"],
                 SoundTrack = DataManager.GetInstance().MohgSoundtrack.CreateInstance(), 
-                EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Mohg, Lord of Blood"], _decks["Mohg, Lord of Blood"])
+                EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Mohg, Lord of Blood"], _decks["Mohg, Lord of Blood"]),
+                VoiceLinesBattleStart = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Mohg/mohg-start-voiceline-1.wav").CreateInstance(),
+                    Game.LoadAudio("Audio/VoiceLines/Mohg/mohg-start-voiceline-2.wav").CreateInstance(),
+                },
+                VoiceLinesBattleLoss = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Mohg/mohg-loss-voiceline.wav").CreateInstance(),
+                },
+                VoiceLinesBattleVictory = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Mohg/mohg-win-voiceline-1.wav").CreateInstance(),
+                    Game.LoadAudio("Audio/VoiceLines/Mohg/mohg-win-voiceline-2.wav").CreateInstance(),
+                }
             },
             
             // Commander Niall
@@ -755,13 +770,38 @@ public class LevelManager
                 Reward = _rewards["Malenia, Blade of Miquella"],
                 SoundTrack = DataManager.GetInstance().MaleniaSoundtrack.CreateInstance(),  
                 EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Malenia, Blade of Miquella"], _decks["Malenia, Blade of Miquella"]),
+                VoiceLinesBattleStart = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Malenia/malenia-p1-start-voiceline-1.wav").CreateInstance(),
+                    Game.LoadAudio("Audio/VoiceLines/Malenia/malenia-p1-start-voiceline-2.wav").CreateInstance(),
+                    Game.LoadAudio("Audio/VoiceLines/Malenia/malenia-p1-start-voiceline-3.wav").CreateInstance()
+                },
+                VoiceLinesBattleLoss = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Malenia/malenia-p1-loss-voiceline-1.wav").CreateInstance()
+                },
                 SecondPhase = new Level     // Malenia, Goddess of Rot
                 {
                     Enemy = _enemies["Malenia, Goddess of Rot"],
                     Backdrop = DataManager.GetInstance().MaleniaRestplaceBackdrop, 
                     Reward = _rewards["Malenia, Goddess of Rot"],
                     SoundTrack = DataManager.GetInstance().GoddessOfRotSoundtrack.CreateInstance(),
-                    EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Malenia, Goddess of Rot"], _decks["Malenia, Goddess of Rot"])
+                    EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Malenia, Goddess of Rot"], _decks["Malenia, Goddess of Rot"]),
+                    VoiceLinesBattleStart = new List<SoundEffectInstance>
+                    {
+                        Game.LoadAudio("Audio/VoiceLines/Malenia/malenia-p2-start-voiceline-1.wav").CreateInstance(),
+                        Game.LoadAudio("Audio/VoiceLines/Malenia/malenia-p2-start-voiceline-2.wav").CreateInstance()
+                    },
+                    VoiceLinesBattleLoss = new List<SoundEffectInstance>
+                    {
+                        Game.LoadAudio("Audio/VoiceLines/Malenia/malenia-p2-loss-voiceline-2.wav").CreateInstance(),
+                        Game.LoadAudio("Audio/VoiceLines/Malenia/malenia-p2-loss-voiceline-1.wav").CreateInstance()
+                    },
+                    VoiceLinesBattleVictory = new List<SoundEffectInstance>
+                    {
+                        Game.LoadAudio("Audio/VoiceLines/Malenia/malenia-p2-win-voiceline-1.wav").CreateInstance(),
+                        Game.LoadAudio("Audio/VoiceLines/Malenia/malenia-p2-win-voiceline-2.wav").CreateInstance()
+                    }
                 }
             },
             

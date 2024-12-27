@@ -275,12 +275,12 @@ namespace MonoZenith.Players
         /// <summary>
         /// Draw the Player's name.
         /// </summary>
-        protected abstract void DrawPlayerHealthAndName();
+        public abstract void DrawPlayerHealthAndName();
 
         /// <summary>
         /// Draw the Player UI Assets.
         /// </summary>
-        protected virtual void DrawPlayerUi()
+        public virtual void DrawPlayerUi()
         {
             // Setup properties of UI assets
             Vector2 iconOffset = GetOffset(_playerIcon, _scale);
