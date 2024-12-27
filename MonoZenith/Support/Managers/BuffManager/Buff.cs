@@ -92,8 +92,6 @@ public class MeleeCardTwiceAsStrongBuff : CardTwiceAsStrongBuff
             {
                 MagicCard magicCard => card.Buff,
                 AttackCard attackCard => attackCard.Damage,
-                FlaskOfCeruleanTearsCard flaskCerTearsCard => flaskCerTearsCard.FocusBoost,
-                FlaskOfCrimsonTearsCard flaskCrimTearsCard => flaskCrimTearsCard.HealthBoost,
                 _ => card.Buff
             };
         }
@@ -102,13 +100,13 @@ public class MeleeCardTwiceAsStrongBuff : CardTwiceAsStrongBuff
 
 public class TurnBuff : Buff
 {
-    protected int _roundsLeft;
+    public int RoundsLeft;
     protected int _currentRoundNumber;
 
     public TurnBuff(GameState state, BuffManager manager, int rounds) :
         base(state, manager)
     {
-        _roundsLeft = rounds;
+        RoundsLeft = rounds;
         _currentRoundNumber = state.TurnManager.RoundNumber;
     }
 
@@ -123,7 +121,7 @@ public class TurnBuff : Buff
 
     public override bool BuffRemoved()
     {
-        if (_roundsLeft > 0) return false;
+        if (RoundsLeft > 0) return false;
         _manager.Buffs.Remove(this);
         return true;
     }
@@ -149,7 +147,7 @@ public class PoisonEffectDebuff : TurnBuff
         if (!RoundSwitched()) return;
         
         _currentRoundNumber = _state.TurnManager.RoundNumber;
-        _roundsLeft--;
+        RoundsLeft--;
         
         if (_owner == null) return;
         if (_state.TurnManager.CurrentPlayer != _owner) return;
@@ -160,7 +158,7 @@ public class PoisonEffectDebuff : TurnBuff
 
     public override bool BuffRemoved()
     {
-        if (_roundsLeft > 0) return false;
+        if (RoundsLeft > 0) return false;
         _manager.Debuffs.Remove(this);
         return true;
     }
@@ -186,7 +184,7 @@ public class HealingEffectBuff : TurnBuff
         if (!RoundSwitched()) return;
 
         _currentRoundNumber = _state.TurnManager.RoundNumber;
-        _roundsLeft--;
+        RoundsLeft--;
 
         if (_owner == null) return;
         if (_state.TurnManager.CurrentPlayer != _owner) return;
@@ -217,7 +215,7 @@ public class StaminaEffectDebuff : TurnBuff
         if (!RoundSwitched()) return;
 
         _currentRoundNumber = _state.TurnManager.RoundNumber;
-        _roundsLeft--;
+        RoundsLeft--;
 
         if (_owner == null) return;
         if (_state.TurnManager.CurrentPlayer != _owner) return;
@@ -228,7 +226,7 @@ public class StaminaEffectDebuff : TurnBuff
 
     public override bool BuffRemoved()
     {
-        if (_roundsLeft > 0) return false;
+        if (RoundsLeft > 0) return false;
         _manager.Debuffs.Remove(this);
         return true;
     }
@@ -298,7 +296,7 @@ public class DamageReductionDebuff : TurnBuff
         if (!RoundSwitched()) return;
 
         _currentRoundNumber = _state.TurnManager.RoundNumber;
-        _roundsLeft--;
+        RoundsLeft--;
 
         foreach (Card.Card card in _owner.HandStack.Cards)
         {
@@ -312,7 +310,7 @@ public class DamageReductionDebuff : TurnBuff
 
     public override bool BuffRemoved()
     {
-        if (_roundsLeft > 0) return false;
+        if (RoundsLeft > 0) return false;
 
         _manager.Debuffs.Remove(this);
         foreach (Card.Card card in _owner.HandStack.Cards)
@@ -392,7 +390,7 @@ public class ThopsDebuff : DamageReductionDebuff
         if (!RoundSwitched()) return;
 
         _currentRoundNumber = _state.TurnManager.RoundNumber;
-        _roundsLeft--;
+        RoundsLeft--;
 
         foreach (Card.Card card in _owner.HandStack.Cards)
         {
@@ -421,7 +419,7 @@ public class DamageIncreaseBuff : TurnBuff
         if (!RoundSwitched()) return;
 
         _currentRoundNumber = _state.TurnManager.RoundNumber;
-        _roundsLeft--;
+        RoundsLeft--;
 
         foreach (Card.Card card in _owner.HandStack.Cards)
         {
@@ -436,7 +434,7 @@ public class DamageIncreaseBuff : TurnBuff
 
     public override bool BuffRemoved()
     {
-        if (_roundsLeft > 0) return false;
+        if (RoundsLeft > 0) return false;
 
         _manager.Buffs.Remove(this);
         foreach (Card.Card card in _owner.HandStack.Cards)
@@ -466,7 +464,7 @@ public class BloodboonDebuff : TurnBuff
         if (BuffRemoved()) return;
         if (!RoundSwitched()) return;
 
-        if (_roundsLeft == 2)
+        if (RoundsLeft == 2)
         {
             _damageSound2.Play();
         }
@@ -476,7 +474,7 @@ public class BloodboonDebuff : TurnBuff
         }
 
         _currentRoundNumber = _state.TurnManager.RoundNumber;
-        _roundsLeft--;
+        RoundsLeft--;
 
         if (_owner == null) return;
         if (_state.TurnManager.CurrentPlayer != _owner) return;
@@ -492,7 +490,32 @@ public class BloodboonDebuff : TurnBuff
 
     public override bool BuffRemoved()
     {
-        if (_roundsLeft > 0) return false;
+        if (RoundsLeft > 0) return false;
+        _manager.Debuffs.Remove(this);
+        return true;
+    }
+}
+
+public class DestinedDeathDebuff : TurnBuff
+{
+    public DestinedDeathDebuff(GameState state, BuffManager manager, int rounds) :
+        base(state, manager, rounds)
+    {
+    }
+
+    public override void PerformEffect()
+    {
+        if (BuffRemoved()) return;
+        if (!RoundSwitched()) return;
+
+        _currentRoundNumber = _state.TurnManager.RoundNumber;
+        RoundsLeft--;
+    }
+
+    public override bool BuffRemoved()
+    {
+        if (RoundsLeft > 0) return false;
+        _owner.OriginalHealth = 100f;
         _manager.Debuffs.Remove(this);
         return true;
     }

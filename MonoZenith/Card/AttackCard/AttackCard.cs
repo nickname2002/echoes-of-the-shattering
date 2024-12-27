@@ -427,12 +427,18 @@ public class StarcallerCryCard : AttackCard
         //TODO: Change sound and effect
         _soundOnPlay = DataManager.GetInstance().StarcallerCrySound.CreateInstance();
         _name = "StarcallerCryCard";
-        _description.Add("Deal " + _damage + " damage.");
+        _description.Add("Deal " + _damage + " damage and");
+        _description.Add("Reduce stamina of");
+        _description.Add("enemy by 15 next 2 turns");
     }
     public override void PerformEffect()
     {
         base.PerformEffect();
-
+        _owner.OpposingPlayer.BuffManager.Debuffs.Add(new StaminaEffectDebuff(
+        _state,
+        _owner.OpposingPlayer.BuffManager,
+        ,
+        15));
     }
 
     protected override void UpdateDescription()
@@ -448,7 +454,7 @@ public class CursedBloodSliceCard : AttackCard
     {
         StaminaCost = 30f;
         OriginalStaminaCost = StaminaCost;
-        _damage = 40;
+        _damage = 30;
         _frontTexture = DataManager.GetInstance().CardCursedSlice;
         //TODO: Change sound and effect
         _soundOnPlay = DataManager.GetInstance().CursedSliceSound.CreateInstance();
@@ -501,22 +507,32 @@ public class BloodboonRitualCard : AttackCard
 
 public class DestinedDeathCard : AttackCard
 {
+    private int _healthReduction;
+
     public DestinedDeathCard(Game game, GameState state, Player owner) :
         base(state, owner)
     {
         StaminaCost = 30f;
         OriginalStaminaCost = StaminaCost;
-        _damage = 40;
+        _damage = 10;
+        _healthReduction = 20;
         _frontTexture = DataManager.GetInstance().CardDestinedDeath;
         //TODO: Change sound and effect
         _soundOnPlay = DataManager.GetInstance().DestinedDeathSound.CreateInstance();
         _name = "DestinedDeathCard";
+        _description.Add("Enemy player has -" + _healthReduction + " max");
+        _description.Add("health for next 2 turns");
         _description.Add("Deal " + _damage + " damage.");
     }
     public override void PerformEffect()
     {
+        _owner.OpposingPlayer.OriginalHealth -= 
+            _owner.OpposingPlayer.OriginalHealth * _healthReduction / 100;
+        _owner.OpposingPlayer.BuffManager.Debuffs.Add(new DestinedDeathDebuff(
+        _state,
+        _owner.OpposingPlayer.BuffManager,
+        2));
         base.PerformEffect();
-
     }
 
     protected override void UpdateDescription()
@@ -532,17 +548,22 @@ public class RegalRoarCard : AttackCard
     {
         StaminaCost = 30f;
         OriginalStaminaCost = StaminaCost;
-        _damage = 40;
+        _damage = 30;
         _frontTexture = DataManager.GetInstance().CardRegalRoar;
         //TODO: Change sound and effect
         _soundOnPlay = DataManager.GetInstance().RegalRoarSound.CreateInstance();
         _name = "RegalRoarCard";
         _description.Add("Deal " + _damage + " damage.");
+        _description.Add("");
     }
     public override void PerformEffect()
     {
         base.PerformEffect();
-
+        _owner.BuffManager.Buffs.Add(new DamageIncreaseBuff(
+        _state,
+        _owner.BuffManager,
+        2,
+        10));
     }
 
     protected override void UpdateDescription()
@@ -558,17 +579,28 @@ public class WaveOfGoldCard : AttackCard
     {
         StaminaCost = 30f;
         OriginalStaminaCost = StaminaCost;
-        _damage = 40;
+        _damage = 45;
         _frontTexture = DataManager.GetInstance().CardWaveOfGold;
-        //TODO: Change sound and effect
         _soundOnPlay = DataManager.GetInstance().WaveOfGoldSound.CreateInstance();
         _name = "WaveOfGoldCard";
         _description.Add("Deal " + _damage + " damage.");
+        _description.Add("Removes enemy buffs.");
     }
     public override void PerformEffect()
     {
         base.PerformEffect();
-
+        foreach(Buff buff in Owner.OpposingPlayer.BuffManager.Buffs)
+        {
+            if (buff is TurnBuff turnBuff)
+            {
+                turnBuff.RoundsLeft = 0;
+                turnBuff.BuffRemoved();
+            }
+            else
+            {
+                buff.BuffRemoved();
+            }
+        }
     }
 
     protected override void UpdateDescription()

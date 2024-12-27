@@ -35,7 +35,7 @@ namespace MonoZenith.Players
         protected CardStack _reserveCardStack;
         protected HandCardStack _handStack;
 
-        public float OriginalHealth => 100f;
+        public float OriginalHealth = 100f;
         public SpiritAsh SpiritAsh { get; set; }
         public BuffManager BuffManager { get; set; }
         
