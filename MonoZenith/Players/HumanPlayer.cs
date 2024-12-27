@@ -51,7 +51,7 @@ namespace MonoZenith.Players
                     ScreenWidth - 100 * AppSettings.Scaling.ScaleFactor, 
                     ScreenHeight - 147 * AppSettings.Scaling.ScaleFactor), 
                 DataManager.GetInstance().AshIndicatorDisabled, 
-                new JellyfishAsh(_game, _state, this));
+                new JellyfishAsh(_state, this));
         }
 
         protected override void FillPlayerDeck()
@@ -59,44 +59,44 @@ namespace MonoZenith.Players
             var deck = new List<Card.Card>
             {
                 // Flasks
-                new FlaskOfCrimsonTearsCard(_game, _state, this),
-                new FlaskOfCrimsonTearsCard(_game, _state, this),
+                new FlaskOfCrimsonTearsCard(_state, this),
+                new FlaskOfCrimsonTearsCard(_state, this),
 
-                new FlaskOfCeruleanTearsCard(_game, _state, this),
-                new FlaskOfCeruleanTearsCard(_game, _state, this),
+                new FlaskOfCeruleanTearsCard(_state, this),
+                new FlaskOfCeruleanTearsCard(_state, this),
 
-                new FlaskOfWondrousPhysickCard(_game, _state, this),
-                new FlaskOfWondrousPhysickCard(_game, _state, this),
+                new FlaskOfWondrousPhysickCard(_state, this),
+                new FlaskOfWondrousPhysickCard(_state, this),
 
-                new WarmingStoneCard(_game, _state, this),
-                new BaldachinBlessingCard(_game, _state, this),
-                new ThrowingDaggerCard(_game, _state, this),
-                new PoisonPotCard(_game, _state, this),
-                new LarvalTearCard(_game, _state, this),
+                new WarmingStoneCard(_state, this),
+                new BaldachinBlessingCard(_state, this),
+                new ThrowingDaggerCard(_state, this),
+                new PoisonPotCard(_state, this),
+                new LarvalTearCard(_state, this),
 
                 // Basic attacks
                 new LightSwordAttackCard(_state, this),
                 new LightSwordAttackCard(_state, this),
                 new LightSwordAttackCard(_state, this),
-                new UnsheatheCard(_game, _state, this),
-                new WarCryCard(_game, _state, this),
-                new QuickstepCard(_game, _state, this),
-                new EndureCard(_game, _state, this),
+                new UnsheatheCard(_state, this),
+                new WarCryCard(_state, this),
+                new QuickstepCard(_state, this),
+                new EndureCard(_state, this),
 
-                new HeavySwordAttackCard(_game, _state, this),
-                new BloodhoundStepCard(_game, _state, this),
-                new DoubleSlashCard(_game, _state, this),
-                new RallyingStandardCard(_game, _state, this),
-                new WaterfowlDanceCard(_game, _state, this),
+                new HeavySwordAttackCard(_state, this),
+                new BloodhoundStepCard(_state, this),
+                new DoubleSlashCard(_state, this),
+                new RallyingStandardCard(_state, this),
+                new WaterfowlDanceCard(_state, this),
                 new ICommandTheeKneelCard(_state, this),
 
                 // Magic attacks
-                new GlintStonePebbleCard(_game, _state, this),
-                new GreatGlintStoneCard(_game, _state, this),
-                new GlintbladePhalanxCard(_game, _state, this),
-                new ThopsBarrierCard(_game, _state, this),
-                new CarianGreatSwordCard(_game, _state, this),
-                new CometAzurCard(_game, _state, this)
+                new GlintStonePebbleCard(_state, this),
+                new GreatGlintStoneCard(_state, this),
+                new GlintbladePhalanxCard(_state, this),
+                new ThopsBarrierCard(_state, this),
+                new CarianGreatSwordCard(_state, this),
+                new CometAzurCard(_state, this)
             };
             
             _deckStack.AddToFront(deck);
@@ -182,7 +182,7 @@ namespace MonoZenith.Players
             _reserveIndicator.Update(deltaTime);
         }
 
-        protected override void DrawPlayerHealthAndName()
+        public override void DrawPlayerHealthAndName()
         {
             // Setup offsets and positions for name and player bars
             Vector2 playerOffset = GetOffset(_playerCurrent, _scale);
@@ -216,7 +216,7 @@ namespace MonoZenith.Players
                 healthHeight);
         }
 
-        protected override void DrawPlayerUi()
+        public override void DrawPlayerUi()
         {
             base.DrawPlayerUi();
             _deckIndicator.Draw();

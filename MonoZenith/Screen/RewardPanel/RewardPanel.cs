@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Components.RewardPanel;
@@ -12,8 +13,10 @@ public class RewardPanel
     private readonly Texture2D _rewardContainerTexture;
     private readonly CollectRewardButton _collectRewardButton;
     private Reward _reward;
-    private readonly float _scale;
+    private float _scale;
     private bool _rewardCollected;
+    
+    public Reward Reward => _reward;
     
     public RewardPanel()
     {
@@ -48,13 +51,32 @@ public class RewardPanel
         _collectRewardButton.Update(deltaTime);
     }
 
+    private void DrawRewardTexture()
+    {
+        float rewardScale = _scale * 0.5f;
+        
+        if (typeof(Card.Card).IsAssignableFrom(_reward?.RewardItem))
+        {
+            var card = (Card.Card) Activator.CreateInstance(_reward.RewardItem, GetGameState(), GetGameState().Player);
+            if (card != null) card.Position = _position + new Vector2(
+                _rewardContainerTexture.Width * _scale / 2f - Card.Card.Width * 0.5f, 100 * AppSettings.Scaling.ScaleFactor);
+            card?.Draw(active: true);
+            return;
+        }
+        
+        DrawImage(_reward?.RewardTexture, 
+            _position + 
+            new Vector2(
+                _rewardContainerTexture.Width * _scale / 2f - _reward.RewardTexture.Width * rewardScale / 2f, 
+                _rewardContainerTexture.Height * _scale / 2f - _reward.RewardTexture.Height * rewardScale / 2f 
+                + 25 * AppSettings.Scaling.ScaleFactor),
+            rewardScale);
+    }
+    
     public void Draw()
     {
         if (_reward == null) return;
-        float rewardScale = _scale * 0.5f;
-        
         DrawImage(_rewardContainerTexture, _position, _scale);
-        
         DrawText(_reward.RewardName, 
             _position + 
             new Vector2(
@@ -62,15 +84,7 @@ public class RewardPanel
                 DataManager.GetInstance().RewardFont.MeasureString(_reward.RewardName).X / 2f, 
                 40 * AppSettings.Scaling.ScaleFactor),
             DataManager.GetInstance().RewardFont, Color.White);
-        
-        DrawImage(_reward.RewardTexture, 
-            _position + 
-            new Vector2(
-                _rewardContainerTexture.Width * _scale / 2f - _reward.RewardTexture.Width * rewardScale / 2f, 
-                _rewardContainerTexture.Height * _scale / 2f - _reward.RewardTexture.Height * rewardScale / 2f 
-                + 25 * AppSettings.Scaling.ScaleFactor),
-            rewardScale);
-        
+        DrawRewardTexture();
         _collectRewardButton.Draw();
     }
 }

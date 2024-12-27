@@ -1,14 +1,15 @@
-﻿using System;
+﻿#nullable enable
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Card;
 using MonoZenith.Card.AttackCard;
 using MonoZenith.Components.Indicator;
 using MonoZenith.Engine.Support;
 using MonoZenith.Items;
-using MonoZenith.Support.Managers;
 using static MonoZenith.Game;
 
 namespace MonoZenith.Players
@@ -23,17 +24,19 @@ namespace MonoZenith.Players
     public sealed class NpcPlayer : Player
     {
         private readonly SoundEffectInstance _retrieveCardsSound;
-        private SpiritAshIndicator _spiritAshIndicator;
+        private SpiritAshIndicator? _spiritAshIndicator;
         private readonly float _originalHealth;
         private readonly float _originalFocus;
         private float _currentMoveDelay;
         private const float MoveDelay = 1.5f;
-        
-        public NpcPlayer(GameState state, string name) : base(state, name)
+
+        public List<Card.Card> CardsInDeck { get; set; } = new();
+
+        public NpcPlayer(GameState state, string name, Texture2D playerIcon) : base(state, name)
         {
             _handPosY = 25 * AppSettings.Scaling.ScaleFactor;
             _playerPosition = new Vector2(ScreenWidth * 0.05f, ScreenHeight * 0.085f);
-            _playerIcon = DataManager.GetInstance().Npc;
+            _playerIcon = playerIcon;
             _originalHealth = Health;
             _originalFocus = Focus;
             _retrieveCardsSound = DataManager.GetInstance().RetrieveCardsSound.CreateInstance();
@@ -43,16 +46,36 @@ namespace MonoZenith.Players
         {
             base.InitializeState(state);
             OpposingPlayer = state.Player;
-            
-            _spiritAshIndicator = new SpiritAshIndicator(state, 
-                new Vector2(
-                    ScreenWidth - 100 * AppSettings.Scaling.ScaleFactor, 
-                    25 * AppSettings.Scaling.ScaleFactor),
-                DataManager.GetInstance().AshIndicatorDisabled, 
-                new WolvesAsh(_game, state, this), 
-                false);
         }
+        
+        /// <summary>
+        /// Set the spirit ash for the NpcPlayer.
+        /// </summary>
+        /// <param name="ashType">The type of the spirit ash to set.</param>
+        public void SetSpiritAsh(Type ashType)
+        {
+            var spiritAsh = (SpiritAsh)Activator.CreateInstance(
+                ashType, 
+                GetGameState(), 
+                this
+            )!;
 
+            var disabledIndicatorTexture = DataManager.GetInstance().AshIndicatorDisabled;
+
+            var position = new Vector2(
+                ScreenWidth - 100 * AppSettings.Scaling.ScaleFactor, 
+                25 * AppSettings.Scaling.ScaleFactor
+            );
+            
+            _spiritAshIndicator = new SpiritAshIndicator(
+                GetGameState(),
+                position,
+                disabledIndicatorTexture,
+                spiritAsh,
+                false
+            );
+        }
+        
         /// <summary>
         /// Determine the state of the NpcPlayer.
         /// </summary>
@@ -86,8 +109,8 @@ namespace MonoZenith.Players
         private void PlayStrategicCard()
         {
             var currentState = DetermineState();
-            if (SpiritAsh.ShouldAIPlay(currentState) 
-                && _spiritAshIndicator.IsActive)
+            if (SpiritAsh.ShouldAIPlay(currentState)
+                && _spiritAshIndicator is { IsActive: true })
             {
                 _spiritAshIndicator.InvokeClickEvent(_state.GameTime);
                 _currentMoveDelay = 0;
@@ -169,54 +192,16 @@ namespace MonoZenith.Players
 
             return false;   
         }
-
+        
         protected override void FillPlayerDeck()
         {
-            var deck = new List<Card.Card>
-            {
-                // Flasks
-                new FlaskOfCrimsonTearsCard(_game, _state, this),
-                new FlaskOfCrimsonTearsCard(_game, _state, this),
-                new FlaskOfCrimsonTearsCard(_game, _state, this),
-                new FlaskOfCrimsonTearsCard(_game, _state, this),
-
-                new FlaskOfCeruleanTearsCard(_game, _state, this),
-                new FlaskOfCeruleanTearsCard(_game, _state, this),
-                new FlaskOfCeruleanTearsCard(_game, _state, this),
-                new FlaskOfCeruleanTearsCard(_game, _state, this),
-
-                // Basic attacks
-                new LightSwordAttackCard(_state, this),
-                new LightSwordAttackCard(_state, this),
-                new LightSwordAttackCard(_state, this),
-                new LightSwordAttackCard(_state, this),
-                new LightSwordAttackCard(_state, this),
-                new LightSwordAttackCard(_state, this),
-                new LightSwordAttackCard(_state, this),
-                new LightSwordAttackCard(_state, this),
-
-                new HeavySwordAttackCard(_game, _state, this),
-                new HeavySwordAttackCard(_game, _state, this),
-                new HeavySwordAttackCard(_game, _state, this),
-                new HeavySwordAttackCard(_game, _state, this),
-                new HeavySwordAttackCard(_game, _state, this),
-                new HeavySwordAttackCard(_game, _state, this),
-                new HeavySwordAttackCard(_game, _state, this),
-                new HeavySwordAttackCard(_game, _state, this),
-
-                // Magic attacks
-                new GlintStonePebbleCard(_game, _state, this),
-                new GlintStonePebbleCard(_game, _state, this),
-                new GlintStonePebbleCard(_game, _state, this),
-                new GlintStonePebbleCard(_game, _state, this),
-                new GlintStonePebbleCard(_game, _state, this),
-                new GlintStonePebbleCard(_game, _state, this)
-            };
+            _deckStack.Clear();
+            _handStack.Clear();
             
-            _deckStack.AddToFront(deck);
+            // Add cards to the deck
+            _deckStack.AddToFront(CardsInDeck);
             
-            // Set the starting position of the cards when moving from the deck to the hand
-            _deckStack.UpdatePosition(
+           _deckStack.UpdatePosition(
                 ScreenWidth / 2f,
                 -Card.Card.Height);
             _reserveCardStack.UpdatePosition(
@@ -241,7 +226,7 @@ namespace MonoZenith.Players
         public override void PerformTurn(GameState state)
         {
             base.PerformTurn(state);
-            _spiritAshIndicator.Update(state.GameTime);
+            _spiritAshIndicator?.Update(state.GameTime);
             
             if (IsPausing())
                 return;
@@ -309,7 +294,7 @@ namespace MonoZenith.Players
             _deckStack.Update(deltaTime);
         }
 
-        protected override void DrawPlayerHealthAndName()
+        public override void DrawPlayerHealthAndName()
         {
             // Setup offsets and positions for name and health bar
             Vector2 playerOffset = GetOffset(_playerCurrent, _scale);
@@ -329,7 +314,7 @@ namespace MonoZenith.Players
             DrawRectangle(Color.DarkGray, healthPosition, healthWidth, healthHeight);
             DrawRectangle(Color.DarkRed, healthPosition, (int)(healthWidth * (Health / 100f)), healthHeight);
             
-            _spiritAshIndicator.Draw();            
+            _spiritAshIndicator?.Draw();            
         }
     }
 }

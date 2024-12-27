@@ -45,7 +45,7 @@ public class SpiritAshIndicator : Indicator
     public void InvokeClickEvent(GameTime deltaTime)
     {
         if (!IsActive) return;
-        _spiritAsh.Update(deltaTime);
+        _spiritAsh.Update();
         _soundOnClick.Play();
         IsActive = false;
     }

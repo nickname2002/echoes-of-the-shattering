@@ -29,7 +29,7 @@ public class ItemCard : Card
 
 public class LarvalTearCard : ItemCard
 {
-    public LarvalTearCard(Game game, GameState state, Player owner) :
+    public LarvalTearCard(GameState state, Player owner) :
         base(state, owner)
     {
         _frontTexture = DataManager.GetInstance().CardLarvalTear;
@@ -49,7 +49,7 @@ public class LarvalTearCard : ItemCard
 
 public class BaldachinBlessingCard : ItemCard
 {
-    public BaldachinBlessingCard(Game game, GameState state, Player owner) :
+    public BaldachinBlessingCard(GameState state, Player owner) :
         base(state, owner)
     {
         _frontTexture = DataManager.GetInstance().CardBaldachinBless;

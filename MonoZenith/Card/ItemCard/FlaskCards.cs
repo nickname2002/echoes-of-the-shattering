@@ -11,7 +11,7 @@ public class FlaskOfCeruleanTearsCard : ItemCard
 {
     public readonly float FocusBoost;
     
-    public FlaskOfCeruleanTearsCard(Game game, GameState state, Player owner) : 
+    public FlaskOfCeruleanTearsCard(GameState state, Player owner) : 
         base(state, owner)
     {
         FocusBoost = 30;
@@ -45,7 +45,7 @@ public class FlaskOfCrimsonTearsCard : ItemCard
 {
     public readonly float HealthBoost;
     
-    public FlaskOfCrimsonTearsCard(Game game, GameState state, Player owner) : 
+    public FlaskOfCrimsonTearsCard(GameState state, Player owner) : 
         base(state, owner)
     {
         HealthBoost = 75;
@@ -80,7 +80,7 @@ public class FlaskOfWondrousPhysickCard : ItemCard
     public readonly float HealthBoost;
     public readonly float FocusBoost;
 
-    public FlaskOfWondrousPhysickCard(Game game, GameState state, Player owner) :
+    public FlaskOfWondrousPhysickCard(GameState state, Player owner) :
         base(state, owner)
     {
         HealthBoost = 50;
@@ -118,7 +118,7 @@ public class WarmingStoneCard : ItemCard
 {
     public readonly float HealthBoost;
 
-    public WarmingStoneCard(Game game, GameState state, Player owner) :
+    public WarmingStoneCard(GameState state, Player owner) :
         base(state, owner)
     {
         HealthBoost = 10;

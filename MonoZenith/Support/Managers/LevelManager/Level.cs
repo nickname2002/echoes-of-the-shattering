@@ -1,4 +1,6 @@
+#nullable enable
 using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Players;
@@ -11,15 +13,20 @@ public class Level
     public Texture2D Backdrop { get; init; }
     public SoundEffectInstance SoundTrack { get; init; }
     public NpcPlayer Enemy { get; init; }
-    public Reward Reward { get; init; }
-    
+    public Reward? Reward { get; init; }
+    public List<Card.Card> EnemyDeck { get; init; }
+    public Level? SecondPhase { get; init; }
+    public List<SoundEffectInstance> VoiceLinesBattleStart = new();
+    public List<SoundEffectInstance> VoiceLinesBattleLoss = new();
+    public List<SoundEffectInstance> VoiceLinesBattleVictory = new();
+
     /// <summary>
     /// Reset the state of the Level.
     /// </summary>
-    /// <param name="g">The game.</param>
     /// <param name="s">The game state.</param>
-    public void Initialize(Game g, GameState s)
+    public void Initialize(GameState s)
     {
+        Enemy.CardsInDeck = EnemyDeck;
         Enemy.InitializeState(s);
         SoundTrack.IsLooped = true;
     }

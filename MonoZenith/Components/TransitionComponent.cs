@@ -20,15 +20,20 @@ public class TransitionComponent : Component
     private float _alpha;
 
     /// <summary>
+    /// Original duration of each stage of the transition.
+    /// </summary>
+    private readonly float _originalFadeInTimerDuration;
+    private readonly float _originalDisplayTimerDuration;
+    private readonly float _originalFadeOutTimerDuration;
+    
+    /// <summary>
     /// Timers for each stage of the transition.
     /// </summary>
-    private readonly Timer _fadeInTimer;
-    private readonly Timer _displayTimer;
-    private readonly Timer _fadeOutTimer;
+    private Timer _fadeInTimer;
+    private Timer _displayTimer;
+    private Timer _fadeOutTimer;
 
-    public TransitionComponent(
-        Game g,
-        string content,
+    public TransitionComponent(string content,
         Color color,
         SpriteFont font,
         float fadeInDuration = 0.5f,
@@ -43,6 +48,10 @@ public class TransitionComponent : Component
         _color = color;
         _font = font;
         _alpha = 0;
+        
+        _originalFadeInTimerDuration = fadeInDuration;
+        _originalDisplayTimerDuration = displayDuration;
+        _originalFadeOutTimerDuration = fadeOutDuration;
         
         _fadeInTimer = new Timer(fadeInDuration);
         _displayTimer = new Timer(displayDuration);
@@ -113,7 +122,7 @@ public class TransitionComponent : Component
             {
                 // Start fading out
                 _isFadingOut = true;
-                _fadeOutTimer.ResetTimer();
+                _fadeOutTimer = new Timer(_originalFadeOutTimerDuration);
             }
         }
         else
@@ -169,14 +178,29 @@ public class TransitionComponent : Component
     }
 
     /// <summary>
+    /// Temporarily set the duration of each stage of the transition.
+    /// This is only of effect for the next transition. The duration will be
+    /// reset to the original values after the transition is complete.
+    /// </summary>
+    /// <param name="fadeInDuration">Duration of the fade-in stage.</param>
+    /// <param name="displayDuration">Duration of the fully visible stage.</param>
+    /// <param name="fadeOutDuration">Duration of the fade-out stage.</param>
+    public void SetTempTransitionTimers(float fadeInDuration, float displayDuration, float fadeOutDuration)
+    {
+        _fadeInTimer = new Timer(fadeInDuration);
+        _displayTimer = new Timer(displayDuration);
+        _fadeOutTimer = new Timer(fadeOutDuration);
+    }
+    
+    /// <summary>
     /// Reset the transition component.
     /// </summary>
     public void Reset()
     {
         _alpha = 0;
         _isFadingOut = false;
-        _fadeInTimer.ResetTimer();
-        _displayTimer.ResetTimer();
-        _fadeOutTimer.ResetTimer();
+        _fadeInTimer = new Timer(_originalFadeInTimerDuration);
+        _displayTimer = new Timer(_originalDisplayTimerDuration);
+        _fadeOutTimer = new Timer(_originalFadeOutTimerDuration);
     }
 }
