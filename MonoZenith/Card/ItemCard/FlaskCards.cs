@@ -79,15 +79,18 @@ public class FlaskOfWondrousPhysickCard : ItemCard
 {
     public readonly float HealthBoost;
     public readonly float FocusBoost;
+    public int doubleBuff;
 
     public FlaskOfWondrousPhysickCard(GameState state, Player owner) :
         base(state, owner)
     {
         HealthBoost = 50;
         FocusBoost = 15;
+        doubleBuff = 1;
         _frontTexture = DataManager.GetInstance().CardWondrousPhysick;
         _soundOnPlay = DataManager.GetInstance().WondrousPhysickSound.CreateInstance();
-        _description.Add("Restore " + HealthBoost + " HP and " + FocusBoost + ".");
+        _description.Add("Restore " + HealthBoost + " HP");
+        _description.Add("and " + FocusBoost + "FP.");
     }
 
     public override void PerformEffect()
@@ -101,15 +104,24 @@ public class FlaskOfWondrousPhysickCard : ItemCard
     /// </summary>
     private void HealAndRestorePlayer()
     {
-        _owner.Health = _owner.Health + HealthBoost + Buff > 100f ? 100f
-            : _owner.Health + HealthBoost + Buff;
-        _owner.Focus = _owner.Focus + FocusBoost + Buff > 30f ? 30f
-            : _owner.Focus + FocusBoost + Buff;
+        _owner.Health = _owner.Health + HealthBoost * doubleBuff > 100f ? 100f
+            : _owner.Health + HealthBoost * doubleBuff;
+        _owner.Focus = _owner.Focus + FocusBoost * doubleBuff > 30f ? 30f
+            : _owner.Focus + FocusBoost * doubleBuff;
     }
 
     protected override void UpdateDescription()
     {
-        _description[0] = "Restore " + (HealthBoost + Buff) + " HP and " + (FocusBoost + Buff) + ".";
+        if (Buff != 0 && doubleBuff == 1)
+        {
+            doubleBuff = 2;
+        }
+        else if (Buff == 0 && doubleBuff == 2)
+        {
+            doubleBuff = 1;
+        }
+        _description[0] = "Restore " + (HealthBoost * doubleBuff) + " HP";
+        _description[1] = "and " + (FocusBoost * doubleBuff) + " FP.";
     }
 }
 

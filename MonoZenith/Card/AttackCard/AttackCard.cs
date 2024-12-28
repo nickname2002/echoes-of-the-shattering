@@ -1,4 +1,6 @@
+using System;
 using System.Globalization;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using MonoZenith.Engine.Support;
 using MonoZenith.Players;
@@ -13,6 +15,7 @@ public class AttackCard : Card
     public float OriginalStaminaCost;
     public float StaminaCost;
     protected float _damage;
+    protected float _totalDamage;
     
     public float Damage => _damage;
     
@@ -40,19 +43,69 @@ public class AttackCard : Card
     /// </summary>
     protected void ApplyEnemyDamage()
     {
-        _enemy.Health -= _damage + Buff;
+        _enemy.Health -= _totalDamage;
     }
 
     public override void PerformEffect()
     {
         _soundOnPlay.Play();
+        CheckEnemyBuffs();
         LowerPlayerStamina();
         ApplyEnemyDamage();
+        CountEvaded();
+        foreach (Card card in Owner.HandStack.Cards)
+        {
+            card.CheckEnemyBuffs();
+        }
+        foreach (Card card in Owner.OpposingPlayer.DeckStack.Cards) {
+            card.CheckEnemyBuffs();
+        }
     }
 
     public override bool IsAffordable()
     {
         return _owner.Stamina >= StaminaCost;
+    }
+
+    public override void CheckEnemyBuffs()
+    {
+        IsReductionOrEvasionActive();
+        UpdateBuffsAndDebuffs();
+    }
+
+    public virtual void IsReductionOrEvasionActive()
+    {
+        if (_owner.OpposingPlayer.BuffManager.Buffs.OfType<DamageEvasionBuff>().Any())
+        {
+            Console.WriteLine("Evasion active for " + Owner.Name);
+            _debuff = _damage + Buff;
+        }
+        else if (_owner.OpposingPlayer.BuffManager.Buffs.OfType<DamageReductionBuff>().Any())
+        {
+            Console.WriteLine("Reduction active for " + Owner.Name);
+            _debuff = (_damage + Buff) / 2;
+        }
+        else
+        {
+            _debuff = 0;
+        }
+    }
+
+    public void CountEvaded()
+    {
+        if (_owner.OpposingPlayer.BuffManager.Buffs.OfType<DamageEvasionBuff>().Any())
+        {
+            DamageEvasionBuff enemyBuff =
+                (DamageEvasionBuff)_owner.OpposingPlayer.BuffManager.Buffs.Find(
+                x => x.GetType() == typeof(DamageEvasionBuff));
+            enemyBuff.EvasionAmount--;
+        }
+    }
+
+    public override void UpdateBuffsAndDebuffs()
+    {
+        _totalDamage = _damage + _buff - _debuff;
+        UpdateDescription();
     }
 
     protected override void DrawMetaData()
@@ -99,7 +152,7 @@ public class LightSwordAttackCard : AttackCard
 
     protected override void UpdateDescription()
     {
-        _description[0] = "Deal " + (_damage + Buff) + " damage.";
+        _description[0] = "Deal " + _totalDamage + " damage.";
     }
 }
 
@@ -119,7 +172,7 @@ public class HeavySwordAttackCard : AttackCard
 
     protected override void UpdateDescription()
     {
-        _description[0] = "Deal " + (_damage + Buff) + " damage.";
+        _description[0] = "Deal " + _totalDamage + " damage.";
     }
 }
 
@@ -142,10 +195,9 @@ public class UnsheatheCard : AttackCard
 
     public override void PerformEffect()
     {
-        _soundOnPlay.Play();
-        LowerPlayerStamina();
         _owner.BuffManager.Buffs.Add(new MeleeCardTwiceAsStrongBuff(
             _state, _owner.BuffManager));
+        base.PerformEffect();
     }
 }
 
@@ -166,17 +218,18 @@ public class BloodhoundStepCard : AttackCard
     }
     public override void PerformEffect()
     {
-        base.PerformEffect();
-        _owner.OpposingPlayer.BuffManager.Debuffs.Add(new DamageEvasionDebuff(
+        _owner.BuffManager.Buffs.RemoveAll(x => x.GetType() == typeof(DamageEvasionBuff));
+        _owner.BuffManager.Buffs.Add(new DamageEvasionBuff(
         _state,
-        _owner.OpposingPlayer.BuffManager,
+        _owner.BuffManager,
         1,
         1));
+        base.PerformEffect();
     }
 
     protected override void UpdateDescription()
     {
-        _description[0] = "Deal " + (_damage + Buff) + " damage.";
+        _description[0] = "Deal " + _totalDamage + " damage.";
     }
 }
 
@@ -196,13 +249,13 @@ public class QuickstepCard : AttackCard
     }
     public override void PerformEffect()
     {
-        _soundOnPlay.Play();
-        LowerPlayerStamina();
-        _owner.OpposingPlayer.BuffManager.Debuffs.Add(new DamageEvasionDebuff(
+        _owner.BuffManager.Buffs.RemoveAll(x => x.GetType() == typeof(DamageEvasionBuff));
+        _owner.BuffManager.Buffs.Add(new DamageEvasionBuff(
         _state,
-        _owner.OpposingPlayer.BuffManager,
+        _owner.BuffManager,
         2,
         1));
+        base.PerformEffect();
     }
 }
 
@@ -222,13 +275,13 @@ public class EndureCard : AttackCard
     }
     public override void PerformEffect()
     {
-        _soundOnPlay.Play();
-        LowerPlayerStamina();
-        _owner.OpposingPlayer.BuffManager.Debuffs.Add(new DamageReductionDebuff(
+        _owner.BuffManager.Buffs.RemoveAll(x => x.GetType() == typeof(DamageReductionBuff));
+        _owner.BuffManager.Buffs.Add(new DamageReductionBuff(
         _state,
-        _owner.OpposingPlayer.BuffManager,
-        2,
-        50));
+        _owner.BuffManager,
+        1,
+        50)); 
+        base.PerformEffect();
     }
 }
 
@@ -249,16 +302,16 @@ public class DoubleSlashCard : AttackCard
     }
     public override void PerformEffect()
     {
-        base.PerformEffect();
         _owner.BuffManager.Buffs.Add(new CardStaminaBuff(
         _state,
         _owner.BuffManager,
         10));
+        base.PerformEffect();
     }
 
     protected override void UpdateDescription()
     {
-        _description[0] = "Deal " + (_damage + Buff) + " damage.";
+        _description[0] = "Deal " + _totalDamage + " damage.";
     }
 }
 
@@ -279,17 +332,17 @@ public class WarCryCard : AttackCard
     }
     public override void PerformEffect()
     {
-        base.PerformEffect();
         _owner.BuffManager.Buffs.Add(new DamageIncreaseBuff(
         _state,
         _owner.BuffManager,
-        1,
+        2,
         10));
+        base.PerformEffect();
     }
 
     protected override void UpdateDescription()
     {
-        _description[0] = "Deal " + (_damage + Buff) + " damage and";
+        _description[0] = "Deal " + _totalDamage + " damage and";
     }
 }
 
@@ -310,17 +363,17 @@ public class StormcallerCard : AttackCard
     }
     public override void PerformEffect()
     {
-        base.PerformEffect();
         _owner.OpposingPlayer.BuffManager.Debuffs.Add(new StaminaEffectDebuff(
         _state,
         _owner.OpposingPlayer.BuffManager,
         1,
         10));
+        base.PerformEffect();
     }
 
     protected override void UpdateDescription()
     {
-        _description[0] = "Deal " + (_damage + Buff) + " damage.";
+        _description[0] = "Deal " + _totalDamage + " damage.";
     }
 }
 
@@ -340,14 +393,13 @@ public class RallyingStandardCard : AttackCard
     }
     public override void PerformEffect()
     {
-        _soundOnPlay.Play();
-        LowerPlayerStamina();
-        base.PerformEffect();
+        _owner.BuffManager.Buffs.RemoveAll(x => x.GetType() == typeof(DamageIncreaseBuff));
         _owner.BuffManager.Buffs.Add(new DamageIncreaseBuff(
         _state,
         _owner.BuffManager,
-        2,
+        3,
         10));
+        base.PerformEffect();
     }
 }
 
@@ -370,17 +422,17 @@ public class ICommandTheeKneelCard : AttackCard
     }
     public override void PerformEffect()
     {
-        base.PerformEffect();
         _owner.OpposingPlayer.BuffManager.Debuffs.Add(new StaminaEffectDebuff(
         _state,
         _owner.OpposingPlayer.BuffManager,
         1,
         20));
+        base.PerformEffect();
     }
 
     protected override void UpdateDescription()
     {
-        _description[0] = "Deal " + (_damage + Buff) + " damage and";
+        _description[0] = "Deal " + _totalDamage + " damage and";
     }
 }
 
@@ -391,7 +443,7 @@ public class WaterfowlDanceCard : AttackCard
     {
         StaminaCost = 30f;
         OriginalStaminaCost = StaminaCost;
-        _damage = 40;
+        _damage = 35;
         _frontTexture = DataManager.GetInstance().CardWaterfowlDance;
         _soundOnPlay = DataManager.GetInstance().WaterfowlDanceSound.CreateInstance();
         _name = "WaterfowlDanceCard";
@@ -401,17 +453,18 @@ public class WaterfowlDanceCard : AttackCard
     }
     public override void PerformEffect()
     {
-        base.PerformEffect();
-        _owner.OpposingPlayer.BuffManager.Debuffs.Add(new DamageEvasionDebuff(
+        _owner.BuffManager.Buffs.RemoveAll(x => x.GetType() == typeof(DamageEvasionBuff));
+        _owner.BuffManager.Buffs.Add(new DamageEvasionBuff(
         _state,
-        _owner.OpposingPlayer.BuffManager,
+        _owner.BuffManager,
         2,
         3));
+        base.PerformEffect();
     }
 
     protected override void UpdateDescription()
     {
-        _description[0] = "Deal " + (_damage + Buff) + " damage.";
+        _description[0] = "Deal " + _totalDamage + " damage.";
     }
 }
 
@@ -426,23 +479,23 @@ public class StarcallerCryCard : AttackCard
         _frontTexture = DataManager.GetInstance().CardStarcallerCry;
         _soundOnPlay = DataManager.GetInstance().StarcallerCrySound.CreateInstance();
         _name = "StarcallerCryCard";
-        _description.Add("Deal " + _damage + " damage and ");
-        _description.Add("reduce enemy stamina");
+        _description.Add("Deal " + _damage + " damage.");
+        _description.Add("Reduce enemy stamina");
         _description.Add("by 15 next 2 turns");
     }
     public override void PerformEffect()
     {
-        base.PerformEffect();
         _owner.OpposingPlayer.BuffManager.Debuffs.Add(new StaminaEffectDebuff(
         _state,
         _owner.OpposingPlayer.BuffManager,
         2,
         15));
+        base.PerformEffect();
     }
 
     protected override void UpdateDescription()
     {
-        _description[0] = "Deal " + (_damage + Buff) + " damage.";
+        _description[0] = "Deal " + _totalDamage + " damage.";
     }
 }
 
@@ -463,16 +516,16 @@ public class CursedBloodSliceCard : AttackCard
     }
     public override void PerformEffect()
     {
-        base.PerformEffect();
         _owner.BuffManager.Buffs.Add(new CardStaminaBuff(
         _state,
         _owner.BuffManager,
         20));
+        base.PerformEffect();
     }
 
     protected override void UpdateDescription()
     {
-        _description[0] = "Deal " + (_damage + Buff) + " damage.";
+        _description[0] = "Deal " + _totalDamage + " damage.";
     }
 }
 
@@ -493,18 +546,18 @@ public class BloodboonRitualCard : AttackCard
     }
     public override void PerformEffect()
     {
-        base.PerformEffect();
         _owner.OpposingPlayer.BuffManager.Debuffs.Add(new BloodboonDebuff(
         _state,
         _owner.OpposingPlayer.BuffManager,
         2,
-        (int)(_damage + Buff)));
+        (int)_totalDamage));
         _owner.Health = _owner.Health + _damage > 100 ? 100 : _owner.Health + _damage;
+        base.PerformEffect();
     }
 
     protected override void UpdateDescription()
     {
-        _description[1] = "Deal " + (_damage + Buff) + " damage.";
+        _description[1] = "Deal " + _totalDamage + " damage.";
     }
 }
 
@@ -545,7 +598,7 @@ public class DestinedDeathCard : AttackCard
 
     protected override void UpdateDescription()
     {
-        _description[2] = "Deal " + (_damage + Buff) + " damage.";
+        _description[2] = "Deal " + _totalDamage + " damage.";
     }
 }
 
@@ -566,17 +619,18 @@ public class RegalRoarCard : AttackCard
     }
     public override void PerformEffect()
     {
-        base.PerformEffect();
+        _owner.BuffManager.Buffs.RemoveAll(x => x.GetType() == typeof(DamageIncreaseBuff));
         _owner.BuffManager.Buffs.Add(new DamageIncreaseBuff(
         _state,
         _owner.BuffManager,
-        2,
+        4,
         15));
+        base.PerformEffect();
     }
 
     protected override void UpdateDescription()
     {
-        _description[0] = "Deal " + (_damage + Buff) + " damage.";
+        _description[0] = "Deal " + _totalDamage + " damage.";
     }
 }
 
@@ -587,13 +641,14 @@ public class WaveOfGoldCard : AttackCard
     {
         StaminaCost = 30f;
         OriginalStaminaCost = StaminaCost;
-        _damage = 45;
+        _damage = 40;
         _frontTexture = DataManager.GetInstance().CardWaveOfGold;
         _soundOnPlay = DataManager.GetInstance().WaveOfGoldSound.CreateInstance();
         _name = "WaveOfGoldCard";
-        _description.Add("Removes enemy buffs and");
-        _description.Add("deal " + _damage + " damage.");
+        _description.Add("Remove enemy buffs");
+        _description.Add("and deal " + _damage + " damage.");
     }
+
     public override void PerformEffect()
     {
         foreach(Buff buff in Owner.OpposingPlayer.BuffManager.Buffs.ToArray())
@@ -613,7 +668,7 @@ public class WaveOfGoldCard : AttackCard
 
     protected override void UpdateDescription()
     {
-        _description[0] = "Deal " + (_damage + Buff) + " damage.";
+        _description[1] = "and deal " + (_damage + Buff) + " damage.";
     }
 }
 
@@ -635,7 +690,7 @@ public class ThrowingDaggerCard : AttackCard
 
     protected override void UpdateDescription()
     {
-        _description[0] = "Deal " + (_damage + Buff) + " damage.";
+        _description[0] = "Deal " + _totalDamage + " damage.";
     }
 
     protected override void DrawMetaData()
@@ -661,16 +716,19 @@ public class PoisonPotCard : AttackCard
     public override void PerformEffect()
     {
         _soundOnPlay.Play();
+        CheckEnemyBuffs();
+        if (_totalDamage == 0f)
+            return;
         _owner.OpposingPlayer.BuffManager.Debuffs.Add(new PoisonEffectDebuff(
         _state,
         _owner.OpposingPlayer.BuffManager,
         2,
-        (int)(_damage + Buff)));
+        (int)_totalDamage));
     }
 
     protected override void UpdateDescription()
     {
-        _description[0] = "Deal " + (_damage + Buff) + " damage.";
+        _description[0] = "Deal " + _totalDamage + " damage.";
     }
 
     protected override void DrawMetaData()

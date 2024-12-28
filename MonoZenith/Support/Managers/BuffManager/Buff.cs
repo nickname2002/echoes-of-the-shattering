@@ -198,15 +198,11 @@ public class HealingEffectBuff : TurnBuff
 public class StaminaEffectDebuff : TurnBuff
 {
     private readonly int _staminaAmount;
-    private readonly SoundEffect _staminaSound;
 
     public StaminaEffectDebuff(GameState state, BuffManager manager, int rounds, int staminaAmount) :
         base(state, manager, rounds)
     {
         _staminaAmount = staminaAmount;
-
-        // TODO: Add more fitting sound effect
-        _staminaSound = DataManager.GetInstance().FlaskCeruleanSound;
     }
 
     public override void PerformEffect()
@@ -221,7 +217,6 @@ public class StaminaEffectDebuff : TurnBuff
         if (_state.TurnManager.CurrentPlayer != _owner) return;
 
         _owner.Stamina -= _staminaAmount;
-        //_staminaSound.Play();
     }
 
     public override bool BuffRemoved()
@@ -279,11 +274,11 @@ public class CardStaminaBuff : Buff
     }
 }
 
-public class DamageReductionDebuff : TurnBuff
+public class DamageReductionBuff : TurnBuff
 {
     protected readonly int _reductionPercentage;
 
-    public DamageReductionDebuff(GameState state, BuffManager manager, int rounds, int reductionAmount) :
+    public DamageReductionBuff(GameState state, BuffManager manager, int rounds, int reductionAmount) :
         base(state, manager, rounds)
     {
         _reductionPercentage = reductionAmount;
@@ -292,93 +287,49 @@ public class DamageReductionDebuff : TurnBuff
     public override void PerformEffect()
     {
         if (BuffRemoved()) return;
-        if (CheckEvasionDebuff()) return;
         if (!RoundSwitched()) return;
 
         _currentRoundNumber = _state.TurnManager.RoundNumber;
         RoundsLeft--;
-
-        foreach (Card.Card card in _owner.HandStack.Cards)
-        {
-            card.Buff = card switch
-            {
-                AttackCard attackCard => -attackCard.Damage * _reductionPercentage / 100,
-                _ => card.Buff
-            };
-        }
-    }
-
-    public override bool BuffRemoved()
-    {
-        if (RoundsLeft > 0) return false;
-
-        _manager.Debuffs.Remove(this);
-        foreach (Card.Card card in _owner.HandStack.Cards)
-            card.Buff = 0;
-
-        return true;
-    }
-
-    public bool CheckEvasionDebuff()
-    {
-        return _owner.BuffManager.Debuffs.OfType<DamageEvasionDebuff>().Any();
     }
 }
 
-public class DamageEvasionDebuff : TurnBuff
+public class DamageEvasionBuff : TurnBuff
 {
     private int _evasionAmount;
-    private int _limitEvasionAmount;
+    public int EvasionAmount
+    {
+        get => _evasionAmount;
+        set 
+        { 
+            _evasionAmount = value;
+            PerformEffect();
+        }
+    }
 
-    public DamageEvasionDebuff(GameState state, BuffManager manager, int rounds, int evasionAmount) :
+    public DamageEvasionBuff(GameState state, BuffManager manager, int rounds, int evasionAmount) :
         base(state, manager, rounds)
     {
         _evasionAmount = evasionAmount;
-        _limitEvasionAmount = _evasionAmount;
     }
 
     public override void PerformEffect()
     {
         if (BuffRemoved()) return;
-        if (!RoundSwitched()) return;
-
-        _currentRoundNumber = _state.TurnManager.RoundNumber;
-        _limitEvasionAmount = _evasionAmount;
-
-        foreach (Card.Card card in _owner.HandStack.Cards)
-        {
-            card.Buff = card switch
-            {
-                MagicCard magicCard => -magicCard.Damage,
-                AttackCard attackCard => -attackCard.Damage,
-                _ => card.Buff
-            };
-        }
     }
 
     public override bool BuffRemoved()
     {
-        int playedAttackCards = CountCardsByType<AttackCard>(_state.PlayedCards.Cards);
-        _evasionAmount = Math.Min(_evasionAmount, _limitEvasionAmount - playedAttackCards);
         if (_evasionAmount > 0) 
             return false;
-
-        _manager.Debuffs.Remove(this);
-        foreach (Card.Card card in _owner.HandStack.Cards)
-            card.Buff = 0;
-
+        _manager.Buffs.Remove(this);
         return true;
-    }
-
-    public static int CountCardsByType<T>(List<Card.Card> cards) where T : Card.Card
-    {
-        return cards.OfType<T>().Count();
     }
 }
 
-public class ThopsDebuff : DamageReductionDebuff
+public class ThopsBuff : DamageReductionBuff
 {
-    public ThopsDebuff(GameState state, BuffManager manager, int rounds, int reductionAmount) :
+    public ThopsBuff(GameState state, BuffManager manager, int rounds, int reductionAmount) :
         base(state, manager, rounds, reductionAmount)
     {
 
@@ -391,15 +342,6 @@ public class ThopsDebuff : DamageReductionDebuff
 
         _currentRoundNumber = _state.TurnManager.RoundNumber;
         RoundsLeft--;
-
-        foreach (Card.Card card in _owner.HandStack.Cards)
-        {
-            card.Buff = card switch
-            {
-               MagicCard magicCard => -magicCard.Damage * _reductionPercentage / 100,
-                _ => card.Buff
-            };
-        }
     }
 }
 
@@ -425,6 +367,8 @@ public class DamageIncreaseBuff : TurnBuff
         {
             card.Buff = card switch
             {
+                PoisonPotCard poisonPotCard => card.Buff,
+                GlintbladePhalanxCard => card.Buff,
                 MagicCard magicCard => _increaseAmount,
                 AttackCard attackCard => _increaseAmount,
                 _ => card.Buff
@@ -540,7 +484,6 @@ public class MoonlightDebuff : TurnBuff
     public override bool BuffRemoved()
     {
         if (RoundsLeft > 0) return false;
-        _owner.OriginalHealth = 100f;
         _manager.Debuffs.Remove(this);
         return true;
     }

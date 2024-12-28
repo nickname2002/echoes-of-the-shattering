@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Engine.Support;
 using MonoZenith.Players;
 using MonoZenith.Support.Managers;
+using System;
+using System.Linq;
 using static MonoZenith.Game;
 
 namespace MonoZenith.Card.AttackCard;
@@ -33,6 +35,29 @@ public class MagicCard : AttackCard
     public override bool IsAffordable()
     {
         return base.IsAffordable() && _owner.Focus >= _focusCost;
+    }
+
+    public override void IsReductionOrEvasionActive()
+    {
+        if (_owner.OpposingPlayer.BuffManager.Buffs.OfType<DamageEvasionBuff>().Any())
+        {
+            Console.WriteLine("Evasion active for " + Owner.Name);
+            _debuff = _damage + Buff;
+        }
+        else if (_owner.OpposingPlayer.BuffManager.Buffs.OfType<ThopsBuff>().Any())
+        {
+            Console.WriteLine("Thops active for " + Owner.Name);
+            _debuff = _damage + Buff;
+        }
+        else if (_owner.OpposingPlayer.BuffManager.Buffs.OfType<DamageReductionBuff>().Any())
+        {
+            Console.WriteLine("Reduction active for " + Owner.Name);
+            _debuff = (_damage + Buff) / 2;
+        }
+        else
+        {
+            _debuff = 0;
+        }
     }
 
     public override void PerformEffect()
@@ -89,7 +114,7 @@ public class GlintStonePebbleCard : MagicCard
 
     protected override void UpdateDescription()
     {
-        _description[0] = "Deal " + (_damage + Buff) + " damage.";
+        _description[0] = "Deal " + _totalDamage + " damage.";
     }
 }
 
@@ -120,12 +145,12 @@ public class GlintbladePhalanxCard : MagicCard
         _state,
         _owner.OpposingPlayer.BuffManager,
         2,
-        (int)(_damage + Buff)));
+        (int)_totalDamage));
     }
 
     protected override void UpdateDescription()
     {
-        _description[0] = "Deal " + (_damage + Buff) + " damage";
+        _description[0] = "Deal " + _totalDamage + " damage";
     }
 }
 
@@ -147,15 +172,20 @@ public class ThopsBarrierCard : MagicCard
 
     public override void PerformEffect()
     {
-        //base.PerformEffect();
         _soundOnPlay.Play();
         LowerPlayerStamina();
         LowerPlayerMana();
-        _owner.OpposingPlayer.BuffManager.Debuffs.Add(new ThopsDebuff(
+
+        _owner.BuffManager.Buffs.Add(new ThopsBuff(
         _state,
-        _owner.OpposingPlayer.BuffManager,
+        _owner.BuffManager,
         1,
         100));
+
+        foreach (Card card in Owner.OpposingPlayer.DeckStack.Cards)
+        {
+            card.CheckEnemyBuffs();
+        }
     }
 }
 
@@ -175,7 +205,7 @@ public class GreatGlintStoneCard : MagicCard
 
     protected override void UpdateDescription()
     {
-        _description[0] = "Deal " + (_damage + Buff) + " damage.";
+        _description[0] = "Deal " + _totalDamage + " damage.";
     }
 }
 
@@ -196,7 +226,7 @@ public class CarianGreatSwordCard : MagicCard
 
     protected override void UpdateDescription()
     {
-        _description[0] = "Deal " + (_damage + Buff) + " damage.";
+        _description[0] = "Deal " + _totalDamage + " damage.";
     }
 }
 
@@ -209,7 +239,7 @@ public class CometAzurCard : MagicCard
     {
         _frontTexture = DataManager.GetInstance().CardCometAzur;
         _soundOnPlay = DataManager.GetInstance().CometAzurSound.CreateInstance();
-        _focusCost = 20;
+        _focusCost = 25;
         StaminaCost = 30;
         OriginalStaminaCost = StaminaCost;
         _damage = 45;
@@ -219,7 +249,7 @@ public class CometAzurCard : MagicCard
 
     protected override void UpdateDescription()
     {
-        _description[0] = "Deal " + (_damage + Buff) + " damage.";
+        _description[0] = "Deal " + _totalDamage + " damage.";
     }
 }
 
@@ -229,20 +259,19 @@ public class MoonlightGreatswordCard : MagicCard
         base(state, owner)
     {
         _frontTexture = DataManager.GetInstance().CardMoonlight;
-        //TODO: Change sound and effect
         _soundOnPlay = DataManager.GetInstance().MoonlightSound.CreateInstance();
         _focusCost = 25;
         StaminaCost = 30;
         OriginalStaminaCost = StaminaCost;
-        _damage = 45;
+        _damage = 40;
         _name = "MoonlightGreatswordCard";
         _description.Add("Deal " + _damage + " damage and");
-        _description.Add("Skip enemy\'s");
+        _description.Add("skip enemy\'s");
         _description.Add("next turn");
     }
 
     protected override void UpdateDescription()
     {
-        _description[0] = "Deal " + (_damage + Buff) + " damage.";
+        _description[0] = "Deal " + _totalDamage + " damage.";
     }
 }
