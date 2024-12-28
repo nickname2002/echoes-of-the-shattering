@@ -274,7 +274,7 @@ public class WarCryCard : AttackCard
         _soundOnPlay = DataManager.GetInstance().WarCrySound.CreateInstance();
         _name = "DoubleSlashCard";
         _description.Add("Deal " + _damage + " damage and");
-        _description.Add("+10 damage to");
+        _description.Add("+ 10 damage to");
         _description.Add("all cards next turn");
     }
     public override void PerformEffect()
@@ -304,9 +304,9 @@ public class StormcallerCard : AttackCard
         _frontTexture = DataManager.GetInstance().CardStormcaller;
         _soundOnPlay = DataManager.GetInstance().StormcallerSound.CreateInstance();
         _name = "StormcallerCard";
-        _description.Add("Deal " + _damage + " damage.");
-        _description.Add("Reduce stamina of");
-        _description.Add("enemy by 10 next turn");
+        _description.Add("Deal " + _damage + " damage and");
+        _description.Add("reduce enemy stamina");
+        _description.Add("by 10 next turn");
     }
     public override void PerformEffect()
     {
@@ -365,8 +365,8 @@ public class ICommandTheeKneelCard : AttackCard
         _soundOnPlay = DataManager.GetInstance().CommandKneelSound.CreateInstance();
         _name = "ICommandTheeKneelCard";
         _description.Add("Deal " + _damage + " damage and");
-        _description.Add("Reduce stamina of");
-        _description.Add("enemy by 20 next turn");
+        _description.Add("Reduce enemy stamina");
+        _description.Add("by 20 next turn");
     }
     public override void PerformEffect()
     {
@@ -424,12 +424,11 @@ public class StarcallerCryCard : AttackCard
         OriginalStaminaCost = StaminaCost;
         _damage = 40;
         _frontTexture = DataManager.GetInstance().CardStarcallerCry;
-        //TODO: Change sound and effect
         _soundOnPlay = DataManager.GetInstance().StarcallerCrySound.CreateInstance();
         _name = "StarcallerCryCard";
-        _description.Add("Deal " + _damage + " damage and");
-        _description.Add("Reduce stamina of");
-        _description.Add("enemy by 15 next 2 turns");
+        _description.Add("Deal " + _damage + " damage and ");
+        _description.Add("reduce enemy stamina");
+        _description.Add("by 15 next 2 turns");
     }
     public override void PerformEffect()
     {
@@ -456,15 +455,19 @@ public class CursedBloodSliceCard : AttackCard
         OriginalStaminaCost = StaminaCost;
         _damage = 30;
         _frontTexture = DataManager.GetInstance().CardCursedSlice;
-        //TODO: Change sound and effect
         _soundOnPlay = DataManager.GetInstance().CursedSliceSound.CreateInstance();
         _name = "CursedBloodSliceCard";
         _description.Add("Deal " + _damage + " damage.");
+        _description.Add("Next attack costs");
+        _description.Add("20 less stamina");
     }
     public override void PerformEffect()
     {
         base.PerformEffect();
-
+        _owner.BuffManager.Buffs.Add(new CardStaminaBuff(
+        _state,
+        _owner.BuffManager,
+        20));
     }
 
     protected override void UpdateDescription()
@@ -484,8 +487,8 @@ public class BloodboonRitualCard : AttackCard
         _frontTexture = DataManager.GetInstance().CardBloodboon;
         _soundOnPlay = DataManager.GetInstance().BloodboonSound1.CreateInstance();
         _name = "BloodboonRitualCard";
-        _description.Add("Damage restores health.");
-        _description.Add("Deal " + _damage + " damage.");
+        _description.Add("Damage restores health ");
+        _description.Add("and deal " + _damage + " damage");
         _description.Add("this and next 2 turns.");
     }
     public override void PerformEffect()
@@ -517,17 +520,22 @@ public class DestinedDeathCard : AttackCard
         _damage = 10;
         _healthReduction = 20;
         _frontTexture = DataManager.GetInstance().CardDestinedDeath;
-        //TODO: Change sound and effect
         _soundOnPlay = DataManager.GetInstance().DestinedDeathSound.CreateInstance();
         _name = "DestinedDeathCard";
-        _description.Add("Enemy player has -" + _healthReduction + " max");
-        _description.Add("health for next 2 turns");
+        _description.Add("Enemy player -" + _healthReduction + " max");
+        _description.Add("health for next 2 turns.");
         _description.Add("Deal " + _damage + " damage.");
     }
     public override void PerformEffect()
     {
         _owner.OpposingPlayer.OriginalHealth -= 
             _owner.OpposingPlayer.OriginalHealth * _healthReduction / 100;
+
+        if(_owner.OpposingPlayer.Health > _owner.OpposingPlayer.OriginalHealth)
+        {
+            _owner.OpposingPlayer.Health = _owner.OpposingPlayer.OriginalHealth;
+        }
+
         _owner.OpposingPlayer.BuffManager.Debuffs.Add(new DestinedDeathDebuff(
         _state,
         _owner.OpposingPlayer.BuffManager,
@@ -537,7 +545,7 @@ public class DestinedDeathCard : AttackCard
 
     protected override void UpdateDescription()
     {
-        _description[0] = "Deal " + (_damage + Buff) + " damage.";
+        _description[2] = "Deal " + (_damage + Buff) + " damage.";
     }
 }
 
@@ -550,11 +558,11 @@ public class RegalRoarCard : AttackCard
         OriginalStaminaCost = StaminaCost;
         _damage = 30;
         _frontTexture = DataManager.GetInstance().CardRegalRoar;
-        //TODO: Change sound and effect
         _soundOnPlay = DataManager.GetInstance().RegalRoarSound.CreateInstance();
         _name = "RegalRoarCard";
         _description.Add("Deal " + _damage + " damage.");
-        _description.Add("");
+        _description.Add("+ 15 damage to all");
+        _description.Add("cards next 3 turns");
     }
     public override void PerformEffect()
     {
@@ -563,7 +571,7 @@ public class RegalRoarCard : AttackCard
         _state,
         _owner.BuffManager,
         2,
-        10));
+        15));
     }
 
     protected override void UpdateDescription()
@@ -583,13 +591,12 @@ public class WaveOfGoldCard : AttackCard
         _frontTexture = DataManager.GetInstance().CardWaveOfGold;
         _soundOnPlay = DataManager.GetInstance().WaveOfGoldSound.CreateInstance();
         _name = "WaveOfGoldCard";
-        _description.Add("Deal " + _damage + " damage.");
-        _description.Add("Removes enemy buffs.");
+        _description.Add("Removes enemy buffs and");
+        _description.Add("deal " + _damage + " damage.");
     }
     public override void PerformEffect()
     {
-        base.PerformEffect();
-        foreach(Buff buff in Owner.OpposingPlayer.BuffManager.Buffs)
+        foreach(Buff buff in Owner.OpposingPlayer.BuffManager.Buffs.ToArray())
         {
             if (buff is TurnBuff turnBuff)
             {
@@ -601,6 +608,7 @@ public class WaveOfGoldCard : AttackCard
                 buff.BuffRemoved();
             }
         }
+        base.PerformEffect();
     }
 
     protected override void UpdateDescription()

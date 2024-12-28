@@ -209,7 +209,7 @@ public class CometAzurCard : MagicCard
     {
         _frontTexture = DataManager.GetInstance().CardCometAzur;
         _soundOnPlay = DataManager.GetInstance().CometAzurSound.CreateInstance();
-        _focusCost = 30;
+        _focusCost = 20;
         StaminaCost = 30;
         OriginalStaminaCost = StaminaCost;
         _damage = 45;
@@ -231,12 +231,14 @@ public class MoonlightGreatswordCard : MagicCard
         _frontTexture = DataManager.GetInstance().CardMoonlight;
         //TODO: Change sound and effect
         _soundOnPlay = DataManager.GetInstance().MoonlightSound.CreateInstance();
-        _focusCost = 30;
+        _focusCost = 25;
         StaminaCost = 30;
         OriginalStaminaCost = StaminaCost;
         _damage = 45;
         _name = "MoonlightGreatswordCard";
-        _description.Add("Deal " + _damage + " damage.");
+        _description.Add("Deal " + _damage + " damage and");
+        _description.Add("Skip enemy\'s");
+        _description.Add("next turn");
     }
 
     protected override void UpdateDescription()

@@ -520,3 +520,28 @@ public class DestinedDeathDebuff : TurnBuff
         return true;
     }
 }
+
+public class MoonlightDebuff : TurnBuff
+{
+    public MoonlightDebuff(GameState state, BuffManager manager, int rounds) :
+       base(state, manager, rounds)
+    {
+    }
+
+    public override void PerformEffect()
+    {
+        if (BuffRemoved()) return;
+        if (!RoundSwitched()) return;
+
+        _currentRoundNumber = _state.TurnManager.RoundNumber;
+        RoundsLeft--;
+    }
+
+    public override bool BuffRemoved()
+    {
+        if (RoundsLeft > 0) return false;
+        _owner.OriginalHealth = 100f;
+        _manager.Debuffs.Remove(this);
+        return true;
+    }
+}

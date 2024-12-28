@@ -350,7 +350,7 @@ namespace MonoZenith.Engine.Support
             DestinedDeathSound = LoadAudio("Audio/SoundEffects/destined-death.wav");
             RegalRoarSound = LoadAudio("Audio/SoundEffects/regal-roar.wav");
             WaveOfGoldSound = LoadAudio("Audio/SoundEffects/wave-of-gold.wav");
-            MoonlightSound = LoadAudio("Audio/SoundEffects/destined-death.wav");
+            MoonlightSound = LoadAudio("Audio/SoundEffects/moonlight.wav");
         }
 
         public void LoadData()

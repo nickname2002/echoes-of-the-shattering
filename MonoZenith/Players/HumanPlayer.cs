@@ -90,6 +90,15 @@ namespace MonoZenith.Players
                 new WaterfowlDanceCard(_state, this),
                 new ICommandTheeKneelCard(_state, this),
 
+                //TODO: Delete test cards from here
+                new StarcallerCryCard(_state, this),
+                new CursedBloodSliceCard(_state, this),
+                new BloodboonRitualCard(_state, this),
+                new DestinedDeathCard(_state, this),
+                new RegalRoarCard(_state, this),
+                new WaveOfGoldCard(_state, this),
+                new MoonlightGreatswordCard(_state, this),
+
                 // Magic attacks
                 new GlintStonePebbleCard(_state, this),
                 new GreatGlintStoneCard(_state, this),
