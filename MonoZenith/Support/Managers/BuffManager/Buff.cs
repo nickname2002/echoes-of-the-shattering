@@ -367,8 +367,8 @@ public class DamageIncreaseBuff : TurnBuff
         {
             card.Buff = card switch
             {
-                PoisonPotCard poisonPotCard => card.Buff,
-                GlintbladePhalanxCard => card.Buff,
+                //PoisonPotCard poisonPotCard => card.Buff,
+                //GlintbladePhalanxCard => card.Buff,
                 MagicCard magicCard => _increaseAmount,
                 AttackCard attackCard => _increaseAmount,
                 _ => card.Buff
@@ -484,6 +484,7 @@ public class MoonlightDebuff : TurnBuff
     public override bool BuffRemoved()
     {
         if (RoundsLeft > 0) return false;
+        _owner.SkipTurn = false;
         _manager.Debuffs.Remove(this);
         return true;
     }

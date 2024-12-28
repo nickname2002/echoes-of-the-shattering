@@ -90,7 +90,7 @@ public class FlaskOfWondrousPhysickCard : ItemCard
         _frontTexture = DataManager.GetInstance().CardWondrousPhysick;
         _soundOnPlay = DataManager.GetInstance().WondrousPhysickSound.CreateInstance();
         _description.Add("Restore " + HealthBoost + " HP");
-        _description.Add("and " + FocusBoost + "FP.");
+        _description.Add("and " + FocusBoost + " FP.");
     }
 
     public override void PerformEffect()

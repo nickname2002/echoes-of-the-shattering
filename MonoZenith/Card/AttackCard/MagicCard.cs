@@ -133,7 +133,7 @@ public class GlintbladePhalanxCard : MagicCard
         _damage = 10;
         _name = "GlintbladePhalanxCard";
         _description.Add("Deal " + _damage + " damage");
-        _description.Add("For 2 turns.");
+        _description.Add("for 2 turns.");
     }
 
     public override void PerformEffect()
@@ -268,6 +268,16 @@ public class MoonlightGreatswordCard : MagicCard
         _description.Add("Deal " + _damage + " damage and");
         _description.Add("skip enemy\'s");
         _description.Add("next turn");
+    }
+
+    public override void PerformEffect()
+    {
+        base.PerformEffect();
+        _owner.OpposingPlayer.BuffManager.Debuffs.Add(new MoonlightDebuff(
+        _state,
+        _owner.OpposingPlayer.BuffManager,
+        2));
+        Owner.OpposingPlayer.SkipTurn = true;
     }
 
     protected override void UpdateDescription()

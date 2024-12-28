@@ -52,7 +52,7 @@ public class AttackCard : Card
         CheckEnemyBuffs();
         LowerPlayerStamina();
         ApplyEnemyDamage();
-        CountEvaded();
+        AttackEvaded();
         foreach (Card card in Owner.HandStack.Cards)
         {
             card.CheckEnemyBuffs();
@@ -67,12 +67,20 @@ public class AttackCard : Card
         return _owner.Stamina >= StaminaCost;
     }
 
+    /// <summary>
+    /// Checks whether the opposing player has any buffs and
+    /// update the cards if there any.
+    /// </summary>
     public override void CheckEnemyBuffs()
     {
         IsReductionOrEvasionActive();
         UpdateBuffsAndDebuffs();
     }
 
+    /// <summary>
+    /// Applies debuffs to the card if there are opposing
+    /// player buffs present.
+    /// </summary>
     public virtual void IsReductionOrEvasionActive()
     {
         if (_owner.OpposingPlayer.BuffManager.Buffs.OfType<DamageEvasionBuff>().Any())
@@ -91,7 +99,11 @@ public class AttackCard : Card
         }
     }
 
-    public void CountEvaded()
+    /// <summary>
+    /// Lower the evasion amount of the opposing enemy 
+    /// evasion buff if there is any.
+    /// </summary>
+    public void AttackEvaded()
     {
         if (_owner.OpposingPlayer.BuffManager.Buffs.OfType<DamageEvasionBuff>().Any())
         {
@@ -102,6 +114,9 @@ public class AttackCard : Card
         }
     }
 
+    /// <summary>
+    /// Update the damage and the text of the card
+    /// </summary>
     public override void UpdateBuffsAndDebuffs()
     {
         _totalDamage = _damage + _buff - _debuff;
@@ -416,8 +431,8 @@ public class ICommandTheeKneelCard : AttackCard
         _frontTexture = DataManager.GetInstance().CardCommandKneel;
         _soundOnPlay = DataManager.GetInstance().CommandKneelSound.CreateInstance();
         _name = "ICommandTheeKneelCard";
-        _description.Add("Deal " + _damage + " damage and");
-        _description.Add("Reduce enemy stamina");
+        _description.Add("Deal " + _damage + " damage and ");
+        _description.Add("reduce enemy stamina");
         _description.Add("by 20 next turn");
     }
     public override void PerformEffect()
@@ -432,7 +447,7 @@ public class ICommandTheeKneelCard : AttackCard
 
     protected override void UpdateDescription()
     {
-        _description[0] = "Deal " + _totalDamage + " damage and";
+        _description[0] = "Deal " + _totalDamage + " damage and ";
     }
 }
 
@@ -479,8 +494,8 @@ public class StarcallerCryCard : AttackCard
         _frontTexture = DataManager.GetInstance().CardStarcallerCry;
         _soundOnPlay = DataManager.GetInstance().StarcallerCrySound.CreateInstance();
         _name = "StarcallerCryCard";
-        _description.Add("Deal " + _damage + " damage.");
-        _description.Add("Reduce enemy stamina");
+        _description.Add("Deal " + _damage + " damage and ");
+        _description.Add("reduce enemy stamina");
         _description.Add("by 15 next 2 turns");
     }
     public override void PerformEffect()
@@ -495,7 +510,7 @@ public class StarcallerCryCard : AttackCard
 
     protected override void UpdateDescription()
     {
-        _description[0] = "Deal " + _totalDamage + " damage.";
+        _description[0] = "Deal " + _totalDamage + " damage and ";
     }
 }
 
@@ -557,7 +572,7 @@ public class BloodboonRitualCard : AttackCard
 
     protected override void UpdateDescription()
     {
-        _description[1] = "Deal " + _totalDamage + " damage.";
+        _description[1] = "and deal " + _totalDamage + " damage";
     }
 }
 
@@ -613,7 +628,7 @@ public class RegalRoarCard : AttackCard
         _frontTexture = DataManager.GetInstance().CardRegalRoar;
         _soundOnPlay = DataManager.GetInstance().RegalRoarSound.CreateInstance();
         _name = "RegalRoarCard";
-        _description.Add("Deal " + _damage + " damage.");
+        _description.Add("Deal " + _damage + " damage and");
         _description.Add("+ 15 damage to all");
         _description.Add("cards next 3 turns");
     }
@@ -630,7 +645,7 @@ public class RegalRoarCard : AttackCard
 
     protected override void UpdateDescription()
     {
-        _description[0] = "Deal " + _totalDamage + " damage.";
+        _description[0] = "Deal " + _totalDamage + " damage and";
     }
 }
 
@@ -724,6 +739,11 @@ public class PoisonPotCard : AttackCard
         _owner.OpposingPlayer.BuffManager,
         2,
         (int)_totalDamage));
+        AttackEvaded();
+        foreach (Card card in Owner.HandStack.Cards)
+        {
+            card.CheckEnemyBuffs();
+        }
     }
 
     protected override void UpdateDescription()

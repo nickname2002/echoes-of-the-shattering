@@ -26,6 +26,7 @@ namespace MonoZenith.Players
         public float Health;
         public float Stamina;
         public float Focus;
+        public bool SkipTurn;
         public readonly Texture2D PlayerWaiting;
         public readonly string Name;
         
@@ -97,6 +98,7 @@ namespace MonoZenith.Players
             Health = 100f;
             Stamina = 30f;
             Focus = 30f;
+            SkipTurn = false;
             _originalStamina = 30f;
             CardsDrawn = false;
             
@@ -148,7 +150,7 @@ namespace MonoZenith.Players
         public virtual void PerformTurn(GameState state)
         {
             // Draw cards from hand only once
-            if (_handStack.Count == 0 && !CardsDrawn)
+            if (_handStack.Count == 0 && !CardsDrawn && !SkipTurn)
             {
                 DrawCardsFromDeck();
                 CardsDrawn = true;
