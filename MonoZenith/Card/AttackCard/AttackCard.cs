@@ -490,7 +490,7 @@ public class StarcallerCryCard : AttackCard
     {
         StaminaCost = 30f;
         OriginalStaminaCost = StaminaCost;
-        _damage = 40;
+        _damage = 35;
         _frontTexture = DataManager.GetInstance().CardStarcallerCry;
         _soundOnPlay = DataManager.GetInstance().StarcallerCrySound.CreateInstance();
         _name = "StarcallerCryCard";
@@ -734,11 +734,13 @@ public class PoisonPotCard : AttackCard
         CheckEnemyBuffs();
         if (_totalDamage == 0f)
             return;
+
         _owner.OpposingPlayer.BuffManager.Debuffs.Add(new PoisonEffectDebuff(
         _state,
         _owner.OpposingPlayer.BuffManager,
         2,
         (int)_totalDamage));
+
         AttackEvaded();
         foreach (Card card in Owner.HandStack.Cards)
         {

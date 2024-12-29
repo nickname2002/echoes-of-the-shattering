@@ -367,8 +367,6 @@ public class DamageIncreaseBuff : TurnBuff
         {
             card.Buff = card switch
             {
-                //PoisonPotCard poisonPotCard => card.Buff,
-                //GlintbladePhalanxCard => card.Buff,
                 MagicCard magicCard => _increaseAmount,
                 AttackCard attackCard => _increaseAmount,
                 _ => card.Buff
@@ -445,6 +443,7 @@ public class DestinedDeathDebuff : TurnBuff
     public DestinedDeathDebuff(GameState state, BuffManager manager, int rounds) :
         base(state, manager, rounds)
     {
+
     }
 
     public override void PerformEffect()
@@ -470,6 +469,7 @@ public class MoonlightDebuff : TurnBuff
     public MoonlightDebuff(GameState state, BuffManager manager, int rounds) :
        base(state, manager, rounds)
     {
+
     }
 
     public override void PerformEffect()
