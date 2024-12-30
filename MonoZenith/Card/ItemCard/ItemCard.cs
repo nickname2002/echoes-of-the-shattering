@@ -20,7 +20,10 @@ public class ItemCard : Card
     }
 
     public override bool IsAffordable() => true;
-
+    public override void UpdateBuffsAndDebuffs()
+    {
+        UpdateDescription();
+    }
     protected override void DrawMetaData()
     {
         return;
@@ -68,10 +71,11 @@ public class BaldachinBlessingCard : ItemCard
     {
         base.PerformEffect();
         _owner.Health -= 10;
-        _owner.OpposingPlayer.BuffManager.Debuffs.Add(new DamageReductionDebuff(
+        _owner.BuffManager.Buffs.RemoveAll(x => x.GetType() == typeof(DamageReductionBuff));
+        _owner.BuffManager.Buffs.Add(new DamageReductionBuff(
         _state,
-        _owner.OpposingPlayer.BuffManager,
-        2,
+        _owner.BuffManager,
+        1,
         50));
     }
 }

@@ -87,8 +87,6 @@ namespace MonoZenith.Engine.Support
         public Texture2D CardQuickstep;
         public Texture2D CardWarCry;
         public Texture2D CardRallyingStandard;
-        public Texture2D CardCommandKneel;
-        public Texture2D CardWaterfowlDance;
 
         public Texture2D CardGlintPebble;
         public Texture2D CardGlintPhalanx;
@@ -105,6 +103,16 @@ namespace MonoZenith.Engine.Support
         public Texture2D CardWarmingStone;
         public Texture2D CardPoisonPot;
         public Texture2D CardThrowingDagger;
+
+        public Texture2D CardCommandKneel;
+        public Texture2D CardWaterfowlDance;
+        public Texture2D CardStarcallerCry;
+        public Texture2D CardCursedSlice;
+        public Texture2D CardBloodboon;
+        public Texture2D CardDestinedDeath;
+        public Texture2D CardRegalRoar;
+        public Texture2D CardWaveOfGold;
+        public Texture2D CardMoonlight;
 
         // Audio
         public SoundEffect MainMenuMusic;
@@ -138,15 +146,12 @@ namespace MonoZenith.Engine.Support
         public SoundEffect QuickstepSound;
         public SoundEffect WarCrySound;
         public SoundEffect RallyingSound;
-        public SoundEffect CommandKneelSound;
-        public SoundEffect WaterfowlDanceSound;
 
         public SoundEffect GlintPebbleSound;
         public SoundEffect GlintPhalanxSound;
         public SoundEffect CarianGSwordSound;
         public SoundEffect ThopsBarrierSound;
         public SoundEffect GreatShardSound;
-        public SoundEffect CometAzurSound;
 
         public SoundEffect FlaskCrimsonSound;
         public SoundEffect FlaskCeruleanSound;
@@ -155,6 +160,19 @@ namespace MonoZenith.Engine.Support
         public SoundEffect LarvalTearSound;
         public SoundEffect WarmingStoneSound;
         public SoundEffect PoisonPotSound;
+
+        public SoundEffect CommandKneelSound;
+        public SoundEffect WaterfowlDanceSound;
+        public SoundEffect CometAzurSound;
+        public SoundEffect StarcallerCrySound;
+        public SoundEffect CursedSliceSound;
+        public SoundEffect BloodboonSound1;
+        public SoundEffect BloodboonSound2;
+        public SoundEffect BloodboonSound3;
+        public SoundEffect DestinedDeathSound;
+        public SoundEffect RegalRoarSound;
+        public SoundEffect WaveOfGoldSound;
+        public SoundEffect MoonlightSound;
 
         private DataManager()
         {
@@ -246,8 +264,6 @@ namespace MonoZenith.Engine.Support
             CardQuickstep = LoadImage("Images/Cards/card-quickstep.png");
             CardWarCry = LoadImage("Images/Cards/card-war-cry.png");
             CardRallyingStandard = LoadImage("Images/Cards/card-rallying.png");
-            CardCommandKneel = LoadImage("Images/Cards/card-kneel.png");
-            CardWaterfowlDance = LoadImage("Images/Cards/card-waterfowl.png");
 
             CardGlintPebble = LoadImage("Images/Cards/card-glint-peb.png");
             CardGlintPhalanx = LoadImage("Images/Cards/card-phalanx.png");
@@ -264,8 +280,18 @@ namespace MonoZenith.Engine.Support
             CardWarmingStone = LoadImage("Images/Cards/card-warming.png");
             CardPoisonPot = LoadImage("Images/Cards/card-poison-pot.png");
             CardThrowingDagger = LoadImage("Images/Cards/card-throw-dagger.png");
+
+            CardCommandKneel = LoadImage("Images/Cards/card-kneel.png");
+            CardWaterfowlDance = LoadImage("Images/Cards/card-waterfowl.png");
+            CardStarcallerCry = LoadImage("Images/Cards/card-starcaller.png");
+            CardCursedSlice = LoadImage("Images/Cards/card-cursed-slice.png");
+            CardBloodboon = LoadImage("Images/Cards/card-bloodboon.png");
+            CardDestinedDeath = LoadImage("Images/Cards/card-destined.png");
+            CardRegalRoar = LoadImage("Images/Cards/card-regal-roar.png");
+            CardWaveOfGold = LoadImage("Images/Cards/card-wave-gold.png");
+            CardMoonlight = LoadImage("Images/Cards/card-moonlight.png");
         }
-        
+
         private void LoadSoundEffects()
         {
             MainMenuMusic = LoadAudio("Audio/Music/main-menu-music.wav");
@@ -297,15 +323,12 @@ namespace MonoZenith.Engine.Support
             QuickstepSound = LoadAudio("Audio/SoundEffects/quickstep.wav");
             WarCrySound = LoadAudio("Audio/SoundEffects/warcry.wav");
             RallyingSound = LoadAudio("Audio/SoundEffects/rallying.wav");
-            CommandKneelSound = LoadAudio("Audio/SoundEffects/command-kneel.wav");
-            WaterfowlDanceSound = LoadAudio("Audio/SoundEffects/waterfowl.wav");
 
             GlintPebbleSound = LoadAudio("Audio/SoundEffects/glintstone-pebble.wav");
             GlintPhalanxSound = LoadAudio("Audio/SoundEffects/glint-phalanx.wav");
             CarianGSwordSound = LoadAudio("Audio/SoundEffects/cariang-sword.wav");
             ThopsBarrierSound = LoadAudio("Audio/SoundEffects/thops-barrier.wav");
             GreatShardSound = LoadAudio("Audio/SoundEffects/great-shard.wav");
-            CometAzurSound = LoadAudio("Audio/SoundEffects/comet-azur.wav");
 
             FlaskCrimsonSound = LoadAudio("Audio/SoundEffects/flask-of-crimson-tears.wav");
             FlaskCeruleanSound = LoadAudio("Audio/SoundEffects/flask-of-cerulean-tears.wav");
@@ -315,8 +338,21 @@ namespace MonoZenith.Engine.Support
             WarmingStoneSound = LoadAudio("Audio/SoundEffects/warming-stone.wav");
             PoisonPotSound = LoadAudio("Audio/SoundEffects/poison-pot.wav");
             ThrowingDaggerSound = LoadAudio("Audio/SoundEffects/throwing-dagger.wav");
+
+            CommandKneelSound = LoadAudio("Audio/SoundEffects/command-kneel.wav");
+            WaterfowlDanceSound = LoadAudio("Audio/SoundEffects/waterfowl.wav");
+            CometAzurSound = LoadAudio("Audio/SoundEffects/comet-azur.wav");
+            StarcallerCrySound = LoadAudio("Audio/SoundEffects/starcaller-cry.wav");
+            CursedSliceSound = LoadAudio("Audio/SoundEffects/cursed-blood-slice.wav");
+            BloodboonSound1 = LoadAudio("Audio/SoundEffects/nihil1.wav");
+            BloodboonSound2 = LoadAudio("Audio/SoundEffects/nihil2.wav");
+            BloodboonSound3 = LoadAudio("Audio/SoundEffects/nihil3.wav");
+            DestinedDeathSound = LoadAudio("Audio/SoundEffects/destined-death.wav");
+            RegalRoarSound = LoadAudio("Audio/SoundEffects/regal-roar.wav");
+            WaveOfGoldSound = LoadAudio("Audio/SoundEffects/wave-of-gold.wav");
+            MoonlightSound = LoadAudio("Audio/SoundEffects/moonlight.wav");
         }
-        
+
         public void LoadData()
         {
             LoadFonts();

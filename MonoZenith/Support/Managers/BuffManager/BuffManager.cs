@@ -27,13 +27,16 @@ public class BuffManager
     /// </summary>
     public void Update()
     {
+        Console.WriteLine("Player: " + Owner.Name);
         foreach(Buff buff in Buffs.ToArray())
         {
             buff?.PerformEffect();
+            Console.WriteLine(buff.GetType().Name);
         }
         foreach(Buff debuff in Debuffs.ToArray())
         {
             debuff?.PerformEffect();
+            Console.WriteLine(debuff.GetType().Name);
         }
     }
 }

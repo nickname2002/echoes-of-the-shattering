@@ -27,7 +27,8 @@ namespace MonoZenith.Card
         protected Player _owner;
         protected SoundEffectInstance _soundOnPlay;
         protected float _buff;
-        
+        protected float _debuff;
+
         /// <summary>
         /// The position of the card.
         /// </summary>
@@ -83,7 +84,21 @@ namespace MonoZenith.Card
             set
             {
                 _buff = value;
-                UpdateDescription();
+                UpdateBuffsAndDebuffs();
+            }
+        }
+
+        /// <summary>
+        /// A debuff for the card.
+        /// This value should be subtracted to a card's damage/healing.
+        /// </summary>
+        public float Debuff
+        {
+            get => _buff;
+            set
+            {
+                _buff = value;
+                UpdateBuffsAndDebuffs();
             }
         }
 
@@ -146,10 +161,23 @@ namespace MonoZenith.Card
         public abstract void PerformEffect();
         
         /// <summary>
+        /// Checks for enemy buffs and apply any effect if they exist
+        /// </summary>
+        public virtual void CheckEnemyBuffs()
+        {
+            return;
+        }
+
+        /// <summary>
+        /// Updates the card with the new buffs and debuffs
+        /// </summary>
+        public abstract void UpdateBuffsAndDebuffs();
+
+        /// <summary>
         /// Update the state of the card.
         /// </summary>
         /// <param name="deltaTime">The delta time.</param>
-        public void Update(GameTime deltaTime)
+        public virtual void Update(GameTime deltaTime)
         {
             MoveTowardsTargetPosition(deltaTime);
             if (IsTransferringToExternalStack && TargetPosition == _position)
@@ -263,10 +291,10 @@ namespace MonoZenith.Card
             float baseTextHeight = cardFont.MeasureString("A").Y; // Reference height
             
             // Create scale based on Card Width with offset
-            float scalingFactor = (Width - 35) / cardFont.MeasureString(_description[0]).X;
+            float scalingFactor = (Width - 35) / (cardFont.MeasureString(_description[0]).X + 10);
 
             // Adjust scaling so it remains reasonable for very small or large cards
-            scalingFactor = MathHelper.Clamp(scalingFactor, 0.7f, 1.2f);
+            scalingFactor = MathHelper.Clamp(scalingFactor, 0.6f, 1.2f);
 
             int textCount = _description.Count;
             float textHeight = baseTextHeight * scalingFactor;
