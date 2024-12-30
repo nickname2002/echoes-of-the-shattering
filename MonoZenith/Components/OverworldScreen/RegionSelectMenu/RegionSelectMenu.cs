@@ -44,7 +44,7 @@ namespace MonoZenith.Components.OverworldScreen
 
         private void UpdateButtonPositions()
         {
-            var regionSelectButton = new[] { _limgraveButton, _liurniaButton, _altusButton };
+            var regionSelectButton = new[] { _altusButton, _liurniaButton, _limgraveButton };
         
             var xPosition = ScreenWidth - _altusButton.Dimensions.X + 50f * AppSettings.Scaling.ScaleFactor; 
             var totalHeight = regionSelectButton.Sum(button => button.Dimensions.Y * 2);
@@ -97,7 +97,7 @@ namespace MonoZenith.Components.OverworldScreen
 
         public void Draw()
         {
-            var regionSelectButton = new[] { _limgraveButton, _liurniaButton, _altusButton };
+            var regionSelectButton = new[] { _altusButton, _liurniaButton, _limgraveButton };
             foreach (var button in regionSelectButton)
             {
                 button.Draw();
