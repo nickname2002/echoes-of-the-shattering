@@ -71,7 +71,7 @@ public class LevelManager
         ConfigureDecks();
         ConfigureLevels();
         
-        CurrentLevel = GetLevelFromEnemy("Radagon of the Golden Order");
+        CurrentLevel = GetLevelFromEnemy("Starscourge Radahn");
     }
     
     private Level GetLevelFromEnemy(string enemyName)
@@ -747,14 +747,14 @@ public class LevelManager
             new Level
             {
                 Enemy = _enemies["Starscourge Radahn"],
-                Backdrop = DataManager.GetInstance().CaelidBackdrop,
+                Backdrop = DataManager.GetInstance().RadahnBattlefieldBackdrop,
                 Reward = _rewards["Starscourge Radahn"],
                 SoundTrack = DataManager.GetInstance().StarscourgeRadahnP1Soundtrack.CreateInstance(),      
                 EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Starscourge Radahn"], _decks["Starscourge Radahn"]),
                 SecondPhase = new Level
                 {
                     Enemy = _enemies["Starscourge Radahn "],
-                    Backdrop = DataManager.GetInstance().CaelidBackdrop,
+                    Backdrop = DataManager.GetInstance().RadahnBattlefieldPhase2Backdrop,
                     Reward = _rewards["Starscourge Radahn (2nd phase)"],
                     SoundTrack = DataManager.GetInstance().StarscourgeRadahnP2Soundtrack.CreateInstance(),      
                     EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Starscourge Radahn "], _decks["Starscourge Radahn (2nd phase)"])

@@ -49,6 +49,8 @@ namespace MonoZenith.Engine.Support
         public Texture2D StormveilBackdrop;
         public Texture2D AltusPlateauBackdrop;
         public Texture2D FarumAzulaBackdrop;
+        public Texture2D RadahnBattlefieldBackdrop;
+        public Texture2D RadahnBattlefieldPhase2Backdrop;
         
         // Remembrances
         public Texture2D RemembranceOfTheStarscourge;
@@ -222,6 +224,8 @@ namespace MonoZenith.Engine.Support
             StormveilBackdrop = LoadImage("Images/Backdrops/stormveil-backdrop.png");
             AltusPlateauBackdrop = LoadImage("Images/Backdrops/altus-plateau-backdrop.png");
             FarumAzulaBackdrop = LoadImage("Images/Backdrops/farum-azula-backdrop.png");
+            RadahnBattlefieldBackdrop = LoadImage("Images/Backdrops/radahn-battlefield-backdrop.png");
+            RadahnBattlefieldPhase2Backdrop = LoadImage("Images/Backdrops/radahn-battlefield-phase2-backdrop.png");
             
             // Remembrances
             RemembranceOfTheStarscourge = LoadImage("Images/Remembrances/remembrance-of-starscourge.png");
