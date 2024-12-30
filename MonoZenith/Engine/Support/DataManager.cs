@@ -48,6 +48,9 @@ namespace MonoZenith.Engine.Support
         public Texture2D RoundtableHoldBackdrop;
         public Texture2D StormveilBackdrop;
         public Texture2D AltusPlateauBackdrop;
+        public Texture2D FarumAzulaBackdrop;
+        public Texture2D RadahnBattlefieldBackdrop;
+        public Texture2D RadahnBattlefieldPhase2Backdrop;
         
         // Remembrances
         public Texture2D RemembranceOfTheStarscourge;
@@ -135,6 +138,15 @@ namespace MonoZenith.Engine.Support
         public SoundEffect MohgSoundtrack;
         public SoundEffect MaleniaSoundtrack;
         public SoundEffect GoddessOfRotSoundtrack;
+        public SoundEffect RennalaP1Soundtrack;
+        public SoundEffect RennalaP2Soundtrack;
+        public SoundEffect StarscourgeRadahnP1Soundtrack;
+        public SoundEffect StarscourgeRadahnP2Soundtrack;
+        public SoundEffect MalikethSoundtrack;
+        public SoundEffect GodfreySoundtrack;
+        public SoundEffect HoarahLouxSoundtrack;
+        public SoundEffect RadagonSoundtrack;
+        public SoundEffect EldenBeastSoundtrack;
 
         public SoundEffect DamageSound;
         public SoundEffect CardSound2;
@@ -233,6 +245,9 @@ namespace MonoZenith.Engine.Support
             RoundtableHoldBackdrop = LoadImage("Images/Backdrops/roundtable-hold-backdrop.png");
             StormveilBackdrop = LoadImage("Images/Backdrops/stormveil-backdrop.png");
             AltusPlateauBackdrop = LoadImage("Images/Backdrops/altus-plateau-backdrop.png");
+            FarumAzulaBackdrop = LoadImage("Images/Backdrops/farum-azula-backdrop.png");
+            RadahnBattlefieldBackdrop = LoadImage("Images/Backdrops/radahn-battlefield-backdrop.png");
+            RadahnBattlefieldPhase2Backdrop = LoadImage("Images/Backdrops/radahn-battlefield-phase2-backdrop.png");
             
             // Remembrances
             RemembranceOfTheStarscourge = LoadImage("Images/Remembrances/remembrance-of-starscourge.png");
@@ -316,6 +331,15 @@ namespace MonoZenith.Engine.Support
             MohgSoundtrack = LoadAudio("Audio/Music/mohg-battle-soundtrack.wav");
             MaleniaSoundtrack = LoadAudio("Audio/Music/malenia-battle-soundtrack.wav");
             GoddessOfRotSoundtrack = LoadAudio("Audio/Music/goddess-of-rot-battle-soundtrack.wav");
+            RennalaP1Soundtrack = LoadAudio("Audio/Music/rennala-phase1-battle-soundtrack.wav");
+            RennalaP2Soundtrack = LoadAudio("Audio/Music/rennala-phase2-battle-soundtrack.wav");
+            StarscourgeRadahnP1Soundtrack = LoadAudio("Audio/Music/radahn-phase1-battle-soundtrack.wav");
+            StarscourgeRadahnP2Soundtrack = LoadAudio("Audio/Music/radahn-phase2-battle-soundtrack.wav");
+            MalikethSoundtrack = LoadAudio("Audio/Music/maliketh-battle-soundtrack.wav");
+            GodfreySoundtrack = LoadAudio("Audio/Music/godfrey-battle-soundtrack.wav");
+            HoarahLouxSoundtrack = LoadAudio("Audio/Music/hoarah-loux-battle-soundtrack.wav");
+            RadagonSoundtrack = LoadAudio("Audio/Music/radagon-battle-soundtrack.wav");
+            EldenBeastSoundtrack = LoadAudio("Audio/Music/elden-beast-battle-soundtrack.wav");
 
             DamageSound = LoadAudio("Audio/SoundEffects/damage-sound.wav");
             HealingSound = LoadAudio("Audio/SoundEffects/healing-sound.wav");

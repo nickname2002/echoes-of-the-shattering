@@ -30,6 +30,9 @@
   <ItemGroup>
     <Folder Include="bin\Debug\net6.0" />
     <Folder Include="Content\Audio\Music\OverworldScreen\" />
+    <Folder Include="Content\Audio\VoiceLines\Godfrey\" />
+    <Folder Include="Content\Audio\VoiceLines\Maliketh\" />
+    <Folder Include="Content\Audio\VoiceLines\Rennala\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="bin\Debug\net6.0\Content\Audio\placeholder.txt" />
