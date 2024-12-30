@@ -161,22 +161,22 @@ public class LevelManager
             ["Royal Knight Loretta"] = new(DataManager.GetInstance().CardCarianGSword, "Carian Greatsword", typeof(CarianGreatSwordCard)),
             ["Mimic Tear"] = new(DataManager.GetInstance().MimicTearAsh, "Mimic Tear", typeof(MimicTearAsh)),
             ["Starscourge Radahn"] = null,
-            ["Starscourge Radahn (2nd phase)"] = null,  // TODO: Add reward
+            ["Starscourge Radahn (2nd phase)"] = new(DataManager.GetInstance().CardStarcallerCry, "Starcaller Cry", typeof(StarcallerCryCard)),
             ["Bloody Finger Hunter Yura"] = new(DataManager.GetInstance().CardUnsheathe, "Unsheathe", typeof(UnsheatheCard)),
             ["Morgott, The Omen King"] = new(DataManager.GetInstance().CardWarmingStone, "Warming Stone", typeof(WarmingStoneCard)),
             ["Dung Eater"] = null,  // TODO: Add reward
-            ["Mohg, Lord of Blood"] = null,     // TODO: Add reward
+            ["Mohg, Lord of Blood"] = new(DataManager.GetInstance().CardBloodboon, "Bloodboon Ritual", typeof(BloodboonRitualCard)),
             ["Commander Niall"] = new(DataManager.GetInstance().CardRallyingStandard, "Rallying Standard", typeof(RallyingStandardCard)),
             ["Malenia, Blade of Miquella"] = null,
             ["Malenia, Goddess of Rot"] = new(DataManager.GetInstance().CardWaterfowlDance, "Waterfowl Dance", typeof(WaterfowlDanceCard)),
             ["Maliketh, the Black Blade"] = null,   // TODO: Add reward
             ["Sir Gideon Ofnir, The All-Knowing"] = new(DataManager.GetInstance().CardLarvalTear, "Larval Tear", typeof(LarvalTearCard)),
             ["Godfrey, The First Elden Lord"] = null,
-            ["Hoarah Loux, Warrior"] = null,    // TODO: Add reward
+            ["Hoarah Loux, Warrior"] = new(DataManager.GetInstance().CardRegalRoar, "Regal Roar", typeof(RegalRoarCard)),
             ["Radagon of the Golden Order"] = null,
-            ["Elden Beast"] = null,     // TODO: Add reward
+            ["Elden Beast"] = new(DataManager.GetInstance().CardWaveOfGold, "Wave of Gold", typeof(WaveOfGoldCard)),
             ["Tarnished, Consort of the Stars"] = null,
-            ["Ranni, Queen of the Dark Moon"] = null    // TODO: Add reward
+            ["Ranni, Queen of the Dark Moon"] = new(DataManager.GetInstance().CardMoonlight, "Moonlight Greatsword", typeof(MoonlightGreatswordCard))
         };
     }
 
@@ -292,14 +292,12 @@ public class LevelManager
             },
             ["Thops"] = new()
             {
-                // (typeof(BarrierCard), 3),    // TODO: Add card
-                (typeof(LightSwordAttackCard), 3),
-                
+                (typeof(LightSwordAttackCard), 3),                
                 (typeof(GlintbladePhalanxCard), 5),
                 (typeof(GreatGlintStoneCard), 5),
                 (typeof(FlaskOfCrimsonTearsCard), 3),
-                (typeof(FlaskOfCeruleanTearsCard), 2),
-                (typeof(PoisonPotCard), 5),
+                (typeof(FlaskOfCeruleanTearsCard), 3),
+                (typeof(ThopsBarrierCard), 4),
                 (typeof(ThrowingDaggerCard), 7)
             },
             ["Red Wolf of Radagon"] = new()
@@ -328,13 +326,14 @@ public class LevelManager
             {
                 (typeof(CometAzurCard), 1),
                 (typeof(GreatGlintStoneCard), 7),
-                (typeof(GlintbladePhalanxCard), 7),
+                (typeof(GlintbladePhalanxCard), 6),
                 (typeof(LightSwordAttackCard), 3),
                 (typeof(FlaskOfCeruleanTearsCard), 3),
                 (typeof(FlaskOfCrimsonTearsCard), 2),
                 (typeof(ThrowingDaggerCard), 3),
                 (typeof(CarianGreatSwordCard), 3),
-                (typeof(EndureCard), 3)
+                (typeof(EndureCard), 3),
+                (typeof(LarvalTearCard), 1)
             },
             ["Royal Knight Loretta"] = new()
             {
@@ -365,9 +364,7 @@ public class LevelManager
             },
             ["Starscourge Radahn (2nd phase)"] = new()
             {
-                // TODO: Add stormcaller cry card
-                (typeof(StormcallerCard), 4),
-                
+                (typeof(StarcallerCryCard), 4),   
                 (typeof(HeavySwordAttackCard), 10),
                 (typeof(RallyingStandardCard), 2),
                 (typeof(FlaskOfCrimsonTearsCard), 2),
@@ -389,10 +386,9 @@ public class LevelManager
             },
             ["Morgott, The Omen King"] = new()
             {
-                // TODO: Add Special Boss Card
+                (typeof(CursedBloodSliceCard), 2),
                 (typeof(LightSwordAttackCard), 3),
-                
-                (typeof(HeavySwordAttackCard), 8),
+                (typeof(HeavySwordAttackCard), 6),
                 (typeof(EndureCard), 4),
                 (typeof(WarCryCard), 4),
                 (typeof(FlaskOfCrimsonTearsCard), 2),
@@ -411,15 +407,14 @@ public class LevelManager
             },
             ["Mohg, Lord of Blood"] = new()
             {
-                // TODO: (typeof(BloodboonRitualCard), 1),
-                (typeof(LightSwordAttackCard), 5),
-                
+                (typeof(BloodboonRitualCard), 2),
+                (typeof(LightSwordAttackCard), 4),
+                (typeof(HeavySwordAttackCard), 8),
                 (typeof(BloodhoundStepCard), 5),
-                (typeof(HeavySwordAttackCard), 10),
-                (typeof(RallyingStandardCard), 3),
+                (typeof(RallyingStandardCard), 2),
                 (typeof(FlaskOfCrimsonTearsCard), 4),
-                (typeof(ThrowingDaggerCard), 5),
-                (typeof(WarCryCard), 3)
+                (typeof(ThrowingDaggerCard), 3),
+                (typeof(WarCryCard), 2)
             },
             ["Commander Niall"] = new()
             {
@@ -428,7 +423,7 @@ public class LevelManager
                 (typeof(WarCryCard), 5),
                 (typeof(LightSwordAttackCard), 5),
                 (typeof(ThrowingDaggerCard), 4),
-                (typeof(FlaskOfCrimsonTearsCard), 2),
+                (typeof(FlaskOfCrimsonTearsCard), 3),
                 (typeof(PoisonPotCard), 3)
             },
             ["Malenia, Blade of Miquella"] = new()
@@ -487,10 +482,9 @@ public class LevelManager
             },
             ["Hoarah Loux, Warrior"] = new()
             {
-                // TODO: Add Special Boss Card
+                (typeof(RegalRoarCard), 2),
                 (typeof(LightSwordAttackCard), 3),
-                
-                (typeof(HeavySwordAttackCard), 10),
+                (typeof(HeavySwordAttackCard), 8),
                 (typeof(RallyingStandardCard), 3),
                 (typeof(EndureCard), 4),
                 (typeof(WarCryCard), 4),
@@ -510,41 +504,40 @@ public class LevelManager
             },
             ["Elden Beast"] = new()
             {
-                // TODO: Add Special Boss Card
+                (typeof(WaveOfGoldCard), 2),
                 (typeof(ThrowingDaggerCard), 3),
-                
                 (typeof(CometAzurCard), 2),
                 (typeof(GreatGlintStoneCard), 6),
                 (typeof(LightSwordAttackCard), 5),
                 (typeof(FlaskOfCeruleanTearsCard), 2),
                 (typeof(FlaskOfCrimsonTearsCard), 2),
-                (typeof(GlintbladePhalanxCard), 5),
-                (typeof(EndureCard), 4),
+                (typeof(FlaskOfWondrousPhysickCard), 2),
+                (typeof(GlintbladePhalanxCard), 3),
+                (typeof(EndureCard), 3)
             },
             ["Tarnished, Consort of the Stars"] = new()
             {
-                // TODO: (typeof(DarkMoonGreatSwordCard), 3),
+                (typeof(MoonlightGreatswordCard), 2),
                 (typeof(ThrowingDaggerCard), 3),
-                
-                (typeof(HeavySwordAttackCard), 7),
+                (typeof(HeavySwordAttackCard), 6),
                 (typeof(LightSwordAttackCard), 6),
-                (typeof(EndureCard), 5),
+                (typeof(EndureCard), 4),
                 (typeof(FlaskOfCrimsonTearsCard), 2),
                 (typeof(FlaskOfCeruleanTearsCard), 2),
+                (typeof(FlaskOfWondrousPhysickCard), 2),
                 (typeof(GlintStonePebbleCard), 3)
             },
             ["Ranni, Queen of the Dark Moon"] = new()
             {
-                // TODO: (typeof(StarcallerCryCard), 3),
-                (typeof(LightSwordAttackCard), 3),
-                
+                (typeof(StarcallerCryCard), 3),
                 (typeof(CometAzurCard), 2),
                 (typeof(GlintbladePhalanxCard), 5),
                 (typeof(GreatGlintStoneCard), 5),
-                (typeof(HeavySwordAttackCard), 5),
-                (typeof(LightSwordAttackCard), 5),
+                (typeof(HeavySwordAttackCard), 4),
+                (typeof(LightSwordAttackCard), 4),
                 (typeof(FlaskOfCrimsonTearsCard), 2),
-                (typeof(FlaskOfCeruleanTearsCard), 3)
+                (typeof(FlaskOfCeruleanTearsCard), 3),
+                (typeof(FlaskOfWondrousPhysickCard), 2),
             }
         };
     }
