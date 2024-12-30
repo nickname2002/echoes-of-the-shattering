@@ -204,6 +204,13 @@ public class OverworldScreen : Screen
             Level = LevelManager.GetLevelFromEnemy("Morgott, The Omen King")
         },
         
+        // Maliketh, The Black Blade
+        new()
+        {
+            Position = new Vector2(838, 457),
+            Level = LevelManager.GetLevelFromEnemy("Maliketh, the Black Blade")
+        },
+        
         // Godfrey, The First Elden Lord
         new()
         {
