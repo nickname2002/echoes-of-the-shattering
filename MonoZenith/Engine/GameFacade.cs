@@ -20,7 +20,7 @@ public class GameFacade
     private readonly SpriteBatch _spriteBatch;
     private readonly GraphicsDeviceManager _graphicsDeviceManager;
     private readonly ContentManager _content;
-    private const float ClickCooldown = 250f;
+    private const float ClickCooldown = 0;
     public float CurrentClickCooldown;
 
     public Color BackgroundColor => this._backgroundColor;

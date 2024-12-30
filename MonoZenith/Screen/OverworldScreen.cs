@@ -15,13 +15,8 @@ namespace MonoZenith.Screen;
 public class OverworldScreen : Screen
 {
     private static readonly LevelManager LevelManager = new();
+    private readonly RegionSelectMenu _regionSelectMenu = new();
     
-    /// <summary>
-    /// NOTE: To view the region map, change the enum value by hand for now.
-    /// TODO: Map this value to button in ECHOE-92
-    /// </summary>
-    private Region SelectedRegion = Region.AltusPlateau; 
-
     /// <summary>
     /// Region backdrops
     /// </summary>
@@ -29,13 +24,13 @@ public class OverworldScreen : Screen
     private readonly Texture2D _liurniaBackdrop = LoadImage("Images/OverworldScreen/Backdrops/liurnia-map.png");
     private readonly Texture2D _altusPlateauBackdrop = LoadImage("Images/OverworldScreen/Backdrops/altus-plateau-map.png");
     
-    // Soundtrack and properties
+    /// <summary>
+    /// Audio
+    /// </summary>
     private readonly SoundEffectInstance _soundtrack = 
         LoadAudio("Audio/Music/OverworldScreen/overworld-background-music.wav").CreateInstance();
     private readonly SoundEffectInstance _enterBattleSound = 
         LoadAudio("Audio/SoundEffects/enter-battle.wav").CreateInstance();
-    
-    // TODO: Add battle enter sound on click grace button
     
     /// <summary>
     /// Site of grace containers
@@ -247,6 +242,7 @@ public class OverworldScreen : Screen
 
     public override void Load()
     {
+        _regionSelectMenu.Update();
         StartFadeIn();
         
         float musicFadeInSpeed = 0.015f;
@@ -274,7 +270,7 @@ public class OverworldScreen : Screen
     private void TrackRegion(List<SiteOfGraceButton> buttonsFromRegion)
     {
         if (!GetMouseButtonDown(MouseButtons.Left)) return;
-        foreach (var grace in buttonsFromRegion.Where(grace => grace.IsClicked()))
+        foreach (var grace in buttonsFromRegion.Where(grace => grace.IsHovered()))
         {
             _enterBattleSound.Play();
             LevelManager.CurrentLevel = grace.Level;
@@ -293,7 +289,8 @@ public class OverworldScreen : Screen
                 _soundtrack.Play();
         }
         
-        switch (SelectedRegion)
+        _regionSelectMenu.Update();
+        switch (_regionSelectMenu.SelectedRegion)
         {
             case Region.Limgrave:
                 TrackRegion(_limgraveGraceButtons);
@@ -312,7 +309,7 @@ public class OverworldScreen : Screen
     
     public override void Draw()
     {
-        switch (SelectedRegion)
+        switch (_regionSelectMenu.SelectedRegion)
         {
             case Region.Limgrave:
                 DrawImage(_limgraveBackdrop, Vector2.Zero, AppSettings.Scaling.ScaleFactor);
@@ -330,5 +327,7 @@ public class OverworldScreen : Screen
             default:
                 throw new ArgumentOutOfRangeException();
         }
+        
+        _regionSelectMenu.Draw();
     }
 }

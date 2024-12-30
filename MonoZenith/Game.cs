@@ -38,13 +38,6 @@ public partial class Game
         _gameScreen = new GameScreen();
         _overworldScreen = new OverworldScreen();
         _pauseScreen = new PauseScreen();
-        new List<Screen.Screen>
-        {
-            _mainMenuScreen,
-            _gameScreen,
-            _overworldScreen,
-            _pauseScreen
-        };
 
         // Start with a fade-in when the game starts
         StartFadeIn();
