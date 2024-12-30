@@ -11,11 +11,10 @@
 
     public enum Region
     {
-        LIMGRAVE,
-        LIURNIA,
-        CAELID,
-        LEYNDELL,
-        ALL
+        Limgrave,
+        Liurnia,
+        AltusPlateau,
+        None
     }
 
     public enum CardLabel
@@ -41,5 +40,13 @@
         PlayingDeathVoiceLines,
         PlayingVictoryVoiceLines,
         EndGame
+    }
+
+    public enum Direction
+    {
+        Top,
+        Right,
+        Bottom,
+        Left
     }
 }

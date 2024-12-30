@@ -34,7 +34,7 @@ public class GameOverManager
                 if (_secretWinner is HumanPlayer) TryLoadSecondPhase();
                 if (_currentWinner is NpcPlayer)
                 {
-                    BackToMainMenu();
+                    BackToOverworld();
                     return;
                 }
 
@@ -42,7 +42,7 @@ public class GameOverManager
                      LevelManager.CurrentLevel.SecondPhase == GetGameState().CurrentLevel)
                      || (_rewardPanel?.Reward == null && LevelManager.CurrentLevel.SecondPhase == null))
                 {
-                    BackToMainMenu();
+                    BackToOverworld();
                     return;
                 }
                 

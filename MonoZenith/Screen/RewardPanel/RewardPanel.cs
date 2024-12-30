@@ -36,7 +36,7 @@ public class RewardPanel
         {
             // TODO: Assign reward to player when possible
             _rewardCollected = true;
-            BackToMainMenu();
+            BackToOverworld();
         });
     }
 

@@ -53,7 +53,7 @@ public class LevelManager
         "Ranni, Queen of the Dark Moon"
     };
     
-    public List<Level> Levels { get; set; }
+    public static List<Level> Levels { get; set; }
     public static Level CurrentLevel { get; set; }
     
     public LevelManager()
@@ -72,7 +72,7 @@ public class LevelManager
         CurrentLevel = GetLevelFromEnemy("Malenia, Blade of Miquella");
     }
     
-    private Level GetLevelFromEnemy(string enemyName)
+    public Level GetLevelFromEnemy(string enemyName)
     {
         return Levels.Find(level => level.Enemy.Name == enemyName);
     }

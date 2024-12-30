@@ -14,7 +14,6 @@ public partial class Game
     private static GameScreen _gameScreen;
     private static OverworldScreen _overworldScreen;
     private static PauseScreen _pauseScreen;
-    private static List<Screen.Screen> _screens;
 
     public static GameScreen GetGameScreen() => _gameScreen;
     public static GameState GetGameState() => _gameScreen.GameState;
@@ -39,7 +38,7 @@ public partial class Game
         _gameScreen = new GameScreen();
         _overworldScreen = new OverworldScreen();
         _pauseScreen = new PauseScreen();
-        _screens = new List<Screen.Screen>
+        new List<Screen.Screen>
         {
             _mainMenuScreen,
             _gameScreen,
@@ -55,6 +54,29 @@ public partial class Game
     {
         if (IsFadingOut)
             screenToUnload.Unload();
+    }
+
+    public static void ToGameScreen()
+    {
+        _overworldScreen.Unload();
+        StartFadeOut(() =>
+        {
+            _gameScreen.Load();
+            ActiveScreen = Screens.GAME;
+        });
+    }
+    
+    /// <summary>
+    /// Callback method to return to the overworld.
+    /// </summary>
+    public static void BackToOverworld()
+    {
+        _gameScreen.Unload();
+        StartFadeOut(() =>
+        {
+            _overworldScreen.Load();
+            ActiveScreen = Screens.OVERWORLD;
+        });
     }
     
     /// <summary>
@@ -106,35 +128,35 @@ public partial class Game
     /* Update game logic. */
     public static void Update(GameTime deltaTime)
     {
-        // Update fade effect if active
-        if (IsFadingIn || IsFadingOut)
-        {
-            _fadeEffect.Update();
-        }
-        
         // Update the active screen
         switch (ActiveScreen)
         {
             case Screens.GAME:
                 UnloadOnFadeOut(_gameScreen);
-                _mainMenuScreen.Unload();
+                _mainMenuScreen.Unload(0.03f);
+                _overworldScreen.Unload();
+                if (IsFadingIn || IsFadingOut) { _fadeEffect.Update(); return; }
                 _gameScreen.Update(deltaTime);
                 break;
 
             case Screens.OVERWORLD:
-                UnloadOnFadeOut(_mainMenuScreen);
+                UnloadOnFadeOut(_overworldScreen);
+                _mainMenuScreen.Unload(0.03f);
                 _gameScreen.Unload();
+                if (IsFadingIn || IsFadingOut) { _fadeEffect.Update(); return; }
                 _overworldScreen.Update(deltaTime);
                 break;
             
             case Screens.MAIN_MENU:
                 UnloadOnFadeOut(_mainMenuScreen);
                 _gameScreen.Unload(); 
+                if (IsFadingIn || IsFadingOut) { _fadeEffect.Update(); return; }
                 _mainMenuScreen.Update(deltaTime);
                 break;
 
             case Screens.PAUSE:
                 _mainMenuScreen.Unload();
+                if (IsFadingIn || IsFadingOut) { _fadeEffect.Update(); return; }
                 _pauseScreen.Update(deltaTime);
                 break;
 
