@@ -100,6 +100,10 @@ public class TurnManager
     public void Draw()
     {
         _endTurnButton.Draw();
+ 
+        if (Game.GetGameState().TurnManager.RoundNumber == 1)
+            return;
+        
         _activeTurnTransitionComponent?.Draw();
     }
 }

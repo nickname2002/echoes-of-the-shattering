@@ -191,7 +191,6 @@ namespace MonoZenith
             Player.Draw();
             Npc.Draw();
 
-            if (TurnManager.RoundNumber == 0) return;
             TurnManager.Draw();
         }
     }

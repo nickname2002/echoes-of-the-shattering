@@ -29,26 +29,28 @@ public class LevelManager
         "Sorceress Sellen",
         "Gatekeeper Gostoc",
         "Godrick the Grafted",
-        "Godrick the Grafted (2nd phase)",
+        "Godrick the Grafted (2nd phase)",  // Second phase
         "Thops",
         "Red Wolf of Radagon",
         "Rennala, Queen of the Full Moon",
-        "Rennala, Queen of the Full Moon (2nd phase)",
+        "Rennala, Queen of the Full Moon ",  // Second phase
         "Royal Knight Loretta",
         "Mimic Tear",
         "Starscourge Radahn",
+        "Starscourge Radahn ",  // Second phase
         "Bloody Finger Hunter Yura",
         "Morgott, The Omen King",
         "Dung Eater",
         "Mohg, Lord of Blood",
         "Commander Niall",
         "Malenia, Blade of Miquella",
-        "Malenia, Goddess of Rot",
+        "Malenia, Goddess of Rot",  // Second phase
+        "Maliketh, the Black Blade",
         "Sir Gideon Ofnir, The All-Knowing",
         "Godfrey, The First Elden Lord",
-        "Hoarah Loux, Warrior",
+        "Hoarah Loux, Warrior",  // Second phase
         "Radagon of the Golden Order",
-        "Elden Beast",
+        "Elden Beast",  // Second phase
         "Tarnished, Consort of the Stars",
         "Ranni, Queen of the Dark Moon"
     };
@@ -69,7 +71,7 @@ public class LevelManager
         ConfigureDecks();
         ConfigureLevels();
         
-        CurrentLevel = GetLevelFromEnemy("Malenia, Blade of Miquella");
+        CurrentLevel = GetLevelFromEnemy("Starscourge Radahn");
     }
     
     private Level GetLevelFromEnemy(string enemyName)
@@ -131,6 +133,7 @@ public class LevelManager
         // TODO: _enemies["Dung Eater"].SetSpiritAsh(typeof(DungEaterPuppet));
         _enemies["Commander Niall"].SetSpiritAsh(typeof(WolvesAsh));
         _enemies["Malenia, Goddess of Rot"].SetSpiritAsh(typeof(MimicTearAsh));
+        _enemies["Maliketh, the Black Blade"].SetSpiritAsh(typeof(MimicTearAsh));
         _enemies["Sir Gideon Ofnir, The All-Knowing"].SetSpiritAsh(typeof(JellyfishAsh));
         _enemies["Tarnished, Consort of the Stars"].SetSpiritAsh(typeof(MimicTearAsh));
         _enemies["Ranni, Queen of the Dark Moon"].SetSpiritAsh(typeof(MimicTearAsh));
@@ -157,7 +160,8 @@ public class LevelManager
             ["Rennala, Queen of the Full Moon (2nd phase)"] = new(DataManager.GetInstance().CardCometAzur, "Comet Azur", typeof(CometAzurCard)),
             ["Royal Knight Loretta"] = new(DataManager.GetInstance().CardCarianGSword, "Carian Greatsword", typeof(CarianGreatSwordCard)),
             ["Mimic Tear"] = new(DataManager.GetInstance().MimicTearAsh, "Mimic Tear", typeof(MimicTearAsh)),
-            ["Starscourge Radahn"] = new(DataManager.GetInstance().CardStarcallerCry, "Starcaller Cry", typeof(StarcallerCryCard)),
+            ["Starscourge Radahn"] = null,
+            ["Starscourge Radahn (2nd phase)"] = new(DataManager.GetInstance().CardStarcallerCry, "Starcaller Cry", typeof(StarcallerCryCard)),
             ["Bloody Finger Hunter Yura"] = new(DataManager.GetInstance().CardUnsheathe, "Unsheathe", typeof(UnsheatheCard)),
             ["Morgott, The Omen King"] = new(DataManager.GetInstance().CardWarmingStone, "Warming Stone", typeof(WarmingStoneCard)),
             ["Dung Eater"] = null,  // TODO: Add reward
@@ -165,6 +169,7 @@ public class LevelManager
             ["Commander Niall"] = new(DataManager.GetInstance().CardRallyingStandard, "Rallying Standard", typeof(RallyingStandardCard)),
             ["Malenia, Blade of Miquella"] = null,
             ["Malenia, Goddess of Rot"] = new(DataManager.GetInstance().CardWaterfowlDance, "Waterfowl Dance", typeof(WaterfowlDanceCard)),
+            ["Maliketh, the Black Blade"] = null,   // TODO: Add reward
             ["Sir Gideon Ofnir, The All-Knowing"] = new(DataManager.GetInstance().CardLarvalTear, "Larval Tear", typeof(LarvalTearCard)),
             ["Godfrey, The First Elden Lord"] = null,
             ["Hoarah Loux, Warrior"] = new(DataManager.GetInstance().CardRegalRoar, "Regal Roar", typeof(RegalRoarCard)),
@@ -348,14 +353,25 @@ public class LevelManager
             },
             ["Starscourge Radahn"] = new()
             {
-                (typeof(StarcallerCryCard), 2),
-                (typeof(StormcallerCard), 3),
-                (typeof(HeavySwordAttackCard), 9),
+                (typeof(HeavySwordAttackCard), 10),
                 (typeof(RallyingStandardCard), 2),
                 (typeof(FlaskOfCrimsonTearsCard), 2),
-                (typeof(EndureCard), 3),
-                (typeof(WarCryCard), 5),
-                (typeof(ThrowingDaggerCard), 4)
+                (typeof(FlaskOfCeruleanTearsCard), 2),
+                (typeof(EndureCard), 2),
+                (typeof(WarCryCard), 2),
+                (typeof(ThrowingDaggerCard), 4),
+                (typeof(GreatGlintStoneCard), 6)
+            },
+            ["Starscourge Radahn (2nd phase)"] = new()
+            {
+                (typeof(StarcallerCryCard), 4),   
+                (typeof(HeavySwordAttackCard), 10),
+                (typeof(RallyingStandardCard), 2),
+                (typeof(FlaskOfCrimsonTearsCard), 2),
+                (typeof(FlaskOfCeruleanTearsCard), 2),
+                (typeof(EndureCard), 2),
+                (typeof(WarCryCard), 2),
+                (typeof(GreatGlintStoneCard), 6)
             },
             ["Bloody Finger Hunter Yura"] = new()
             {
@@ -429,6 +445,20 @@ public class LevelManager
                 (typeof(EndureCard), 5),
                 (typeof(ThrowingDaggerCard), 4),
                 (typeof(RallyingStandardCard), 3)
+            },
+            ["Maliketh, the Black Blade"] = new()
+            {
+                // TODO: Add specific boss card
+                (typeof(LightSwordAttackCard), 8),
+                
+                (typeof(HeavySwordAttackCard), 6),      
+                (typeof(ThrowingDaggerCard), 4),       
+                (typeof(FlaskOfCrimsonTearsCard), 2),  
+                (typeof(EndureCard), 2),               
+                (typeof(WarCryCard), 2),               
+                (typeof(StormcallerCard), 2),         
+                (typeof(PoisonPotCard), 2),           
+                (typeof(WarmingStoneCard), 2)         
             },
             ["Sir Gideon Ofnir, The All-Knowing"] = new()
             {
@@ -650,15 +680,39 @@ public class LevelManager
                 Enemy = _enemies["Rennala, Queen of the Full Moon"],
                 Backdrop = DataManager.GetInstance().RayaLucariaBackdrop, 
                 Reward = _rewards["Rennala, Queen of the Full Moon"],
-                SoundTrack = DataManager.GetInstance().LimgraveSoundtrack.CreateInstance(),  // TODO: Rennala boss music
+                SoundTrack = DataManager.GetInstance().RennalaP1Soundtrack.CreateInstance(),  
                 EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Rennala, Queen of the Full Moon"], _decks["Rennala, Queen of the Full Moon"]),
+                VoiceLinesBattleStart = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Rennala/rennala-p1-start-voicelines-1.wav").CreateInstance(),
+                    Game.LoadAudio("Audio/VoiceLines/Rennala/rennala-p1-start-voicelines-2.wav").CreateInstance(),
+                },
+                VoiceLinesBattleLoss = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Rennala/rennala-p1-loss-voicelines-1.wav").CreateInstance(),
+                },
                 SecondPhase = new Level     // Rennala, Queen of the Full Moon (2nd phase)
                 {
-                    Enemy = _enemies["Rennala, Queen of the Full Moon (2nd phase)"],
+                    Enemy = _enemies["Rennala, Queen of the Full Moon "],
                     Backdrop = DataManager.GetInstance().RayaLucariaBackdrop,  
                     Reward = _rewards["Rennala, Queen of the Full Moon (2nd phase)"],
-                    SoundTrack = DataManager.GetInstance().LimgraveSoundtrack.CreateInstance(),  // TODO: Rennala boss music
-                    EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Rennala, Queen of the Full Moon (2nd phase)"], _decks["Rennala, Queen of the Full Moon (2nd phase)"])
+                    SoundTrack = DataManager.GetInstance().RennalaP2Soundtrack.CreateInstance(),  
+                    EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Rennala, Queen of the Full Moon "], _decks["Rennala, Queen of the Full Moon (2nd phase)"]),
+                    VoiceLinesBattleStart = new List<SoundEffectInstance>
+                    {
+                        Game.LoadAudio("Audio/VoiceLines/Rennala/rennala-p2-start-voicelines-1.wav").CreateInstance(),
+                        Game.LoadAudio("Audio/VoiceLines/Rennala/rennala-p2-start-voicelines-2.wav").CreateInstance(),
+                        Game.LoadAudio("Audio/VoiceLines/Rennala/rennala-p2-start-voicelines-3.wav").CreateInstance(),
+                    },
+                    VoiceLinesBattleLoss = new List<SoundEffectInstance>
+                    {
+                        Game.LoadAudio("Audio/VoiceLines/Rennala/rennala-p2-loss-voicelines-1.wav").CreateInstance(),
+                    },
+                    VoiceLinesBattleVictory = new List<SoundEffectInstance>
+                    {
+                        Game.LoadAudio("Audio/VoiceLines/Rennala/rennala-p2-win-voicelines-1.wav").CreateInstance(),
+                        Game.LoadAudio("Audio/VoiceLines/Rennala/rennala-p2-win-voicelines-2.wav").CreateInstance(),
+                    }
                 }
             },
             
@@ -686,10 +740,18 @@ public class LevelManager
             new Level
             {
                 Enemy = _enemies["Starscourge Radahn"],
-                Backdrop = DataManager.GetInstance().CaelidBackdrop,
+                Backdrop = DataManager.GetInstance().RadahnBattlefieldBackdrop,
                 Reward = _rewards["Starscourge Radahn"],
-                SoundTrack = DataManager.GetInstance().LimgraveSoundtrack.CreateInstance(),      // TODO: Caelid music
-                EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Starscourge Radahn"], _decks["Starscourge Radahn"])
+                SoundTrack = DataManager.GetInstance().StarscourgeRadahnP1Soundtrack.CreateInstance(),      
+                EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Starscourge Radahn"], _decks["Starscourge Radahn"]),
+                SecondPhase = new Level
+                {
+                    Enemy = _enemies["Starscourge Radahn "],
+                    Backdrop = DataManager.GetInstance().RadahnBattlefieldPhase2Backdrop,
+                    Reward = _rewards["Starscourge Radahn (2nd phase)"],
+                    SoundTrack = DataManager.GetInstance().StarscourgeRadahnP2Soundtrack.CreateInstance(),      
+                    EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Starscourge Radahn "], _decks["Starscourge Radahn (2nd phase)"])
+                }
             },
             
             // Bloody Finger Hunter Yura
@@ -799,6 +861,30 @@ public class LevelManager
                 }
             },
             
+            // Maliketh, the Black Blade
+            new Level
+            {
+                Enemy = _enemies["Maliketh, the Black Blade"],
+                Backdrop = DataManager.GetInstance().FarumAzulaBackdrop, 
+                Reward = _rewards["Maliketh, the Black Blade"],
+                SoundTrack = DataManager.GetInstance().MalikethSoundtrack.CreateInstance(),  
+                EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Maliketh, the Black Blade"], _decks["Maliketh, the Black Blade"]),
+                VoiceLinesBattleStart = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Maliketh/maliketh-start-voiceline-1.wav").CreateInstance(),
+                    Game.LoadAudio("Audio/VoiceLines/Maliketh/maliketh-start-voiceline-2.wav").CreateInstance(),
+                },
+                VoiceLinesBattleLoss = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Maliketh/maliketh-loss-voiceline-1.wav").CreateInstance()
+                },
+                VoiceLinesBattleVictory = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Maliketh/maliketh-win-voiceline-1.wav").CreateInstance(),
+                    Game.LoadAudio("Audio/VoiceLines/Maliketh/maliketh-win-voiceline-2.wav").CreateInstance()
+                }  
+            },
+            
             // Sir Gideon Ofnir, The All-Knowing
             new Level
             {
@@ -815,15 +901,41 @@ public class LevelManager
                 Enemy = _enemies["Godfrey, The First Elden Lord"],
                 Backdrop = DataManager.GetInstance().LeyndellFireBackdrop,
                 Reward = _rewards["Godfrey, The First Elden Lord"],
-                SoundTrack = DataManager.GetInstance().LimgraveSoundtrack.CreateInstance(),  // TODO: Godfrey fight music
+                SoundTrack = DataManager.GetInstance().GodfreySoundtrack.CreateInstance(),  
                 EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Godfrey, The First Elden Lord"], _decks["Godfrey, The First Elden Lord"]),
+                VoiceLinesBattleStart = new List<SoundEffectInstance>
+                {   
+                    Game.LoadAudio("Audio/VoiceLines/Godfrey/godfrey-start-voiceline-1.wav").CreateInstance(),
+                    Game.LoadAudio("Audio/VoiceLines/Godfrey/godfrey-start-voiceline-2.wav").CreateInstance(),
+                    Game.LoadAudio("Audio/VoiceLines/Godfrey/godfrey-start-voiceline-3.wav").CreateInstance(),
+                    Game.LoadAudio("Audio/VoiceLines/Godfrey/godfrey-start-voiceline-4.wav").CreateInstance(),
+                    Game.LoadAudio("Audio/VoiceLines/Godfrey/godfrey-start-voiceline-5.wav").CreateInstance(),
+                    Game.LoadAudio("Audio/VoiceLines/Godfrey/godfrey-start-voiceline-6.wav").CreateInstance(),
+                    Game.LoadAudio("Audio/VoiceLines/Godfrey/godfrey-start-voiceline-7.wav").CreateInstance()
+                },
+                VoiceLinesBattleLoss = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Godfrey/godfrey-loss-voiceline-1.wav").CreateInstance(),
+                },
                 SecondPhase = new Level     // Hoarah Loux, Warrior
                 {
                     Enemy = _enemies["Hoarah Loux, Warrior"],
                     Backdrop = DataManager.GetInstance().LeyndellFireBackdrop, 
                     Reward = _rewards["Hoarah Loux, Warrior"],
-                    SoundTrack = DataManager.GetInstance().LimgraveSoundtrack.CreateInstance(),  // TODO: Hoarah fight music
-                    EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Hoarah Loux, Warrior"], _decks["Hoarah Loux, Warrior"])
+                    SoundTrack = DataManager.GetInstance().HoarahLouxSoundtrack.CreateInstance(),  
+                    EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Hoarah Loux, Warrior"], _decks["Hoarah Loux, Warrior"]),
+                    VoiceLinesBattleStart = new List<SoundEffectInstance>
+                    {
+                        Game.LoadAudio("Audio/VoiceLines/Godfrey/hoarah-loux-start-voiceline-1.wav").CreateInstance(),
+                    },
+                    VoiceLinesBattleLoss = new List<SoundEffectInstance>
+                    {
+                        Game.LoadAudio("Audio/VoiceLines/Godfrey/hoarah-loux-loss-voiceline-1.wav").CreateInstance(),
+                    },
+                    VoiceLinesBattleVictory = new List<SoundEffectInstance>
+                    {
+                        Game.LoadAudio("Audio/VoiceLines/Godfrey/hoarah-loux-win-voiceline-2.wav").CreateInstance(),
+                    }
                 }
             },
             
@@ -833,14 +945,14 @@ public class LevelManager
                 Enemy = _enemies["Radagon of the Golden Order"],
                 Backdrop = DataManager.GetInstance().InsideErdtreeBackdrop,  
                 Reward = _rewards["Radagon of the Golden Order"],
-                SoundTrack = DataManager.GetInstance().LimgraveSoundtrack.CreateInstance(),  // TODO: Radagon fight music
+                SoundTrack = DataManager.GetInstance().RadagonSoundtrack.CreateInstance(), 
                 EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Radagon of the Golden Order"], _decks["Radagon of the Golden Order"]),
                 SecondPhase = new Level     // Elden Beast
                 {
                     Enemy = _enemies["Elden Beast"],
                     Backdrop = DataManager.GetInstance().InsideErdtreeBackdrop, 
                     Reward = _rewards["Elden Beast"],
-                    SoundTrack = DataManager.GetInstance().LimgraveSoundtrack.CreateInstance(),  // TODO: Elden beast fight music
+                    SoundTrack = DataManager.GetInstance().EldenBeastSoundtrack.CreateInstance(),
                     EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Elden Beast"], _decks["Elden Beast"])
                 }
             },
