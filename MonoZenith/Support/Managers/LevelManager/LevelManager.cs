@@ -71,7 +71,7 @@ public class LevelManager
         ConfigureDecks();
         ConfigureLevels();
         
-        CurrentLevel = GetLevelFromEnemy("Starscourge Radahn");
+        CurrentLevel = GetLevelFromEnemy("Maliketh, the Black Blade");
     }
     
     private Level GetLevelFromEnemy(string enemyName)
