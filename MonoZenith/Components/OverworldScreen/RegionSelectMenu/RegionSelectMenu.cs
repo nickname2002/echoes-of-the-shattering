@@ -1,13 +1,13 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using MonoZenith.Engine.Support;
 using MonoZenith.Support;
+using MonoZenith.Support.Managers;
 using static MonoZenith.Game;
 
-namespace MonoZenith.Components.OverworldScreen
+namespace MonoZenith.Components.OverworldScreen.RegionSelectMenu
 {
     public class RegionSelectMenu
     {
@@ -21,6 +21,7 @@ namespace MonoZenith.Components.OverworldScreen
             SelectedTexture = LoadImage("Images/OverworldScreen/Buttons/Limgrave/limgrave-button-selected.png"),
             HoveredTexture = LoadImage("Images/OverworldScreen/Buttons/Limgrave/limgrave-button-hovered.png"),
             InactiveTexture = LoadImage("Images/OverworldScreen/Buttons/Limgrave/limgrave-button-inactive.png"),
+            Region = Region.Limgrave
         };
         
         private readonly RegionSelectButton _liurniaButton = new()
@@ -28,6 +29,7 @@ namespace MonoZenith.Components.OverworldScreen
             SelectedTexture = LoadImage("Images/OverworldScreen/Buttons/Liurnia/liurnia-button-selected.png"),
             HoveredTexture = LoadImage("Images/OverworldScreen/Buttons/Liurnia/liurnia-button-hovered.png"),
             InactiveTexture = LoadImage("Images/OverworldScreen/Buttons/Liurnia/liurnia-button-inactive.png"),
+            Region = Region.Liurnia
         };
         
         private readonly RegionSelectButton _altusButton = new()
@@ -35,6 +37,7 @@ namespace MonoZenith.Components.OverworldScreen
             SelectedTexture = LoadImage("Images/OverworldScreen/Buttons/Altus/altus-button-selected.png"),
             HoveredTexture = LoadImage("Images/OverworldScreen/Buttons/Altus/altus-button-hovered.png"),
             InactiveTexture = LoadImage("Images/OverworldScreen/Buttons/Altus/altus-button-inactive.png"),
+            Region = Region.AltusPlateau
         };
 
         public RegionSelectMenu()
@@ -45,8 +48,8 @@ namespace MonoZenith.Components.OverworldScreen
         private void UpdateButtonPositions()
         {
             var regionSelectButton = new[] { _altusButton, _liurniaButton, _limgraveButton };
-        
-            var xPosition = ScreenWidth - _altusButton.Dimensions.X + 50f * AppSettings.Scaling.ScaleFactor; 
+            var longestButton = regionSelectButton.OrderByDescending(button => button.Dimensions.X).First();
+            var xPosition = ScreenWidth - longestButton.Dimensions.X + 40f * AppSettings.Scaling.ScaleFactor; 
             var totalHeight = regionSelectButton.Sum(button => button.Dimensions.Y * 2);
             var startY = (ScreenHeight - totalHeight) / 2;
             var offset = _altusButton.Dimensions.Y;
@@ -64,19 +67,22 @@ namespace MonoZenith.Components.OverworldScreen
         {
             if (GetMouseButtonDown(MouseButtons.Left))
             {
-                if (_limgraveButton.IsHovered())
+                if (_limgraveButton.IsHovered()
+                    && Screen.OverworldScreen.LevelManager.RegionActive(Region.Limgrave))
                 {
                     if (SelectedRegion != Region.Limgrave)
                         _limgraveSelectedSoundEffect.Play();
                     SelectedRegion = Region.Limgrave;
                 }
-                else if (_liurniaButton.IsHovered())
+                else if (_liurniaButton.IsHovered() 
+                         && Screen.OverworldScreen.LevelManager.RegionActive(Region.Liurnia))
                 {
                     if (SelectedRegion != Region.Liurnia)
                         _liurniaSelectedSoundEffect.Play();
                     SelectedRegion = Region.Liurnia;
                 }
-                else if (_altusButton.IsHovered())
+                else if (_altusButton.IsHovered() 
+                         && Screen.OverworldScreen.LevelManager.RegionActive(Region.AltusPlateau))
                 {
                     if (SelectedRegion != Region.AltusPlateau)
                         _altusSelectedSoundEffect.Play();
@@ -97,9 +103,9 @@ namespace MonoZenith.Components.OverworldScreen
 
         public void Draw()
         {
-            var regionSelectButton = new[] { _altusButton, _liurniaButton, _limgraveButton };
-            foreach (var button in regionSelectButton)
-            {
+            RegionSelectButton[] regionSelectButton = { _altusButton, _liurniaButton, _limgraveButton };
+            foreach (RegionSelectButton button in regionSelectButton)
+            { 
                 button.Draw();
             }
         }

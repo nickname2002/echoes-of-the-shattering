@@ -17,6 +17,7 @@ public partial class Game
 
     public static GameScreen GetGameScreen() => _gameScreen;
     public static GameState GetGameState() => _gameScreen.GameState;
+    public static OverworldScreen GetOverworldScreen() => _overworldScreen;
     
     /* Initialize game vars and load assets. */
     public static void Init()

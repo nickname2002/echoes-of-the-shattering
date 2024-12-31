@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Components.OverworldScreen;
+using MonoZenith.Components.OverworldScreen.RegionSelectMenu;
 using MonoZenith.Engine.Support;
 using MonoZenith.Support;
 using MonoZenith.Support.Managers;
@@ -14,7 +15,7 @@ namespace MonoZenith.Screen;
 
 public class OverworldScreen : Screen
 {
-    private static readonly LevelManager LevelManager = new();
+    public static readonly LevelManager LevelManager = new();
     private readonly RegionSelectMenu _regionSelectMenu = new();
     
     /// <summary>
@@ -41,7 +42,7 @@ public class OverworldScreen : Screen
         new()
         {
             Position = new Vector2(989, 745),
-            Level = LevelManager.GetLevelFromEnemy("White Mask Varré")
+            Level = LevelManager.GetLevelFromEnemy("White Mask Varré"),
         },
 
         // Tree Sentinel

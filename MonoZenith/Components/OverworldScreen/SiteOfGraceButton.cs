@@ -2,6 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Engine.Support;
+using MonoZenith.Support;
 using MonoZenith.Support.Managers;
 using static MonoZenith.Game;
 
@@ -46,20 +47,21 @@ public class SiteOfGraceButton
 
     public bool IsHovered()
     {
+        if (!Level.Unlocked)
+            return false;
+        
         var mousePosition = GetMousePosition();
         return mousePosition.X >= Position.X &&
                mousePosition.X <= Position.X + Dimensions.X &&
                mousePosition.Y >= Position.Y &&
                mousePosition.Y <= Position.Y + Dimensions.Y; 
     }
-    
-    public bool IsClicked()
-    {
-        return IsHovered();
-    }
 
     public void Draw()
     {
+        if (!Level.Unlocked)
+            return;
+        
         // Draw outline when hovered
         if (IsHovered())
         {
