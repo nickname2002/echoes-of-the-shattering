@@ -42,29 +42,63 @@ namespace MonoZenith.Engine
             Init();
             Window.AllowUserResizing = ScreenResizable;
 
-            // If full screen, set window size to screen size
+            // If full screen, set window size to screen size and apply viewport
             if (ScreenFullScreen)
             {
+                // Set screen size to the current display resolution
                 SetScreenSize(
                     GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width,
                     GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height);
+
+                // Apply viewport scaling for fullscreen
+                ApplyViewportScaling(
+                    GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, 
+                    GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height);
             }
-            
+            else
+            {
+                // If not full screen, use the specified ScreenWidth and ScreenHeight
+                SetScreenSize(ScreenWidth, ScreenHeight);
+
+                // Apply viewport scaling for windowed mode
+                ApplyViewportScaling(ScreenWidth, ScreenHeight);
+            }
+
             // Change window properties
             _graphics.IsFullScreen = ScreenFullScreen;
             _graphics.PreferredBackBufferWidth = ScreenWidth;
             _graphics.PreferredBackBufferHeight = ScreenHeight;
             _graphics.ApplyChanges();
+
             Window.Title = WindowTitle;
-            
+
             // Update app settings
             AppSettings.Scaling.UpdateScaleFactor(ScreenWidth, ScreenHeight);
-            
+
             // Load content
             DataManager.GetInstance();
-            
+
             // Initialize game screens
             InitializeScreens();
+        }
+
+        /// <summary>
+        /// Apply scaling for the viewport based on the new screen dimensions and adjust for top/bottom bars.
+        /// </summary>
+        private void ApplyViewportScaling(int screenWidth, int screenHeight)
+        {
+            int adjustedHeight = screenHeight;
+
+            float scaleX = (float)screenWidth / ScreenWidth;
+            float scaleY = (float)adjustedHeight / ScreenHeight;
+
+            _graphics.GraphicsDevice.Viewport = new Viewport(0, 0, screenWidth, adjustedHeight);
+            _graphics.ApplyChanges();
+
+            // Update schaalfactoren
+            AppSettings.Scaling.UpdateScaleFactor(
+                (int)(screenWidth * scaleX), 
+                (int)(adjustedHeight * scaleY));
         }
 
         /// <summary>
@@ -103,7 +137,7 @@ namespace MonoZenith.Engine
                 mapping.Value();
             }
         }
-        
+
         /// <summary>
         /// Show splash screen.
         /// </summary>
@@ -138,26 +172,13 @@ namespace MonoZenith.Engine
                 SpriteEffects.None,
                 0);
         }
-        
+
         /// <summary>
         /// Update the game.
         /// </summary>
         /// <param name="gameTime"></param>
         protected override void Update(GameTime gameTime)
         {
-            // Change window size accordingly when resizing
-            if (Window.ClientBounds.Width != ScreenWidth || Window.ClientBounds.Height != ScreenHeight)
-            {
-                SetScreenSize(Window.ClientBounds.Width, Window.ClientBounds.Height);
-            }
-            
-            // If splash screen is still showing, wait
-            // if (_splashScreenTimer > 0)
-            // {
-            //     _splashScreenTimer -= gameTime.ElapsedGameTime.Milliseconds;
-            //     return;
-            // }
-
             // Exit game
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed
                 || Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -180,18 +201,10 @@ namespace MonoZenith.Engine
         /// <param name="gameTime">Game time.</param>
         protected override void Draw(GameTime gameTime)
         {
-            // GraphicsDevice.Clear(_splashScreenTimer > 0 ? Color.White : _game.BackgroundColor);
             GraphicsDevice.Clear(BackgroundColor);
             _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied);
-            
+
             // TODO: Show splash screen when development is done.
-            // if (_splashScreenTimer > 0)
-            // {
-            //     ShowSplashScreen();
-            //     _spriteBatch.End();
-            //     return;
-            // }
-            
             Game.Draw();
             _spriteBatch.End();
             base.Draw(gameTime);
