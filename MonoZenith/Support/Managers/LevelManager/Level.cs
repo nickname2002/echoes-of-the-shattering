@@ -15,6 +15,7 @@ public class Level
     public NpcPlayer Enemy { get; init; }
     public Reward? Reward { get; init; }
     public List<Card.Card> EnemyDeck { get; init; }
+    public bool Unlocked { get; set; } = false;
     public Level? SecondPhase { get; init; }
     public List<SoundEffectInstance> VoiceLinesBattleStart = new();
     public List<SoundEffectInstance> VoiceLinesBattleLoss = new();

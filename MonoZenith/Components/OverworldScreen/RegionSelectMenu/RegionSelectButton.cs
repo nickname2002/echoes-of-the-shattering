@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Engine.Support;
+using MonoZenith.Support;
 using static MonoZenith.Game;
 
 namespace MonoZenith.Components.OverworldScreen;
@@ -23,6 +24,11 @@ public class RegionSelectButton
     /// </summary>
     public Vector2 Position { get; set; }
     public Vector2 Dimensions { get; set; }
+    
+    /// <summary>
+    /// Region associated with the grace.
+    /// </summary>
+    public Region Region { get; set; }
 
     public bool IsHovered()
     {
@@ -48,18 +54,25 @@ public class RegionSelectButton
     
     public void Draw()
     {
-        if (IsHovered())
+        bool regionActive = Screen.OverworldScreen.LevelManager.RegionActive(Region);
+        
+        if (IsHovered() && regionActive)
         {
             DrawImage(HoveredTexture, Position, AppSettings.Scaling.ScaleFactor * ScaleFactor);
             return;
         }
         
-        if (Selected)
+        if (Selected && regionActive)
         {
             DrawImage(SelectedTexture, Position, AppSettings.Scaling.ScaleFactor * ScaleFactor);
             return;
         }
         
-        DrawImage(InactiveTexture, Position, AppSettings.Scaling.ScaleFactor * ScaleFactor);
+        float opacity = regionActive ? 1.0f : 0.5f;
+        DrawImage(
+            InactiveTexture, 
+            Position, 
+            AppSettings.Scaling.ScaleFactor * ScaleFactor,
+            alpha: opacity);
     }
 }

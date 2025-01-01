@@ -126,6 +126,9 @@ public class GameOverManager
             _secretWinner = winner;
             return winner;
         }
+        
+        if (winner is HumanPlayer)
+            LevelManager.SetNextLevelUnlocked(LevelManager.CurrentLevel);
 
         if (GetGameState().StateType != GameStateType.EndGame)
             return winner;
