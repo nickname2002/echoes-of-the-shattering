@@ -19,7 +19,7 @@ public partial class Game
     /// Responsible for saving and loading game data.
     /// </summary>
     private static SaveManager _saveManager;
-    public bool HasSaveFile => _saveManager.HasSaveFile;
+    public static bool HasSaveFile => _saveManager.HasSaveFile;
     
     public static GameScreen GetGameScreen() => _gameScreen;
     public static GameState GetGameState() => _gameScreen.GameState;

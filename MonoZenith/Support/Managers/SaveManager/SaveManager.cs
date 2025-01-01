@@ -40,10 +40,10 @@ public class SaveManager
     
     private void ResetLevels()
     {
-        foreach (var level in LevelManager.Levels.Where(
-                     level => LevelManager.Levels.IndexOf(level) != 0))
+        foreach (var level in LevelManager.Levels)
         {
-            level.Unlocked = false;
+            if (LevelManager.Levels.IndexOf(level) != 0)
+                level.Unlocked = false;
             
             if (level.RewardCollected)
                 level.RewardCollected = false;
