@@ -55,6 +55,10 @@ namespace MonoZenith.Engine.Support
         // Remembrances
         public Texture2D RemembranceOfTheStarscourge;
         
+        // OverworldScreen
+        public Texture2D SiteOfGraceButton;
+        public Texture2D SiteOfGraceButtonHover;
+        
         // Indicators
         public Texture2D AshIndicatorDisabled;
         public Texture2D AshIndicatorEnabled;
@@ -257,6 +261,10 @@ namespace MonoZenith.Engine.Support
             MimicTearAsh = LoadImage("Images/Indicators/SpiritAshes/mimic-tear.png");
             JellyfishAsh = LoadImage("Images/Indicators/SpiritAshes/jellyfish.png");
             WolvesAsh = LoadImage("Images/Indicators/SpiritAshes/wolves.png");
+            
+            // OverworldScreen
+            SiteOfGraceButton = LoadImage("Images/OverworldScreen/site-of-grace.png");
+            SiteOfGraceButtonHover = LoadImage("Images/OverworldScreen/site-of-grace-hover-indicator.png");
             
             // Reward panel
             RewardContainer = LoadImage("Images/RewardPanel/reward-container.png");
