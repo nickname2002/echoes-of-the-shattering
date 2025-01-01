@@ -62,7 +62,7 @@ namespace MonoZenith
             CurrentLevel = level;
             Npc = level.Enemy;
             _backdrop = level.Backdrop;
-            Reward = level.Reward;
+            Reward = level.LevelReward;
 
             VoiceLineManager.InitializeVoiceQueue(level.VoiceLinesBattleStart);
             StateType = GameStateType.PlayingStartingVoiceLines;

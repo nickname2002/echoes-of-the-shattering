@@ -37,10 +37,11 @@ public class GameOverManager
                     BackToOverworld();
                     return;
                 }
-
-                if ((_rewardPanel?.Reward == null && 
-                     LevelManager.CurrentLevel.SecondPhase == GetGameState().CurrentLevel)
-                     || (_rewardPanel?.Reward == null && LevelManager.CurrentLevel.SecondPhase == null))
+                
+                if (LevelManager.CurrentLevel.SecondPhase != null && 
+                    ((LevelManager.CurrentLevel.SecondPhase.RewardCollected && 
+                      LevelManager.CurrentLevel.SecondPhase == GetGameState().CurrentLevel) 
+                     || (LevelManager.CurrentLevel.RewardCollected && LevelManager.CurrentLevel.SecondPhase == null)))
                 {
                     BackToOverworld();
                     return;
@@ -126,9 +127,12 @@ public class GameOverManager
             _secretWinner = winner;
             return winner;
         }
-        
+
         if (winner is HumanPlayer)
+        {
             LevelManager.SetNextLevelUnlocked(LevelManager.CurrentLevel);
+            SaveGame();
+        }
 
         if (GetGameState().StateType != GameStateType.EndGame)
             return winner;

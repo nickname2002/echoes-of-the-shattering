@@ -15,6 +15,12 @@ public partial class Game
     private static OverworldScreen _overworldScreen;
     private static PauseScreen _pauseScreen;
 
+    /// <summary>
+    /// Responsible for saving and loading game data.
+    /// </summary>
+    private static SaveManager _saveManager;
+    public bool HasSaveFile => _saveManager.HasSaveFile;
+    
     public static GameScreen GetGameScreen() => _gameScreen;
     public static GameState GetGameState() => _gameScreen.GameState;
     public static OverworldScreen GetOverworldScreen() => _overworldScreen;
@@ -40,10 +46,18 @@ public partial class Game
         _overworldScreen = new OverworldScreen();
         _pauseScreen = new PauseScreen();
 
+        _saveManager = new SaveManager();
+        _saveManager.LoadGame();
+        
         // Start with a fade-in when the game starts
         StartFadeIn();
     }
 
+    public static void SaveGame()
+    {
+        _saveManager.SaveGame();
+    }
+    
     private static void UnloadOnFadeOut(Screen.Screen screenToUnload)
     {
         if (IsFadingOut)
@@ -87,9 +101,19 @@ public partial class Game
     }
     
     /// <summary>
-    /// Callback method to start the game.
+    /// Callback method to start game on a new save file.
     /// </summary>
-    public static void StartGame()
+    public static void StartNewGame()
+    {
+        _saveManager.RemoveSaveFile();
+        _saveManager.LoadGame();
+        ContinueGame();
+    }
+    
+    /// <summary>
+    /// Callback method to start the game on an existing save file.
+    /// </summary>
+    public static void ContinueGame()
     {
         _mainMenuScreen.Unload();
         StartFadeOut(() =>

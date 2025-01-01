@@ -29,17 +29,17 @@ public class MainMenuScreen : Screen
         _startButton = new MainMenuOptionButton(
             Game.Instance, 
             ScreenHeight / 2f + (int)(250 * AppSettings.Scaling.ScaleFactor), 
-            "Start Game",
-            StartGame,
+            "Start new game",
+            StartNewGame,
             startButtonSound);
 
         // Settings button
         _settingsButton = new MainMenuOptionButton(
             Instance, 
             ScreenHeight / 2f + (int)(325 * AppSettings.Scaling.ScaleFactor),
-            "Settings",
-            () => Console.WriteLine("Settings button clicked")
-        );
+            "Continue game",
+            ContinueGame,
+            startButtonSound);
     }
     
     public override void Unload(float fadeSpeed = 0.015f, Action unOnloadComplete = null)
