@@ -14,7 +14,7 @@ public class MainMenuScreen : Screen
     private float _mainMenuScale;
     private static SoundEffectInstance _mainMenuMusic;
     private static MainMenuOptionButton _startButton;
-    private static MainMenuOptionButton _settingsButton;
+    private static MainMenuOptionButton _continueButton;
 
     public MainMenuScreen()
     {
@@ -28,18 +28,18 @@ public class MainMenuScreen : Screen
         // Start button
         _startButton = new MainMenuOptionButton(
             Game.Instance, 
-            ScreenHeight / 2f + (int)(250 * AppSettings.Scaling.ScaleFactor), 
-            "Start Game",
-            StartGame,
+            ScreenHeight / 2f + (int)(325 * AppSettings.Scaling.ScaleFactor), 
+            "Start new game",
+            StartNewGame,
             startButtonSound);
 
         // Settings button
-        _settingsButton = new MainMenuOptionButton(
+        _continueButton = new MainMenuOptionButton(
             Instance, 
-            ScreenHeight / 2f + (int)(325 * AppSettings.Scaling.ScaleFactor),
-            "Settings",
-            () => Console.WriteLine("Settings button clicked")
-        );
+            ScreenHeight / 2f + (int)(250 * AppSettings.Scaling.ScaleFactor),
+            "Continue game",
+            ContinueGame,
+            startButtonSound);
     }
     
     public override void Unload(float fadeSpeed = 0.015f, Action unOnloadComplete = null)
@@ -66,7 +66,8 @@ public class MainMenuScreen : Screen
     {
         _mainMenuScale = 0.7f * AppSettings.Scaling.ScaleFactor;
         _startButton.Update(deltaTime);
-        _settingsButton.Update(deltaTime);
+        if (!HasSaveFile) return;
+        _continueButton.Update(deltaTime);
     }
 
     public override void Draw()
@@ -82,9 +83,9 @@ public class MainMenuScreen : Screen
         
         // Draw the backdrop
         DrawImage(_mainMenuBackdrop, position, _mainMenuScale);
-    
-        // Draw start and settings buttons
+        
         _startButton.Draw();
-        _settingsButton.Draw();
+        if (!HasSaveFile) return;   
+        _continueButton.Draw();
     }
 }

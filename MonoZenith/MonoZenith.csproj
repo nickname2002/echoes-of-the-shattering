@@ -33,6 +33,7 @@
     <Folder Include="Content\Audio\VoiceLines\Godfrey\" />
     <Folder Include="Content\Audio\VoiceLines\Maliketh\" />
     <Folder Include="Content\Audio\VoiceLines\Rennala\" />
+    <Folder Include="SaveFiles\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="bin\Debug\net6.0\Content\Audio\placeholder.txt" />

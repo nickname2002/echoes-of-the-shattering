@@ -28,7 +28,8 @@ public class GameOverManager
         _playerDeathSound = dataManager.PlayerDeathSound.CreateInstance();
         _enemyDeathSound = dataManager.EnemyDeathSound.CreateInstance();
         var newItemSound = dataManager.NewItemSound.CreateInstance();
-        _gameOverTransitionComponent = new TransitionComponent("YOU DIED", Color.Gold, dataManager.GameOverTransitionComponentFont,
+        _gameOverTransitionComponent = new TransitionComponent(
+            "YOU DIED", Color.Gold, dataManager.GameOverTransitionComponentFont,
             1f, 3f, 1f, () =>
             {
                 if (_secretWinner is HumanPlayer) TryLoadSecondPhase();
@@ -37,10 +38,8 @@ public class GameOverManager
                     BackToOverworld();
                     return;
                 }
-
-                if ((_rewardPanel?.Reward == null && 
-                     LevelManager.CurrentLevel.SecondPhase == GetGameState().CurrentLevel)
-                     || (_rewardPanel?.Reward == null && LevelManager.CurrentLevel.SecondPhase == null))
+                
+                if (RewardCollected())
                 {
                     BackToOverworld();
                     return;
@@ -54,6 +53,22 @@ public class GameOverManager
         _rewardPanel = new RewardPanel();
     }
 
+    private bool RewardCollected()
+    {
+        bool inSecondPhase = 
+            LevelManager.CurrentLevel.SecondPhase != null 
+            && GetGameState().CurrentLevel == LevelManager.CurrentLevel.SecondPhase;
+        bool inSecondPhaseAndCollected = 
+            LevelManager.CurrentLevel.SecondPhase != null
+            && inSecondPhase
+            && LevelManager.CurrentLevel.SecondPhase.RewardCollected;
+        bool hasNoSecondPhaseAndCollected = 
+            LevelManager.CurrentLevel.SecondPhase == null
+            && LevelManager.CurrentLevel.RewardCollected;
+        
+        return inSecondPhaseAndCollected || hasNoSecondPhaseAndCollected;
+    }
+    
     /// <summary>
     /// Reset the state of the GameOverManager.
     /// </summary>
@@ -126,9 +141,12 @@ public class GameOverManager
             _secretWinner = winner;
             return winner;
         }
-        
+
         if (winner is HumanPlayer)
+        {
             LevelManager.SetNextLevelUnlocked(LevelManager.CurrentLevel);
+            SaveGame();
+        }
 
         if (GetGameState().StateType != GameStateType.EndGame)
             return winner;

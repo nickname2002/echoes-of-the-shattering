@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Components.RewardPanel;
 using MonoZenith.Engine.Support;
+using MonoZenith.Support.Managers;
 using static MonoZenith.Game;
 
 namespace MonoZenith.Screen.RewardPanel;
@@ -34,8 +35,10 @@ public class RewardPanel
             _scale);
         _collectRewardButton.SetOnClickAction(() =>
         {
-            // TODO: Assign reward to player when possible
             _rewardCollected = true;
+            _reward = null;
+            // TODO: Assign reward to player when possible
+            LevelManager.SetRewardCollected(GetGameState().CurrentLevel);
             BackToOverworld();
         });
     }
