@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Text.Json;
 using MonoZenith.Screen;
 using MonoZenith.Support.Managers.Models;
@@ -10,11 +9,16 @@ namespace MonoZenith.Support.Managers;
 
 public class SaveManager
 {
-    private const string SavePath = "SaveFiles/";
+    private static readonly string SaveDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "SaveFiles");
     private readonly int _selectedSlot = 0;
 
-    public bool HasSaveFile => File.Exists(SavePath + $"levels_{_selectedSlot}.json");
-    
+    public bool HasSaveFile => File.Exists(GetSaveFilePath());
+
+    public SaveManager()
+    {
+        EnsureSaveDirectoryExists();
+    }
+
     public void SaveGame()
     {
         SaveLevels();
@@ -24,12 +28,13 @@ public class SaveManager
     {
         LoadLevels();
     }
-    
+
     public void RemoveSaveFile()
     {
-        if (File.Exists(SavePath + $"levels_{_selectedSlot}.json"))
-            File.Delete(SavePath + $"levels_{_selectedSlot}.json");
-        
+        string saveFilePath = GetSaveFilePath();
+        if (File.Exists(saveFilePath))
+            File.Delete(saveFilePath);
+
         ResetLevels();
     }
 
@@ -37,17 +42,17 @@ public class SaveManager
     {
         throw new NotImplementedException();
     }
-    
+
     private void ResetLevels()
     {
         foreach (var level in LevelManager.Levels)
         {
             if (LevelManager.Levels.IndexOf(level) != 0)
                 level.Unlocked = false;
-            
+
             if (level.RewardCollected)
                 level.RewardCollected = false;
-            
+
             if (level.SecondPhase != null)
                 level.SecondPhase.RewardCollected = false;
         }
@@ -62,7 +67,7 @@ public class SaveManager
             Unlocked = level.Unlocked,
             RewardCollected = level.RewardCollected
         }));
-        File.WriteAllText(SavePath + $"levels_{_selectedSlot}.json", json);
+        File.WriteAllText(GetSaveFilePath(), json);
     }
 
     private void SaveDeck()
@@ -72,12 +77,13 @@ public class SaveManager
 
     private void LoadLevels()
     {
-        if (!File.Exists(SavePath + $"levels_{_selectedSlot}.json"))
+        string saveFilePath = GetSaveFilePath();
+        if (!File.Exists(saveFilePath))
             return;
-        
-        var json = File.ReadAllText(SavePath + $"levels_{_selectedSlot}.json");
+
+        var json = File.ReadAllText(saveFilePath);
         var levels = JsonSerializer.Deserialize<LevelModel[]>(json);
-        
+
         foreach (var level in levels)
         {
             if (!level.Unlocked) continue;
@@ -86,9 +92,22 @@ public class SaveManager
             levelToUnlock.RewardCollected = level.RewardCollected;
         }
     }
-    
+
     public void LoadDeck()
     {
         throw new NotImplementedException();
+    }
+
+    private void EnsureSaveDirectoryExists()
+    {
+        if (!Directory.Exists(SaveDirectory))
+        {
+            Directory.CreateDirectory(SaveDirectory);
+        }
+    }
+
+    private string GetSaveFilePath()
+    {
+        return Path.Combine(SaveDirectory, $"levels_{_selectedSlot}.json");
     }
 }
