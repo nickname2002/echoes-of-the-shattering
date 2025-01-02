@@ -29,7 +29,7 @@ public class LevelManager
         "Sorceress Sellen",
         "Gatekeeper Gostoc",
         "Godrick the Grafted",
-        "Godrick the Grafted (2nd phase)",  // Second phase
+        "Godrick the Grafted ",  // Second phase
         "Thops",
         "Red Wolf of Radagon",
         "Rennala, Queen of the Full Moon",
@@ -705,11 +705,11 @@ public class LevelManager
                 EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Godrick the Grafted"], _decks["Godrick the Grafted"]),
                 SecondPhase = new Level     // Godrick the Grafted (2nd phase)
                 {
-                    Enemy = _enemies["Godrick the Grafted (2nd phase)"],
+                    Enemy = _enemies["Godrick the Grafted "],
                     Backdrop = DataManager.GetInstance().StormveilBackdrop,  
                     LevelReward = _rewards["Godrick the Grafted (2nd phase)"],
                     SoundTrack = DataManager.GetInstance().LimgraveSoundtrack.CreateInstance(),  // TODO: Stormveil castle music
-                    EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Godrick the Grafted (2nd phase)"], _decks["Godrick the Grafted (2nd phase)"])
+                    EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Godrick the Grafted "], _decks["Godrick the Grafted (2nd phase)"])
                 }
             },
             
