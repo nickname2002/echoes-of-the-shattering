@@ -238,7 +238,7 @@ namespace MonoZenith.Card.CardStack
             // Update the position of the contained cards
             foreach (var card in _cards)
             {
-                card.UpdatePosition(_position.X, _position.Y);
+                card.SetPosition(new Vector2(_position.X, _position.Y));
             }
         }
 
