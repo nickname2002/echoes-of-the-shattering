@@ -19,7 +19,7 @@ public partial class Game
     /// Responsible for saving and loading game data.
     /// </summary>
     private static SaveManager _saveManager;
-    public static bool HasSaveFile => _saveManager.HasSaveFile;
+    public static bool HasSaveFile => _saveManager.HasSaveFile();
     
     public static GameScreen GetGameScreen() => _gameScreen;
     public static GameState GetGameState() => _gameScreen.GameState;
@@ -101,6 +101,19 @@ public partial class Game
     }
     
     /// <summary>
+    /// Callback method to return to the desktop.
+    /// </summary>
+    public static void BackToDesktop()
+    {
+        _mainMenuScreen.Unload();
+        StartFadeOut(() =>
+        {
+            ActiveScreen = Screens.NONE;
+            QuitToDesktop = true;
+        });
+    }
+    
+    /// <summary>
     /// Callback method to start game on a new save file.
     /// </summary>
     public static void StartNewGame()
@@ -178,6 +191,7 @@ public partial class Game
                 _pauseScreen.Update(deltaTime);
                 break;
 
+            case Screens.NONE:
             default:
                 _gameScreen.Update(deltaTime);
                 break;

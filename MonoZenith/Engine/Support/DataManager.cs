@@ -59,6 +59,7 @@ namespace MonoZenith.Engine.Support
         // OverworldScreen
         public Texture2D SiteOfGraceButton;
         public Texture2D SiteOfGraceButtonHover;
+        public Texture2D BackToMainMenuButton;
         
         // Indicators
         public Texture2D AshIndicatorDisabled;
@@ -211,7 +212,7 @@ namespace MonoZenith.Engine.Support
         private void LoadFonts()
         {
             ComponentFont = LoadFont("Fonts/pixel.ttf", 1 * AppSettings.Scaling.ScaleFactor);
-            StartMenuFont = LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1.75f * AppSettings.Scaling.ScaleFactor);
+            StartMenuFont = LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1.25f * AppSettings.Scaling.ScaleFactor);
             PlayerFont = LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1.1f * AppSettings.Scaling.ScaleFactor);
             CardFont = LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1f * AppSettings.Scaling.ScaleFactor);
             IndicatorFont = LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1.25f * AppSettings.Scaling.ScaleFactor);
@@ -274,6 +275,7 @@ namespace MonoZenith.Engine.Support
             // OverworldScreen
             SiteOfGraceButton = LoadImage("Images/OverworldScreen/site-of-grace.png");
             SiteOfGraceButtonHover = LoadImage("Images/OverworldScreen/site-of-grace-hover-indicator.png");
+            BackToMainMenuButton = LoadImage("Images/OverworldScreen/Buttons/back-to-main-menu.png");
             
             // Reward panel
             RewardContainer = LoadImage("Images/RewardPanel/reward-container.png");
