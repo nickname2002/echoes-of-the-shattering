@@ -217,7 +217,7 @@ public class LevelManager
             ["Commander Niall"] = new(DataManager.GetInstance().CardRallyingStandard, "Rallying Standard", typeof(RallyingStandardCard)),
             ["Malenia, Blade of Miquella"] = null,
             ["Malenia, Goddess of Rot"] = new(DataManager.GetInstance().CardWaterfowlDance, "Waterfowl Dance", typeof(WaterfowlDanceCard)),
-            ["Maliketh, the Black Blade"] = null,   // TODO: Add reward
+            ["Maliketh, the Black Blade"] = new(DataManager.GetInstance().CardDestinedDeath, "Destined Death", typeof(DestinedDeathCard)),
             ["Sir Gideon Ofnir, The All-Knowing"] = new(DataManager.GetInstance().CardLarvalTear, "Larval Tear", typeof(LarvalTearCard)),
             ["Godfrey, The First Elden Lord"] = null,
             ["Hoarah Loux, Warrior"] = new(DataManager.GetInstance().CardRegalRoar, "Regal Roar", typeof(RegalRoarCard)),
@@ -496,10 +496,9 @@ public class LevelManager
             },
             ["Maliketh, the Black Blade"] = new()
             {
-                // TODO: Add specific boss card
-                (typeof(LightSwordAttackCard), 8),
-                
-                (typeof(HeavySwordAttackCard), 6),      
+                (typeof(DestinedDeathCard), 3),
+                (typeof(LightSwordAttackCard), 6),
+                (typeof(HeavySwordAttackCard), 5),      
                 (typeof(ThrowingDaggerCard), 4),       
                 (typeof(FlaskOfCrimsonTearsCard), 2),  
                 (typeof(EndureCard), 2),               
@@ -611,7 +610,7 @@ public class LevelManager
                 Enemy = _enemies["Tree Sentinel"],
                 Backdrop = DataManager.GetInstance().LimgraveBackdrop,
                 LevelReward = _rewards["Tree Sentinel"],
-                SoundTrack = DataManager.GetInstance().LimgraveSoundtrack.CreateInstance(),
+                SoundTrack = DataManager.GetInstance().TreeSentinelSoundtrack.CreateInstance(),
                 EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Tree Sentinel"], _decks["Tree Sentinel"])
             },
             
@@ -669,9 +668,9 @@ public class LevelManager
             new Level
             {
                 Enemy = _enemies["Fia, The Deathbed Companion"],
-                Backdrop = DataManager.GetInstance().RoundtableHoldBackdrop, 
+                Backdrop = DataManager.GetInstance().RoundtableHoldBackdrop,
                 LevelReward = _rewards["Fia, The Deathbed Companion"],
-                SoundTrack = DataManager.GetInstance().LimgraveSoundtrack.CreateInstance(),  // TODO: Roundtable hold music
+                SoundTrack = DataManager.GetInstance().RoundtableSoundtrack.CreateInstance(),
                 EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Fia, The Deathbed Companion"], _decks["Fia, The Deathbed Companion"])
             },
             
@@ -689,9 +688,9 @@ public class LevelManager
             new Level
             {
                 Enemy = _enemies["Margit, The Fell Omen"],
-                Backdrop = DataManager.GetInstance().StormveilBackdrop,  
+                Backdrop = DataManager.GetInstance().StormveilBackdrop,
                 LevelReward = _rewards["Margit, The Fell Omen"],
-                SoundTrack = DataManager.GetInstance().LimgraveSoundtrack.CreateInstance(),  // TODO: Stormveil Castle music
+                SoundTrack = DataManager.GetInstance().MargitSoundtrack.CreateInstance(),
                 EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Margit, The Fell Omen"], _decks["Margit, The Fell Omen"])
             },
             
@@ -699,16 +698,16 @@ public class LevelManager
             new Level
             {
                 Enemy = _enemies["Godrick the Grafted"],
-                Backdrop = DataManager.GetInstance().StormveilBackdrop,  
+                Backdrop = DataManager.GetInstance().StormveilBackdrop,
                 LevelReward = _rewards["Godrick the Grafted"],
-                SoundTrack = DataManager.GetInstance().LimgraveSoundtrack.CreateInstance(),  // TODO: Stormveil castle music
+                SoundTrack = DataManager.GetInstance().GodrickP1Soundtrack.CreateInstance(),
                 EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Godrick the Grafted"], _decks["Godrick the Grafted"]),
                 SecondPhase = new Level     // Godrick the Grafted (2nd phase)
                 {
                     Enemy = _enemies["Godrick the Grafted "],
-                    Backdrop = DataManager.GetInstance().StormveilBackdrop,  
+                    Backdrop = DataManager.GetInstance().StormveilBackdrop,
                     LevelReward = _rewards["Godrick the Grafted (2nd phase)"],
-                    SoundTrack = DataManager.GetInstance().LimgraveSoundtrack.CreateInstance(),  // TODO: Stormveil castle music
+                    SoundTrack = DataManager.GetInstance().GodrickP2Soundtrack.CreateInstance(),
                     EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Godrick the Grafted "], _decks["Godrick the Grafted (2nd phase)"])
                 }
             },
@@ -717,7 +716,7 @@ public class LevelManager
             new Level
             {
                 Enemy = _enemies["Mimic Tear"],
-                Backdrop = DataManager.GetInstance().NokronBackdrop,   
+                Backdrop = DataManager.GetInstance().NokronBackdrop,
                 LevelReward = _rewards["Mimic Tear"],
                 SoundTrack = DataManager.GetInstance().LimgraveSoundtrack.CreateInstance(),  // TODO: Nokron music
                 EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Mimic Tear"], _decks["Mimic Tear"])
@@ -727,7 +726,7 @@ public class LevelManager
             new Level
             {
                 Enemy = _enemies["Royal Knight Loretta"],
-                Backdrop = DataManager.GetInstance().LiurniaBackdrop,  
+                Backdrop = DataManager.GetInstance().LiurniaBackdrop,
                 LevelReward = _rewards["Royal Knight Loretta"],
                 SoundTrack = DataManager.GetInstance().LimgraveSoundtrack.CreateInstance(),  // TODO: Liurnia music
                 EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Royal Knight Loretta"], _decks["Royal Knight Loretta"])
@@ -737,9 +736,9 @@ public class LevelManager
             new Level
             {
                 Enemy = _enemies["Red Wolf of Radagon"],
-                Backdrop = DataManager.GetInstance().RayaLucariaBackdrop,  
-                LevelReward = _rewards["Red Wolf of Radagon"],    
-                SoundTrack = DataManager.GetInstance().LimgraveSoundtrack.CreateInstance(),  // TODO: Red wolf of Radagon boss music
+                Backdrop = DataManager.GetInstance().RayaLucariaBackdrop,
+                LevelReward = _rewards["Red Wolf of Radagon"],
+                SoundTrack = DataManager.GetInstance().RedWolfSoundtrack.CreateInstance(),
                 EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Red Wolf of Radagon"], _decks["Red Wolf of Radagon"])
             },
             
@@ -749,14 +748,14 @@ public class LevelManager
                 Enemy = _enemies["Starscourge Radahn"],
                 Backdrop = DataManager.GetInstance().RadahnBattlefieldBackdrop,
                 LevelReward = _rewards["Starscourge Radahn"],
-                SoundTrack = DataManager.GetInstance().StarscourgeRadahnP1Soundtrack.CreateInstance(),      
+                SoundTrack = DataManager.GetInstance().StarscourgeRadahnP1Soundtrack.CreateInstance(),
                 EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Starscourge Radahn"], _decks["Starscourge Radahn"]),
                 SecondPhase = new Level
                 {
                     Enemy = _enemies["Starscourge Radahn "],
                     Backdrop = DataManager.GetInstance().RadahnBattlefieldPhase2Backdrop,
                     LevelReward = _rewards["Starscourge Radahn (2nd phase)"],
-                    SoundTrack = DataManager.GetInstance().StarscourgeRadahnP2Soundtrack.CreateInstance(),      
+                    SoundTrack = DataManager.GetInstance().StarscourgeRadahnP2Soundtrack.CreateInstance(),
                     EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Starscourge Radahn "], _decks["Starscourge Radahn (2nd phase)"])
                 }
             },
@@ -765,9 +764,9 @@ public class LevelManager
             new Level
             {
                 Enemy = _enemies["Rennala, Queen of the Full Moon"],
-                Backdrop = DataManager.GetInstance().RayaLucariaBackdrop, 
+                Backdrop = DataManager.GetInstance().RayaLucariaBackdrop,
                 LevelReward = _rewards["Rennala, Queen of the Full Moon"],
-                SoundTrack = DataManager.GetInstance().RennalaP1Soundtrack.CreateInstance(),  
+                SoundTrack = DataManager.GetInstance().RennalaP1Soundtrack.CreateInstance(),
                 EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Rennala, Queen of the Full Moon"], _decks["Rennala, Queen of the Full Moon"]),
                 VoiceLinesBattleStart = new List<SoundEffectInstance>
                 {
@@ -781,9 +780,9 @@ public class LevelManager
                 SecondPhase = new Level     // Rennala, Queen of the Full Moon (2nd phase)
                 {
                     Enemy = _enemies["Rennala, Queen of the Full Moon "],
-                    Backdrop = DataManager.GetInstance().RayaLucariaBackdrop,  
+                    Backdrop = DataManager.GetInstance().RayaLucariaBackdrop,
                     LevelReward = _rewards["Rennala, Queen of the Full Moon (2nd phase)"],
-                    SoundTrack = DataManager.GetInstance().RennalaP2Soundtrack.CreateInstance(),  
+                    SoundTrack = DataManager.GetInstance().RennalaP2Soundtrack.CreateInstance(),
                     EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Rennala, Queen of the Full Moon "], _decks["Rennala, Queen of the Full Moon (2nd phase)"]),
                     VoiceLinesBattleStart = new List<SoundEffectInstance>
                     {
@@ -807,7 +806,7 @@ public class LevelManager
             new Level
             {
                 Enemy = _enemies["Bloody Finger Hunter Yura"],
-                Backdrop = DataManager.GetInstance().AltusPlateauBackdrop, 
+                Backdrop = DataManager.GetInstance().AltusPlateauBackdrop,
                 LevelReward = _rewards["Bloody Finger Hunter Yura"],
                 SoundTrack = DataManager.GetInstance().LimgraveSoundtrack.CreateInstance(),  // TODO: Leyndell music
                 EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Bloody Finger Hunter Yura"], _decks["Bloody Finger Hunter Yura"])
@@ -827,7 +826,7 @@ public class LevelManager
             new Level
             {
                 Enemy = _enemies["Dung Eater"],
-                Backdrop = DataManager.GetInstance().AltusPlateauBackdrop, 
+                Backdrop = DataManager.GetInstance().AltusPlateauBackdrop,
                 LevelReward = _rewards["Dung Eater"],
                 SoundTrack = DataManager.GetInstance().LimgraveSoundtrack.CreateInstance(),  // TODO: Leyndell music
                 EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Dung Eater"], _decks["Dung Eater"])
@@ -837,7 +836,7 @@ public class LevelManager
             new Level
             {
                 Enemy = _enemies["Commander Niall"],
-                Backdrop = DataManager.GetInstance().CastleSolBackdrop, 
+                Backdrop = DataManager.GetInstance().CastleSolBackdrop,
                 LevelReward = _rewards["Commander Niall"],
                 SoundTrack = DataManager.GetInstance().LimgraveSoundtrack.CreateInstance(),  // TODO: Niall fight music
                 EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Commander Niall"], _decks["Commander Niall"])
@@ -847,9 +846,9 @@ public class LevelManager
             new Level
             {
                 Enemy = _enemies["Mohg, Lord of Blood"],
-                Backdrop = DataManager.GetInstance().MohgBackdrop,  
+                Backdrop = DataManager.GetInstance().MohgBackdrop,
                 LevelReward = _rewards["Mohg, Lord of Blood"],
-                SoundTrack = DataManager.GetInstance().MohgSoundtrack.CreateInstance(), 
+                SoundTrack = DataManager.GetInstance().MohgSoundtrack.CreateInstance(),
                 EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Mohg, Lord of Blood"], _decks["Mohg, Lord of Blood"]),
                 VoiceLinesBattleStart = new List<SoundEffectInstance>
                 {
@@ -871,9 +870,9 @@ public class LevelManager
             new Level
             {
                 Enemy = _enemies["Malenia, Blade of Miquella"],
-                Backdrop = DataManager.GetInstance().MaleniaRestplaceBackdrop, 
+                Backdrop = DataManager.GetInstance().MaleniaRestplaceBackdrop,
                 LevelReward = _rewards["Malenia, Blade of Miquella"],
-                SoundTrack = DataManager.GetInstance().MaleniaSoundtrack.CreateInstance(),  
+                SoundTrack = DataManager.GetInstance().MaleniaSoundtrack.CreateInstance(),
                 EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Malenia, Blade of Miquella"], _decks["Malenia, Blade of Miquella"]),
                 VoiceLinesBattleStart = new List<SoundEffectInstance>
                 {
@@ -888,7 +887,7 @@ public class LevelManager
                 SecondPhase = new Level     // Malenia, Goddess of Rot
                 {
                     Enemy = _enemies["Malenia, Goddess of Rot"],
-                    Backdrop = DataManager.GetInstance().MaleniaRestplaceBackdrop, 
+                    Backdrop = DataManager.GetInstance().MaleniaRestplaceBackdrop,
                     LevelReward = _rewards["Malenia, Goddess of Rot"],
                     SoundTrack = DataManager.GetInstance().GoddessOfRotSoundtrack.CreateInstance(),
                     EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Malenia, Goddess of Rot"], _decks["Malenia, Goddess of Rot"]),
@@ -914,9 +913,9 @@ public class LevelManager
             new Level
             {
                 Enemy = _enemies["Morgott, The Omen King"],
-                Backdrop = DataManager.GetInstance().LeyndellBackdrop,  
+                Backdrop = DataManager.GetInstance().EldenThroneBackdrop,
                 LevelReward = _rewards["Morgott, The Omen King"],
-                SoundTrack = DataManager.GetInstance().LimgraveSoundtrack.CreateInstance(),  // TODO: Morgott fight music
+                SoundTrack = DataManager.GetInstance().MorgottSoundtrack.CreateInstance(),
                 EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Morgott, The Omen King"], _decks["Morgott, The Omen King"])
             },
             

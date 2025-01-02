@@ -41,17 +41,14 @@ public class MagicCard : AttackCard
     {
         if (_owner.OpposingPlayer.BuffManager.Buffs.OfType<DamageEvasionBuff>().Any())
         {
-            Console.WriteLine("Evasion active for " + Owner.Name);
             _debuff = _damage + Buff;
         }
         else if (_owner.OpposingPlayer.BuffManager.Buffs.OfType<ThopsBuff>().Any())
         {
-            Console.WriteLine("Thops active for " + Owner.Name);
             _debuff = _damage + Buff;
         }
         else if (_owner.OpposingPlayer.BuffManager.Buffs.OfType<DamageReductionBuff>().Any())
         {
-            Console.WriteLine("Reduction active for " + Owner.Name);
             _debuff = (_damage + Buff) / 2;
         }
         else
