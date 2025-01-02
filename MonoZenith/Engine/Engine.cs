@@ -145,6 +145,8 @@ namespace MonoZenith.Engine
         /// <param name="gameTime"></param>
         protected override void Update(GameTime gameTime)
         {
+            if (QuitToDesktop && !IsFadingOut) Exit();
+            
             // Change window size accordingly when resizing
             if (Window.ClientBounds.Width != ScreenWidth || Window.ClientBounds.Height != ScreenHeight)
             {
@@ -180,6 +182,8 @@ namespace MonoZenith.Engine
         /// <param name="gameTime">Game time.</param>
         protected override void Draw(GameTime gameTime)
         {
+            if (QuitToDesktop && !IsFadingOut) return;
+            
             // GraphicsDevice.Clear(_splashScreenTimer > 0 ? Color.White : _game.BackgroundColor);
             GraphicsDevice.Clear(BackgroundColor);
             _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied);

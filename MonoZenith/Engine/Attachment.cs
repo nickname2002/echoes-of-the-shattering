@@ -39,6 +39,7 @@ public partial class Game
 
     public static bool IsFadingIn;
     public static bool IsFadingOut;
+    public static bool QuitToDesktop = false;
     
     // PlayStation DualSense buttons
     public enum DualSenseButtons

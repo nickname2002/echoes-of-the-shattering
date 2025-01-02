@@ -47,6 +47,11 @@ public class MainMenuOptionButton : Button
         }
     }
     
+    public void ChangePosition(Vector2 position)
+    {
+        Position = position;
+    }
+    
     public override void Draw()
     {
         if (IsHovered())
@@ -59,13 +64,13 @@ public class MainMenuOptionButton : Button
 
     private void DrawHoverIndicator()
     {
-        _hoverIndicatorScale = 0.3f * AppSettings.Scaling.ScaleFactor;
+        _hoverIndicatorScale = 0.15f * AppSettings.Scaling.ScaleFactor;
         
         Game.DrawImage(
             _hoverIndicator,
             new Vector2(
                 Game.ScreenWidth / 2 - _hoverIndicator.Width / 2 * _hoverIndicatorScale,
-                Position.Y - Height * _hoverIndicatorScale / 2 - _hoverIndicatorScale * 40),
+                Position.Y - Height * _hoverIndicatorScale / 2 - _hoverIndicatorScale * 10),
             _hoverIndicatorScale);
     }
 }

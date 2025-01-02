@@ -17,6 +17,7 @@ public class OverworldScreen : Screen
 {
     public static readonly LevelManager LevelManager = new();
     private readonly RegionSelectMenu _regionSelectMenu = new();
+    private readonly BackToMainMenuButton _backToMainMenuButton = new();
     
     /// <summary>
     /// Region backdrops
@@ -251,6 +252,7 @@ public class OverworldScreen : Screen
     public override void Load()
     {
         _regionSelectMenu.Update();
+        _backToMainMenuButton.Update();
         StartFadeIn();
         
         float musicFadeInSpeed = 0.015f;
@@ -298,6 +300,8 @@ public class OverworldScreen : Screen
         }
         
         _regionSelectMenu.Update();
+       _backToMainMenuButton.Update();
+        
         switch (_regionSelectMenu.SelectedRegion)
         {
             case Region.Limgrave:
@@ -336,6 +340,7 @@ public class OverworldScreen : Screen
                 throw new ArgumentOutOfRangeException();
         }
         
+        _backToMainMenuButton.Draw();
         _regionSelectMenu.Draw();
     }
 }

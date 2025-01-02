@@ -13,9 +13,11 @@ public class MainMenuScreen : Screen
     private static Texture2D _mainMenuBackdrop;
     private float _mainMenuScale;
     private static SoundEffectInstance _mainMenuMusic;
+    
     private static MainMenuOptionButton _startButton;
     private static MainMenuOptionButton _continueButton;
-
+    private static MainMenuOptionButton _quitButton;
+    
     public MainMenuScreen()
     {
         _mainMenuBackdrop = DataManager.GetInstance().MainMenuBackdrop;  
@@ -25,20 +27,28 @@ public class MainMenuScreen : Screen
         _mainMenuMusic.IsLooped = true;
         _mainMenuMusic.Play();
         
-        // Start button
-        _startButton = new MainMenuOptionButton(
-            Game.Instance, 
-            ScreenHeight / 2f + (int)(325 * AppSettings.Scaling.ScaleFactor), 
-            "Start new game",
-            StartNewGame,
-            startButtonSound);
-
-        // Settings button
+        // Continue game button
         _continueButton = new MainMenuOptionButton(
             Instance, 
             ScreenHeight / 2f + (int)(250 * AppSettings.Scaling.ScaleFactor),
             "Continue game",
             ContinueGame,
+            startButtonSound);
+        
+        // Start button
+        _startButton = new MainMenuOptionButton(
+            Game.Instance, 
+            ScreenHeight / 2f + (int)(300 * AppSettings.Scaling.ScaleFactor), 
+            "Start new game",
+            StartNewGame,
+            startButtonSound);
+        
+        // Quit to Desktop button
+        _quitButton = new MainMenuOptionButton(
+            Game.Instance, 
+            ScreenHeight / 2f + (int)(350 * AppSettings.Scaling.ScaleFactor), 
+            "Quit to desktop",
+            BackToDesktop,
             startButtonSound);
     }
     
@@ -66,6 +76,7 @@ public class MainMenuScreen : Screen
     {
         _mainMenuScale = 0.7f * AppSettings.Scaling.ScaleFactor;
         _startButton.Update(deltaTime);
+        _quitButton.Update(deltaTime);
         if (!HasSaveFile) return;
         _continueButton.Update(deltaTime);
     }
@@ -85,6 +96,7 @@ public class MainMenuScreen : Screen
         DrawImage(_mainMenuBackdrop, position, _mainMenuScale);
         
         _startButton.Draw();
+        _quitButton.Draw();
         if (!HasSaveFile) return;   
         _continueButton.Draw();
     }
