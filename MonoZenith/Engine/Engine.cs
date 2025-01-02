@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
@@ -179,6 +179,8 @@ namespace MonoZenith.Engine
         /// <param name="gameTime"></param>
         protected override void Update(GameTime gameTime)
         {
+            if (QuitToDesktop && !IsFadingOut) Exit();
+            
             // Exit game
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed
                 || Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -201,6 +203,7 @@ namespace MonoZenith.Engine
         /// <param name="gameTime">Game time.</param>
         protected override void Draw(GameTime gameTime)
         {
+            if (QuitToDesktop && !IsFadingOut) return;
             GraphicsDevice.Clear(BackgroundColor);
             _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied);
 

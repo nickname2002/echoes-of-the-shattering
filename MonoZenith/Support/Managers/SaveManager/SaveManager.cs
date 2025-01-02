@@ -10,13 +10,15 @@ namespace MonoZenith.Support.Managers;
 public class SaveManager
 {
     private static readonly string SaveDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "SaveFiles");
-    private readonly int _selectedSlot = 0;
-
-    public bool HasSaveFile => File.Exists(GetSaveFilePath());
-
+    
     public SaveManager()
     {
         EnsureSaveDirectoryExists();
+    }
+
+    public bool HasSaveFile()
+    {
+        return File.Exists(GetSaveFilePath("levels"));
     }
 
     public void SaveGame()
@@ -31,7 +33,7 @@ public class SaveManager
 
     public void RemoveSaveFile()
     {
-        string saveFilePath = GetSaveFilePath();
+        var saveFilePath = GetSaveFilePath("levels");
         if (File.Exists(saveFilePath))
             File.Delete(saveFilePath);
 
@@ -67,7 +69,7 @@ public class SaveManager
             Unlocked = level.Unlocked,
             RewardCollected = level.RewardCollected
         }));
-        File.WriteAllText(GetSaveFilePath(), json);
+        File.WriteAllText(GetSaveFilePath("levels"), json);
     }
 
     private void SaveDeck()
@@ -77,7 +79,7 @@ public class SaveManager
 
     private void LoadLevels()
     {
-        string saveFilePath = GetSaveFilePath();
+        var saveFilePath = GetSaveFilePath("levels");
         if (!File.Exists(saveFilePath))
             return;
 
@@ -106,8 +108,8 @@ public class SaveManager
         }
     }
 
-    private string GetSaveFilePath()
+    private string GetSaveFilePath(string fileName)
     {
-        return Path.Combine(SaveDirectory, $"levels_{_selectedSlot}.json");
+        return Path.Combine(SaveDirectory, $"{fileName}.json");
     }
 }
