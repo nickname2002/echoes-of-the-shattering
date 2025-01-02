@@ -14,8 +14,7 @@ public class RewardPanel
     private readonly Texture2D _rewardContainerTexture;
     private readonly CollectRewardButton _collectRewardButton;
     private Reward _reward;
-    private float _scale;
-    private bool _rewardCollected;
+    private readonly float _scale;
     
     public Reward Reward => _reward;
     
@@ -23,7 +22,6 @@ public class RewardPanel
     {
         _rewardContainerTexture = DataManager.GetInstance().RewardContainer;
         _reward = null;
-        _rewardCollected = false;
         _scale = 0.4f * AppSettings.Scaling.ScaleFactor;
         _position = new Vector2(
             ScreenWidth / 2f - _rewardContainerTexture.Width * _scale / 2,
@@ -35,7 +33,6 @@ public class RewardPanel
             _scale);
         _collectRewardButton.SetOnClickAction(() =>
         {
-            _rewardCollected = true;
             _reward = null;
             // TODO: Assign reward to player when possible
             LevelManager.SetRewardCollected(GetGameState().CurrentLevel);
@@ -46,7 +43,6 @@ public class RewardPanel
     public void Initialize(Reward reward)
     {
         _reward = reward;
-        _rewardCollected = false;
     }
 
     public void Update(GameTime deltaTime)
