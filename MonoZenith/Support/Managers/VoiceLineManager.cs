@@ -1,5 +1,4 @@
 #nullable enable
-using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Audio;
 using static MonoZenith.Game;
@@ -10,16 +9,6 @@ public class VoiceLineManager
 {
     private Queue<SoundEffectInstance>? _voiceQueue = new();
     private SoundEffectInstance? _currentPlayingVoiceLine;
-
-    /// <summary>
-    /// Check if a voice line is currently playing.
-    /// </summary>
-    public bool IsPlaying => _currentPlayingVoiceLine?.State == SoundState.Playing;
-    
-    /// <summary>
-    /// Check if the voice queue has voice lines.
-    /// </summary>
-    public bool HasVoiceLines => _voiceQueue?.Count > 0;
 
     /// <summary>
     /// Initialize the voice queue.
@@ -42,7 +31,8 @@ public class VoiceLineManager
     /// </summary>
     public void UpdateStartingVoiceLines()
     {
-        if (_currentPlayingVoiceLine?.State == SoundState.Playing) return;
+        if (GetGameState().StateType == GameStateType.Paused 
+            || _currentPlayingVoiceLine?.State == SoundState.Playing) return;
 
         if (_voiceQueue is { Count: > 0 })
         {
@@ -54,11 +44,12 @@ public class VoiceLineManager
     }
 
     /// <summary>
-    /// Update the battle start voice lines.
+    /// Update the death voice lines.
     /// </summary>
     public void UpdateDeathVoiceLines()
     {
-        if (_currentPlayingVoiceLine?.State == SoundState.Playing) return;
+        if (GetGameState().StateType == GameStateType.Paused 
+            || _currentPlayingVoiceLine?.State == SoundState.Playing) return;
 
         if (_voiceQueue is { Count: > 0 })
         {
@@ -70,11 +61,12 @@ public class VoiceLineManager
     }
 
     /// <summary>
-    /// Update the battle end voice lines.
+    /// Update the victory voice lines.
     /// </summary>
     public void UpdateVictoryVoiceLines()
     {
-        if (_currentPlayingVoiceLine?.State == SoundState.Playing) return;
+        if (GetGameState().StateType == GameStateType.Paused 
+            || _currentPlayingVoiceLine?.State == SoundState.Playing) return;
 
         if (_voiceQueue is { Count: > 0 })
         {
@@ -101,15 +93,18 @@ public class VoiceLineManager
     }
 
     /// <summary>
-    /// Update the voice lines.
+    /// Pause the currently playing voice line and stop playback.
     /// </summary>
-    public void UpdateVoiceLines()
+    public void PauseVoiceLines()
     {
-        if (_currentPlayingVoiceLine?.State == SoundState.Playing) return;
+        _currentPlayingVoiceLine?.Pause();
+    }
 
-        if (_voiceQueue != null && _voiceQueue.Count > 0)
-        {
-            PlayNextVoiceLine();
-        }
+    /// <summary>
+    /// Resume playback of the current voice line.
+    /// </summary>
+    public void ResumeVoiceLines()
+    {
+        _currentPlayingVoiceLine?.Resume();
     }
 }

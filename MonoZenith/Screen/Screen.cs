@@ -8,7 +8,7 @@ namespace MonoZenith.Screen
         /// <summary>
         /// Removes all side effects of the screen when switching to another screen.
         /// </summary>
-        public abstract void Unload(float fadeSpeed = 0.015f, Action unOnloadComplete = null);
+        public abstract void Unload(float fadeSpeed = 0.015f, Action onUnloadComplete = null);
 
         /// <summary>
         /// Load state.

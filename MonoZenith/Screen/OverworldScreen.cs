@@ -235,7 +235,7 @@ public class OverworldScreen : Screen
         }
     };
 
-    public override void Unload(float fadeSpeed = 0.015f, Action unOnloadComplete = null)
+    public override void Unload(float fadeSpeed = 0.015f, Action onUnloadComplete = null)
     {
         float musicFadeOutSpeed = fadeSpeed;
         if (_soundtrack != null && _soundtrack.Volume >= musicFadeOutSpeed)
@@ -245,7 +245,7 @@ public class OverworldScreen : Screen
         else
         {
             _soundtrack?.Stop();
-            unOnloadComplete?.Invoke();
+            onUnloadComplete?.Invoke();
         }
     }
 

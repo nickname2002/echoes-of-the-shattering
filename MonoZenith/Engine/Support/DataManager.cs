@@ -18,6 +18,7 @@ namespace MonoZenith.Engine.Support
         public SpriteFont TransitionComponentFont;
         public SpriteFont GameOverTransitionComponentFont;
         public SpriteFont RewardFont;
+        public SpriteFont HeaderFont;
         
         // Textures
         public Texture2D MonoZenithLogo;
@@ -64,6 +65,7 @@ namespace MonoZenith.Engine.Support
         public Texture2D AshIndicatorDisabled;
         public Texture2D AshIndicatorEnabled;
         public Texture2D AshIndicatorHovered;
+        public Texture2D MenuHoverIndicator;
         
         // Spirit ashes
         public Texture2D MimicTearAsh;
@@ -211,6 +213,7 @@ namespace MonoZenith.Engine.Support
             TransitionComponentFont = LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 3.5f * AppSettings.Scaling.ScaleFactor);
             GameOverTransitionComponentFont = LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 5f * AppSettings.Scaling.ScaleFactor);
             RewardFont = LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1.3f * AppSettings.Scaling.ScaleFactor);
+            HeaderFont = LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 4f * AppSettings.Scaling.ScaleFactor);
         }
 
         private void LoadTextures()
@@ -253,10 +256,11 @@ namespace MonoZenith.Engine.Support
             // Remembrances
             RemembranceOfTheStarscourge = LoadImage("Images/Remembrances/remembrance-of-starscourge.png");
             
-            // Ash indicators
+            // Indicators
             AshIndicatorDisabled = LoadImage("Images/Indicators/ash-indicator-disabled.png");
             AshIndicatorEnabled = LoadImage("Images/Indicators/ash-indicator-enabled.png");
             AshIndicatorHovered = LoadImage("Images/Indicators/ash-indicator-hovered.png");
+            MenuHoverIndicator = LoadImage("Images/Indicators/menu-hover-indicator.png");
             
             // Spirit ashes
             MimicTearAsh = LoadImage("Images/Indicators/SpiritAshes/mimic-tear.png");

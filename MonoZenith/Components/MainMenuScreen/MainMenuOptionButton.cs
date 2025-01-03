@@ -9,7 +9,7 @@ namespace MonoZenith.Components.MainMenuScreen;
 public class MainMenuOptionButton : Button
 {
     private readonly Texture2D _hoverIndicator;
-    private float _hoverIndicatorScale;
+    private readonly float _hoverIndicatorScale;
     private readonly SoundEffectInstance _activationSound;
     
     public MainMenuOptionButton(Game g, float y, string content, Action a, SoundEffectInstance activationSound = null) : 
@@ -17,13 +17,13 @@ public class MainMenuOptionButton : Button
     {
         SetOnClickAction(a);
         _font = DataManager.GetInstance().StartMenuFont;
-        _hoverIndicator = DataManager.GetInstance().MainMenuHoverIndicator;
-        _hoverIndicatorScale = 0.3f;
+        _hoverIndicator = DataManager.GetInstance().MenuHoverIndicator;
+        _hoverIndicatorScale = 0.75f * AppSettings.Scaling.ScaleFactor;
         Width = (int)_font.MeasureString(Content).X;
         Height = (int)_font.MeasureString(Content).Y;
 
         // Apply scaling factor to Y position
-        Position = new Vector2(Game.ScreenWidth / 2 - Width / 2, y); 
+        Position = new Vector2(Game.ScreenWidth / 2f - Width / 2f, y); 
         _buttonColor = Color.Black;
         _activationSound = activationSound;
     }
@@ -64,13 +64,11 @@ public class MainMenuOptionButton : Button
 
     private void DrawHoverIndicator()
     {
-        _hoverIndicatorScale = 0.15f * AppSettings.Scaling.ScaleFactor;
-        
         Game.DrawImage(
             _hoverIndicator,
             new Vector2(
-                Game.ScreenWidth / 2 - _hoverIndicator.Width / 2 * _hoverIndicatorScale,
-                Position.Y - Height * _hoverIndicatorScale / 2 - _hoverIndicatorScale * 10),
+                Game.ScreenWidth / 2f - _hoverIndicator.Width * _hoverIndicatorScale / 2f,
+                Position.Y - Height * _hoverIndicatorScale / 2 - 5 * AppSettings.Scaling.ScaleFactor),
             _hoverIndicatorScale);
     }
 }
