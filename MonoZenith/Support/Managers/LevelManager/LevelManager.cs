@@ -320,22 +320,21 @@ public class LevelManager
             },
             ["Godrick the Grafted"] = new()
             {
-                (typeof(ICommandTheeKneelCard), 2),
                 (typeof(HeavySwordAttackCard), 10),
-                (typeof(FlaskOfCrimsonTearsCard), 2),
+                (typeof(FlaskOfCrimsonTearsCard), 3),
                 (typeof(RallyingStandardCard), 3),
                 (typeof(EndureCard), 5),
-                (typeof(WarCryCard), 5),
+                (typeof(WarCryCard), 4),
                 (typeof(ThrowingDaggerCard), 5)
             },
             ["Godrick the Grafted (2nd phase)"] = new()
             {
                 (typeof(ICommandTheeKneelCard), 2),
                 (typeof(HeavySwordAttackCard), 10),
-                (typeof(FlaskOfCrimsonTearsCard), 2),
+                (typeof(FlaskOfCrimsonTearsCard), 3),
                 (typeof(RallyingStandardCard), 3),
                 (typeof(EndureCard), 5),
-                (typeof(WarCryCard), 5),
+                (typeof(WarCryCard), 4),
                 (typeof(ThrowingDaggerCard), 5)
             },
             ["Thops"] = new()
@@ -702,13 +701,39 @@ public class LevelManager
                 LevelReward = _rewards["Godrick the Grafted"],
                 SoundTrack = DataManager.GetInstance().GodrickP1Soundtrack.CreateInstance(),
                 EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Godrick the Grafted"], _decks["Godrick the Grafted"]),
+                VoiceLinesBattleStart = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Godrick/godrick-p1-start-voiceline-1.wav").CreateInstance(),
+                    Game.LoadAudio("Audio/VoiceLines/Godrick/godrick-p1-start-voiceline-2.wav").CreateInstance(),
+                    Game.LoadAudio("Audio/SoundEffects/command-kneel.wav").CreateInstance(),
+                    Game.LoadAudio("Audio/VoiceLines/Godrick/godrick-p1-start-voiceline-3.wav").CreateInstance(),
+                },
+                VoiceLinesBattleLoss = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Godrick/godrick-p1-loss-voiceline-1.wav").CreateInstance(),
+                },
                 SecondPhase = new Level     // Godrick the Grafted (2nd phase)
                 {
                     Enemy = _enemies["Godrick the Grafted "],
                     Backdrop = DataManager.GetInstance().StormveilBackdrop,
                     LevelReward = _rewards["Godrick the Grafted (2nd phase)"],
                     SoundTrack = DataManager.GetInstance().GodrickP2Soundtrack.CreateInstance(),
-                    EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Godrick the Grafted "], _decks["Godrick the Grafted (2nd phase)"])
+                    EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Godrick the Grafted "], _decks["Godrick the Grafted (2nd phase)"]),
+                    VoiceLinesBattleStart = new List<SoundEffectInstance>
+                    {
+                        Game.LoadAudio("Audio/VoiceLines/Godrick/godrick-p2-start-voiceline-1.wav").CreateInstance(),
+                        Game.LoadAudio("Audio/VoiceLines/Godrick/godrick-p2-start-voiceline-2.wav").CreateInstance(),
+                    },
+                    VoiceLinesBattleLoss = new List<SoundEffectInstance>
+                    {
+                        Game.LoadAudio("Audio/VoiceLines/Godrick/godrick-p2-loss-voiceline-1.wav").CreateInstance(),
+                    },
+                    VoiceLinesBattleVictory = new List<SoundEffectInstance>
+                    {
+                        Game.LoadAudio("Audio/VoiceLines/Godrick/godrick-p2-win-voiceline-1.wav").CreateInstance(),
+                        Game.LoadAudio("Audio/VoiceLines/Godrick/godrick-p2-win-voiceline-2.wav").CreateInstance(),
+                        Game.LoadAudio("Audio/VoiceLines/Godrick/godrick-p2-win-voiceline-3.wav").CreateInstance(),
+                    }
                 }
             },
             
