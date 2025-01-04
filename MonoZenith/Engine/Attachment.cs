@@ -320,15 +320,17 @@ public partial class Game
     /// <param name="angle">Rotational angle</param>
     /// <param name="flipped">Horizontally flipped</param>
     /// <param name="alpha">Alpha</param>
+    /// <param name="color">Color</param>
     public static void DrawImage(
         Texture2D texture, 
         Vector2 pos, 
         float scale = 1, 
         float angle = 0, 
         bool flipped = false, 
-        float alpha = 1.0f)
+        float alpha = 1.0f,
+        Color color = default)
     {
-        _facade.DrawImage(texture, pos, scale, angle, flipped, alpha);
+        _facade.DrawImage(texture, pos, scale, angle, flipped, alpha, color);
     }
     
     /// <summary>

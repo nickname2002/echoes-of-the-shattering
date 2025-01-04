@@ -180,13 +180,6 @@ namespace MonoZenith.Engine
         protected override void Update(GameTime gameTime)
         {
             if (QuitToDesktop && !IsFadingOut) Exit();
-            
-            // Exit game
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed
-                || Keyboard.GetState().IsKeyDown(Keys.Escape))
-            {
-                Exit();
-            }
 
             // Update mouse click cooldown timer
             if (_gameFacade.CurrentClickCooldown > 0.0f)

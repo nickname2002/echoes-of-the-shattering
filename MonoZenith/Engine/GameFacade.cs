@@ -229,13 +229,15 @@ public class GameFacade
     /// <param name="angle">Rotational angle</param>
     /// <param name="flipped">Horizontally flipped</param>
     /// <param name="alpha">Alpha</param>
+    /// <param name="color">Color</param>
     public void DrawImage(
         Texture2D texture, 
         Vector2 pos, 
         float scale=1, 
         float angle=0, 
         bool flipped=false, 
-        float alpha=1.0f)
+        float alpha=1.0f,
+        Color color=default)
     {
         float rotationAngle = MathHelper.ToRadians(angle);
     
@@ -248,7 +250,7 @@ public class GameFacade
             texture, 
             pos, 
             null, 
-            new Color(Color.White, alpha), 
+            new Color(color == default ? Color.White : color, alpha), 
             rotationAngle, 
             Vector2.Zero, scale, 
             effect, 0);
