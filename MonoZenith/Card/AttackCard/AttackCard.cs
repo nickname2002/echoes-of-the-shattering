@@ -386,7 +386,7 @@ public class StormcallerCard : AttackCard
 
     protected override void UpdateDescription()
     {
-        _description[0] = "Deal " + _totalDamage + " damage.";
+        _description[0] = "Deal " + _totalDamage + " damage and";
     }
 }
 

@@ -690,7 +690,25 @@ public class LevelManager
                 Backdrop = DataManager.GetInstance().StormveilBackdrop,
                 LevelReward = _rewards["Margit, The Fell Omen"],
                 SoundTrack = DataManager.GetInstance().MargitSoundtrack.CreateInstance(),
-                EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Margit, The Fell Omen"], _decks["Margit, The Fell Omen"])
+                EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Margit, The Fell Omen"], _decks["Margit, The Fell Omen"]),
+                VoiceLinesBattleStart = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Margit/margit-start-voiceline-1.wav").CreateInstance(),
+                    Game.LoadAudio("Audio/VoiceLines/Margit/margit-start-voiceline-2.wav").CreateInstance(),
+                    Game.LoadAudio("Audio/VoiceLines/Margit/margit-start-voiceline-3.wav").CreateInstance(),
+                    Game.LoadAudio("Audio/SoundEffects/cursed-blood-slice.wav").CreateInstance(),
+                    Game.LoadAudio("Audio/VoiceLines/Margit/margit-start-voiceline-4.wav").CreateInstance(),
+                },
+                VoiceLinesBattleLoss = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Margit/margit-loss-voiceline-1.wav").CreateInstance(),
+                },
+                VoiceLinesBattleVictory = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Margit/margit-win-voiceline-1.wav").CreateInstance(),
+                    Game.LoadAudio("Audio/VoiceLines/Margit/margit-win-voiceline-2.wav").CreateInstance(),
+                    Game.LoadAudio("Audio/VoiceLines/Margit/margit-win-voiceline-3.wav").CreateInstance(),
+                }
             },
             
             // Godrick the Grafted
@@ -753,7 +771,7 @@ public class LevelManager
                 Enemy = _enemies["Royal Knight Loretta"],
                 Backdrop = DataManager.GetInstance().LiurniaBackdrop,
                 LevelReward = _rewards["Royal Knight Loretta"],
-                SoundTrack = DataManager.GetInstance().LimgraveSoundtrack.CreateInstance(),  // TODO: Liurnia music
+                SoundTrack = DataManager.GetInstance().TreeSentinelSoundtrack.CreateInstance(),
                 EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Royal Knight Loretta"], _decks["Royal Knight Loretta"])
             },
             
@@ -941,7 +959,22 @@ public class LevelManager
                 Backdrop = DataManager.GetInstance().EldenThroneBackdrop,
                 LevelReward = _rewards["Morgott, The Omen King"],
                 SoundTrack = DataManager.GetInstance().MorgottSoundtrack.CreateInstance(),
-                EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Morgott, The Omen King"], _decks["Morgott, The Omen King"])
+                EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Morgott, The Omen King"], _decks["Morgott, The Omen King"]),
+                VoiceLinesBattleStart = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Morgott/morgott-start-voiceline-1.wav").CreateInstance(),
+                    Game.LoadAudio("Audio/VoiceLines/Morgott/morgott-start-voiceline-2.wav").CreateInstance(),
+                    Game.LoadAudio("Audio/VoiceLines/Morgott/morgott-start-voiceline-3.wav").CreateInstance(),
+                    Game.LoadAudio("Audio/VoiceLines/Morgott/morgott-start-voiceline-4.wav").CreateInstance(),
+                },
+                VoiceLinesBattleLoss = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Margit/margit-loss-voiceline-1.wav").CreateInstance(),
+                },
+                VoiceLinesBattleVictory = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Morgott/morgott-win-voiceline-1.wav").CreateInstance(),
+                }
             },
             
             // Maliketh, the Black Blade
