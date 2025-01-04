@@ -620,7 +620,21 @@ public class LevelManager
                 Backdrop = DataManager.GetInstance().LimgraveBackdrop,
                 LevelReward = _rewards["Roderika"],
                 SoundTrack = DataManager.GetInstance().LimgraveSoundtrack.CreateInstance(),
-                EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Roderika"], _decks["Roderika"])
+                EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Roderika"], _decks["Roderika"]),
+                VoiceLinesBattleStart = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Roderika/roderika-start-voiceline-1.wav").CreateInstance(),
+                    Game.LoadAudio("Audio/VoiceLines/Roderika/roderika-start-voiceline-2.wav").CreateInstance(),
+                },
+                VoiceLinesBattleLoss = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Roderika/roderika-loss-voiceline-1.wav").CreateInstance(),
+                },
+                VoiceLinesBattleVictory = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Roderika/roderika-win-voiceline-1.wav").CreateInstance(),
+                    Game.LoadAudio("Audio/VoiceLines/Roderika/roderika-win-voiceline-2.wav").CreateInstance(),
+                }
             },
             
             // Renna
@@ -630,7 +644,20 @@ public class LevelManager
                 Backdrop = DataManager.GetInstance().LimgraveBackdrop,
                 LevelReward = _rewards["Renna"],
                 SoundTrack = DataManager.GetInstance().LimgraveSoundtrack.CreateInstance(),
-                EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Renna"], _decks["Renna"])
+                EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Renna"], _decks["Renna"]),
+                VoiceLinesBattleStart = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Renna/renna-start-voiceline-1.wav").CreateInstance(),
+                    Game.LoadAudio("Audio/VoiceLines/Renna/renna-start-voiceline-2.wav").CreateInstance(),
+                },
+                VoiceLinesBattleLoss = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Renna/renna-loss-voiceline-1.wav").CreateInstance(),
+                },
+                VoiceLinesBattleVictory = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Renna/renna-win-voiceline-1.wav").CreateInstance(),
+                }
             },
             
             // Blaidd, The Half-Wolf
@@ -640,7 +667,19 @@ public class LevelManager
                 Backdrop = DataManager.GetInstance().LimgraveBackdrop,
                 LevelReward = _rewards["Blaidd, The Half-Wolf"],
                 SoundTrack = DataManager.GetInstance().LimgraveSoundtrack.CreateInstance(),
-                EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Blaidd, The Half-Wolf"], _decks["Blaidd, The Half-Wolf"])
+                EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Blaidd, The Half-Wolf"], _decks["Blaidd, The Half-Wolf"]),
+                VoiceLinesBattleStart = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Blaidd/blaidd-start-voiceline-1.wav").CreateInstance(),
+                },
+                VoiceLinesBattleLoss = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Blaidd/blaidd-loss-voiceline-1.wav").CreateInstance(),
+                },
+                VoiceLinesBattleVictory = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Blaidd/blaidd-win-voiceline-1.wav").CreateInstance(),
+                }
             },
             
             // Sorceress Sellen
@@ -670,7 +709,21 @@ public class LevelManager
                 Backdrop = DataManager.GetInstance().RoundtableHoldBackdrop,
                 LevelReward = _rewards["Fia, The Deathbed Companion"],
                 SoundTrack = DataManager.GetInstance().RoundtableSoundtrack.CreateInstance(),
-                EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Fia, The Deathbed Companion"], _decks["Fia, The Deathbed Companion"])
+                EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Fia, The Deathbed Companion"], _decks["Fia, The Deathbed Companion"]),
+                VoiceLinesBattleStart = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Fia/fia-start-voiceline-1.wav").CreateInstance(),
+                    Game.LoadAudio("Audio/VoiceLines/Fia/fia-start-voiceline-2.wav").CreateInstance(),
+                },
+                VoiceLinesBattleLoss = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Fia/fia-loss-voiceline-1.wav").CreateInstance(),
+                },
+                VoiceLinesBattleVictory = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Fia/fia-win-voiceline-1.wav").CreateInstance(),
+                    Game.LoadAudio("Audio/VoiceLines/Fia/fia-win-voiceline-2.wav").CreateInstance(),
+                }
             },
             
             // Gatekeeper Gostoc
