@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using MonoZenith.Screen;
 using MonoZenith.Support;
@@ -13,7 +12,6 @@ public partial class Game
     private static MainMenuScreen _mainMenuScreen;
     private static GameScreen _gameScreen;
     private static OverworldScreen _overworldScreen;
-    private static PauseScreen _pauseScreen;
 
     /// <summary>
     /// Responsible for saving and loading game data.
@@ -44,7 +42,6 @@ public partial class Game
         _mainMenuScreen = new MainMenuScreen();
         _gameScreen = new GameScreen();
         _overworldScreen = new OverworldScreen();
-        _pauseScreen = new PauseScreen();
 
         _saveManager = new SaveManager();
         _saveManager.LoadGame();
@@ -185,12 +182,6 @@ public partial class Game
                 _mainMenuScreen.Update(deltaTime);
                 break;
 
-            case Screens.PAUSE:
-                _mainMenuScreen.Unload();
-                if (IsFadingIn || IsFadingOut) { _fadeEffect.Update(); return; }
-                _pauseScreen.Update(deltaTime);
-                break;
-
             case Screens.NONE:
             default:
                 _gameScreen.Update(deltaTime);
@@ -215,11 +206,7 @@ public partial class Game
             case Screens.MAIN_MENU:
                 _mainMenuScreen.Draw();
                 break;
-
-            case Screens.PAUSE:
-                _pauseScreen.Draw();
-                break;
-
+            
             default:
                 _gameScreen.Draw();
                 break;

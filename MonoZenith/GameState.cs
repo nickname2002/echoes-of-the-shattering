@@ -2,9 +2,11 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using MonoZenith.Card.CardStack;
 using MonoZenith.Engine.Support;
 using MonoZenith.Players;
+using MonoZenith.Screen;
 using MonoZenith.Screen.RewardPanel;
 using MonoZenith.Support.Managers;
 using MonoZenith.Support;
@@ -36,8 +38,16 @@ namespace MonoZenith
         public readonly CardStack PlayedCards;
         private Texture2D? _backdrop;
         
+        /// <summary>
+        /// Pause screen
+        /// </summary>
+        private readonly PauseScreen _pauseScreen;
+        private const float PauseToggleCooldown = 100;
+        private float _pauseToggleTimer;
+        
         public Level? CurrentLevel { get; private set; }
         public GameStateType StateType { get; set; }
+        public GameStateType StateBeforePause { get; set; }
 
         public GameState(Game game)
         {
@@ -50,6 +60,9 @@ namespace MonoZenith
             Npc = new NpcPlayer(this, "NPC", DataManager.GetInstance().DefaultEnemyPortrait);
             PlayedCards = new CardStack(this, true);
             StateType = GameStateType.PlayingStartingVoiceLines;
+            StateBeforePause = StateType;
+            _pauseScreen = new PauseScreen();
+            _pauseToggleTimer = 0;
             InitializeState();
         }
         
@@ -66,6 +79,7 @@ namespace MonoZenith
 
             VoiceLineManager.InitializeVoiceQueue(level.VoiceLinesBattleStart);
             StateType = GameStateType.PlayingStartingVoiceLines;
+            StateBeforePause = StateType;
 
             InitializeState();
         }
@@ -88,7 +102,34 @@ namespace MonoZenith
             Player.InitializeState(this);
             Npc.InitializeState(this);
         }
-
+        
+        /// <summary>
+        /// If the escape key is pressed, trigger the paused state.
+        /// For the pause state to be triggered, additional conditions must be met.
+        /// </summary>
+        private void TryTriggerPausedState(GameTime deltaTime)
+        {
+            if (_pauseToggleTimer > 0)
+            {
+                _pauseToggleTimer -= deltaTime.ElapsedGameTime.Milliseconds;
+                return;
+            }
+            
+            if (!Game.GetKeyDown(Keys.Escape) || GameOverManager.HasWinner(Player, Npc) != null) return;
+            _pauseToggleTimer = PauseToggleCooldown;
+            
+            if (StateType == GameStateType.Paused)
+            {
+                StateType = StateBeforePause;
+                VoiceLineManager.ResumeVoiceLines();
+                return;
+            }
+            
+            StateBeforePause = StateType;
+            StateType = GameStateType.Paused;
+            VoiceLineManager.PauseVoiceLines();
+        }
+        
         /// <summary>
         /// Update the game state.
         /// </summary>
@@ -96,6 +137,7 @@ namespace MonoZenith
         public void Update(GameTime deltaTime)
         {
             GameTime = deltaTime;
+            TryTriggerPausedState(deltaTime);
             
             switch (StateType)
             {
@@ -112,6 +154,9 @@ namespace MonoZenith
                     return;
                 case GameStateType.EndGame:
                     break;
+                case GameStateType.Paused:
+                    _pauseScreen.Update(deltaTime);
+                    return;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -164,13 +209,20 @@ namespace MonoZenith
             Game.DrawImage(
                 _backdrop,
                 Vector2.Zero,
-                AppSettings.Scaling.ScaleFactor);
-
+                AppSettings.Scaling.ScaleFactor,
+                color: StateType == GameStateType.Paused ? new Color(85, 85, 85) : Color.White);
+            
             // Draw player UI
             Player.DrawPlayerHealthAndName();
             Npc.DrawPlayerHealthAndName();
             Player.DrawPlayerUi();
             Npc.DrawPlayerUi();
+            
+            if (StateType == GameStateType.Paused)
+            {
+                _pauseScreen.Draw();
+                return;
+            }
             
             if (GameOverManager.HasWinner(Player, Npc) != null)
             {

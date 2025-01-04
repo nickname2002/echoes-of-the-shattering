@@ -5,7 +5,6 @@
         NONE,
         GAME,
         OVERWORLD,
-        PAUSE,
         MAIN_MENU
     }
 
@@ -16,22 +15,6 @@
         AltusPlateau,
         None
     }
-
-    public enum CardLabel
-    {
-        A,
-        TWO,
-        THREE,
-        FOUR,
-        FIVE,
-        SIX,
-        SEVEN,
-        EIGHT,
-        NINE,
-        JOKER,
-        GRACE,
-        POWER
-    }
     
     public enum GameStateType
     {
@@ -39,7 +22,8 @@
         InGame,
         PlayingDeathVoiceLines,
         PlayingVictoryVoiceLines,
-        EndGame
+        EndGame,
+        Paused
     }
 
     public enum Direction
