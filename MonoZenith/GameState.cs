@@ -37,7 +37,13 @@ namespace MonoZenith
         public Reward? Reward;
         public readonly CardStack PlayedCards;
         private Texture2D? _backdrop;
+        
+        /// <summary>
+        /// Pause screen
+        /// </summary>
         private readonly PauseScreen _pauseScreen;
+        private const float PauseToggleCooldown = 100;
+        private float _pauseToggleTimer;
         
         public Level? CurrentLevel { get; private set; }
         public GameStateType StateType { get; set; }
@@ -56,6 +62,7 @@ namespace MonoZenith
             StateType = GameStateType.PlayingStartingVoiceLines;
             StateBeforePause = StateType;
             _pauseScreen = new PauseScreen();
+            _pauseToggleTimer = 0;
             InitializeState();
         }
         
@@ -100,11 +107,24 @@ namespace MonoZenith
         /// If the escape key is pressed, trigger the paused state.
         /// For the pause state to be triggered, additional conditions must be met.
         /// </summary>
-        private void TryTriggerPausedState()
+        private void TryTriggerPausedState(GameTime deltaTime)
         {
-            if (!Game.GetKeyDown(Keys.Escape) 
-                || StateType == GameStateType.Paused
-                || GameOverManager.HasWinner(Player, Npc) != null) return;
+            if (_pauseToggleTimer > 0)
+            {
+                _pauseToggleTimer -= deltaTime.ElapsedGameTime.Milliseconds;
+                return;
+            }
+            
+            if (!Game.GetKeyDown(Keys.Escape) || GameOverManager.HasWinner(Player, Npc) != null) return;
+            _pauseToggleTimer = PauseToggleCooldown;
+            
+            if (StateType == GameStateType.Paused)
+            {
+                StateType = StateBeforePause;
+                VoiceLineManager.ResumeVoiceLines();
+                return;
+            }
+            
             StateBeforePause = StateType;
             StateType = GameStateType.Paused;
             VoiceLineManager.PauseVoiceLines();
@@ -117,7 +137,7 @@ namespace MonoZenith
         public void Update(GameTime deltaTime)
         {
             GameTime = deltaTime;
-            TryTriggerPausedState();
+            TryTriggerPausedState(deltaTime);
             
             switch (StateType)
             {

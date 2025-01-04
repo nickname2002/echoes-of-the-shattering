@@ -23,6 +23,7 @@ public class VoiceLineManager
         }
 
         _voiceQueue = new Queue<SoundEffectInstance>(voiceLines);
+        foreach (var voiceLine in _voiceQueue) voiceLine.Stop();
         _currentPlayingVoiceLine = null;
     }
 
