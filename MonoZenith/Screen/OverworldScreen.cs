@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
+using MonoZenith.Components;
 using MonoZenith.Components.OverworldScreen;
 using MonoZenith.Components.OverworldScreen.RegionSelectMenu;
 using MonoZenith.Engine.Support;
@@ -16,8 +17,36 @@ namespace MonoZenith.Screen;
 public class OverworldScreen : Screen
 {
     public static readonly LevelManager LevelManager = new();
+    private readonly LoadoutDisplay.LoadoutDisplay _loadoutDisplay = new();
     private readonly RegionSelectMenu _regionSelectMenu = new();
-    private readonly BackToMainMenuButton _backToMainMenuButton = new();
+
+    private readonly ImageButton _backToMainMenuButton;
+    private readonly ImageButton _showLoadoutDisplayButton;
+    private const float ClickActivityDelay = 500f;
+    private float _currentClickActivityDelay;
+    
+    public OverworldScreen()
+    {
+        _backToMainMenuButton = new ImageButton(
+            new Vector2(30 * AppSettings.Scaling.ScaleFactor, 30 * AppSettings.Scaling.ScaleFactor),
+            DataManager.GetInstance().BackToMainMenuButton,
+            () =>
+            {
+                DataManager.GetInstance().StartButtonSound.CreateInstance().Play();
+                BackToMainMenu();
+            },
+            0.15f * AppSettings.Scaling.ScaleFactor);
+        _showLoadoutDisplayButton = new ImageButton(
+            new Vector2(30 * AppSettings.Scaling.ScaleFactor, 110 * AppSettings.Scaling.ScaleFactor),
+            DataManager.GetInstance().ShowLoadoutDisplayButton,
+            () =>
+            {
+                DataManager.GetInstance().EndPlayerTurnSound.CreateInstance().Play();
+                Game.ShowLoadoutDisplay(true);
+                _currentClickActivityDelay = ClickActivityDelay;
+            },
+            0.15f * AppSettings.Scaling.ScaleFactor);
+    }
     
     /// <summary>
     /// Region backdrops
@@ -33,6 +62,8 @@ public class OverworldScreen : Screen
         LoadAudio("Audio/Music/OverworldScreen/overworld-background-music.wav").CreateInstance();
     private readonly SoundEffectInstance _enterBattleSound = 
         LoadAudio("Audio/SoundEffects/enter-battle.wav").CreateInstance();
+
+    public bool ShowLoadoutDisplay { get; set; }
     
     /// <summary>
     /// Site of grace containers
@@ -252,7 +283,9 @@ public class OverworldScreen : Screen
     public override void Load()
     {
         _regionSelectMenu.Update();
-        _backToMainMenuButton.Update();
+        _backToMainMenuButton.Update(DeltaTime);
+        _showLoadoutDisplayButton.Update(DeltaTime);
+        _loadoutDisplay.Update();
         StartFadeIn();
         
         float musicFadeInSpeed = 0.015f;
@@ -291,6 +324,12 @@ public class OverworldScreen : Screen
     
     public override void Update(GameTime deltaTime)
     {
+        if (ShowLoadoutDisplay)
+        {
+            _loadoutDisplay.Update();
+            return;
+        }
+        
         if (_soundtrack != null && 
             !(IsFadingOut || IsFadingIn))
         {
@@ -298,9 +337,6 @@ public class OverworldScreen : Screen
             if (_soundtrack.State != SoundState.Playing)
                 _soundtrack.Play();
         }
-        
-        _regionSelectMenu.Update();
-       _backToMainMenuButton.Update();
         
         switch (_regionSelectMenu.SelectedRegion)
         {
@@ -317,30 +353,71 @@ public class OverworldScreen : Screen
             default:
                 throw new ArgumentOutOfRangeException();
         }
+        
+        if (_currentClickActivityDelay > 0)
+        {
+            _currentClickActivityDelay -= deltaTime.ElapsedGameTime.Milliseconds;
+            return;
+        }
+        
+        _regionSelectMenu.Update();
+        _backToMainMenuButton.Update(deltaTime);
+        _showLoadoutDisplayButton.Update(deltaTime);
     }
-    
-    public override void Draw()
+
+    private void DrawRegionBackdrop()
     {
         switch (_regionSelectMenu.SelectedRegion)
         {
             case Region.Limgrave:
-                DrawImage(_limgraveBackdrop, Vector2.Zero, AppSettings.Scaling.ScaleFactor);
+                DrawImage(_limgraveBackdrop, Vector2.Zero, AppSettings.Scaling.ScaleFactor, 
+                    alpha: ShowLoadoutDisplay ? 0.25f : 1f);
+                break;
+            case Region.Liurnia:
+                DrawImage(_liurniaBackdrop, Vector2.Zero, AppSettings.Scaling.ScaleFactor,
+                    alpha: ShowLoadoutDisplay ? 0.25f : 1f);
+                break;
+            case Region.AltusPlateau:
+                DrawImage(_altusPlateauBackdrop, Vector2.Zero, AppSettings.Scaling.ScaleFactor,
+                    alpha: ShowLoadoutDisplay ? 0.25f : 1f);
+                break;
+            case Region.None:
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    }
+    
+    private void DrawRegionGraceButtons()
+    {
+        switch (_regionSelectMenu.SelectedRegion)
+        {
+            case Region.Limgrave:
                 foreach (var grace in _limgraveGraceButtons) { grace.Draw(); }
                 break;
             case Region.Liurnia:
-                DrawImage(_liurniaBackdrop, Vector2.Zero, AppSettings.Scaling.ScaleFactor);
                 foreach (var grace in _liurniaGraceButtons) { grace.Draw(); }
                 break;
             case Region.AltusPlateau:
-                DrawImage(_altusPlateauBackdrop, Vector2.Zero, AppSettings.Scaling.ScaleFactor);
                 foreach (var grace in _altusPlateauGraceButtons) { grace.Draw(); }
                 break;
             case Region.None:
             default:
                 throw new ArgumentOutOfRangeException();
         }
+    }
+    
+    public override void Draw()
+    {
+        DrawRegionBackdrop();
+        if (ShowLoadoutDisplay)
+        {
+            _loadoutDisplay.Draw();
+            return;
+        }
         
+        DrawRegionGraceButtons();
         _backToMainMenuButton.Draw();
+        _showLoadoutDisplayButton.Draw();
         _regionSelectMenu.Draw();
     }
 }

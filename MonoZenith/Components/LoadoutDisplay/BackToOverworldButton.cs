@@ -3,16 +3,16 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Engine.Support;
-using MonoZenith.Support;
-using MonoZenith.Support.Managers;
 using static MonoZenith.Game;
 
-namespace MonoZenith.Components.OverworldScreen;
+namespace MonoZenith.Components.LoadoutDisplay;
 
-public class BackToMainMenuButton
+public class BackToOverworldButton
 {
-    private static readonly Texture2D BackToMainMenuTexture = DataManager.GetInstance().BackToMainMenuButton;
-    private SoundEffectInstance _backToMainMenuSoundEffect = DataManager.GetInstance().StartButtonSound.CreateInstance();
+    private static readonly Texture2D BackToOverworldTexture = 
+        LoadImage("Images/LoadoutDisplay/Buttons/to-overworld.png");
+    private readonly SoundEffectInstance _backToOverworldSoundEffect = 
+        DataManager.GetInstance().EndPlayerTurnSound.CreateInstance();
 
     /// <summary>
     /// The dimensions of the grace.
@@ -38,24 +38,25 @@ public class BackToMainMenuButton
     private void UpdatePositionAndDimensions()
     {
         _dimensions = new Vector2(
-            BackToMainMenuTexture.Width * AppSettings.Scaling.ScaleFactor * 0.15f, 
-            BackToMainMenuTexture.Height * AppSettings.Scaling.ScaleFactor * 0.15f);
+            BackToOverworldTexture.Width * AppSettings.Scaling.ScaleFactor * 0.15f, 
+            BackToOverworldTexture.Height * AppSettings.Scaling.ScaleFactor * 0.15f);
         _position = new Vector2(30 * AppSettings.Scaling.ScaleFactor, 30 * AppSettings.Scaling.ScaleFactor);
     }
     
     public void Update()
     {
+        Console.WriteLine(GetMouseButtonDown(MouseButtons.Left));
         UpdatePositionAndDimensions();
         if (!IsClicked()) return;
-        _backToMainMenuSoundEffect.Play();
-        BackToMainMenu();
+        _backToOverworldSoundEffect.Play();
+        ShowLoadoutDisplay(false);
     }
     
     public void Draw()
     {
         var alpha = IsHovered() ? 1f : 0.75f;
         DrawImage(
-            BackToMainMenuTexture, 
+            BackToOverworldTexture, 
             _position, 
             AppSettings.Scaling.ScaleFactor * 0.15f, 
             alpha: alpha);
