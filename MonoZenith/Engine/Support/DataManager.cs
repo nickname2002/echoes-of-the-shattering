@@ -37,6 +37,7 @@ namespace MonoZenith.Engine.Support
         // Backdrops
         public Texture2D LiurniaBackdrop;
         public Texture2D LimgraveBackdrop;
+        public Texture2D ChurchOfEllehBackdrop;
         public Texture2D CaelidBackdrop;
         public Texture2D CastleSolBackdrop;
         public Texture2D DarkMoonBackdrop;
@@ -53,7 +54,8 @@ namespace MonoZenith.Engine.Support
         public Texture2D FarumAzulaBackdrop;
         public Texture2D RadahnBattlefieldBackdrop;
         public Texture2D RadahnBattlefieldPhase2Backdrop;
-        
+        public Texture2D EldenThroneBackdrop;
+
         // Remembrances
         public Texture2D RemembranceOfTheStarscourge;
         
@@ -140,9 +142,16 @@ namespace MonoZenith.Engine.Support
         
         // Sound tracks
         public SoundEffect LimgraveSoundtrack;
+        public SoundEffect RoundtableSoundtrack;
+        public SoundEffect TreeSentinelSoundtrack;
+        public SoundEffect GodrickP1Soundtrack;
+        public SoundEffect GodrickP2Soundtrack;
+        public SoundEffect MargitSoundtrack;
+        public SoundEffect MorgottSoundtrack;
         public SoundEffect MohgSoundtrack;
         public SoundEffect MaleniaSoundtrack;
         public SoundEffect GoddessOfRotSoundtrack;
+        public SoundEffect RedWolfSoundtrack;
         public SoundEffect RennalaP1Soundtrack;
         public SoundEffect RennalaP2Soundtrack;
         public SoundEffect StarscourgeRadahnP1Soundtrack;
@@ -239,6 +248,7 @@ namespace MonoZenith.Engine.Support
             // Backdrops
             LiurniaBackdrop = LoadImage("Images/Backdrops/backdrop.png");
             LimgraveBackdrop = LoadImage("Images/Backdrops/limgrave-backdrop.png");
+            ChurchOfEllehBackdrop = LoadImage("Images/Backdrops/church-of-elleh-backdrop.png");
             CaelidBackdrop = LoadImage("Images/Backdrops/caelid-backdrop.png");
             CastleSolBackdrop = LoadImage("Images/Backdrops/castle-sol-backdrop.png");
             DarkMoonBackdrop = LoadImage("Images/Backdrops/dark-moon-backdrop.png");
@@ -255,7 +265,8 @@ namespace MonoZenith.Engine.Support
             FarumAzulaBackdrop = LoadImage("Images/Backdrops/farum-azula-backdrop.png");
             RadahnBattlefieldBackdrop = LoadImage("Images/Backdrops/radahn-battlefield-backdrop.png");
             RadahnBattlefieldPhase2Backdrop = LoadImage("Images/Backdrops/radahn-battlefield-phase2-backdrop.png");
-            
+            EldenThroneBackdrop = LoadImage("Images/Backdrops/morgott-backdrop.png");
+
             // Remembrances
             RemembranceOfTheStarscourge = LoadImage("Images/Remembrances/remembrance-of-starscourge.png");
             
@@ -338,11 +349,18 @@ namespace MonoZenith.Engine.Support
             NewItemSound = LoadAudio("Audio/SoundEffects/new-item.wav");
             
             LimgraveSoundtrack = LoadAudio("Audio/Music/limgrave-music.wav");
+            RoundtableSoundtrack = LoadAudio("Audio/Music/roundtable-hold-music.wav");
+            TreeSentinelSoundtrack = LoadAudio("Audio/Music/tree-sentinel-battle-soundtrack.wav");
+            GodrickP1Soundtrack = LoadAudio("Audio/Music/godrick-phase1-battle-soundtrack.wav");
+            GodrickP2Soundtrack = LoadAudio("Audio/Music/godrick-phase2-battle-soundtrack.wav");
+            MargitSoundtrack = LoadAudio("Audio/Music/margit-battle-soundtrack.wav");
+            MorgottSoundtrack = LoadAudio("Audio/Music/morgott-battle-soundtrack.wav");
             MohgSoundtrack = LoadAudio("Audio/Music/mohg-battle-soundtrack.wav");
             MaleniaSoundtrack = LoadAudio("Audio/Music/malenia-battle-soundtrack.wav");
             GoddessOfRotSoundtrack = LoadAudio("Audio/Music/goddess-of-rot-battle-soundtrack.wav");
             RennalaP1Soundtrack = LoadAudio("Audio/Music/rennala-phase1-battle-soundtrack.wav");
             RennalaP2Soundtrack = LoadAudio("Audio/Music/rennala-phase2-battle-soundtrack.wav");
+            RedWolfSoundtrack = LoadAudio("Audio/Music/red-wolf-battle-soundtrack.wav");
             StarscourgeRadahnP1Soundtrack = LoadAudio("Audio/Music/radahn-phase1-battle-soundtrack.wav");
             StarscourgeRadahnP2Soundtrack = LoadAudio("Audio/Music/radahn-phase2-battle-soundtrack.wav");
             MalikethSoundtrack = LoadAudio("Audio/Music/maliketh-battle-soundtrack.wav");
