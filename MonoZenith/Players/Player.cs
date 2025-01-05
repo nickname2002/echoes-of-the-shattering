@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿#nullable enable
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -36,7 +37,7 @@ namespace MonoZenith.Players
         protected HandCardStack _handStack;
 
         public float OriginalHealth = 100f;
-        public SpiritAsh SpiritAsh { get; set; }
+        public SpiritAsh? SpiritAsh { get; set; }
         public BuffManager BuffManager { get; set; }
         
         /// <summary>
@@ -80,8 +81,6 @@ namespace MonoZenith.Players
             _playerFont = DataManager.GetInstance().PlayerFont;
             
             // Ashes and buffs
-            // TODO: Make sure players start without any ashes when game starts
-            SpiritAsh = new WolvesAsh(state, this);
             BuffManager = new BuffManager(state, this);
         }
 

@@ -1,3 +1,4 @@
+#nullable enable
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
@@ -9,7 +10,7 @@ namespace MonoZenith.Components.Indicator;
 
 public class SpiritAshIndicator : Indicator
 {
-    private readonly SpiritAsh _spiritAsh;
+    private readonly SpiritAsh? _spiritAsh;
     private readonly SoundEffectInstance _soundOnClick;
     private readonly bool _hasHumanOwner;
     public bool IsActive { get; set; }
@@ -18,10 +19,23 @@ public class SpiritAshIndicator : Indicator
     public Texture2D TextureDisabled { get; set; }
     public Texture2D TextureHovered { get; set; }
     
-    public SpiritAshIndicator(GameState gs, Vector2 pos, Texture2D tex, SpiritAsh ash, bool hasHumanOwner = true)
+    public SpiritAshIndicator(GameState gs, Vector2 pos, Texture2D tex, SpiritAsh? ash, bool hasHumanOwner = true)
         : base(gs, pos, tex)
     {   
         _spiritAsh = ash;
+
+        if (_spiritAsh != null)
+        {
+            if (hasHumanOwner)
+            {
+                _spiritAsh.Owner = gs.Player;
+            }
+            else
+            {
+                _spiritAsh.Owner = gs.Npc;
+            }
+        }
+        
         _soundOnClick = DataManager.GetInstance().SpiritAshSummonSound.CreateInstance();
         IsActive = true;
         _hasHumanOwner = hasHumanOwner;
@@ -33,6 +47,7 @@ public class SpiritAshIndicator : Indicator
 
     public override void Update(GameTime deltaTime)
     {
+        if (_spiritAsh == null) IsActive = false;
         base.Update(deltaTime);
         if (!IsClicked() || !IsActive) return;
         InvokeClickEvent(deltaTime);
@@ -45,7 +60,7 @@ public class SpiritAshIndicator : Indicator
     public void InvokeClickEvent(GameTime deltaTime)
     {
         if (!IsActive) return;
-        _spiritAsh.Update();
+        _spiritAsh?.Update();
         _soundOnClick.Play();
         IsActive = false;
     }
@@ -80,6 +95,6 @@ public class SpiritAshIndicator : Indicator
             : 0.25f;
 
         DrawImage(textureToDraw, _position, GetScale());
-        _spiritAsh.Draw(_position, spiritAshScale);
+        _spiritAsh?.Draw(_position, spiritAshScale);
     }
 }

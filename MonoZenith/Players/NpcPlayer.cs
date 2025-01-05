@@ -54,12 +54,9 @@ namespace MonoZenith.Players
         /// <param name="ashType">The type of the spirit ash to set.</param>
         public void SetSpiritAsh(Type ashType)
         {
-            var spiritAsh = (SpiritAsh)Activator.CreateInstance(
-                ashType, 
-                GetGameState(), 
-                this
-            )!;
-
+            // ReSharper disable once NullableWarningSuppressionIsUsed
+            var spiritAsh = (SpiritAsh)Activator.CreateInstance(ashType)!;
+            SpiritAsh = spiritAsh;
             var disabledIndicatorTexture = DataManager.GetInstance().AshIndicatorDisabled;
 
             var position = new Vector2(
@@ -109,7 +106,7 @@ namespace MonoZenith.Players
         private void PlayStrategicCard()
         {
             var currentState = DetermineState();
-            if (SpiritAsh.ShouldAIPlay(currentState)
+            if (SpiritAsh != null && SpiritAsh.ShouldAIPlay(currentState)
                 && _spiritAshIndicator is { IsActive: true })
             {
                 _spiritAshIndicator.InvokeClickEvent(_state.GameTime);

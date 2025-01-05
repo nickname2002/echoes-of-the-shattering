@@ -6,6 +6,7 @@ using MonoZenith.Components;
 using MonoZenith.Components.TabWidget;
 using MonoZenith.Engine.Support;
 using MonoZenith.Support;
+using MonoZenith.Support.Managers;
 using static MonoZenith.Game;
 
 namespace MonoZenith.Screen.LoadoutDisplay;
@@ -15,8 +16,8 @@ public class LoadoutDisplay
     private readonly ImageButton _backToOverworldButton;
     private readonly VerticalTabWidget _loadoutTypeTabWidget;
     private LoadoutType _selectedLoadoutType;
-    private DeckDisplay.DeckDisplay _deckDisplay;
-    private AshDisplay.AshDisplay _ashDisplay;
+    private readonly DeckDisplay.DeckDisplay _deckDisplay;
+    private readonly AshDisplay.AshDisplay _ashDisplay;
     
     // ReSharper disable once ConvertConstructorToMemberInitializers
     public LoadoutDisplay()
@@ -28,6 +29,7 @@ public class LoadoutDisplay
             onClickAction: () =>
             {
                 DataManager.GetInstance().EndPlayerTurnSound.CreateInstance().Play();
+                SaveGame();
                 ShowLoadoutDisplay(false);
             }
         );

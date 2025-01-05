@@ -11,16 +11,13 @@ namespace MonoZenith.Items;
 
 public abstract class SpiritAsh : Item
 {
-    protected GameState _state;
-    protected Player _owner;
+    public Player Owner { get; set; }
     protected float _scale;
     
     public Texture2D Texture { get; set; }
     
-    protected SpiritAsh(GameState state, Player owner)
+    protected SpiritAsh()
     {
-        _state = state;
-        _owner = owner;
         _scale = 0.085f * AppSettings.Scaling.ScaleFactor;
     }
     
@@ -66,15 +63,19 @@ public abstract class SpiritAsh : Item
 
 public class MimicTearAsh : SpiritAsh
 {
-    public MimicTearAsh(GameState state, Player owner) : 
-        base(state, owner)
+    public MimicTearAsh()
     {
         Texture = DataManager.GetInstance().MimicTearAsh;
     }
 
+    public override string ToString()
+    {
+        return "Mimic Tear";
+    }
+
     protected override void PerformEffect()
     {
-        _owner.BuffManager.Buffs.Add(new CardTwiceAsStrongBuff(_state, _owner.BuffManager));
+        Owner.BuffManager.Buffs.Add(new CardTwiceAsStrongBuff(GetGameState(), Owner.BuffManager));
     }
 
     public override bool ShouldAIPlay(AiState aiState)
@@ -86,45 +87,53 @@ public class MimicTearAsh : SpiritAsh
 
 public class JellyfishAsh : SpiritAsh
 {
-    public JellyfishAsh(GameState state, Player owner) :
-        base(state, owner)
+    public JellyfishAsh()
     {
         Texture = DataManager.GetInstance().JellyfishAsh;
     }
-    
+
+    public override string ToString()
+    {
+        return "Jellyfish";
+    }
+
     protected override void PerformEffect()
     {
-        _owner.OpposingPlayer.BuffManager.Debuffs.Add(new PoisonEffectDebuff(
-            _state,
-            _owner.OpposingPlayer.BuffManager,
+        Owner.OpposingPlayer.BuffManager.Debuffs.Add(new PoisonEffectDebuff(
+            GetGameState(),
+            Owner.OpposingPlayer.BuffManager,
             3,
             10));
     }
 
     public override bool ShouldAIPlay(AiState aiState)
     {
-        return _owner.OpposingPlayer.Health >= _owner.OpposingPlayer.OriginalHealth * 0.75f;
+        return Owner.OpposingPlayer.Health >= Owner.OpposingPlayer.OriginalHealth * 0.75f;
     }
 }
 
 public class WolvesAsh : SpiritAsh
 {
-    public WolvesAsh(GameState state, Player owner) : 
-        base(state, owner)
+    public WolvesAsh()
     {
         Texture = DataManager.GetInstance().WolvesAsh;
     }
-
+    
+    public override string ToString()
+    {
+        return "Wolves";
+    }
+    
     protected override void PerformEffect()
     {
-        _owner.MoveSingleCardFromDeckToHand();
+        Owner.MoveSingleCardFromDeckToHand();
     }
 
     public override bool ShouldAIPlay(AiState aiState)
     {
-        bool noHealthFlasksOnLowHealth = _owner.Health <= _owner.OriginalHealth * 0.5f 
-                            && !_owner.DeckStack.Cards.Any(c => c is FlaskOfCrimsonTearsCard);
-        bool playerHasLowHealth = _owner.Health <= _owner.OriginalHealth * 0.5f;
+        bool noHealthFlasksOnLowHealth = Owner.Health <= Owner.OriginalHealth * 0.5f 
+                                         && !Owner.DeckStack.Cards.Any(c => c is FlaskOfCrimsonTearsCard);
+        bool playerHasLowHealth = Owner.Health <= Owner.OriginalHealth * 0.5f;
         return noHealthFlasksOnLowHealth || playerHasLowHealth;
     }
 }

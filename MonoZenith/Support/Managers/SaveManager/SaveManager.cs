@@ -2,7 +2,9 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using MonoZenith.Items;
 using MonoZenith.Screen;
+using MonoZenith.Screen.AshDisplay;
 using MonoZenith.Support.Managers.Models;
 
 namespace MonoZenith.Support.Managers;
@@ -24,20 +26,28 @@ public class SaveManager
     public void SaveGame()
     {
         SaveLevels();
+        SaveAsh();
     }
 
     public void LoadGame()
     {
         LoadLevels();
+        LoadAsh();
     }
 
     public void RemoveSaveFile()
     {
-        var saveFilePath = GetSaveFilePath("levels");
-        if (File.Exists(saveFilePath))
-            File.Delete(saveFilePath);
+        var levelSave = GetSaveFilePath("levels");
+        var ashSave = GetSaveFilePath("ash");
+        
+        foreach (var filepath in new[] { levelSave, ashSave })
+        {
+            if (File.Exists(filepath))
+                File.Delete(filepath);
+        }
 
         ResetLevels();
+        ResetAsh();
     }
 
     private void ResetDeck()
@@ -60,6 +70,8 @@ public class SaveManager
         }
     }
 
+    private void ResetAsh() => AshDisplay.SetAllAshesUnselected();
+    
     private void SaveLevels()
     {
         var levels = LevelManager.Levels;
@@ -72,6 +84,14 @@ public class SaveManager
         File.WriteAllText(GetSaveFilePath("levels"), json);
     }
 
+    private void SaveAsh()
+    {
+        string selectedAsh = AshDisplay.SelectedAsh?.ToString();
+        if (selectedAsh == null) return;
+        var json = JsonSerializer.Serialize(selectedAsh);
+        File.WriteAllText(GetSaveFilePath("ash"), json);
+    }
+    
     private void SaveDeck()
     {
         throw new NotImplementedException();
@@ -93,6 +113,25 @@ public class SaveManager
             levelToUnlock.Unlocked = true;
             levelToUnlock.RewardCollected = level.RewardCollected;
         }
+    }
+
+    public void LoadAsh()
+    {
+        var saveFilePath = GetSaveFilePath("ash");
+        if (!File.Exists(saveFilePath))
+            return;
+
+        // Parse from JSON
+        var json = File.ReadAllText(saveFilePath);
+        var selectedAsh = JsonSerializer.Deserialize<string>(json);
+        
+        // Find the AshSelectComponent that matches the selectedAsh
+        var ash = AshDisplay.AshSelectComponents.FirstOrDefault(
+            ash => ash.Ash.ToString() == selectedAsh);
+        
+        // Select the Ash
+        if (ash == null) return;
+        AshDisplay.SelectAsh(ash);
     }
 
     public void LoadDeck()
