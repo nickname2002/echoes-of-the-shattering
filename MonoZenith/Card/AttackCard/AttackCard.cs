@@ -85,12 +85,10 @@ public class AttackCard : Card
     {
         if (_owner.OpposingPlayer.BuffManager.Buffs.OfType<DamageEvasionBuff>().Any())
         {
-            Console.WriteLine("Evasion active for " + Owner.Name);
             _debuff = _damage + Buff;
         }
         else if (_owner.OpposingPlayer.BuffManager.Buffs.OfType<DamageReductionBuff>().Any())
         {
-            Console.WriteLine("Reduction active for " + Owner.Name);
             _debuff = (_damage + Buff) / 2;
         }
         else
@@ -388,7 +386,7 @@ public class StormcallerCard : AttackCard
 
     protected override void UpdateDescription()
     {
-        _description[0] = "Deal " + _totalDamage + " damage.";
+        _description[0] = "Deal " + _totalDamage + " damage and";
     }
 }
 
