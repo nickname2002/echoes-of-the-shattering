@@ -8,6 +8,7 @@ using MonoZenith.Components.Indicator;
 using MonoZenith.Engine.Support;
 using MonoZenith.Items;
 using MonoZenith.Screen.AshDisplay;
+using MonoZenith.Screen.DeckDisplay;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
 using static MonoZenith.Game;
 
@@ -57,49 +58,7 @@ namespace MonoZenith.Players
 
         protected override void FillPlayerDeck()
         {
-            var deck = new List<Card.Card>
-            {
-                // Flasks
-                new FlaskOfCrimsonTearsCard(_state, this),
-                new FlaskOfCrimsonTearsCard(_state, this),
-
-                new FlaskOfCeruleanTearsCard(_state, this),
-                new FlaskOfCeruleanTearsCard(_state, this),
-
-                new FlaskOfWondrousPhysickCard(_state, this),
-                new FlaskOfWondrousPhysickCard(_state, this),
-
-                new WarmingStoneCard(_state, this),
-                new BaldachinBlessingCard(_state, this),
-                new ThrowingDaggerCard(_state, this),
-                new PoisonPotCard(_state, this),
-                new LarvalTearCard(_state, this),
-
-                // Basic attacks
-                new LightSwordAttackCard(_state, this),
-                new LightSwordAttackCard(_state, this),
-                new LightSwordAttackCard(_state, this),
-                new UnsheatheCard(_state, this),
-                new WarCryCard(_state, this),
-                new QuickstepCard(_state, this),
-                new EndureCard(_state, this),
-
-                new HeavySwordAttackCard(_state, this),
-                new BloodhoundStepCard(_state, this),
-                new DoubleSlashCard(_state, this),
-                new RallyingStandardCard(_state, this),
-                new WaterfowlDanceCard(_state, this),
-                new ICommandTheeKneelCard(_state, this),
-
-                // Magic attacks
-                new GlintStonePebbleCard(_state, this),
-                new GreatGlintStoneCard(_state, this),
-                new GlintbladePhalanxCard(_state, this),
-                new ThopsBarrierCard(_state, this),
-                new CarianGreatSwordCard(_state, this),
-                new CometAzurCard(_state, this)
-            };
-            
+            var deck = DeckDisplay.GeneratePlayerDeck();
             _deckStack.AddToFront(deck);
             
             // Set the starting position of the cards when moving from the deck to the hand

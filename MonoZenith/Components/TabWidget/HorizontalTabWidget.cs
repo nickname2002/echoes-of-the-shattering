@@ -25,20 +25,28 @@ public class HorizontalTabWidget
         _position = position;
         _scale = scale;
         _spacing = spacing;
-        
+    
         _optionButtons = new List<SelectableImageButton>();
+        float currentX = position.X; // Use this variable to correctly manage X positioning
+    
         for (var i = 0; i < optionTextures.Count; i++)
         {
             var (normalTexture, selectedTexture) = optionTextures[i];
             var buttonIndex = i;
+        
+            var buttonWidth = normalTexture.Width * scale; // Properly account for scaled width
             var button = new SelectableImageButton(
-                new Vector2(position.X + i * (normalTexture.Width * scale + spacing), position.Y),
+                new Vector2(currentX, position.Y),
                 normalTexture,
                 selectedTexture,
                 scale: scale,
                 onClickAction: () => SelectedOption = buttonIndex
             );
+        
             _optionButtons.Add(button);
+        
+            // Increment X position for the next button
+            currentX += buttonWidth + _spacing;
         }
     }
     

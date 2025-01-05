@@ -12,7 +12,6 @@ namespace MonoZenith.Card
 {
     public abstract class Card : Item
     {
-        protected GameState _state;
         protected Vector2 _position;
         protected static int _width;
         protected static int _height;
@@ -102,17 +101,15 @@ namespace MonoZenith.Card
             }
         }
 
-        protected Card(GameState state, Player owner)
+        protected Card()
         {
-            _state = state;
-            _owner = owner;
+            _owner = null;
             _position = Vector2.Zero;
             _scale = 0.40f * AppSettings.Scaling.ScaleFactor;
             _frontTexture = DataManager.GetInstance().CardFront;
             _backTexture = DataManager.GetInstance().CardBack;
             _hiddenTexture = DataManager.GetInstance().CardHidden;
             _costStaminaTexture = DataManager.GetInstance().CardCostStamina;
-            _textureInHand = owner is HumanPlayer ? _frontTexture : _backTexture;
             _width = (int)(_frontTexture.Width * _scale);
             _height = (int)(_frontTexture.Height * _scale);
             _name = "BaseCard";
@@ -121,6 +118,11 @@ namespace MonoZenith.Card
             _description = new List<string>();
             // Description includes max 3 strings of max 15 characters
             _buff = 0;
+        }
+        
+        public virtual void SetOwner(Player owner)
+        {
+            _owner = owner;
         }
 
         public override string ToString()
@@ -179,6 +181,7 @@ namespace MonoZenith.Card
         /// <param name="deltaTime">The delta time.</param>
         public virtual void Update(GameTime deltaTime)
         {
+            _textureInHand = _owner is HumanPlayer ? _frontTexture : _backTexture;
             MoveTowardsTargetPosition(deltaTime);
             if (IsTransferringToExternalStack && TargetPosition == _position)
             {
@@ -215,7 +218,7 @@ namespace MonoZenith.Card
         /// <returns>The movement speed of the card.</returns>
         private float MovementSpeed()
         {
-            if (_state.TurnManager.SwitchingTurns)
+            if (GetGameState().TurnManager.SwitchingTurns)
                 return 1250f * AppSettings.Scaling.ScaleFactor;
             
             return IsTransferringToExternalStack ? 
@@ -250,7 +253,7 @@ namespace MonoZenith.Card
         /// <param name="active">Boolean to determine if metadata should be drawn</param>
         public void Draw(float angle = 0, bool active = false)
         {
-            if (Stack == _state.PlayedCards)
+            if (Stack != null && Stack == GetGameState().PlayedCards)
                 active = true;
             
             Texture2D currentTexture = active ? _frontTexture : _textureInHand;

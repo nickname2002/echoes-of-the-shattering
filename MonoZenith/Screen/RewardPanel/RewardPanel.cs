@@ -56,7 +56,7 @@ public class RewardPanel
         
         if (typeof(Card.Card).IsAssignableFrom(_reward?.RewardItem))
         {
-            var card = (Card.Card) Activator.CreateInstance(_reward.RewardItem, GetGameState(), GetGameState().Player);
+            var card = (Card.Card) Activator.CreateInstance(_reward.RewardItem);
             if (card != null) card.Position = _position + new Vector2(
                 _rewardContainerTexture.Width * _scale / 2f - Card.Card.Width * 0.5f, 100 * AppSettings.Scaling.ScaleFactor);
             card?.Draw(active: true);

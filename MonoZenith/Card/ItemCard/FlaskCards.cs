@@ -1,9 +1,6 @@
-using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Engine.Support;
-using MonoZenith.Players;
 using MonoZenith.Support.Managers;
+using static MonoZenith.Game;
 
 namespace MonoZenith.Card;
 
@@ -11,8 +8,7 @@ public class FlaskOfCeruleanTearsCard : ItemCard
 {
     public readonly float FocusBoost;
     
-    public FlaskOfCeruleanTearsCard(GameState state, Player owner) : 
-        base(state, owner)
+    public FlaskOfCeruleanTearsCard()
     {
         FocusBoost = 30;
         _frontTexture = DataManager.GetInstance().CardFlaskCerulean;
@@ -45,8 +41,7 @@ public class FlaskOfCrimsonTearsCard : ItemCard
 {
     public readonly float HealthBoost;
     
-    public FlaskOfCrimsonTearsCard(GameState state, Player owner) : 
-        base(state, owner)
+    public FlaskOfCrimsonTearsCard()
     {
         HealthBoost = 75;
         _frontTexture = DataManager.GetInstance().CardFlaskCrimson;
@@ -81,8 +76,7 @@ public class FlaskOfWondrousPhysickCard : ItemCard
     public readonly float FocusBoost;
     public int doubleBuff;
 
-    public FlaskOfWondrousPhysickCard(GameState state, Player owner) :
-        base(state, owner)
+    public FlaskOfWondrousPhysickCard()
     {
         HealthBoost = 50;
         FocusBoost = 15;
@@ -130,8 +124,7 @@ public class WarmingStoneCard : ItemCard
 {
     public readonly float HealthBoost;
 
-    public WarmingStoneCard(GameState state, Player owner) :
-        base(state, owner)
+    public WarmingStoneCard()
     {
         HealthBoost = 10;
         _frontTexture = DataManager.GetInstance().CardWarmingStone;
@@ -144,7 +137,7 @@ public class WarmingStoneCard : ItemCard
     {
         base.PerformEffect();
         _owner.BuffManager.Buffs.Add(new HealingEffectBuff(
-        _state,
+        GetGameState(),
         _owner.BuffManager,
         2,
         (int)(HealthBoost + Buff)));
