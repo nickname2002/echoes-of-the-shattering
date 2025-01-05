@@ -8,6 +8,11 @@ namespace MonoZenith;
 
 public partial class Game
 {
+    public static GameTime DeltaTime { get; private set; }
+    
+    /// <summary>
+    /// Screens
+    /// </summary>
     public static Screens ActiveScreen;
     private static MainMenuScreen _mainMenuScreen;
     private static GameScreen _gameScreen;
@@ -27,9 +32,9 @@ public partial class Game
     public static void Init()
     {
         // Screen Setup
-        // SetScreenSizeAutomatically();
+        SetScreenSizeAutomatically();
         // SetScreenSize(1600, 900);
-        SetScreenFullScreen(true);
+        // SetScreenFullScreen(true);
         SetWindowTitle("Echoes of the Shattering");
     }
 
@@ -111,6 +116,12 @@ public partial class Game
     }
     
     /// <summary>
+    /// Method to show the loadout display.
+    /// </summary>
+    /// <param name="show">Whether to show the loadout display.</param>
+    public static void ShowLoadoutDisplay(bool show) => _overworldScreen.ShowLoadoutDisplay = show;
+    
+    /// <summary>
     /// Callback method to start game on a new save file.
     /// </summary>
     public static void StartNewGame()
@@ -156,6 +167,8 @@ public partial class Game
     /* Update game logic. */
     public static void Update(GameTime deltaTime)
     {
+        DeltaTime = deltaTime;
+        
         // Update the active screen
         switch (ActiveScreen)
         {
