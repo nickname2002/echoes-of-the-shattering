@@ -36,6 +36,7 @@ namespace MonoZenith.Engine.Support
         // Backdrops
         public Texture2D LiurniaBackdrop;
         public Texture2D LimgraveBackdrop;
+        public Texture2D ChurchOfEllehBackdrop;
         public Texture2D CaelidBackdrop;
         public Texture2D CastleSolBackdrop;
         public Texture2D DarkMoonBackdrop;
@@ -244,6 +245,7 @@ namespace MonoZenith.Engine.Support
             // Backdrops
             LiurniaBackdrop = LoadImage("Images/Backdrops/backdrop.png");
             LimgraveBackdrop = LoadImage("Images/Backdrops/limgrave-backdrop.png");
+            ChurchOfEllehBackdrop = LoadImage("Images/Backdrops/church-of-elleh-backdrop.png");
             CaelidBackdrop = LoadImage("Images/Backdrops/caelid-backdrop.png");
             CastleSolBackdrop = LoadImage("Images/Backdrops/castle-sol-backdrop.png");
             DarkMoonBackdrop = LoadImage("Images/Backdrops/dark-moon-backdrop.png");

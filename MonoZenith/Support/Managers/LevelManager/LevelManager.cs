@@ -641,7 +641,7 @@ public class LevelManager
             new Level
             {
                 Enemy = _enemies["Renna"],
-                Backdrop = DataManager.GetInstance().LimgraveBackdrop,
+                Backdrop = DataManager.GetInstance().ChurchOfEllehBackdrop,
                 LevelReward = _rewards["Renna"],
                 SoundTrack = DataManager.GetInstance().LimgraveSoundtrack.CreateInstance(),
                 EnemyDeck = GenerateDeck(Game.GetGameState(), _enemies["Renna"], _decks["Renna"]),
