@@ -33,4 +33,10 @@
         Bottom,
         Left
     }
+
+    public enum LoadoutType
+    {
+        Deck = 0,
+        Ashes = 1
+    }
 }
