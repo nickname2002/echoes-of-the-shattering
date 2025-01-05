@@ -285,7 +285,7 @@ public class OverworldScreen : Screen
         _regionSelectMenu.Update();
         _backToMainMenuButton.Update(DeltaTime);
         _showLoadoutDisplayButton.Update(DeltaTime);
-        _loadoutDisplay.Update();
+        _loadoutDisplay.Update(DeltaTime);
         StartFadeIn();
         
         float musicFadeInSpeed = 0.015f;
@@ -326,7 +326,7 @@ public class OverworldScreen : Screen
     {
         if (ShowLoadoutDisplay)
         {
-            _loadoutDisplay.Update();
+            _loadoutDisplay.Update(deltaTime);
             return;
         }
         
