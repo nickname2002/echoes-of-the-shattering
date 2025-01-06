@@ -72,7 +72,7 @@ public class LevelManager
         ConfigureLevels();
         
         // TODO: Unlock needed levels for testing purposes using following helper methods:
-        SetAllLevelsUnlocked();
+        // SetAllLevelsUnlocked();
         // SetUnlockedUpUntil("Sorceress Sellen");
     }
     
