@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using MonoZenith.Components;
 using MonoZenith.Engine.Support;
+using MonoZenith.Support.Managers;
 using static MonoZenith.Game;
 
 namespace MonoZenith.Screen.DeckDisplay;
@@ -8,6 +9,7 @@ namespace MonoZenith.Screen.DeckDisplay;
 public class CardAmountComponent
 {
     public readonly Card.Card Card;
+    private readonly string _beatenEnemyName;
     private readonly ImageButton _addButton;
     private readonly ImageButton _subtractButton;
 
@@ -15,12 +17,13 @@ public class CardAmountComponent
     public Vector2 Position { get; set; }
     public int Amount { get; set; }
     
-    public CardAmountComponent(Card.Card card)
+    public CardAmountComponent(Card.Card card, string beatenEnemyName = "")
     {
         var pos = new Vector2(0, 0);
         Card = card;
         Amount = 0;
         Card.Position = pos;
+        _beatenEnemyName = beatenEnemyName;
         
         _addButton = new ImageButton(
             new Vector2(pos.X + MonoZenith.Card.Card.Width - 10 * AppSettings.Scaling.ScaleFactor, pos.Y + MonoZenith.Card.Card.Height),
@@ -49,6 +52,17 @@ public class CardAmountComponent
             }
         );
     }
+
+    public bool IsUnlocked()
+    {
+        if (_beatenEnemyName == "") return true;
+        var level = OverworldScreen.LevelManager.GetLevelFromEnemy(_beatenEnemyName);
+        var levelIndex = LevelManager.Levels.IndexOf(level);
+        return 
+            levelIndex == LevelManager.Levels.Count - 1 ? 
+            level.RewardCollected : 
+            LevelManager.Levels[levelIndex + 1].Unlocked;
+    }
     
     private void ChangePositions()
     {
@@ -71,6 +85,7 @@ public class CardAmountComponent
 
     public void Draw()
     {
+        if (Card.Position == Vector2.Zero) return;
         Card.Draw(active: true);
         _addButton.Draw();
         _subtractButton.Draw();

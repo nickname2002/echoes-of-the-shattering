@@ -73,7 +73,7 @@ public class LevelManager
         
         // TODO: Unlock needed levels for testing purposes using following helper methods:
         // SetAllLevelsUnlocked();
-        // SetUnlockedUpUntil("Thops");
+        // SetUnlockedUpUntil("Rennala, Queen of the Full Moon");
     }
     
     public Level GetLevelFromEnemy(string enemyName)
@@ -224,6 +224,7 @@ public class LevelManager
             ["Commander Niall"] = new(DataManager.GetInstance().CardRallyingStandard, "Rallying Standard", typeof(RallyingStandardCard)),
             ["Malenia, Blade of Miquella"] = null,
             ["Malenia, Goddess of Rot"] = new(DataManager.GetInstance().CardWaterfowlDance, "Waterfowl Dance", typeof(WaterfowlDanceCard)),
+            ["Morgott, The Omen King"] = new(DataManager.GetInstance().CardCursedSlice, "Cursed Blood Slice", typeof(CursedBloodSliceCard)),
             ["Maliketh, the Black Blade"] = new(DataManager.GetInstance().CardDestinedDeath, "Destined Death", typeof(DestinedDeathCard)),
             ["Sir Gideon Ofnir, The All-Knowing"] = new(DataManager.GetInstance().CardLarvalTear, "Larval Tear", typeof(LarvalTearCard)),
             ["Godfrey, The First Elden Lord"] = null,

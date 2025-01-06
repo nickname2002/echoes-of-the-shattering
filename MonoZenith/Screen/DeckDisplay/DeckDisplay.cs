@@ -83,7 +83,6 @@ namespace MonoZenith.Screen.DeckDisplay
             spacing: 50 * AppSettings.Scaling.ScaleFactor
         );
 
-        // Card amount components (sample deck)
         public static readonly List<CardAmountComponent> CardAmountComponents = new()
         {
             // Default deck
@@ -93,39 +92,39 @@ namespace MonoZenith.Screen.DeckDisplay
             new CardAmountComponent(new FlaskOfCeruleanTearsCard()),
             new CardAmountComponent(new GlintStonePebbleCard()),
             new CardAmountComponent(new ThrowingDaggerCard()),
-            
-            // Melee cards
-            new CardAmountComponent(new UnsheatheCard()),
-            new CardAmountComponent(new BloodhoundStepCard()),
-            new CardAmountComponent(new QuickstepCard()),
             new CardAmountComponent(new EndureCard()),
             new CardAmountComponent(new DoubleSlashCard()),
             new CardAmountComponent(new WarCryCard()),
-            new CardAmountComponent(new StormcallerCard()),
-            new CardAmountComponent(new RallyingStandardCard()),
-            new CardAmountComponent(new ICommandTheeKneelCard()),
-            new CardAmountComponent(new WaterfowlDanceCard()),
-            new CardAmountComponent(new StarcallerCryCard()),
-            new CardAmountComponent(new CursedBloodSliceCard()),
-            new CardAmountComponent(new BloodboonRitualCard()),
-            new CardAmountComponent(new DestinedDeathCard()),
-            new CardAmountComponent(new RegalRoarCard()),
-            new CardAmountComponent(new WaveOfGoldCard()),
+            new CardAmountComponent(new FlaskOfWondrousPhysickCard()),
             new CardAmountComponent(new ThrowingDaggerCard()),
-            new CardAmountComponent(new PoisonPotCard()),
+            
+            // Melee cards
+            new CardAmountComponent(new UnsheatheCard(), "Bloody Finger Hunter Yura"),
+            new CardAmountComponent(new BloodhoundStepCard(), "Blaidd, The Half-Wolf"),
+            new CardAmountComponent(new QuickstepCard(), "White Mask Varré"),
+            new CardAmountComponent(new StormcallerCard(), "Margit, The Fell Omen"),
+            new CardAmountComponent(new RallyingStandardCard(), "Commander Niall"),
+            new CardAmountComponent(new ICommandTheeKneelCard(), "Godrick the Grafted"),
+            new CardAmountComponent(new WaterfowlDanceCard(), "Malenia, Blade of Miquella"),
+            new CardAmountComponent(new StarcallerCryCard(), "Starscourge Radahn"),
+            new CardAmountComponent(new CursedBloodSliceCard(), "Morgott, The Omen King"),
+            new CardAmountComponent(new BloodboonRitualCard(), "Mohg, Lord of Blood"),
+            new CardAmountComponent(new DestinedDeathCard(), "Maliketh, the Black Blade"),
+            new CardAmountComponent(new RegalRoarCard(), "Godfrey, The First Elden Lord"),
+            new CardAmountComponent(new WaveOfGoldCard(), "Radagon of the Golden Order"),
+            new CardAmountComponent(new PoisonPotCard(), "Gatekeeper Gostoc"),
             
             // Magic cards
-            new CardAmountComponent(new GlintbladePhalanxCard()),
-            new CardAmountComponent(new ThopsBarrierCard()),
-            new CardAmountComponent(new GreatGlintStoneCard()),
-            new CardAmountComponent(new CarianGreatSwordCard()),
-            new CardAmountComponent(new CometAzurCard()),
-            new CardAmountComponent(new MoonlightGreatswordCard()),
+            new CardAmountComponent(new GlintbladePhalanxCard(), "Red Wolf of Radagon"),
+            new CardAmountComponent(new ThopsBarrierCard(), "Thops"),
+            new CardAmountComponent(new GreatGlintStoneCard(), "Sorceress Sellen"),
+            new CardAmountComponent(new CarianGreatSwordCard(), "Royal Knight Loretta"),
+            new CardAmountComponent(new CometAzurCard(), "Rennala, Queen of the Full Moon"),
+            new CardAmountComponent(new MoonlightGreatswordCard(), "Tarnished, Consort of the Stars"),
             
             // Item cards
-            new CardAmountComponent(new LarvalTearCard()),
-            new CardAmountComponent(new BaldachinBlessingCard()),
-            new CardAmountComponent(new FlaskOfWondrousPhysickCard()),
+            new CardAmountComponent(new LarvalTearCard(), "Sir Gideon Ofnir, The All-Knowing"),
+            new CardAmountComponent(new BaldachinBlessingCard(), "Fia, The Deathbed Companion"),
         };
 
         private const int CardsPerRow = 4;
@@ -157,10 +156,11 @@ namespace MonoZenith.Screen.DeckDisplay
         {
             // Filter the cards based on the selected type (Melee, Magic, Item)
             var filteredCards = GetComponentsForSelectedType();
+            filteredCards = GetUnlockedCards(filteredCards);
 
             // Divide cards into groups of 8
             const int cardsPerGroup = 8;
-            int totalGroups = (int)Math.Ceiling((double)filteredCards.Count / cardsPerGroup); // Calculate the total number of groups
+            int totalGroups = (int)Math.Ceiling((double)filteredCards.Count / cardsPerGroup); 
 
             // Ensure groupIndex is within bounds
             if (groupIndex < 0 || groupIndex >= totalGroups)
@@ -174,10 +174,16 @@ namespace MonoZenith.Screen.DeckDisplay
             return filteredCards.GetRange(startIndex, endIndex - startIndex);
         }
         
+        private List<CardAmountComponent> GetUnlockedCards(List<CardAmountComponent> cards)
+        {
+            return cards.Where(card => card.IsUnlocked()).ToList();
+        }
+        
         public void DrawDeckContent()
         {
             int selectedGroup = _activeNumberTabWidget.SelectedOption;
             var cardsToDraw = GetCardsInSelectedGroup(selectedGroup);
+            cardsToDraw = GetUnlockedCards(cardsToDraw);
 
             // Draw only the cards in the selected group
             foreach (var component in cardsToDraw)
@@ -194,6 +200,7 @@ namespace MonoZenith.Screen.DeckDisplay
             {
                 // Get amount from each type (filter cards based on the current CardType)
                 var filteredCards = GetComponentForSpecificType((CardType)i);
+                filteredCards = GetUnlockedCards(filteredCards);
 
                 // Get each group of 8 (divide cards into groups of 8)
                 for (var j = 0; j < filteredCards.Count; j += 8)
@@ -264,22 +271,7 @@ namespace MonoZenith.Screen.DeckDisplay
                 _ => throw new ArgumentOutOfRangeException(nameof(_selectedCardType), "Unexpected CardType encountered.")
             };
         }
-        
-        private List<CardAmountComponent> GetComponentsForSelectedNumberTab(List<CardAmountComponent> filteredCards)
-        {
-            var selected = _activeNumberTabWidget.SelectedOption;
-    
-            // Ensure that the selected tab number is at least 1
-            if (selected < 1) selected = 1; 
-    
-            // Get first 8 cards if 1 is selected, next 8 if 2 is selected, etc.
-            int startIndex = (selected - 1) * 8;
-            int endIndex = Math.Min(startIndex + 8, filteredCards.Count);
-    
-            // Ensure that the range is valid before attempting to get the cards
-            return filteredCards.GetRange(startIndex, endIndex - startIndex);
-        }
-        
+
         private void UpdateCorrectNumberTabWidget(GameTime deltaTime)
         {
             switch (_selectedCardType)
@@ -333,8 +325,7 @@ namespace MonoZenith.Screen.DeckDisplay
                 new Color(147, 137, 111),
                 AppSettings.Scaling.ScaleFactor);
         }
-
-        // Updates the deck display state
+        
         public void Update(GameTime deltaTime)
         {
             _activeNumberTabWidget = _selectedCardType switch
@@ -351,6 +342,7 @@ namespace MonoZenith.Screen.DeckDisplay
 
             // Update the filtered cards
             var filteredCards = GetComponentsForSelectedType();
+            filteredCards = GetUnlockedCards(filteredCards);
             foreach (var component in filteredCards)
                 component.Update(deltaTime);
 
