@@ -73,7 +73,7 @@ public class LevelManager
         
         // TODO: Unlock needed levels for testing purposes using following helper methods:
         // SetAllLevelsUnlocked();
-        // SetUnlockedUpUntil("Godrick the Grafted");
+        // SetUnlockedUpUntil("Sorceress Sellen");
     }
     
     public Level GetLevelFromEnemy(string enemyName)
@@ -95,7 +95,9 @@ public class LevelManager
         Console.WriteLine("Reward collected from: " + level.Enemy.Name);
         level.RewardCollected = true;
         if (level.SecondPhase != null)
+        {
             level.SecondPhase.RewardCollected = true;
+        }
     }
     
     private void SetAllLevelsUnlocked()
@@ -103,6 +105,7 @@ public class LevelManager
         foreach (var level in Levels)
         {
             level.Unlocked = true;
+            SetRewardCollected(level);
         }
     }
 
@@ -124,6 +127,8 @@ public class LevelManager
         for (var i = 0; i <= levelIndex; i++)
         {
             Levels[i].Unlocked = true;
+            if (i + 1 > levelIndex) return;
+            SetRewardCollected(Levels[i]);
         }
     }
     

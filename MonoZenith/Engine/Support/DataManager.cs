@@ -62,6 +62,7 @@ namespace MonoZenith.Engine.Support
         public Texture2D SiteOfGraceButton;
         public Texture2D SiteOfGraceButtonHover;
         public Texture2D BackToMainMenuButton;
+        public Texture2D ShowLoadoutDisplayButton;
         
         // Indicators
         public Texture2D AshIndicatorDisabled;
@@ -282,6 +283,7 @@ namespace MonoZenith.Engine.Support
             SiteOfGraceButton = LoadImage("Images/OverworldScreen/site-of-grace.png");
             SiteOfGraceButtonHover = LoadImage("Images/OverworldScreen/site-of-grace-hover-indicator.png");
             BackToMainMenuButton = LoadImage("Images/OverworldScreen/Buttons/back-to-main-menu.png");
+            ShowLoadoutDisplayButton = LoadImage("Images/OverworldScreen/Buttons/loadout.png");
             
             // Reward panel
             RewardContainer = LoadImage("Images/RewardPanel/reward-container.png");
