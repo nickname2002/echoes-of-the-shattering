@@ -32,9 +32,9 @@ public partial class Game
     public static void Init()
     {
         // Screen Setup
-        // SetScreenSizeAutomatically();
+        SetScreenSizeAutomatically();
         // SetScreenSize(1600, 900);
-        SetScreenFullScreen(true);
+        // SetScreenFullScreen(true);
         SetWindowTitle("Echoes of the Shattering");
     }
 
@@ -50,6 +50,7 @@ public partial class Game
 
         _saveManager = new SaveManager();
         _saveManager.LoadGame();
+        _saveManager.SaveGame();
         
         // Start with a fade-in when the game starts
         StartFadeIn();

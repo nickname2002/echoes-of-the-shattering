@@ -22,26 +22,34 @@ public class AshDisplay
             new WolvesAsh(),
             LoadImage("Images/LoadoutDisplay/AshSelectComponents/wolves-ash-component.png"),
             "Renna"),
-        new AshSelectComponent(new WolvesAsh(),
+        new AshSelectComponent(
+            new MimicTearAsh(),
             LoadImage("Images/LoadoutDisplay/AshSelectComponents/mimic-tear-ash-component.png"),
             "Mimic Tear"),
     };
 
     private void CalculateAshPositions()
     { 
-        int amountOfAshes = AshSelectComponents.Select(ash => ash.IsUnlocked()).Count(); 
-        float ashWidth = 620 * AshSelectComponents.First().Scale;
-        float ashHeight = 820 * AshSelectComponents.First().Scale;
+        int amountOfAshes = AshSelectComponents.Count(ash => ash.IsUnlocked());
+        if (amountOfAshes == 0) return; 
+
+        float ashScale = AshSelectComponents.First().Scale;
+        float ashWidth = 620 * ashScale;
+        float ashHeight = 820 * ashScale;
         float margin = 60 * AppSettings.Scaling.ScaleFactor;
-        float totalWidth = amountOfAshes * ashWidth + (amountOfAshes - 1) * margin + 10 * AppSettings.Scaling.ScaleFactor;
-        float startX = (ScreenWidth - totalWidth) / 2 + ashWidth / 2f;
-        float startY = ScreenHeight / 2f - ashHeight / 2;
-        
+        float totalWidth = amountOfAshes * ashWidth + (amountOfAshes - 1) * margin;
+        float startX = (ScreenWidth - totalWidth) / 2;
+        float startY = (ScreenHeight - ashHeight) / 2;
+
         for (int i = 0; i < amountOfAshes; i++)
         {
-            if (i == 1) margin = 70 * AppSettings.Scaling.ScaleFactor;
-            else margin = 60 * AppSettings.Scaling.ScaleFactor;
-            AshSelectComponents[i].Position = new Vector2(startX + i * (ashWidth + margin), startY);
+            float currentMargin = margin;
+            if (i == 1) currentMargin = 40 * AppSettings.Scaling.ScaleFactor;
+
+            AshSelectComponents[i].Position = new Vector2(
+                startX + i * (ashWidth + currentMargin),
+                startY
+            );
         }
     }
 
