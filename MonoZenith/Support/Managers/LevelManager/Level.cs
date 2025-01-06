@@ -27,18 +27,13 @@ public class Level
     public List<Card.Card> EnemyDeck { get; init; }
 
     public string EnemyName => Enemy.Name;
-    public bool Unlocked { get; set; } = false;
-    public bool RewardCollected { get; set; }
+    public bool Unlocked { get; set; }
+    public bool RewardCollected { get; set; } 
     
     public Level? SecondPhase { get; init; }
     public List<SoundEffectInstance> VoiceLinesBattleStart = new();
     public List<SoundEffectInstance> VoiceLinesBattleLoss = new();
     public List<SoundEffectInstance> VoiceLinesBattleVictory = new();
-
-    public Level()
-    {
-        RewardCollected = (LevelReward == null);
-    }
 
     /// <summary>
     /// Reset the state of the Level.

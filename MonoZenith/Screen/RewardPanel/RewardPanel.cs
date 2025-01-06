@@ -63,6 +63,7 @@ public class RewardPanel
             return;
         }
         
+        if (_reward == null) return;
         DrawImage(_reward?.RewardTexture, 
             _position + 
             new Vector2(
@@ -76,6 +77,7 @@ public class RewardPanel
     {
         if (_reward == null) return;
         DrawImage(_rewardContainerTexture, _position, _scale);
+        _collectRewardButton.Draw();
         DrawText(_reward.RewardName, 
             _position + 
             new Vector2(
@@ -84,6 +86,5 @@ public class RewardPanel
                 40 * AppSettings.Scaling.ScaleFactor),
             DataManager.GetInstance().RewardFont, Color.White);
         DrawRewardTexture();
-        _collectRewardButton.Draw();
     }
 }

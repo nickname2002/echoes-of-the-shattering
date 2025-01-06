@@ -58,6 +58,7 @@ public class BaldachinBlessingCard : ItemCard
 
     public override bool IsAffordable()
     {
+        if (_owner == null) return false;
         return _owner.Health > 10;
     }
 
