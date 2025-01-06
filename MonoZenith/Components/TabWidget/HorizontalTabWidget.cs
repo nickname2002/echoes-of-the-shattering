@@ -52,6 +52,9 @@ public class HorizontalTabWidget
     
     public void Update(GameTime deltaTime)
     {
+        if (SelectedOption < 0 || SelectedOption >= _optionButtons.Count)
+            SelectedOption = 0;
+        
         // Update selected button
         for (var i = 0; i < _optionButtons.Count; i++)
         {
