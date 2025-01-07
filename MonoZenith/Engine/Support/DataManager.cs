@@ -19,6 +19,7 @@ namespace MonoZenith.Engine.Support
         public SpriteFont GameOverTransitionComponentFont;
         public SpriteFont RewardFont;
         public SpriteFont HeaderFont;
+        public SpriteFont CardAmountFont;
         
         // Textures
         public Texture2D MonoZenithLogo;
@@ -224,6 +225,7 @@ namespace MonoZenith.Engine.Support
             GameOverTransitionComponentFont = LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 5f * AppSettings.Scaling.ScaleFactor);
             RewardFont = LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1.3f * AppSettings.Scaling.ScaleFactor);
             HeaderFont = LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 4f * AppSettings.Scaling.ScaleFactor);
+            CardAmountFont = LoadFont("Fonts/Garamond/EBGaramond-Regular.ttf", 1.25f * AppSettings.Scaling.ScaleFactor);
         }
 
         private void LoadTextures()

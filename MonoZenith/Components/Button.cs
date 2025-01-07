@@ -52,7 +52,7 @@ public class Button : Component
         BorderColor = borderColor;
         
         // Timers
-        _buttonDelay = 300f;
+        _buttonDelay = 150f;
         _currentButtonDelay = 0;
     }
     

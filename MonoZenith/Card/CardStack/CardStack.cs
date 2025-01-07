@@ -133,6 +133,7 @@ namespace MonoZenith.Card.CardStack
         /// <returns>The randomly popped card.</returns>
         public Card PopRandomCard()
         {
+            if (_cards.Count == 0) return null;
             Random rng = new Random();
             int index = rng.Next(_cards.Count);
             Card card = _cards[index];

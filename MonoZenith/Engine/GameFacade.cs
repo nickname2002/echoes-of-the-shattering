@@ -163,6 +163,29 @@ public class GameFacade
     }
     
     /// <summary>
+    /// Gets the absolute path to a file inside the Content directory.
+    /// </summary>
+    /// <param name="relativeFilePath">The relative path to the file inside the Content folder.</param>
+    /// <returns>The absolute path to the file.</returns>
+    public static string GetContentPath(string relativeFilePath)
+    {
+        // Set the working directory to the MonoZenith directory (if necessary)
+        string currentDirectory = Directory.GetCurrentDirectory();
+        
+        // Make sure to remove the part past MonoZenith
+        string monoZenithDirectory = currentDirectory.Substring(
+            0, currentDirectory.IndexOf("MonoZenith", StringComparison.Ordinal) + "MonoZenith".Length);
+        
+        Directory.SetCurrentDirectory(monoZenithDirectory);
+
+        // Combine the content folder with the provided relative path
+        string contentDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Content");
+        string fullPath = Path.Combine(contentDirectory, relativeFilePath);
+
+        return fullPath;
+    }
+    
+    /// <summary>
     /// Load a font from a file.
     /// </summary>
     /// <param name="filePath">File path to the font.</param>
@@ -170,8 +193,7 @@ public class GameFacade
     /// <returns>The SpriteFont of the requested font.</returns>
     public SpriteFont LoadFont(string filePath, float scale)
     {
-        string rootPath = Environment.CurrentDirectory;
-        string correctedPath = $"{rootPath}/Content/" + filePath;
+        string correctedPath = Path.Combine(GetContentPath(filePath));
         var fontBakeResult = TtfFontBaker.Bake(File.ReadAllBytes(correctedPath),
             25 * scale,
             1024,
@@ -211,8 +233,7 @@ public class GameFacade
     /// <returns>The Texture2D of the requested image.</returns>
     public Texture2D LoadImage(string filepath)
     {
-        string rootPath = Environment.CurrentDirectory;
-        FileStream fs = new FileStream($"{rootPath}/Content/{filepath}", FileMode.Open);
+        FileStream fs = new FileStream(GetContentPath(filepath), FileMode.Open);
         Texture2D spriteAtlas = Texture2D.FromStream(_graphicsDeviceManager.GraphicsDevice, fs);
         fs.Dispose();
         return spriteAtlas;
@@ -277,9 +298,7 @@ public class GameFacade
     /// <returns>SoundEffectInstance of the requested audio file.</returns>
     public SoundEffect LoadAudio(string filePath)
     {
-        // Get project root directory
-        string rootPath = Environment.CurrentDirectory;
-        using var stream = File.OpenRead($"{rootPath}/Content/" + filePath);
+        using var stream = File.OpenRead(GetContentPath(filePath));
         var soundEffect = SoundEffect.FromStream(stream);
         return soundEffect;
     }

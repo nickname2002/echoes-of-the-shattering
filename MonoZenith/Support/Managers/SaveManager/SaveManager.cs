@@ -1,10 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
 using MonoZenith.Items;
 using MonoZenith.Screen;
 using MonoZenith.Screen.AshDisplay;
+using MonoZenith.Screen.DeckDisplay;
 using MonoZenith.Support.Managers.Models;
 
 namespace MonoZenith.Support.Managers;
@@ -27,20 +29,23 @@ public class SaveManager
     {
         SaveLevels();
         SaveAsh();
+        SaveDeck();
     }
 
     public void LoadGame()
     {
         LoadLevels();
         LoadAsh();
+        LoadDeck();
     }
 
     public void RemoveSaveFile()
     {
         var levelSave = GetSaveFilePath("levels");
         var ashSave = GetSaveFilePath("ash");
+        var deckSave = GetSaveFilePath("deck");
         
-        foreach (var filepath in new[] { levelSave, ashSave })
+        foreach (var filepath in new[] { levelSave, ashSave, deckSave })
         {
             if (File.Exists(filepath))
                 File.Delete(filepath);
@@ -48,11 +53,28 @@ public class SaveManager
 
         ResetLevels();
         ResetAsh();
+        ResetDeck();
     }
 
     private void ResetDeck()
     {
-        throw new NotImplementedException();
+        // Set all card amounts to 0
+        foreach (var cardAmountComponent in DeckDisplay.CardAmountComponents)
+            cardAmountComponent.Amount = 0;
+        
+        // Create new default deck
+        List<(int, int)> defaultDeck = new()
+        {
+            (0, 10),
+            (1, 5),
+            (2, 3),
+            (3, 3),
+            (4, 5),
+            (5, 4)
+        };
+        
+        foreach (var (cardId, amount) in defaultDeck)
+            DeckDisplay.CardAmountComponents[cardId].Amount = amount;
     }
 
     private void ResetLevels()
@@ -94,7 +116,16 @@ public class SaveManager
     
     private void SaveDeck()
     {
-        throw new NotImplementedException();
+        List<DeckCardModel> amountsForIndex = DeckDisplay.CardAmountComponents
+            .Select((t, i) => new DeckCardModel
+            {
+                CardId = i,
+                Amount = t.Amount
+            })
+            .ToList();
+
+        var json = JsonSerializer.Serialize(amountsForIndex);
+        File.WriteAllText(GetSaveFilePath("deck"), json);
     }
 
     private void LoadLevels()
@@ -136,7 +167,26 @@ public class SaveManager
 
     public void LoadDeck()
     {
-        throw new NotImplementedException();
+        var saveFilePath = GetSaveFilePath("deck");
+        if (!File.Exists(saveFilePath))
+            return;
+
+        // Parse from JSON
+        var json = File.ReadAllText(saveFilePath);
+        var deckCardModels = JsonSerializer.Deserialize<List<DeckCardModel>>(json);
+
+        // Set the amount of cards for each CardAmountComponent
+        foreach (var deckCardModel in deckCardModels)
+        {
+            try 
+            {
+                DeckDisplay.CardAmountComponents[deckCardModel.CardId].Amount = deckCardModel.Amount;
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                // If the card is not in the deck, ignore it
+            }
+        }
     }
 
     private void EnsureSaveDirectoryExists()

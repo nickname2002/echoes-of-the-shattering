@@ -19,15 +19,20 @@ public class AttackCard : Card
     
     public float Damage => _damage;
     
-    protected AttackCard(GameState state, Player owner) : 
-        base(state, owner)
+    protected AttackCard()
     {
-        _enemy = owner.OpposingPlayer;
+        _enemy = null;
         StaminaCost = 0f;
         OriginalStaminaCost = StaminaCost;
         _damage = 0;
         _soundOnPlay = null;
         _name = "BaseAttackCard";
+    }
+    
+    public override void SetOwner(Player owner)
+    {
+        base.SetOwner(owner);
+        _enemy = owner.OpposingPlayer;
     }
     
     /// <summary>
@@ -64,7 +69,7 @@ public class AttackCard : Card
 
     public override bool IsAffordable()
     {
-        return _owner.Stamina >= StaminaCost;
+        return _owner != null && _owner.Stamina >= StaminaCost;
     }
 
     /// <summary>
@@ -151,8 +156,7 @@ public class AttackCard : Card
 
 public class LightSwordAttackCard : AttackCard
 {
-    public LightSwordAttackCard(GameState state, Player owner) : 
-        base(state, owner)
+    public LightSwordAttackCard()
     {
         StaminaCost = 10f;
         OriginalStaminaCost = StaminaCost;
@@ -171,8 +175,7 @@ public class LightSwordAttackCard : AttackCard
 
 public class HeavySwordAttackCard : AttackCard
 {
-    public HeavySwordAttackCard(GameState state, Player owner) : 
-        base(state, owner)
+    public HeavySwordAttackCard()
     {
         StaminaCost = 20f;
         OriginalStaminaCost = StaminaCost;
@@ -193,8 +196,7 @@ public class HeavySwordAttackCard : AttackCard
 
 public class UnsheatheCard : AttackCard
 {
-    public UnsheatheCard(GameState state, Player owner) :
-        base(state, owner)
+    public UnsheatheCard()
     {
         StaminaCost = 10f;
         OriginalStaminaCost = StaminaCost;
@@ -209,15 +211,14 @@ public class UnsheatheCard : AttackCard
     public override void PerformEffect()
     {
         _owner.BuffManager.Buffs.Add(new MeleeCardTwiceAsStrongBuff(
-            _state, _owner.BuffManager));
+            GetGameState(), _owner.BuffManager));
         base.PerformEffect();
     }
 }
 
 public class BloodhoundStepCard : AttackCard
 {
-    public BloodhoundStepCard(GameState state, Player owner) :
-        base(state, owner)
+    public BloodhoundStepCard()
     {
         StaminaCost = 25f;
         OriginalStaminaCost = StaminaCost;
@@ -233,7 +234,7 @@ public class BloodhoundStepCard : AttackCard
     {
         _owner.BuffManager.Buffs.RemoveAll(x => x.GetType() == typeof(DamageEvasionBuff));
         _owner.BuffManager.Buffs.Add(new DamageEvasionBuff(
-        _state,
+        GetGameState(),
         _owner.BuffManager,
         1,
         1));
@@ -248,8 +249,7 @@ public class BloodhoundStepCard : AttackCard
 
 public class QuickstepCard : AttackCard
 {
-    public QuickstepCard(GameState state, Player owner) :
-        base(state, owner)
+    public QuickstepCard()
     {
         StaminaCost = 10f;
         OriginalStaminaCost = StaminaCost;
@@ -264,7 +264,7 @@ public class QuickstepCard : AttackCard
     {
         _owner.BuffManager.Buffs.RemoveAll(x => x.GetType() == typeof(DamageEvasionBuff));
         _owner.BuffManager.Buffs.Add(new DamageEvasionBuff(
-        _state,
+        GetGameState(),
         _owner.BuffManager,
         2,
         1));
@@ -274,8 +274,7 @@ public class QuickstepCard : AttackCard
 
 public class EndureCard : AttackCard
 {
-    public EndureCard(GameState state, Player owner) :
-        base(state, owner)
+    public EndureCard()
     {
         StaminaCost = 15f;
         OriginalStaminaCost = StaminaCost;
@@ -290,7 +289,7 @@ public class EndureCard : AttackCard
     {
         _owner.BuffManager.Buffs.RemoveAll(x => x.GetType() == typeof(DamageReductionBuff));
         _owner.BuffManager.Buffs.Add(new DamageReductionBuff(
-        _state,
+        GetGameState(),
         _owner.BuffManager,
         1,
         50)); 
@@ -300,8 +299,7 @@ public class EndureCard : AttackCard
 
 public class DoubleSlashCard : AttackCard
 {
-    public DoubleSlashCard(GameState state, Player owner) :
-        base(state, owner)
+    public DoubleSlashCard()
     {
         StaminaCost = 25f;
         OriginalStaminaCost = StaminaCost;
@@ -316,7 +314,7 @@ public class DoubleSlashCard : AttackCard
     public override void PerformEffect()
     {
         _owner.BuffManager.Buffs.Add(new CardStaminaBuff(
-        _state,
+        GetGameState(),
         _owner.BuffManager,
         10));
         base.PerformEffect();
@@ -330,8 +328,7 @@ public class DoubleSlashCard : AttackCard
 
 public class WarCryCard : AttackCard
 {
-    public WarCryCard(GameState state, Player owner) :
-        base(state, owner)
+    public WarCryCard()
     {
         StaminaCost = 10f;
         OriginalStaminaCost = StaminaCost;
@@ -346,7 +343,7 @@ public class WarCryCard : AttackCard
     public override void PerformEffect()
     {
         _owner.BuffManager.Buffs.Add(new DamageIncreaseBuff(
-        _state,
+        GetGameState(),
         _owner.BuffManager,
         2,
         10));
@@ -361,8 +358,7 @@ public class WarCryCard : AttackCard
 
 public class StormcallerCard : AttackCard
 {
-    public StormcallerCard(GameState state, Player owner) :
-        base(state, owner)
+    public StormcallerCard()
     {
         StaminaCost = 20f;
         OriginalStaminaCost = StaminaCost;
@@ -377,7 +373,7 @@ public class StormcallerCard : AttackCard
     public override void PerformEffect()
     {
         _owner.OpposingPlayer.BuffManager.Debuffs.Add(new StaminaEffectDebuff(
-        _state,
+        GetGameState(),
         _owner.OpposingPlayer.BuffManager,
         1,
         10));
@@ -392,8 +388,7 @@ public class StormcallerCard : AttackCard
 
 public class RallyingStandardCard : AttackCard
 {
-    public RallyingStandardCard(GameState state, Player owner) :
-        base(state, owner)
+    public RallyingStandardCard()
     {
         StaminaCost = 15;
         OriginalStaminaCost = StaminaCost;
@@ -408,7 +403,7 @@ public class RallyingStandardCard : AttackCard
     {
         _owner.BuffManager.Buffs.RemoveAll(x => x.GetType() == typeof(DamageIncreaseBuff));
         _owner.BuffManager.Buffs.Add(new DamageIncreaseBuff(
-        _state,
+        GetGameState(),
         _owner.BuffManager,
         3,
         10));
@@ -420,8 +415,7 @@ public class RallyingStandardCard : AttackCard
 
 public class ICommandTheeKneelCard : AttackCard
 {
-    public ICommandTheeKneelCard(GameState state, Player owner) :
-        base(state, owner)
+    public ICommandTheeKneelCard()
     {
         StaminaCost = 30f;
         OriginalStaminaCost = StaminaCost;
@@ -436,7 +430,7 @@ public class ICommandTheeKneelCard : AttackCard
     public override void PerformEffect()
     {
         _owner.OpposingPlayer.BuffManager.Debuffs.Add(new StaminaEffectDebuff(
-        _state,
+        GetGameState(),
         _owner.OpposingPlayer.BuffManager,
         1,
         20));
@@ -451,8 +445,7 @@ public class ICommandTheeKneelCard : AttackCard
 
 public class WaterfowlDanceCard : AttackCard
 {
-    public WaterfowlDanceCard(GameState state, Player owner) :
-        base(state, owner)
+    public WaterfowlDanceCard()
     {
         StaminaCost = 30f;
         OriginalStaminaCost = StaminaCost;
@@ -468,7 +461,7 @@ public class WaterfowlDanceCard : AttackCard
     {
         _owner.BuffManager.Buffs.RemoveAll(x => x.GetType() == typeof(DamageEvasionBuff));
         _owner.BuffManager.Buffs.Add(new DamageEvasionBuff(
-        _state,
+        GetGameState(),
         _owner.BuffManager,
         2,
         3));
@@ -483,8 +476,7 @@ public class WaterfowlDanceCard : AttackCard
 
 public class StarcallerCryCard : AttackCard
 {
-    public StarcallerCryCard(GameState state, Player owner) :
-        base(state, owner)
+    public StarcallerCryCard()
     {
         StaminaCost = 30f;
         OriginalStaminaCost = StaminaCost;
@@ -499,7 +491,7 @@ public class StarcallerCryCard : AttackCard
     public override void PerformEffect()
     {
         _owner.OpposingPlayer.BuffManager.Debuffs.Add(new StaminaEffectDebuff(
-        _state,
+        GetGameState(),
         _owner.OpposingPlayer.BuffManager,
         2,
         15));
@@ -514,8 +506,7 @@ public class StarcallerCryCard : AttackCard
 
 public class CursedBloodSliceCard : AttackCard
 {
-    public CursedBloodSliceCard(GameState state, Player owner) :
-        base(state, owner)
+    public CursedBloodSliceCard()
     {
         StaminaCost = 30f;
         OriginalStaminaCost = StaminaCost;
@@ -530,7 +521,7 @@ public class CursedBloodSliceCard : AttackCard
     public override void PerformEffect()
     {
         _owner.BuffManager.Buffs.Add(new CardStaminaBuff(
-        _state,
+        GetGameState(),
         _owner.BuffManager,
         20));
         base.PerformEffect();
@@ -544,8 +535,7 @@ public class CursedBloodSliceCard : AttackCard
 
 public class BloodboonRitualCard : AttackCard
 {
-    public BloodboonRitualCard(GameState state, Player owner) :
-        base(state, owner)
+    public BloodboonRitualCard()
     {
         StaminaCost = 30f;
         OriginalStaminaCost = StaminaCost;
@@ -560,7 +550,7 @@ public class BloodboonRitualCard : AttackCard
     public override void PerformEffect()
     {
         _owner.OpposingPlayer.BuffManager.Debuffs.Add(new BloodboonDebuff(
-        _state,
+        GetGameState(),
         _owner.OpposingPlayer.BuffManager,
         2,
         (int)_totalDamage));
@@ -576,10 +566,9 @@ public class BloodboonRitualCard : AttackCard
 
 public class DestinedDeathCard : AttackCard
 {
-    private int _healthReduction;
+    private readonly int _healthReduction;
 
-    public DestinedDeathCard(GameState state, Player owner) :
-        base(state, owner)
+    public DestinedDeathCard()
     {
         StaminaCost = 30f;
         OriginalStaminaCost = StaminaCost;
@@ -603,7 +592,7 @@ public class DestinedDeathCard : AttackCard
         }
 
         _owner.OpposingPlayer.BuffManager.Debuffs.Add(new DestinedDeathDebuff(
-        _state,
+        GetGameState(),
         _owner.OpposingPlayer.BuffManager,
         2));
         base.PerformEffect();
@@ -617,8 +606,7 @@ public class DestinedDeathCard : AttackCard
 
 public class RegalRoarCard : AttackCard
 {
-    public RegalRoarCard(GameState state, Player owner) :
-        base(state, owner)
+    public RegalRoarCard()
     {
         StaminaCost = 30f;
         OriginalStaminaCost = StaminaCost;
@@ -634,7 +622,7 @@ public class RegalRoarCard : AttackCard
     {
         _owner.BuffManager.Buffs.RemoveAll(x => x.GetType() == typeof(DamageIncreaseBuff));
         _owner.BuffManager.Buffs.Add(new DamageIncreaseBuff(
-        _state,
+        GetGameState(),
         _owner.BuffManager,
         4,
         15));
@@ -649,8 +637,7 @@ public class RegalRoarCard : AttackCard
 
 public class WaveOfGoldCard : AttackCard
 {
-    public WaveOfGoldCard(GameState state, Player owner) :
-        base(state, owner)
+    public WaveOfGoldCard()
     {
         StaminaCost = 30f;
         OriginalStaminaCost = StaminaCost;
@@ -689,8 +676,7 @@ public class WaveOfGoldCard : AttackCard
 
 public class ThrowingDaggerCard : AttackCard
 {
-    public ThrowingDaggerCard(GameState state, Player owner) :
-        base(state, owner)
+    public ThrowingDaggerCard()
     {
         StaminaCost = 0f;
         OriginalStaminaCost = StaminaCost;
@@ -708,14 +694,12 @@ public class ThrowingDaggerCard : AttackCard
 
     protected override void DrawMetaData()
     {
-        return;
     }
 }
 
 public class PoisonPotCard : AttackCard
 {
-    public PoisonPotCard(GameState state, Player owner) :
-        base(state, owner)
+    public PoisonPotCard()
     {
         StaminaCost = 0f;
         OriginalStaminaCost = StaminaCost;
@@ -734,7 +718,7 @@ public class PoisonPotCard : AttackCard
             return;
 
         _owner.OpposingPlayer.BuffManager.Debuffs.Add(new PoisonEffectDebuff(
-        _state,
+        GetGameState(),
         _owner.OpposingPlayer.BuffManager,
         2,
         (int)_totalDamage));
@@ -753,6 +737,5 @@ public class PoisonPotCard : AttackCard
 
     protected override void DrawMetaData()
     {
-        return;
     }
 }

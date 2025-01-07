@@ -33,6 +33,11 @@ public class ImageButton : Button
         Height = (int)(_defaultTexture.Height * _scale);
     }
     
+    public void SetPosition(Vector2 pos)
+    {
+        Position = pos;
+    }
+    
     public override void Update(GameTime deltaTime)
     {
         RecalculateSize();

@@ -1,17 +1,14 @@
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Engine.Support;
-using MonoZenith.Players;
 using MonoZenith.Support.Managers;
+using static MonoZenith.Game;
 
 namespace MonoZenith.Card;
 
 public class ItemCard : Card
 {   
-    protected ItemCard(GameState state, Player owner) : 
-        base(state, owner)
+    protected ItemCard()
     {
-        _owner = owner;
+        _owner = null;
     }
     
     public override void PerformEffect()
@@ -26,14 +23,12 @@ public class ItemCard : Card
     }
     protected override void DrawMetaData()
     {
-        return;
     }
 }
 
 public class LarvalTearCard : ItemCard
 {
-    public LarvalTearCard(GameState state, Player owner) :
-        base(state, owner)
+    public LarvalTearCard()
     {
         _frontTexture = DataManager.GetInstance().CardLarvalTear;
         _soundOnPlay = DataManager.GetInstance().LarvalTearSound.CreateInstance();
@@ -52,8 +47,7 @@ public class LarvalTearCard : ItemCard
 
 public class BaldachinBlessingCard : ItemCard
 {
-    public BaldachinBlessingCard(GameState state, Player owner) :
-        base(state, owner)
+    public BaldachinBlessingCard()
     {
         _frontTexture = DataManager.GetInstance().CardBaldachinBless;
         _soundOnPlay = DataManager.GetInstance().BaldachinBlessSound.CreateInstance();
@@ -64,6 +58,7 @@ public class BaldachinBlessingCard : ItemCard
 
     public override bool IsAffordable()
     {
+        if (_owner == null) return false;
         return _owner.Health > 10;
     }
 
@@ -73,7 +68,7 @@ public class BaldachinBlessingCard : ItemCard
         _owner.Health -= 10;
         _owner.BuffManager.Buffs.RemoveAll(x => x.GetType() == typeof(DamageReductionBuff));
         _owner.BuffManager.Buffs.Add(new DamageReductionBuff(
-        _state,
+        GetGameState(),
         _owner.BuffManager,
         1,
         50));

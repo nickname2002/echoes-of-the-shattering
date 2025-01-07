@@ -39,4 +39,11 @@
         Deck = 0,
         Ashes = 1
     }
+
+    public enum CardType
+    {
+        Melee = 0,
+        Magic = 1,
+        Item = 2
+    }
 }

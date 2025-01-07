@@ -32,8 +32,8 @@ public partial class Game
     public static void Init()
     {
         // Screen Setup
-        // SetScreenSizeAutomatically();
-        SetScreenSize(1600, 900);
+        SetScreenSizeAutomatically();
+        // SetScreenSize(1600, 900);
         // SetScreenFullScreen(true);
         SetWindowTitle("Echoes of the Shattering");
     }

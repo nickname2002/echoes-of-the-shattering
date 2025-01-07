@@ -108,6 +108,9 @@ namespace MonoZenith.Players
             BuffManager = new BuffManager(state, this);
             FillPlayerDeck();
             ChangeHandStackPosition();
+
+            foreach (var card in _deckStack.Cards)
+                card.SetOwner(this);
         }
         public override string ToString()
         {
@@ -190,6 +193,7 @@ namespace MonoZenith.Players
         public void MoveSingleCardFromDeckToHand()
         {
             RefillDeckIfEmpty();
+            if (_deckStack.Count == 0) return;
             _handStack.AddToFront(_deckStack.PopRandomCard());
         }
 

@@ -1,10 +1,9 @@
+using System;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Engine.Support;
-using MonoZenith.Players;
 using MonoZenith.Support.Managers;
-using System;
-using System.Linq;
 using static MonoZenith.Game;
 
 namespace MonoZenith.Card.AttackCard;
@@ -17,8 +16,7 @@ public class MagicCard : AttackCard
     protected Texture2D _costFocusTexture;
     protected float _focusCost;
     
-    protected MagicCard(GameState state, Player owner) : 
-        base(state, owner)
+    protected MagicCard()
     {
         _costFocusTexture = DataManager.GetInstance().CardCostFocus;
         _focusCost = 0;
@@ -96,8 +94,7 @@ public class MagicCard : AttackCard
 
 public class GlintStonePebbleCard : MagicCard
 {
-    public GlintStonePebbleCard(GameState state, Player owner) : 
-        base(state, owner)
+    public GlintStonePebbleCard()
     {
         _frontTexture = DataManager.GetInstance().CardGlintPebble;
         _soundOnPlay = DataManager.GetInstance().GlintPebbleSound.CreateInstance();
@@ -119,8 +116,7 @@ public class GlintStonePebbleCard : MagicCard
 
 public class GlintbladePhalanxCard : MagicCard
 {
-    public GlintbladePhalanxCard(GameState state, Player owner) :
-        base(state, owner)
+    public GlintbladePhalanxCard()
     {
         _frontTexture = DataManager.GetInstance().CardGlintPhalanx;
         _soundOnPlay = DataManager.GetInstance().GlintPhalanxSound.CreateInstance();
@@ -139,7 +135,7 @@ public class GlintbladePhalanxCard : MagicCard
         LowerPlayerStamina();
         LowerPlayerMana();
         _owner.OpposingPlayer.BuffManager.Debuffs.Add(new PoisonEffectDebuff(
-        _state,
+        GetGameState(),
         _owner.OpposingPlayer.BuffManager,
         2,
         (int)_totalDamage));
@@ -153,8 +149,7 @@ public class GlintbladePhalanxCard : MagicCard
 
 public class ThopsBarrierCard : MagicCard
 {
-    public ThopsBarrierCard(GameState state, Player owner) :
-        base(state, owner)
+    public ThopsBarrierCard()
     {
         _frontTexture = DataManager.GetInstance().CardThopsBarrier;
         _soundOnPlay = DataManager.GetInstance().ThopsBarrierSound.CreateInstance();
@@ -174,7 +169,7 @@ public class ThopsBarrierCard : MagicCard
         LowerPlayerMana();
 
         _owner.BuffManager.Buffs.Add(new ThopsBuff(
-        _state,
+        GetGameState(),
         _owner.BuffManager,
         1,
         100));
@@ -188,8 +183,7 @@ public class ThopsBarrierCard : MagicCard
 
 public class GreatGlintStoneCard : MagicCard
 {
-    public GreatGlintStoneCard(GameState state, Player owner) :
-        base(state, owner)
+    public GreatGlintStoneCard()
     {
         _frontTexture = DataManager.GetInstance().CardGreatShard;
         _soundOnPlay = DataManager.GetInstance().GreatShardSound.CreateInstance();
@@ -208,8 +202,7 @@ public class GreatGlintStoneCard : MagicCard
 
 public class CarianGreatSwordCard : MagicCard
 {
-    public CarianGreatSwordCard(GameState state, Player owner) :
-        base(state, owner)
+    public CarianGreatSwordCard()
     {
         _frontTexture = DataManager.GetInstance().CardCarianGSword;
         _soundOnPlay = DataManager.GetInstance().CarianGSwordSound.CreateInstance();
@@ -231,8 +224,7 @@ public class CarianGreatSwordCard : MagicCard
 
 public class CometAzurCard : MagicCard
 {
-    public CometAzurCard(GameState state, Player owner) :
-        base(state, owner)
+    public CometAzurCard()
     {
         _frontTexture = DataManager.GetInstance().CardCometAzur;
         _soundOnPlay = DataManager.GetInstance().CometAzurSound.CreateInstance();
@@ -252,8 +244,7 @@ public class CometAzurCard : MagicCard
 
 public class MoonlightGreatswordCard : MagicCard
 {
-    public MoonlightGreatswordCard(GameState state, Player owner) :
-        base(state, owner)
+    public MoonlightGreatswordCard()
     {
         _frontTexture = DataManager.GetInstance().CardMoonlight;
         _soundOnPlay = DataManager.GetInstance().MoonlightSound.CreateInstance();
@@ -271,7 +262,7 @@ public class MoonlightGreatswordCard : MagicCard
     {
         base.PerformEffect();
         _owner.OpposingPlayer.BuffManager.Debuffs.Add(new MoonlightDebuff(
-        _state,
+        GetGameState(),
         _owner.OpposingPlayer.BuffManager,
         2));
         Owner.OpposingPlayer.SkipTurn = true;
