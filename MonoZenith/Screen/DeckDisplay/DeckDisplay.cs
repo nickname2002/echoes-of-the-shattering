@@ -96,7 +96,6 @@ namespace MonoZenith.Screen.DeckDisplay
             new CardAmountComponent(new DoubleSlashCard()),
             new CardAmountComponent(new WarCryCard()),
             new CardAmountComponent(new FlaskOfWondrousPhysickCard()),
-            new CardAmountComponent(new ThrowingDaggerCard()),
             
             // Melee cards
             new CardAmountComponent(new UnsheatheCard(), "Bloody Finger Hunter Yura"),
@@ -339,10 +338,10 @@ namespace MonoZenith.Screen.DeckDisplay
             
             CalculateCardPositions();
             UpdateCorrectNumberTabWidget(deltaTime);
-
-            // Update the filtered cards
-            var filteredCards = GetComponentsForSelectedType();
-            filteredCards = GetUnlockedCards(filteredCards);
+            
+            // Filter and update cards
+            int selectedGroup = _activeNumberTabWidget.SelectedOption;
+            var filteredCards = GetCardsInSelectedGroup(selectedGroup);
             foreach (var component in filteredCards)
                 component.Update(deltaTime);
 

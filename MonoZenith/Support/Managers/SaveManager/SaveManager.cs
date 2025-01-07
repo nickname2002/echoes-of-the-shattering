@@ -58,6 +58,11 @@ public class SaveManager
 
     private void ResetDeck()
     {
+        // Set all card amounts to 0
+        foreach (var cardAmountComponent in DeckDisplay.CardAmountComponents)
+            cardAmountComponent.Amount = 0;
+        
+        // Create new default deck
         List<(int, int)> defaultDeck = new()
         {
             (0, 10),
@@ -173,7 +178,14 @@ public class SaveManager
         // Set the amount of cards for each CardAmountComponent
         foreach (var deckCardModel in deckCardModels)
         {
-            DeckDisplay.CardAmountComponents[deckCardModel.CardId].Amount = deckCardModel.Amount;
+            try 
+            {
+                DeckDisplay.CardAmountComponents[deckCardModel.CardId].Amount = deckCardModel.Amount;
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                // If the card is not in the deck, ignore it
+            }
         }
     }
 
