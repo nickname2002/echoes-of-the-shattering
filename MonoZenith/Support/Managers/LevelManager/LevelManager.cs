@@ -73,7 +73,7 @@ public class LevelManager
         
         // TODO: Unlock needed levels for testing purposes using following helper methods:
         // SetAllLevelsUnlocked();
-        // SetUnlockedUpUntil("Rennala, Queen of the Full Moon");
+        // SetUnlockedUpUntil("Sorceress Sellen");
     }
     
     public Level GetLevelFromEnemy(string enemyName)
