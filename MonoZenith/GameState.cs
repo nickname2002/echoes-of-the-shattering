@@ -56,7 +56,7 @@ namespace MonoZenith
             TurnManager = new TurnManager(Game, this);
             GameOverManager = new GameOverManager();
             VoiceLineManager = new VoiceLineManager();
-            Player = new HumanPlayer(this, "Player");
+            Player = new HumanPlayer(this, "Tarnished");
             Npc = new NpcPlayer(this, "NPC", DataManager.GetInstance().DefaultEnemyPortrait);
             PlayedCards = new CardStack(this, true);
             StateType = GameStateType.PlayingStartingVoiceLines;

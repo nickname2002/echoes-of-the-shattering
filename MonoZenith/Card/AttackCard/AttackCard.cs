@@ -165,6 +165,7 @@ public class LightSwordAttackCard : AttackCard
         _soundOnPlay = DataManager.GetInstance().LightSwordSound.CreateInstance();
         _name = "LightSwordAttackCard";
         _description.Add("Deal " + _damage + " damage.");
+        CardName = "Light Sword Attack";
     }
 
     protected override void UpdateDescription()
@@ -184,6 +185,7 @@ public class HeavySwordAttackCard : AttackCard
         _soundOnPlay = DataManager.GetInstance().HeavySwordSound.CreateInstance();
         _name = "HeavySwordAttackCard";
         _description.Add("Deal " + _damage + " damage.");
+        CardName = "Heavy Sword Attack";
     }
 
     protected override void UpdateDescription()
@@ -206,6 +208,7 @@ public class UnsheatheCard : AttackCard
         _name = "UnsheatheCard";
         _description.Add("Next melee card deals");
         _description.Add("double damage");
+        CardName = "Unsheathe";
     }
 
     public override void PerformEffect()
@@ -229,6 +232,7 @@ public class BloodhoundStepCard : AttackCard
         _description.Add("Deal " + _damage + " damage.");
         _description.Add("Ignore the next");
         _description.Add("enemy attack");
+        CardName = "Bloodhound Step";
     }
     public override void PerformEffect()
     {
@@ -259,6 +263,7 @@ public class QuickstepCard : AttackCard
         _name = "QuickstepCard";
         _description.Add("Ignore the next");
         _description.Add("enemy attack");
+        CardName = "Quickstep";
     }
     public override void PerformEffect()
     {
@@ -284,6 +289,7 @@ public class EndureCard : AttackCard
         _name = "EndureCard";
         _description.Add("Reduce damage taken");
         _description.Add("by half next turn");
+        CardName = "Endure";
     }
     public override void PerformEffect()
     {
@@ -310,6 +316,7 @@ public class DoubleSlashCard : AttackCard
         _description.Add("Deal " + _damage + " damage.");
         _description.Add("Next attack costs");
         _description.Add("10 less stamina");
+        CardName = "Double Slash";
     }
     public override void PerformEffect()
     {
@@ -339,6 +346,7 @@ public class WarCryCard : AttackCard
         _description.Add("Deal " + _damage + " damage and");
         _description.Add("+ 10 damage to");
         _description.Add("all cards next turn");
+        CardName = "War Cry";
     }
     public override void PerformEffect()
     {
@@ -369,6 +377,7 @@ public class StormcallerCard : AttackCard
         _description.Add("Deal " + _damage + " damage and");
         _description.Add("reduce enemy stamina");
         _description.Add("by 10 next turn");
+        CardName = "Stormcaller";
     }
     public override void PerformEffect()
     {
@@ -398,6 +407,7 @@ public class RallyingStandardCard : AttackCard
         _name = "RallyingStandardCard";
         _description.Add("+ 10 damage to all");
         _description.Add("cards next 2 turns");
+        CardName = "Rallying Standard";
     }
     public override void PerformEffect()
     {
@@ -426,6 +436,7 @@ public class ICommandTheeKneelCard : AttackCard
         _description.Add("Deal " + _damage + " damage and ");
         _description.Add("reduce enemy stamina");
         _description.Add("by 20 next turn");
+        CardName = "I Command Thee, Kneel!";
     }
     public override void PerformEffect()
     {
@@ -456,6 +467,7 @@ public class WaterfowlDanceCard : AttackCard
         _description.Add("Deal " + _damage + " damage.");
         _description.Add("Ignore the next");
         _description.Add("3 enemy attacks");
+        CardName = "Waterfowl Dance";
     }
     public override void PerformEffect()
     {
@@ -487,6 +499,7 @@ public class StarcallerCryCard : AttackCard
         _description.Add("Deal " + _damage + " damage and ");
         _description.Add("reduce enemy stamina");
         _description.Add("by 15 next 2 turns");
+        CardName = "Starcaller Cry";
     }
     public override void PerformEffect()
     {
@@ -517,6 +530,7 @@ public class CursedBloodSliceCard : AttackCard
         _description.Add("Deal " + _damage + " damage.");
         _description.Add("Next attack costs");
         _description.Add("20 less stamina");
+        CardName = "Cursed Blood Slice";
     }
     public override void PerformEffect()
     {
@@ -546,6 +560,7 @@ public class BloodboonRitualCard : AttackCard
         _description.Add("Damage restores health ");
         _description.Add("and deal " + _damage + " damage");
         _description.Add("this and next 2 turns.");
+        CardName = "Bloodboon Ritual";
     }
     public override void PerformEffect()
     {
@@ -580,6 +595,7 @@ public class DestinedDeathCard : AttackCard
         _description.Add("Enemy player -" + _healthReduction + " max");
         _description.Add("health for next 2 turns.");
         _description.Add("Deal " + _damage + " damage.");
+        CardName = "Destined Death";
     }
     public override void PerformEffect()
     {
@@ -617,6 +633,7 @@ public class RegalRoarCard : AttackCard
         _description.Add("Deal " + _damage + " damage and");
         _description.Add("+ 15 damage to all");
         _description.Add("cards next 3 turns");
+        CardName = "Regal Roar";
     }
     public override void PerformEffect()
     {
@@ -647,6 +664,7 @@ public class WaveOfGoldCard : AttackCard
         _name = "WaveOfGoldCard";
         _description.Add("Remove enemy buffs");
         _description.Add("and deal " + _damage + " damage.");
+        CardName = "Wave of Gold";
     }
 
     public override void PerformEffect()
@@ -685,6 +703,7 @@ public class ThrowingDaggerCard : AttackCard
         _soundOnPlay = DataManager.GetInstance().ThrowingDaggerSound.CreateInstance();
         _name = "ThrowingDaggerCard";
         _description.Add("Deal " + _damage + " damage.");
+        CardName = "Throwing Dagger";
     }
 
     protected override void UpdateDescription()
@@ -708,6 +727,7 @@ public class PoisonPotCard : AttackCard
         _soundOnPlay = DataManager.GetInstance().PoisonPotSound.CreateInstance();
         _description.Add("Deal " + _damage + " damage.");
         _description.Add("next 2 turns");
+        CardName = "Poison Pot";
     }
 
     public override void PerformEffect()

@@ -104,6 +104,7 @@ public class GlintStonePebbleCard : MagicCard
         _damage = 15;
         _name = "GlintStonePebbleCard";
         _description.Add("Deal " + _damage + " damage.");
+        CardName = "Glintstone Pebble";
     }
 
     protected override void UpdateDescription()
@@ -127,6 +128,7 @@ public class GlintbladePhalanxCard : MagicCard
         _name = "GlintbladePhalanxCard";
         _description.Add("Deal " + _damage + " damage");
         _description.Add("for 2 turns.");
+        CardName = "Glintblade Phalanx";
     }
 
     public override void PerformEffect()
@@ -160,6 +162,7 @@ public class ThopsBarrierCard : MagicCard
         _name = "ThopsBarrierCard";
         _description.Add("Ignore all magic");
         _description.Add("attacks next turn.");
+        CardName = "Thops' Barrier";
     }
 
     public override void PerformEffect()
@@ -192,6 +195,7 @@ public class GreatGlintStoneCard : MagicCard
         _damage = 20;
         _name = "GreatGlintStoneShardCard";
         _description.Add("Deal " + _damage + " damage.");
+        CardName = "Great Glintstone Shard";
     }
 
     protected override void UpdateDescription()
@@ -212,6 +216,7 @@ public class CarianGreatSwordCard : MagicCard
         _damage = 30;
         _name = "CarianGreatSwordCard";
         _description.Add("Deal " + _damage + " damage.");
+        CardName = "Carian Greatsword";
     }
 
     protected override void UpdateDescription()
@@ -234,6 +239,7 @@ public class CometAzurCard : MagicCard
         _damage = 45;
         _name = "CometAzurCard";
         _description.Add("Deal " + _damage + " damage.");
+        CardName = "Comet Azur";
     }
 
     protected override void UpdateDescription()
@@ -256,6 +262,7 @@ public class MoonlightGreatswordCard : MagicCard
         _description.Add("Deal " + _damage + " damage and");
         _description.Add("skip enemy\'s");
         _description.Add("next turn");
+        CardName = "Moonlight Greatsword";
     }
 
     public override void PerformEffect()

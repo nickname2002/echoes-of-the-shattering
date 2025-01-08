@@ -12,7 +12,7 @@ public class FadeEffectManager
     private Action _onFadeInComplete;
     private Action _onFadeOutComplete;
 
-    public FadeEffectManager(float initialAlpha = 1.0f, float fadeSpeed = 0.01f)
+    public FadeEffectManager(float initialAlpha = 1.0f, float fadeSpeed = 0.05f)
     {
         _alpha = initialAlpha;
         _fadeSpeed = fadeSpeed;

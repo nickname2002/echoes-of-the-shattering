@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoZenith.Card;
@@ -316,13 +317,53 @@ namespace MonoZenith.Screen.DeckDisplay
             DrawText(
                 stringToDraw, 
                 new Vector2(
-                    ScreenWidth - DataManager.GetInstance().ComponentFont.MeasureString(stringToDraw).X 
-                                - 50 * AppSettings.Scaling.ScaleFactor, 
-                    ScreenHeight / 2f - DataManager.GetInstance().ComponentFont.MeasureString(stringToDraw).Y 
-                    * AppSettings.Scaling.ScaleFactor),
+                    ScreenWidth - DataManager.GetInstance().ComponentFont.MeasureString(stringToDraw).X * AppSettings.Scaling.ScaleFactor 
+                                - 175 * AppSettings.Scaling.ScaleFactor, 
+                    100f * AppSettings.Scaling.ScaleFactor),
                 DataManager.GetInstance().IndicatorFont,
                 new Color(147, 137, 111),
-                AppSettings.Scaling.ScaleFactor);
+                1);
+        }
+
+        private void DrawDeckOverview()
+        {
+            // Use StringBuilder for efficient string concatenation
+            var stringBuilder = new StringBuilder();
+            foreach (var component in CardAmountComponents.Where(c => c.Amount != 0))
+            {
+                stringBuilder.AppendLine($"{component.Card.CardName} x{component.Amount}");
+            }
+            string selectedCards = stringBuilder.ToString();
+
+            // Retrieve DataManager instance once
+            var dataManager = DataManager.GetInstance();
+
+            // Calculate scaling and text measurement
+            float scaleFactor = AppSettings.Scaling.ScaleFactor;
+            float overviewScaleFactor = scaleFactor * 0.75f;
+            float titleScaleFactor = scaleFactor * 0.9f;
+            float padding = 320 * scaleFactor; // Padding around the text
+            float titleY = padding - 140 * scaleFactor; // Position the title at the top with padding
+            float contentY = titleY + 30 * scaleFactor; // Add spacing for the overview text
+
+            // Calculate X position dynamically based on the screen width
+            float overviewXPosition = ScreenWidth- padding;
+
+            // Draw title of deck overview
+            DrawText(
+                "Deck Overview",
+                new Vector2(overviewXPosition, titleY),
+                dataManager.CardFont,
+                Color.White,
+                titleScaleFactor);
+
+            // Draw the deck overview
+            DrawText(
+                selectedCards,
+                new Vector2(overviewXPosition, contentY),
+                dataManager.CardFont,
+                new Color(180, 180, 180),
+                1);
         }
         
         public void Update(GameTime deltaTime)
@@ -357,6 +398,7 @@ namespace MonoZenith.Screen.DeckDisplay
             DrawDeckContent();
             _cardTypeTabWidget.Draw();
             DrawSelectedCardsAmount();
+            DrawDeckOverview();
         }
     }
 }

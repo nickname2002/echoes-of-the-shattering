@@ -36,7 +36,7 @@ namespace MonoZenith.Screen
             }
         }
         
-        public override void Unload(float fadeSpeed = 0.015f, Action onUnloadComplete = null) { }
+        public override void Unload(float fadeSpeed = 0.05f, Action onUnloadComplete = null) { }
         public override void Load() { }
 
         public override void Update(GameTime deltaTime)
