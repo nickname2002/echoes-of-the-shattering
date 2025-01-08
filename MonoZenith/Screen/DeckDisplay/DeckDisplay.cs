@@ -318,11 +318,40 @@ namespace MonoZenith.Screen.DeckDisplay
                 new Vector2(
                     ScreenWidth - DataManager.GetInstance().ComponentFont.MeasureString(stringToDraw).X 
                                 - 50 * AppSettings.Scaling.ScaleFactor, 
-                    ScreenHeight / 2f - DataManager.GetInstance().ComponentFont.MeasureString(stringToDraw).Y 
-                    * AppSettings.Scaling.ScaleFactor),
+                    100f * AppSettings.Scaling.ScaleFactor 
+                         * AppSettings.Scaling.ScaleFactor),
                 DataManager.GetInstance().IndicatorFont,
                 new Color(147, 137, 111),
                 AppSettings.Scaling.ScaleFactor);
+        }
+
+        private void DrawDeckOverview()
+        {
+            // Get string of deck
+            string selectedCards = CardAmountComponents
+                .Where(component => component.Amount != 0)
+                .Aggregate("", (current, component) 
+                    => current + $"{component.Card.CardName} x{component.Amount}\n");
+            
+            // Draw title of deck overview
+            DrawText(
+                "Deck Overview",
+                new Vector2(
+                    ScreenWidth - DataManager.GetInstance().ComponentFont.MeasureString(selectedCards).X + 125 * AppSettings.Scaling.ScaleFactor,
+                    125f * AppSettings.Scaling.ScaleFactor),
+                DataManager.GetInstance().CardFont,
+                Color.White,
+                AppSettings.Scaling.ScaleFactor * 0.9f);
+            
+            // Draw the deck overview
+            DrawText(
+                selectedCards,
+                new Vector2(
+                    ScreenWidth - DataManager.GetInstance().ComponentFont.MeasureString(selectedCards).X + 125 * AppSettings.Scaling.ScaleFactor,
+                    160f * AppSettings.Scaling.ScaleFactor),
+                DataManager.GetInstance().CardFont,
+                new Color(180, 180, 180),
+                AppSettings.Scaling.ScaleFactor * 0.75f);
         }
         
         public void Update(GameTime deltaTime)
@@ -357,6 +386,7 @@ namespace MonoZenith.Screen.DeckDisplay
             DrawDeckContent();
             _cardTypeTabWidget.Draw();
             DrawSelectedCardsAmount();
+            DrawDeckOverview();
         }
     }
 }

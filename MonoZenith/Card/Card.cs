@@ -28,6 +28,8 @@ namespace MonoZenith.Card
         protected float _buff;
         protected float _debuff;
 
+        public string CardName { get; set; } = "Card";
+
         /// <summary>
         /// The position of the card.
         /// </summary>
