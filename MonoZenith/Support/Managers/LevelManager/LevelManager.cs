@@ -187,6 +187,7 @@ public class LevelManager
         _enemies["Red Wolf of Radagon"].SetSpiritAsh(typeof(WolvesAsh));
         _enemies["Rennala, Queen of the Full Moon"].SetSpiritAsh(typeof(MimicTearAsh));
         _enemies["Commander Niall"].SetSpiritAsh(typeof(WolvesAsh));
+        _enemies["Rykard, Lord of Blasphemy"].SetSpiritAsh(typeof(JellyfishAsh));
         _enemies["Malenia, Goddess of Rot"].SetSpiritAsh(typeof(MimicTearAsh));
         _enemies["Maliketh, the Black Blade"].SetSpiritAsh(typeof(MimicTearAsh));
         _enemies["Sir Gideon Ofnir, The All-Knowing"].SetSpiritAsh(typeof(JellyfishAsh));
