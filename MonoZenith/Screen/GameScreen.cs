@@ -14,7 +14,7 @@ namespace MonoZenith.Screen
 
         public void SetBackgroundMusic(SoundEffectInstance music) => _backgroundMusic = music;
 
-        public override void Unload(float fadeSpeed = 0.015f, Action? onUnloadComplete = null)
+        public override void Unload(float fadeSpeed = 0.05f, Action? onUnloadComplete = null)
         {
             float musicFadeOutSpeed = fadeSpeed;
 

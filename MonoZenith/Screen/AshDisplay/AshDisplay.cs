@@ -95,7 +95,7 @@ public class AshDisplay
                 * AppSettings.Scaling.ScaleFactor),
             DataManager.GetInstance().IndicatorFont,
             new Color(147, 137, 111),
-            AppSettings.Scaling.ScaleFactor);
+            1);
     }
     
     public void Draw()

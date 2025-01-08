@@ -299,7 +299,7 @@ namespace MonoZenith.Players
             Vector2 shadowPosition = new(1.25f, 1.25f);
             int healthHeight = (int)(_playerCurrent.Height * _scale * 0.05f);
             int healthWidth = (int)(ScreenWidth * 0.9f);
-            Vector2 healthPosition = _playerPosition + new Vector2(0, -playerOffset.Y) + new Vector2(1, 1);
+            Vector2 healthPosition = _playerPosition + new Vector2(0, -playerOffset.Y + 1 * AppSettings.Scaling.ScaleFactor) + new Vector2(1, 1);
             Vector2 edgePosition = healthPosition - new Vector2(1, 1);
 
             // Draw name
