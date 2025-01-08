@@ -10,6 +10,7 @@ using MonoZenith.Card.AttackCard;
 using MonoZenith.Components.Indicator;
 using MonoZenith.Engine.Support;
 using MonoZenith.Items;
+using MonoZenith.Screen.DeckDisplay;
 using static MonoZenith.Game;
 
 namespace MonoZenith.Players
@@ -194,6 +195,9 @@ namespace MonoZenith.Players
         {
             _deckStack.Clear();
             _handStack.Clear();
+
+            // If the NPC is the mimic tear, copy the player's deck
+            if (Name == "Mimic Tear") CardsInDeck = DeckDisplay.GeneratePlayerDeck();
             
             // Add cards to the deck
             _deckStack.AddToFront(CardsInDeck);

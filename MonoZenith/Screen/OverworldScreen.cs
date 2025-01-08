@@ -209,6 +209,13 @@ public class OverworldScreen : Screen
             Level = LevelManager.GetLevelFromEnemy("Dung Eater")
         },
         
+        // Rykard, Lord of Blasphemy
+        new()
+        {
+            Position = new Vector2(225, 420),
+            Level = LevelManager.GetLevelFromEnemy("Rykard, Lord of Blasphemy")
+        },
+        
         // Commander Niall
         new()
         {

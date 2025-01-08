@@ -35,13 +35,13 @@ namespace MonoZenith.Screen
             Game.StartFadeIn();
 
             float musicFadeInSpeed = 0.015f;
-            if (_backgroundMusic != null && _backgroundMusic.Volume <= 1 - musicFadeInSpeed)
+            if (_backgroundMusic != null && _backgroundMusic.Volume <= 0.5f - musicFadeInSpeed)
             {
                 _backgroundMusic.Volume += musicFadeInSpeed;
             }
             else
             {
-                if (_backgroundMusic != null) _backgroundMusic.Volume = 1;
+                if (_backgroundMusic != null) _backgroundMusic.Volume = 0.5f;
             }
         }
 

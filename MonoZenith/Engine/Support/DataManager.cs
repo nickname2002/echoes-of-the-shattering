@@ -55,6 +55,7 @@ namespace MonoZenith.Engine.Support
         public Texture2D RadahnBattlefieldBackdrop;
         public Texture2D RadahnBattlefieldPhase2Backdrop;
         public Texture2D EldenThroneBackdrop;
+        public Texture2D RykardBackdrop;
 
         // Remembrances
         public Texture2D RemembranceOfTheStarscourge;
@@ -161,6 +162,7 @@ namespace MonoZenith.Engine.Support
         public SoundEffect HoarahLouxSoundtrack;
         public SoundEffect RadagonSoundtrack;
         public SoundEffect EldenBeastSoundtrack;
+        public SoundEffect RykardSoundtrack;
 
         public SoundEffect DamageSound;
         public SoundEffect CardSound2;
@@ -266,6 +268,7 @@ namespace MonoZenith.Engine.Support
             RadahnBattlefieldBackdrop = LoadImage("Images/Backdrops/radahn-battlefield-backdrop.png");
             RadahnBattlefieldPhase2Backdrop = LoadImage("Images/Backdrops/radahn-battlefield-phase2-backdrop.png");
             EldenThroneBackdrop = LoadImage("Images/Backdrops/morgott-backdrop.png");
+            RykardBackdrop = LoadImage("Images/Backdrops/rykard-backdrop.png");
 
             // Remembrances
             RemembranceOfTheStarscourge = LoadImage("Images/Remembrances/remembrance-of-starscourge.png");
@@ -368,6 +371,7 @@ namespace MonoZenith.Engine.Support
             HoarahLouxSoundtrack = LoadAudio("Audio/Music/hoarah-loux-battle-soundtrack.wav");
             RadagonSoundtrack = LoadAudio("Audio/Music/radagon-battle-soundtrack.wav");
             EldenBeastSoundtrack = LoadAudio("Audio/Music/elden-beast-battle-soundtrack.wav");
+            RykardSoundtrack = LoadAudio("Audio/Music/rykard-battle-soundtrack.wav");
 
             DamageSound = LoadAudio("Audio/SoundEffects/damage-sound.wav");
             HealingSound = LoadAudio("Audio/SoundEffects/healing-sound.wav");
