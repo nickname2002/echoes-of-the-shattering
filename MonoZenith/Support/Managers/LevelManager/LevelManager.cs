@@ -822,7 +822,7 @@ public class LevelManager
                 Enemy = _enemies["Mimic Tear"],
                 Backdrop = DataManager.GetInstance().NokronBackdrop,
                 LevelReward = _rewards["Mimic Tear"],
-                SoundTrack = DataManager.GetInstance().LimgraveSoundtrack.CreateInstance(),  // TODO: Nokron music
+                SoundTrack = DataManager.GetInstance().NokronSoundtrack.CreateInstance(),
                 EnemyDeck = GenerateDeck(_enemies["Mimic Tear"], _decks["Mimic Tear"])
             },
             
@@ -912,7 +912,7 @@ public class LevelManager
                 Enemy = _enemies["Bloody Finger Hunter Yura"],
                 Backdrop = DataManager.GetInstance().AltusPlateauBackdrop,
                 LevelReward = _rewards["Bloody Finger Hunter Yura"],
-                SoundTrack = DataManager.GetInstance().LimgraveSoundtrack.CreateInstance(),  // TODO: Leyndell music
+                SoundTrack = DataManager.GetInstance().LeyndellSoundtrack.CreateInstance(),
                 EnemyDeck = GenerateDeck(_enemies["Bloody Finger Hunter Yura"], _decks["Bloody Finger Hunter Yura"])
             },
             
@@ -922,7 +922,7 @@ public class LevelManager
                 Enemy = _enemies["Sir Gideon Ofnir, The All-Knowing"],
                 Backdrop = DataManager.GetInstance().LeyndellFireBackdrop,
                 LevelReward = _rewards["Sir Gideon Ofnir, The All-Knowing"],
-                SoundTrack = DataManager.GetInstance().LimgraveSoundtrack.CreateInstance(),  // TODO: Leyndell music
+                SoundTrack = DataManager.GetInstance().GideonSoundtrack.CreateInstance(),
                 EnemyDeck = GenerateDeck(_enemies["Sir Gideon Ofnir, The All-Knowing"], _decks["Sir Gideon Ofnir, The All-Knowing"])
             },
             
@@ -932,7 +932,7 @@ public class LevelManager
                 Enemy = _enemies["Dung Eater"],
                 Backdrop = DataManager.GetInstance().AltusPlateauBackdrop,
                 LevelReward = _rewards["Dung Eater"],
-                SoundTrack = DataManager.GetInstance().LimgraveSoundtrack.CreateInstance(),  // TODO: Leyndell music
+                SoundTrack = DataManager.GetInstance().LeyndellSoundtrack.CreateInstance(),
                 EnemyDeck = GenerateDeck(_enemies["Dung Eater"], _decks["Dung Eater"])
             },
             
@@ -942,7 +942,7 @@ public class LevelManager
                 Enemy = _enemies["Commander Niall"],
                 Backdrop = DataManager.GetInstance().CastleSolBackdrop,
                 LevelReward = _rewards["Commander Niall"],
-                SoundTrack = DataManager.GetInstance().LimgraveSoundtrack.CreateInstance(),  // TODO: Niall fight music
+                SoundTrack = DataManager.GetInstance().NiallSoundtrack.CreateInstance(),
                 EnemyDeck = GenerateDeck(_enemies["Commander Niall"], _decks["Commander Niall"])
             },
             
@@ -1130,14 +1130,14 @@ public class LevelManager
                 Enemy = _enemies["Tarnished, Consort of the Stars"],
                 Backdrop = DataManager.GetInstance().DarkMoonBackdrop, 
                 LevelReward = _rewards["Tarnished, Consort of the Stars"],
-                SoundTrack = DataManager.GetInstance().LimgraveSoundtrack.CreateInstance(),  // TODO: Come up with proper music
+                SoundTrack = DataManager.GetInstance().RadagonSoundtrack.CreateInstance(),
                 EnemyDeck = GenerateDeck(_enemies["Tarnished, Consort of the Stars"], _decks["Tarnished, Consort of the Stars"]),
                 SecondPhase = new Level     // Ranni, Queen of the Dark Moon
                 {
                     Enemy = _enemies["Ranni, Queen of the Dark Moon"],
                     Backdrop = DataManager.GetInstance().DarkMoonBackdrop, 
                     LevelReward = _rewards["Ranni, Queen of the Dark Moon"],
-                    SoundTrack = DataManager.GetInstance().LimgraveSoundtrack.CreateInstance(),  // TODO: Come up with proper music
+                    SoundTrack = DataManager.GetInstance().RennalaP2Soundtrack.CreateInstance(),
                     EnemyDeck = GenerateDeck(_enemies["Ranni, Queen of the Dark Moon"], _decks["Ranni, Queen of the Dark Moon"])
                 }
             },
