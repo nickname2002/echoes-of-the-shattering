@@ -14,6 +14,7 @@ public class FlaskOfCeruleanTearsCard : ItemCard
         _frontTexture = DataManager.GetInstance().CardFlaskCerulean;
         _soundOnPlay = DataManager.GetInstance().FlaskCeruleanSound.CreateInstance();
         _description.Add("Restore " + FocusBoost + " FP.");
+        CardName = "Flask of Cerulean Tears";
     }
 
     public override void PerformEffect()
@@ -47,6 +48,7 @@ public class FlaskOfCrimsonTearsCard : ItemCard
         _frontTexture = DataManager.GetInstance().CardFlaskCrimson;
         _soundOnPlay = DataManager.GetInstance().FlaskCrimsonSound.CreateInstance();
         _description.Add("Restore " + HealthBoost + " HP.");
+        CardName = "Flask of Crimson Tears";
     }
 
     public override void PerformEffect()
@@ -85,6 +87,7 @@ public class FlaskOfWondrousPhysickCard : ItemCard
         _soundOnPlay = DataManager.GetInstance().WondrousPhysickSound.CreateInstance();
         _description.Add("Restore " + HealthBoost + " HP");
         _description.Add("and " + FocusBoost + " FP.");
+        CardName = "Flask of Wondrous Physick";
     }
 
     public override void PerformEffect()
@@ -131,6 +134,7 @@ public class WarmingStoneCard : ItemCard
         _soundOnPlay = DataManager.GetInstance().WarmingStoneSound.CreateInstance();
         _description.Add("Restore " + HealthBoost + " HP");
         _description.Add("For 2 turns.");
+        CardName = "Warming Stone";
     }
 
     public override void PerformEffect()
