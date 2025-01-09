@@ -17,6 +17,7 @@ public partial class Game
     private static MainMenuScreen _mainMenuScreen;
     private static GameScreen _gameScreen;
     private static OverworldScreen _overworldScreen;
+    private static CreditsScreen _creditsScreen;
 
     /// <summary>
     /// Responsible for saving and loading game data.
@@ -47,6 +48,7 @@ public partial class Game
         _mainMenuScreen = new MainMenuScreen();
         _gameScreen = new GameScreen();
         _overworldScreen = new OverworldScreen();
+        _creditsScreen = new CreditsScreen();
 
         _saveManager = new SaveManager();
         _saveManager.LoadGame();
@@ -95,6 +97,7 @@ public partial class Game
     public static void BackToMainMenu()
     {
         _gameScreen.Unload();
+        _creditsScreen.Unload();
         StartFadeOut(() =>
         {
             _mainMenuScreen.Load();
@@ -112,6 +115,19 @@ public partial class Game
         {
             ActiveScreen = Screens.NONE;
             QuitToDesktop = true;
+        });
+    }
+    
+    /// <summary>
+    /// Callback method to go to the credits screen.
+    /// </summary>
+    public static void ToCreditsScreen()
+    {
+        _mainMenuScreen.Unload();
+        StartFadeOut(() =>
+        {
+            _creditsScreen.Load();
+            ActiveScreen = Screens.CREDITS;
         });
     }
     
@@ -194,6 +210,13 @@ public partial class Game
                 if (IsFadingIn || IsFadingOut) { _fadeEffect.Update(); return; }
                 _mainMenuScreen.Update(deltaTime);
                 break;
+            
+            case Screens.CREDITS:
+                UnloadOnFadeOut(_creditsScreen);
+                _mainMenuScreen.Unload();
+                if (IsFadingIn || IsFadingOut) { _fadeEffect.Update(); return; }
+                _creditsScreen.Update(deltaTime);
+                break;
 
             case Screens.NONE:
             default:
@@ -218,6 +241,10 @@ public partial class Game
             
             case Screens.MAIN_MENU:
                 _mainMenuScreen.Draw();
+                break;
+            
+            case Screens.CREDITS:
+                _creditsScreen.Draw();
                 break;
             
             default:

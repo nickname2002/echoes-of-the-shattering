@@ -17,6 +17,7 @@ public class MainMenuScreen : Screen
     private static MainMenuOptionButton _startButton;
     private static MainMenuOptionButton _continueButton;
     private static MainMenuOptionButton _quitButton;
+    private static MainMenuOptionButton _creditsButton;
     
     public MainMenuScreen()
     {
@@ -50,6 +51,14 @@ public class MainMenuScreen : Screen
             "Quit to desktop",
             BackToDesktop,
             startButtonSound);
+        
+        // Credits button
+        _creditsButton = new MainMenuOptionButton(
+            Game.Instance, 
+            ScreenHeight / 2f + (int)(400 * AppSettings.Scaling.ScaleFactor), 
+            "Credits",
+            ToCreditsScreen,
+            startButtonSound);
     }
     
     public override void Unload(float fadeSpeed = 0.05f, Action onUnloadComplete = null)
@@ -79,6 +88,7 @@ public class MainMenuScreen : Screen
         _quitButton.Update(deltaTime);
         if (!HasSaveFile) return;
         _continueButton.Update(deltaTime);
+        _creditsButton.Update(deltaTime);
     }
 
     public override void Draw()
@@ -99,5 +109,6 @@ public class MainMenuScreen : Screen
         _quitButton.Draw();
         if (!HasSaveFile) return;   
         _continueButton.Draw();
+        _creditsButton.Draw();
     }
 }

@@ -67,7 +67,7 @@ public class MainMenuOptionButton : Button
         Game.DrawImage(
             _hoverIndicator,
             new Vector2(
-                Game.ScreenWidth / 2f - _hoverIndicator.Width * _hoverIndicatorScale / 2f,
+                Position.X + Width / 2f - _hoverIndicator.Width * _hoverIndicatorScale / 2,
                 Position.Y - Height * _hoverIndicatorScale / 2 - 5 * AppSettings.Scaling.ScaleFactor),
             _hoverIndicatorScale);
     }
