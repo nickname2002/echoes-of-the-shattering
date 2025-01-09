@@ -21,6 +21,22 @@ public class GameFacade
     private readonly ContentManager _content;
     private const float ClickCooldown = 0;
     public float CurrentClickCooldown;
+    
+    /// <summary>
+    /// ===== BUILD RELEASE VERSION =====
+    /// + Make sure to set this flag to true before building the release version.
+    /// + Make sure to add the Content folder to the build.
+    ///
+    /// == macOS
+    /// + Create a .pkg file. Make sure to bundle all necessary files in a folder first.
+    /// Ask ChatGPT how to do this.
+    ///
+    /// == Windows
+    ///
+    ///
+    /// == Linux 
+    /// </summary>
+    public static bool IsReleaseVersion = true;   // TODO: Set to true for release
 
     public Color BackgroundColor => this._backgroundColor;
     public int ScreenWidth => this._screenDimensions.Item1;
@@ -169,6 +185,9 @@ public class GameFacade
     /// <returns>The absolute path to the file.</returns>
     public static string GetContentPath(string relativeFilePath)
     {
+        if (IsReleaseVersion)
+            return GetContentPathRelease(relativeFilePath);
+        
         // Set the working directory to the MonoZenith directory (if necessary)
         string currentDirectory = Directory.GetCurrentDirectory();
         
@@ -181,6 +200,28 @@ public class GameFacade
         // Combine the content folder with the provided relative path
         string contentDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Content");
         string fullPath = Path.Combine(contentDirectory, relativeFilePath);
+
+        return fullPath;
+    }
+    
+    /// <summary>
+    /// Gets the absolute path to a file inside the Content directory for the release version.
+    /// </summary>
+    /// <param name="relativeFilePath">The relative path to the file inside the Content folder.</param>
+    /// <returns>The absolute path to the file.</returns>
+    /// <exception cref="FileNotFoundException">Thrown when the file is not found.</exception>
+    public static string GetContentPathRelease(string relativeFilePath)
+    {
+        // Vind de root directory van het project, ongeacht het platform
+        string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+        string contentDirectory = Path.Combine(baseDirectory, "Content");
+
+        // Combineer de content directory met het relatieve pad
+        string fullPath = Path.Combine(contentDirectory, relativeFilePath);
+
+        // Controleer of het bestand bestaat
+        if (!File.Exists(fullPath))
+            throw new FileNotFoundException($"Content file not found: {fullPath}");
 
         return fullPath;
     }
