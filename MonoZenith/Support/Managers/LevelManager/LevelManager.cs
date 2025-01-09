@@ -1213,17 +1213,18 @@ public class LevelManager
             // Tarnished, Consort of the Stars
             new Level
             {
-                Enemy = _enemies["Tarnished, Consort of the Stars"],
+                // Source Portrait:https://www.bilibili.com/opus/948092070459867140?spm_id_from=333.999.0.0
+                Enemy = _enemies["Tarnished, Consort of the Stars"], 
                 Backdrop = DataManager.GetInstance().DarkMoonBackdrop, 
                 LevelReward = _rewards["Tarnished, Consort of the Stars"],
-                SoundTrack = DataManager.GetInstance().RadagonSoundtrack.CreateInstance(),
+                SoundTrack = DataManager.GetInstance().ConsortMoonP1Soundtrack.CreateInstance(),
                 EnemyDeck = GenerateDeck(_enemies["Tarnished, Consort of the Stars"], _decks["Tarnished, Consort of the Stars"]),
                 SecondPhase = new Level     // Ranni, Queen of the Dark Moon
                 {
                     Enemy = _enemies["Ranni, Queen of the Dark Moon"],
                     Backdrop = DataManager.GetInstance().DarkMoonBackdrop, 
                     LevelReward = _rewards["Ranni, Queen of the Dark Moon"],
-                    SoundTrack = DataManager.GetInstance().RennalaP2Soundtrack.CreateInstance(),
+                    SoundTrack = DataManager.GetInstance().ConsortMoonP2Soundtrack.CreateInstance(),
                     EnemyDeck = GenerateDeck(_enemies["Ranni, Queen of the Dark Moon"], _decks["Ranni, Queen of the Dark Moon"]),
                     VoiceLinesBattleStart = new List<SoundEffectInstance>
                     {

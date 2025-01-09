@@ -165,6 +165,8 @@ namespace MonoZenith.Engine.Support
         public SoundEffect HoarahLouxSoundtrack;
         public SoundEffect RadagonSoundtrack;
         public SoundEffect EldenBeastSoundtrack;
+        public SoundEffect ConsortMoonP1Soundtrack;
+        public SoundEffect ConsortMoonP2Soundtrack;
 
         public SoundEffect DamageSound;
         public SoundEffect CardSound2;
@@ -376,6 +378,9 @@ namespace MonoZenith.Engine.Support
             HoarahLouxSoundtrack = LoadAudio("Audio/Music/hoarah-loux-battle-soundtrack.wav");
             RadagonSoundtrack = LoadAudio("Audio/Music/radagon-battle-soundtrack.wav");
             EldenBeastSoundtrack = LoadAudio("Audio/Music/elden-beast-battle-soundtrack.wav");
+            // Source ConsortMoon Soundtrack: https://www.youtube.com/watch?v=jrJP7UZkdN0
+            ConsortMoonP1Soundtrack = LoadAudio("Audio/Music/consort-phase1-battle-soundtrack.wav");
+            ConsortMoonP2Soundtrack = LoadAudio("Audio/Music/consort-phase2-battle-soundtrack.wav");
 
             DamageSound = LoadAudio("Audio/SoundEffects/damage-sound.wav");
             HealingSound = LoadAudio("Audio/SoundEffects/healing-sound.wav");
