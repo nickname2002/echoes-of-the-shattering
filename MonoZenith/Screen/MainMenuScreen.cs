@@ -86,9 +86,9 @@ public class MainMenuScreen : Screen
         _mainMenuScale = 0.7f * AppSettings.Scaling.ScaleFactor;
         _startButton.Update(deltaTime);
         _quitButton.Update(deltaTime);
+        _creditsButton.Update(deltaTime);
         if (!HasSaveFile) return;
         _continueButton.Update(deltaTime);
-        _creditsButton.Update(deltaTime);
     }
 
     public override void Draw()
@@ -107,8 +107,8 @@ public class MainMenuScreen : Screen
         
         _startButton.Draw();
         _quitButton.Draw();
+        _creditsButton.Draw();
         if (!HasSaveFile) return;   
         _continueButton.Draw();
-        _creditsButton.Draw();
     }
 }
