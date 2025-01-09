@@ -24,17 +24,8 @@ public class SpiritAshIndicator : Indicator
     {   
         _spiritAsh = ash;
 
-        if (_spiritAsh != null)
-        {
-            if (hasHumanOwner)
-            {
-                _spiritAsh.Owner = gs.Player;
-            }
-            else
-            {
-                _spiritAsh.Owner = gs.Npc;
-            }
-        }
+        if (hasHumanOwner && _spiritAsh != null)
+            _spiritAsh.Owner = gs.Player;
         
         _soundOnClick = DataManager.GetInstance().SpiritAshSummonSound.CreateInstance();
         IsActive = true;
