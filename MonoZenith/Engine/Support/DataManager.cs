@@ -55,6 +55,7 @@ namespace MonoZenith.Engine.Support
         public Texture2D RadahnBattlefieldBackdrop;
         public Texture2D RadahnBattlefieldPhase2Backdrop;
         public Texture2D EldenThroneBackdrop;
+        public Texture2D RykardBackdrop;
 
         // Remembrances
         public Texture2D RemembranceOfTheStarscourge;
@@ -159,6 +160,7 @@ namespace MonoZenith.Engine.Support
         public SoundEffect RennalaP2Soundtrack;
         public SoundEffect StarscourgeRadahnP1Soundtrack;
         public SoundEffect StarscourgeRadahnP2Soundtrack;
+        public SoundEffect RykardSoundtrack;
         public SoundEffect MalikethSoundtrack;
         public SoundEffect GideonSoundtrack;
         public SoundEffect GodfreySoundtrack;
@@ -272,6 +274,7 @@ namespace MonoZenith.Engine.Support
             RadahnBattlefieldBackdrop = LoadImage("Images/Backdrops/radahn-battlefield-backdrop.png");
             RadahnBattlefieldPhase2Backdrop = LoadImage("Images/Backdrops/radahn-battlefield-phase2-backdrop.png");
             EldenThroneBackdrop = LoadImage("Images/Backdrops/morgott-backdrop.png");
+            RykardBackdrop = LoadImage("Images/Backdrops/rykard-backdrop.png");
 
             // Remembrances
             RemembranceOfTheStarscourge = LoadImage("Images/Remembrances/remembrance-of-starscourge.png");
@@ -372,6 +375,7 @@ namespace MonoZenith.Engine.Support
             RedWolfSoundtrack = LoadAudio("Audio/Music/red-wolf-battle-soundtrack.wav");
             StarscourgeRadahnP1Soundtrack = LoadAudio("Audio/Music/radahn-phase1-battle-soundtrack.wav");
             StarscourgeRadahnP2Soundtrack = LoadAudio("Audio/Music/radahn-phase2-battle-soundtrack.wav");
+            RykardSoundtrack = LoadAudio("Audio/Music/rykard-battle-soundtrack.wav");
             MalikethSoundtrack = LoadAudio("Audio/Music/maliketh-battle-soundtrack.wav");
             GideonSoundtrack = LoadAudio("Audio/Music/gideon-battle-soundtrack.wav");
             GodfreySoundtrack = LoadAudio("Audio/Music/godfrey-battle-soundtrack.wav");

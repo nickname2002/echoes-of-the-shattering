@@ -41,6 +41,7 @@ public class LevelManager
         "Bloody Finger Hunter Yura",
         "Morgott, The Omen King",
         "Dung Eater",
+        "Rykard, Lord of Blasphemy",
         "Mohg, Lord of Blood",
         "Commander Niall",
         "Malenia, Blade of Miquella",
@@ -72,7 +73,7 @@ public class LevelManager
         ConfigureLevels();
         
         // TODO: Unlock needed levels for testing purposes using following helper methods:
-        // SetAllLevelsUnlocked();
+        SetAllLevelsUnlocked();
         // SetUnlockedUpUntil("Sorceress Sellen");
     }
     
@@ -185,8 +186,8 @@ public class LevelManager
         _enemies["Gatekeeper Gostoc"].SetSpiritAsh(typeof(JellyfishAsh));
         _enemies["Red Wolf of Radagon"].SetSpiritAsh(typeof(WolvesAsh));
         _enemies["Rennala, Queen of the Full Moon"].SetSpiritAsh(typeof(MimicTearAsh));
-        // TODO: _enemies["Dung Eater"].SetSpiritAsh(typeof(DungEaterPuppet));
         _enemies["Commander Niall"].SetSpiritAsh(typeof(WolvesAsh));
+        _enemies["Rykard, Lord of Blasphemy"].SetSpiritAsh(typeof(JellyfishAsh));
         _enemies["Malenia, Goddess of Rot"].SetSpiritAsh(typeof(MimicTearAsh));
         _enemies["Maliketh, the Black Blade"].SetSpiritAsh(typeof(MimicTearAsh));
         _enemies["Sir Gideon Ofnir, The All-Knowing"].SetSpiritAsh(typeof(JellyfishAsh));
@@ -219,7 +220,8 @@ public class LevelManager
             ["Starscourge Radahn (2nd phase)"] = new(DataManager.GetInstance().CardStarcallerCry, "Starcaller Cry", typeof(StarcallerCryCard)),
             ["Bloody Finger Hunter Yura"] = new(DataManager.GetInstance().CardUnsheathe, "Unsheathe", typeof(UnsheatheCard)),
             ["Morgott, The Omen King"] = new(DataManager.GetInstance().CardWarmingStone, "Warming Stone", typeof(WarmingStoneCard)),
-            ["Dung Eater"] = null,  // TODO: Add reward
+            ["Dung Eater"] = null, 
+            ["Rykard, Lord of Blasphemy"] = null,
             ["Mohg, Lord of Blood"] = new(DataManager.GetInstance().CardBloodboon, "Bloodboon Ritual", typeof(BloodboonRitualCard)),
             ["Commander Niall"] = new(DataManager.GetInstance().CardRallyingStandard, "Rallying Standard", typeof(RallyingStandardCard)),
             ["Malenia, Blade of Miquella"] = null,
@@ -404,7 +406,7 @@ public class LevelManager
             },
             ["Mimic Tear"] = new()
             {
-                // TODO: Make sure to copy the deck of the player
+                // TODO: Will copy the deck of the player on load
             },
             ["Starscourge Radahn"] = new()
             {
@@ -459,6 +461,17 @@ public class LevelManager
                 (typeof(FlaskOfCrimsonTearsCard), 2),
                 (typeof(ThrowingDaggerCard), 6),
                 (typeof(WarCryCard), 3)
+            },
+            ["Rykard, Lord of Blasphemy"] = new()
+            {
+                (typeof(HeavySwordAttackCard), 6),
+                (typeof(LightSwordAttackCard), 8),
+                (typeof(EndureCard), 2),
+                (typeof(WarCryCard), 2),
+                (typeof(ThrowingDaggerCard), 5),
+                (typeof(FlaskOfCrimsonTearsCard), 2),
+                (typeof(PoisonPotCard), 4),
+                (typeof(StormcallerCard), 2),
             },
             ["Mohg, Lord of Blood"] = new()
             {
@@ -1019,6 +1032,28 @@ public class LevelManager
                 {
                     Game.LoadAudio("Audio/VoiceLines/Dung/dung-win-voiceline-1.wav").CreateInstance(),
                     Game.LoadAudio("Audio/VoiceLines/Dung/dung-win-voiceline-2.wav").CreateInstance(),
+                }
+            },
+            
+            // Rykard, Lord of Blasphemy
+            new Level
+            {
+                Enemy = _enemies["Rykard, Lord of Blasphemy"],
+                Backdrop = DataManager.GetInstance().RykardBackdrop,
+                LevelReward = _rewards["Rykard, Lord of Blasphemy"],
+                SoundTrack = DataManager.GetInstance().RykardSoundtrack.CreateInstance(),  
+                EnemyDeck = GenerateDeck(_enemies["Rykard, Lord of Blasphemy"], _decks["Rykard, Lord of Blasphemy"]),
+                VoiceLinesBattleStart = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Rykard/rykard-start-voicelines-1.wav").CreateInstance()
+                },
+                VoiceLinesBattleLoss = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Rykard/rykard-loss-voicelines-1.wav").CreateInstance(),
+                },
+                VoiceLinesBattleVictory = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Rykard/rykard-win-voicelines-1.wav").CreateInstance(),
                 }
             },
             
