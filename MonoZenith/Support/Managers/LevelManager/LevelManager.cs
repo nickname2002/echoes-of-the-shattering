@@ -710,7 +710,20 @@ public class LevelManager
                 Backdrop = DataManager.GetInstance().LimgraveBackdrop,
                 LevelReward = _rewards["Sorceress Sellen"],
                 SoundTrack = DataManager.GetInstance().LimgraveSoundtrack.CreateInstance(),
-                EnemyDeck = GenerateDeck(_enemies["Sorceress Sellen"], _decks["Sorceress Sellen"])
+                EnemyDeck = GenerateDeck(_enemies["Sorceress Sellen"], _decks["Sorceress Sellen"]),
+                VoiceLinesBattleStart = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Sellen/sellen-start-voiceline-1.wav").CreateInstance(),
+                    Game.LoadAudio("Audio/VoiceLines/Sellen/sellen-start-voiceline-2.wav").CreateInstance(),
+                },
+                VoiceLinesBattleLoss = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Sellen/sellen-loss-voiceline-1.wav").CreateInstance(),
+                },
+                VoiceLinesBattleVictory = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Sellen/sellen-win-voiceline-1.wav").CreateInstance(),
+                }
             },
             
             // Thops
@@ -720,7 +733,20 @@ public class LevelManager
                 Backdrop = DataManager.GetInstance().LimgraveBackdrop,
                 LevelReward = _rewards["Thops"],
                 SoundTrack = DataManager.GetInstance().LimgraveSoundtrack.CreateInstance(),
-                EnemyDeck = GenerateDeck(_enemies["Thops"], _decks["Thops"])
+                EnemyDeck = GenerateDeck(_enemies["Thops"], _decks["Thops"]),
+                VoiceLinesBattleStart = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Thops/thops-start-voiceline-1.wav").CreateInstance(),
+                    Game.LoadAudio("Audio/VoiceLines/Thops/thops-start-voiceline-2.wav").CreateInstance(),
+                },
+                VoiceLinesBattleLoss = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Thops/thops-loss-voiceline-1.wav").CreateInstance(),
+                },
+                VoiceLinesBattleVictory = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Thops/thops-win-voiceline-1.wav").CreateInstance(),
+                }
             },
             
             // Fia, The Deathbed Companion
@@ -754,7 +780,20 @@ public class LevelManager
                 Backdrop = DataManager.GetInstance().LimgraveBackdrop,
                 LevelReward = _rewards["Gatekeeper Gostoc"],
                 SoundTrack = DataManager.GetInstance().LimgraveSoundtrack.CreateInstance(),
-                EnemyDeck = GenerateDeck(_enemies["Gatekeeper Gostoc"], _decks["Gatekeeper Gostoc"])
+                EnemyDeck = GenerateDeck(_enemies["Gatekeeper Gostoc"], _decks["Gatekeeper Gostoc"]),
+                VoiceLinesBattleStart = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Gostoc/gostoc-start-voiceline-1.wav").CreateInstance(),
+                    Game.LoadAudio("Audio/VoiceLines/Gostoc/gostoc-start-voiceline-2.wav").CreateInstance(),
+                },
+                VoiceLinesBattleLoss = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Gostoc/gostoc-loss-voiceline-1.wav").CreateInstance(),
+                },
+                VoiceLinesBattleVictory = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Gostoc/gostoc-win-voiceline-1.wav").CreateInstance(),
+                }
             },
             
             // Margit the Fell Omen
@@ -835,7 +874,7 @@ public class LevelManager
                 Enemy = _enemies["Mimic Tear"],
                 Backdrop = DataManager.GetInstance().NokronBackdrop,
                 LevelReward = _rewards["Mimic Tear"],
-                SoundTrack = DataManager.GetInstance().LimgraveSoundtrack.CreateInstance(),  // TODO: Nokron music
+                SoundTrack = DataManager.GetInstance().NokronSoundtrack.CreateInstance(),
                 EnemyDeck = GenerateDeck(_enemies["Mimic Tear"], _decks["Mimic Tear"])
             },
             
@@ -925,8 +964,22 @@ public class LevelManager
                 Enemy = _enemies["Bloody Finger Hunter Yura"],
                 Backdrop = DataManager.GetInstance().AltusPlateauBackdrop,
                 LevelReward = _rewards["Bloody Finger Hunter Yura"],
-                SoundTrack = DataManager.GetInstance().LimgraveSoundtrack.CreateInstance(),  // TODO: Leyndell music
-                EnemyDeck = GenerateDeck(_enemies["Bloody Finger Hunter Yura"], _decks["Bloody Finger Hunter Yura"])
+                SoundTrack = DataManager.GetInstance().LeyndellSoundtrack.CreateInstance(),
+                EnemyDeck = GenerateDeck(_enemies["Bloody Finger Hunter Yura"], _decks["Bloody Finger Hunter Yura"]),
+                VoiceLinesBattleStart = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Yura/yura-start-voiceline-1.wav").CreateInstance(),
+                    Game.LoadAudio("Audio/VoiceLines/Yura/yura-start-voiceline-2.wav").CreateInstance(),
+                },
+                VoiceLinesBattleLoss = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Yura/yura-loss-voiceline-1.wav").CreateInstance(),
+                },
+                VoiceLinesBattleVictory = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Yura/yura-win-voiceline-1.wav").CreateInstance(),
+                    Game.LoadAudio("Audio/VoiceLines/Yura/yura-win-voiceline-2.wav").CreateInstance(),
+                }
             },
             
             // Sir Gideon Ofnir, The All-Knowing
@@ -935,8 +988,26 @@ public class LevelManager
                 Enemy = _enemies["Sir Gideon Ofnir, The All-Knowing"],
                 Backdrop = DataManager.GetInstance().LeyndellFireBackdrop,
                 LevelReward = _rewards["Sir Gideon Ofnir, The All-Knowing"],
-                SoundTrack = DataManager.GetInstance().LimgraveSoundtrack.CreateInstance(),  // TODO: Leyndell music
-                EnemyDeck = GenerateDeck(_enemies["Sir Gideon Ofnir, The All-Knowing"], _decks["Sir Gideon Ofnir, The All-Knowing"])
+                SoundTrack = DataManager.GetInstance().GideonSoundtrack.CreateInstance(),
+                EnemyDeck = GenerateDeck(_enemies["Sir Gideon Ofnir, The All-Knowing"], _decks["Sir Gideon Ofnir, The All-Knowing"]),
+                VoiceLinesBattleStart = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Gideon/gideon-start-voiceline-1.wav").CreateInstance(),
+                    Game.LoadAudio("Audio/VoiceLines/Gideon/gideon-start-voiceline-2.wav").CreateInstance(),
+                    Game.LoadAudio("Audio/VoiceLines/Gideon/gideon-start-voiceline-3.wav").CreateInstance(),
+                    Game.LoadAudio("Audio/VoiceLines/Gideon/gideon-start-voiceline-4.wav").CreateInstance(),
+                    Game.LoadAudio("Audio/VoiceLines/Gideon/gideon-start-voiceline-5.wav").CreateInstance(),
+                    Game.LoadAudio("Audio/VoiceLines/Gideon/gideon-start-voiceline-6.wav").CreateInstance(),
+                },
+                VoiceLinesBattleLoss = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Gideon/gideon-loss-voiceline-1.wav").CreateInstance(),
+                },
+                VoiceLinesBattleVictory = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Gideon/gideon-win-voiceline-1.wav").CreateInstance(),
+                    Game.LoadAudio("Audio/VoiceLines/Gideon/gideon-win-voiceline-2.wav").CreateInstance(),
+                }
             },
             
             // Dung Eater
@@ -945,8 +1016,23 @@ public class LevelManager
                 Enemy = _enemies["Dung Eater"],
                 Backdrop = DataManager.GetInstance().AltusPlateauBackdrop,
                 LevelReward = _rewards["Dung Eater"],
-                SoundTrack = DataManager.GetInstance().LimgraveSoundtrack.CreateInstance(),  // TODO: Leyndell music
-                EnemyDeck = GenerateDeck(_enemies["Dung Eater"], _decks["Dung Eater"])
+                SoundTrack = DataManager.GetInstance().LeyndellSoundtrack.CreateInstance(),
+                EnemyDeck = GenerateDeck(_enemies["Dung Eater"], _decks["Dung Eater"]),
+                VoiceLinesBattleStart = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Dung/dung-start-voiceline-1.wav").CreateInstance(),
+                    Game.LoadAudio("Audio/VoiceLines/Dung/dung-start-voiceline-2.wav").CreateInstance(),
+                },
+                VoiceLinesBattleLoss = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Dung/dung-loss-voiceline-1.wav").CreateInstance(),
+                    Game.LoadAudio("Audio/VoiceLines/Dung/dung-loss-voiceline-2.wav").CreateInstance(),
+                },
+                VoiceLinesBattleVictory = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Dung/dung-win-voiceline-1.wav").CreateInstance(),
+                    Game.LoadAudio("Audio/VoiceLines/Dung/dung-win-voiceline-2.wav").CreateInstance(),
+                }
             },
             
             // Rykard, Lord of Blasphemy
@@ -977,7 +1063,7 @@ public class LevelManager
                 Enemy = _enemies["Commander Niall"],
                 Backdrop = DataManager.GetInstance().CastleSolBackdrop,
                 LevelReward = _rewards["Commander Niall"],
-                SoundTrack = DataManager.GetInstance().LimgraveSoundtrack.CreateInstance(),  // TODO: Niall fight music
+                SoundTrack = DataManager.GetInstance().NiallSoundtrack.CreateInstance(),
                 EnemyDeck = GenerateDeck(_enemies["Commander Niall"], _decks["Commander Niall"])
             },
             
@@ -1162,18 +1248,33 @@ public class LevelManager
             // Tarnished, Consort of the Stars
             new Level
             {
-                Enemy = _enemies["Tarnished, Consort of the Stars"],
+                // Source Portrait:https://www.bilibili.com/opus/948092070459867140?spm_id_from=333.999.0.0
+                Enemy = _enemies["Tarnished, Consort of the Stars"], 
                 Backdrop = DataManager.GetInstance().DarkMoonBackdrop, 
                 LevelReward = _rewards["Tarnished, Consort of the Stars"],
-                SoundTrack = DataManager.GetInstance().LimgraveSoundtrack.CreateInstance(),  // TODO: Come up with proper music
+                SoundTrack = DataManager.GetInstance().ConsortMoonP1Soundtrack.CreateInstance(),
                 EnemyDeck = GenerateDeck(_enemies["Tarnished, Consort of the Stars"], _decks["Tarnished, Consort of the Stars"]),
                 SecondPhase = new Level     // Ranni, Queen of the Dark Moon
                 {
                     Enemy = _enemies["Ranni, Queen of the Dark Moon"],
                     Backdrop = DataManager.GetInstance().DarkMoonBackdrop, 
                     LevelReward = _rewards["Ranni, Queen of the Dark Moon"],
-                    SoundTrack = DataManager.GetInstance().LimgraveSoundtrack.CreateInstance(),  // TODO: Come up with proper music
-                    EnemyDeck = GenerateDeck(_enemies["Ranni, Queen of the Dark Moon"], _decks["Ranni, Queen of the Dark Moon"])
+                    SoundTrack = DataManager.GetInstance().ConsortMoonP2Soundtrack.CreateInstance(),
+                    EnemyDeck = GenerateDeck(_enemies["Ranni, Queen of the Dark Moon"], _decks["Ranni, Queen of the Dark Moon"]),
+                    VoiceLinesBattleStart = new List<SoundEffectInstance>
+                    {
+                        Game.LoadAudio("Audio/VoiceLines/Ranni/ranni-start-voiceline-1.wav").CreateInstance(),
+                        Game.LoadAudio("Audio/VoiceLines/Ranni/ranni-start-voiceline-2.wav").CreateInstance(),
+                        Game.LoadAudio("Audio/VoiceLines/Ranni/ranni-start-voiceline-3.wav").CreateInstance(),
+                    },
+                    VoiceLinesBattleLoss = new List<SoundEffectInstance>
+                    {
+                        Game.LoadAudio("Audio/VoiceLines/Ranni/ranni-loss-voiceline-1.wav").CreateInstance(),
+                    },
+                    VoiceLinesBattleVictory = new List<SoundEffectInstance>
+                    {
+                        Game.LoadAudio("Audio/VoiceLines/Ranni/ranni-win-voiceline-1.wav").CreateInstance(),
+                    }
                 }
             },
         };

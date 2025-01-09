@@ -57,6 +57,7 @@ namespace MonoZenith.Players
         {
             // ReSharper disable once NullableWarningSuppressionIsUsed
             var spiritAsh = (SpiritAsh)Activator.CreateInstance(ashType)!;
+            spiritAsh.Owner = this;
             SpiritAsh = spiritAsh;
             var disabledIndicatorTexture = DataManager.GetInstance().AshIndicatorDisabled;
 

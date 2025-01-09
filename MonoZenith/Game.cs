@@ -50,7 +50,6 @@ public partial class Game
 
         _saveManager = new SaveManager();
         _saveManager.LoadGame();
-        _saveManager.SaveGame();
         
         // Start with a fade-in when the game starts
         StartFadeIn();

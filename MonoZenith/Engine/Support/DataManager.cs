@@ -143,8 +143,11 @@ namespace MonoZenith.Engine.Support
         
         // Sound tracks
         public SoundEffect LimgraveSoundtrack;
+        public SoundEffect LeyndellSoundtrack;
+        public SoundEffect NokronSoundtrack;
         public SoundEffect RoundtableSoundtrack;
         public SoundEffect TreeSentinelSoundtrack;
+        public SoundEffect NiallSoundtrack;
         public SoundEffect GodrickP1Soundtrack;
         public SoundEffect GodrickP2Soundtrack;
         public SoundEffect MargitSoundtrack;
@@ -157,12 +160,15 @@ namespace MonoZenith.Engine.Support
         public SoundEffect RennalaP2Soundtrack;
         public SoundEffect StarscourgeRadahnP1Soundtrack;
         public SoundEffect StarscourgeRadahnP2Soundtrack;
+        public SoundEffect RykardSoundtrack;
         public SoundEffect MalikethSoundtrack;
+        public SoundEffect GideonSoundtrack;
         public SoundEffect GodfreySoundtrack;
         public SoundEffect HoarahLouxSoundtrack;
         public SoundEffect RadagonSoundtrack;
         public SoundEffect EldenBeastSoundtrack;
-        public SoundEffect RykardSoundtrack;
+        public SoundEffect ConsortMoonP1Soundtrack;
+        public SoundEffect ConsortMoonP2Soundtrack;
 
         public SoundEffect DamageSound;
         public SoundEffect CardSound2;
@@ -352,8 +358,11 @@ namespace MonoZenith.Engine.Support
             NewItemSound = LoadAudio("Audio/SoundEffects/new-item.wav");
             
             LimgraveSoundtrack = LoadAudio("Audio/Music/limgrave-music.wav");
+            LeyndellSoundtrack = LoadAudio("Audio/Music/leyndell-music.wav");
+            NokronSoundtrack = LoadAudio("Audio/Music/nokron-music.wav");
             RoundtableSoundtrack = LoadAudio("Audio/Music/roundtable-hold-music.wav");
             TreeSentinelSoundtrack = LoadAudio("Audio/Music/tree-sentinel-battle-soundtrack.wav");
+            NiallSoundtrack = LoadAudio("Audio/Music/niall-battle-soundtrack.wav");
             GodrickP1Soundtrack = LoadAudio("Audio/Music/godrick-phase1-battle-soundtrack.wav");
             GodrickP2Soundtrack = LoadAudio("Audio/Music/godrick-phase2-battle-soundtrack.wav");
             MargitSoundtrack = LoadAudio("Audio/Music/margit-battle-soundtrack.wav");
@@ -366,12 +375,16 @@ namespace MonoZenith.Engine.Support
             RedWolfSoundtrack = LoadAudio("Audio/Music/red-wolf-battle-soundtrack.wav");
             StarscourgeRadahnP1Soundtrack = LoadAudio("Audio/Music/radahn-phase1-battle-soundtrack.wav");
             StarscourgeRadahnP2Soundtrack = LoadAudio("Audio/Music/radahn-phase2-battle-soundtrack.wav");
+            RykardSoundtrack = LoadAudio("Audio/Music/rykard-battle-soundtrack.wav");
             MalikethSoundtrack = LoadAudio("Audio/Music/maliketh-battle-soundtrack.wav");
+            GideonSoundtrack = LoadAudio("Audio/Music/gideon-battle-soundtrack.wav");
             GodfreySoundtrack = LoadAudio("Audio/Music/godfrey-battle-soundtrack.wav");
             HoarahLouxSoundtrack = LoadAudio("Audio/Music/hoarah-loux-battle-soundtrack.wav");
             RadagonSoundtrack = LoadAudio("Audio/Music/radagon-battle-soundtrack.wav");
             EldenBeastSoundtrack = LoadAudio("Audio/Music/elden-beast-battle-soundtrack.wav");
-            RykardSoundtrack = LoadAudio("Audio/Music/rykard-battle-soundtrack.wav");
+            // Source ConsortMoon Soundtrack: https://www.youtube.com/watch?v=jrJP7UZkdN0
+            ConsortMoonP1Soundtrack = LoadAudio("Audio/Music/consort-phase1-battle-soundtrack.wav");
+            ConsortMoonP2Soundtrack = LoadAudio("Audio/Music/consort-phase2-battle-soundtrack.wav");
 
             DamageSound = LoadAudio("Audio/SoundEffects/damage-sound.wav");
             HealingSound = LoadAudio("Audio/SoundEffects/healing-sound.wav");
