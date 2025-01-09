@@ -5,7 +5,8 @@
         NONE,
         GAME,
         OVERWORLD,
-        MAIN_MENU
+        MAIN_MENU,
+        CREDITS
     }
 
     public enum Region
