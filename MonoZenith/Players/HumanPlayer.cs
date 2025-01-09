@@ -151,7 +151,7 @@ namespace MonoZenith.Players
             int healthHeight = (int)(_playerCurrent.Height * _scale * 0.05f);
             int healthWidth = (int)(ScreenWidth * 0.9f);
             int barWidth = (int)(ScreenWidth * 0.3f);
-            Vector2 barOffset = new Vector2(0, healthHeight + 4);
+            Vector2 barOffset = new Vector2(0, healthHeight + 4 * AppSettings.Scaling.ScaleFactor);
             Vector2 healthPosition = _playerPosition + new Vector2(0, playerOffset.Y - healthHeight * 4.5f) - new Vector2(1, -2 * AppSettings.Scaling.ScaleFactor);
             Vector2 edgePosition = healthPosition - new Vector2(1, 1);
 

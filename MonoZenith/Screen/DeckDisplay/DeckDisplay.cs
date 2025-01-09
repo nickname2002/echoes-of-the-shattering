@@ -340,8 +340,8 @@ namespace MonoZenith.Screen.DeckDisplay
 
             // Calculate scaling and text measurement
             float scaleFactor = AppSettings.Scaling.ScaleFactor;
-            float overviewScaleFactor = scaleFactor * 0.75f;
-            float titleScaleFactor = scaleFactor * 0.9f;
+            float overviewScaleFactor = 0.75f;
+            float titleScaleFactor = 0.9f;
             float padding = 320 * scaleFactor; // Padding around the text
             float titleY = padding - 140 * scaleFactor; // Position the title at the top with padding
             float contentY = titleY + 30 * scaleFactor; // Add spacing for the overview text
@@ -363,7 +363,7 @@ namespace MonoZenith.Screen.DeckDisplay
                 new Vector2(overviewXPosition, contentY),
                 dataManager.CardFont,
                 new Color(180, 180, 180),
-                1);
+                overviewScaleFactor);
         }
         
         public void Update(GameTime deltaTime)

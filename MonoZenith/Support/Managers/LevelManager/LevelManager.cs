@@ -621,7 +621,23 @@ public class LevelManager
                 LevelReward = _rewards["White Mask Varré"],
                 SoundTrack = DataManager.GetInstance().LimgraveSoundtrack.CreateInstance(),
                 EnemyDeck = GenerateDeck(_enemies["White Mask Varré"], _decks["White Mask Varré"]),
-                Unlocked = true
+                Unlocked = true,
+                VoiceLinesBattleStart = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Varre/varre-start-voiceline-1.wav").CreateInstance(),
+                    Game.LoadAudio("Audio/VoiceLines/Varre/varre-start-voiceline-2.wav").CreateInstance(),
+                    Game.LoadAudio("Audio/VoiceLines/Varre/varre-start-voiceline-3.wav").CreateInstance(),
+                    Game.LoadAudio("Audio/VoiceLines/Varre/varre-start-voiceline-4.wav").CreateInstance(),
+                    Game.LoadAudio("Audio/VoiceLines/Varre/varre-start-voiceline-5.wav").CreateInstance()
+                },
+                VoiceLinesBattleLoss = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Varre/varre-loss-voiceline-1.wav").CreateInstance()
+                },
+                VoiceLinesBattleVictory = new List<SoundEffectInstance>
+                {
+                    Game.LoadAudio("Audio/VoiceLines/Varre/varre-win-voiceline-1.wav").CreateInstance()
+                }
             },
             
             // Tree sentinel
