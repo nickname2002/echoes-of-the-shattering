@@ -11,13 +11,12 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="Content\**\*" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="Icon.ico" />
     <None Remove="Icon.bmp" />
     <None Remove=".mgstats" />
-    <None Include="bin\Debug\net6.0\Content\Audio\pixel.xnb" />
-    <None Include="bin\Debug\net6.0\Content\Fonts\pixel.ttf" />
-    <None Include="bin\Debug\net6.0\Content\Fonts\pixel.xnb" />
-    <None Include="bin\Debug\net6.0\Content\Textures\pixel.xnb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Icon.ico" />
@@ -28,16 +27,11 @@
     <PackageReference Include="SpriteFontPlus" Version="0.9.2" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="bin\Debug\net6.0" />
     <Folder Include="Components\LoadoutDisplay\" />
     <Folder Include="Content\Audio\Music\OverworldScreen\" />
     <Folder Include="Content\Audio\VoiceLines\Godfrey\" />
     <Folder Include="Content\Audio\VoiceLines\Maliketh\" />
     <Folder Include="Content\Audio\VoiceLines\Rennala\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="bin\Debug\net6.0\Content\Audio\placeholder.txt" />
-    <Content Include="bin\Debug\net6.0\Content\Textures\placeholder.txt" />
   </ItemGroup>
   <Target Name="RestoreDotnetTools" BeforeTargets="Restore">
     <Message Text="Restoring dotnet tools" Importance="High" />
