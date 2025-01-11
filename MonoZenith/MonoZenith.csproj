@@ -27,7 +27,6 @@
     <PackageReference Include="SpriteFontPlus" Version="0.9.2" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Components\LoadoutDisplay\" />
     <Folder Include="Content\Audio\Music\OverworldScreen\" />
     <Folder Include="Content\Audio\VoiceLines\Godfrey\" />
     <Folder Include="Content\Audio\VoiceLines\Maliketh\" />
