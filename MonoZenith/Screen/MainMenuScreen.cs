@@ -31,7 +31,7 @@ public class MainMenuScreen : Screen
         // Continue game button
         _continueButton = new MainMenuOptionButton(
             Instance, 
-            ScreenHeight / 2f + (int)(250 * AppSettings.Scaling.ScaleFactor),
+            ScreenHeight / 2f + (int)(225 * AppSettings.Scaling.ScaleFactor),
             "Continue game",
             ContinueGame,
             startButtonSound);
@@ -39,7 +39,7 @@ public class MainMenuScreen : Screen
         // Start button
         _startButton = new MainMenuOptionButton(
             Game.Instance, 
-            ScreenHeight / 2f + (int)(300 * AppSettings.Scaling.ScaleFactor), 
+            ScreenHeight / 2f + (int)(275 * AppSettings.Scaling.ScaleFactor), 
             "Start new game",
             StartNewGame,
             startButtonSound);
@@ -47,7 +47,7 @@ public class MainMenuScreen : Screen
         // Quit to Desktop button
         _quitButton = new MainMenuOptionButton(
             Game.Instance, 
-            ScreenHeight / 2f + (int)(350 * AppSettings.Scaling.ScaleFactor), 
+            ScreenHeight / 2f + (int)(325 * AppSettings.Scaling.ScaleFactor), 
             "Quit to desktop",
             BackToDesktop,
             startButtonSound);
@@ -55,7 +55,7 @@ public class MainMenuScreen : Screen
         // Credits button
         _creditsButton = new MainMenuOptionButton(
             Game.Instance, 
-            ScreenHeight / 2f + (int)(400 * AppSettings.Scaling.ScaleFactor), 
+            ScreenHeight / 2f + (int)(375 * AppSettings.Scaling.ScaleFactor), 
             "Credits",
             ToCreditsScreen,
             startButtonSound);
