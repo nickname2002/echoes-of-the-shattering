@@ -42,29 +42,40 @@ namespace MonoZenith.Engine
             Init();
             Window.AllowUserResizing = ScreenResizable;
 
-            // If full screen, set window size to screen size and apply viewport
+            int targetWidth = 1600;
+            int targetHeight = 900;
+
+            int screenWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+            int screenHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+
             if (ScreenFullScreen)
             {
-                // Set screen size to the current display resolution
-                SetScreenSize(
-                    GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width,
-                    GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height);
+                // Bereken de schaalfactor om 16:9 aspect ratio te behouden
+                float scaleX = (float)screenWidth / targetWidth;
+                float scaleY = (float)screenHeight / targetHeight;
+                float scale = MathF.Min(scaleX, scaleY);  // Kies de kleinste schaal om afsnijding te voorkomen
 
-                // Apply viewport scaling for fullscreen
-                ApplyViewportScaling(
-                    GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, 
-                    GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height);
+                // Pas de geschaalde resolutie toe
+                int scaledWidth = (int)(targetWidth * scale);
+                int scaledHeight = (int)(targetHeight * scale);
+
+                // Centreer de viewport
+                int viewportX = (screenWidth - scaledWidth) / 2;
+                int viewportY = (screenHeight - scaledHeight) / 2;
+
+                // Stel de viewport in
+                GraphicsDevice.Viewport = new Viewport(viewportX, viewportY, scaledWidth, scaledHeight);
+
+                // Pas de schermgrootte aan
+                SetScreenSize(scaledWidth, scaledHeight);
             }
             else
             {
-                // If not full screen, use the specified ScreenWidth and ScreenHeight
-                SetScreenSize(ScreenWidth, ScreenHeight);
-
-                // Apply viewport scaling for windowed mode
-                ApplyViewportScaling(ScreenWidth, ScreenHeight);
+                // Gebruik de standaardgrootte in venstermodus
+                SetScreenSize(targetWidth, targetHeight);
             }
 
-            // Change window properties
+            // Toepassen van instellingen
             _graphics.IsFullScreen = ScreenFullScreen;
             _graphics.PreferredBackBufferWidth = ScreenWidth;
             _graphics.PreferredBackBufferHeight = ScreenHeight;
@@ -72,13 +83,11 @@ namespace MonoZenith.Engine
 
             Window.Title = WindowTitle;
 
-            // Update app settings
+            // Update schaalfactor
             AppSettings.Scaling.UpdateScaleFactor(ScreenWidth, ScreenHeight);
 
-            // Load content
+            // Content en schermen laden
             DataManager.GetInstance();
-
-            // Initialize game screens
             InitializeScreens();
         }
 
