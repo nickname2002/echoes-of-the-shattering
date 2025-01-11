@@ -770,7 +770,7 @@ public class LevelManager
                 Enemy = _enemies["Fia, The Deathbed Companion"],
                 Backdrop = DataManager.GetInstance().RoundtableHoldBackdrop,
                 LevelReward = _rewards["Fia, The Deathbed Companion"],
-                SoundTrack = DataManager.GetInstance().RoundtableSoundtrack.CreateInstance(),
+                SoundTrack = DataManager.GetInstance().LimgraveSoundtrack.CreateInstance(),
                 EnemyDeck = GenerateDeck(_enemies["Fia, The Deathbed Companion"], _decks["Fia, The Deathbed Companion"]),
                 VoiceLinesBattleStart = new List<SoundEffectInstance>
                 {
@@ -889,7 +889,7 @@ public class LevelManager
                 Enemy = _enemies["Mimic Tear"],
                 Backdrop = DataManager.GetInstance().NokronBackdrop,
                 LevelReward = _rewards["Mimic Tear"],
-                SoundTrack = DataManager.GetInstance().NokronSoundtrack.CreateInstance(),
+                SoundTrack = DataManager.GetInstance().GideonSoundtrack.CreateInstance(),
                 EnemyDeck = GenerateDeck(_enemies["Mimic Tear"], _decks["Mimic Tear"])
             },
             

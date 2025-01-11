@@ -24,7 +24,6 @@ namespace MonoZenith.Engine.Support
         // Textures
         public Texture2D MonoZenithLogo;
         public Texture2D MainMenuBackdrop;
-        public Texture2D MainMenuHoverIndicator;
         public Texture2D PlayerCurrent;
         public Texture2D PlayerWaiting;
         public Texture2D DeckIndicator;
@@ -38,11 +37,9 @@ namespace MonoZenith.Engine.Support
         public Texture2D LiurniaBackdrop;
         public Texture2D LimgraveBackdrop;
         public Texture2D ChurchOfEllehBackdrop;
-        public Texture2D CaelidBackdrop;
         public Texture2D CastleSolBackdrop;
         public Texture2D DarkMoonBackdrop;
         public Texture2D InsideErdtreeBackdrop;
-        public Texture2D LeyndellBackdrop;
         public Texture2D LeyndellFireBackdrop;
         public Texture2D MaleniaRestplaceBackdrop;
         public Texture2D MohgBackdrop;
@@ -57,9 +54,6 @@ namespace MonoZenith.Engine.Support
         public Texture2D EldenThroneBackdrop;
         public Texture2D RykardBackdrop;
 
-        // Remembrances
-        public Texture2D RemembranceOfTheStarscourge;
-        
         // OverworldScreen
         public Texture2D SiteOfGraceButton;
         public Texture2D SiteOfGraceButtonHover;
@@ -144,8 +138,6 @@ namespace MonoZenith.Engine.Support
         // Sound tracks
         public SoundEffect LimgraveSoundtrack;
         public SoundEffect LeyndellSoundtrack;
-        public SoundEffect NokronSoundtrack;
-        public SoundEffect RoundtableSoundtrack;
         public SoundEffect TreeSentinelSoundtrack;
         public SoundEffect NiallSoundtrack;
         public SoundEffect GodrickP1Soundtrack;
@@ -171,8 +163,6 @@ namespace MonoZenith.Engine.Support
         public SoundEffect ConsortMoonP2Soundtrack;
 
         public SoundEffect DamageSound;
-        public SoundEffect CardSound2;
-        public SoundEffect HealingSound;
 
         public SoundEffect LightSwordSound;
         public SoundEffect HeavySwordSound;
@@ -240,7 +230,6 @@ namespace MonoZenith.Engine.Support
         {
             MonoZenithLogo = LoadImage("Images/monozenith.png");
             MainMenuBackdrop = LoadImage("Images/MainMenu/main-menu-backdrop.png");
-            MainMenuHoverIndicator = LoadImage("Images/MainMenu/menu-item-indicator.png");
             PlayerCurrent = LoadImage("Images/Player/player-current.png");
             PlayerWaiting = LoadImage("Images/Player/player-waiting.png");
             EndTurnButtonIdleTexture = LoadImage("Images/EndTurnButton/end-turn-button-idle.png");
@@ -257,11 +246,9 @@ namespace MonoZenith.Engine.Support
             LiurniaBackdrop = LoadImage("Images/Backdrops/backdrop.png");
             LimgraveBackdrop = LoadImage("Images/Backdrops/limgrave-backdrop.png");
             ChurchOfEllehBackdrop = LoadImage("Images/Backdrops/church-of-elleh-backdrop.png");
-            CaelidBackdrop = LoadImage("Images/Backdrops/caelid-backdrop.png");
             CastleSolBackdrop = LoadImage("Images/Backdrops/castle-sol-backdrop.png");
             DarkMoonBackdrop = LoadImage("Images/Backdrops/dark-moon-backdrop.png");
             InsideErdtreeBackdrop = LoadImage("Images/Backdrops/inside-erdtree-backdrop.png");
-            LeyndellBackdrop = LoadImage("Images/Backdrops/leyndell-backdrop.png");
             LeyndellFireBackdrop = LoadImage("Images/Backdrops/leyndell-fire-backdrop.png");
             MaleniaRestplaceBackdrop = LoadImage("Images/Backdrops/malenia-restplace-backdrop.png");
             MohgBackdrop = LoadImage("Images/Backdrops/mohg-backdrop.png");
@@ -275,9 +262,6 @@ namespace MonoZenith.Engine.Support
             RadahnBattlefieldPhase2Backdrop = LoadImage("Images/Backdrops/radahn-battlefield-phase2-backdrop.png");
             EldenThroneBackdrop = LoadImage("Images/Backdrops/morgott-backdrop.png");
             RykardBackdrop = LoadImage("Images/Backdrops/rykard-backdrop.png");
-
-            // Remembrances
-            RemembranceOfTheStarscourge = LoadImage("Images/Remembrances/remembrance-of-starscourge.png");
             
             // Indicators
             AshIndicatorDisabled = LoadImage("Images/Indicators/ash-indicator-disabled.png");
@@ -359,8 +343,6 @@ namespace MonoZenith.Engine.Support
             
             LimgraveSoundtrack = LoadAudio("Audio/Music/limgrave-music.wav");
             LeyndellSoundtrack = LoadAudio("Audio/Music/leyndell-music.wav");
-            NokronSoundtrack = LoadAudio("Audio/Music/nokron-music.wav");
-            RoundtableSoundtrack = LoadAudio("Audio/Music/roundtable-hold-music.wav");
             TreeSentinelSoundtrack = LoadAudio("Audio/Music/tree-sentinel-battle-soundtrack.wav");
             NiallSoundtrack = LoadAudio("Audio/Music/niall-battle-soundtrack.wav");
             GodrickP1Soundtrack = LoadAudio("Audio/Music/godrick-phase1-battle-soundtrack.wav");
@@ -387,8 +369,6 @@ namespace MonoZenith.Engine.Support
             ConsortMoonP2Soundtrack = LoadAudio("Audio/Music/consort-phase2-battle-soundtrack.wav");
 
             DamageSound = LoadAudio("Audio/SoundEffects/damage-sound.wav");
-            HealingSound = LoadAudio("Audio/SoundEffects/healing-sound.wav");
-            CardSound2 = LoadAudio("Audio/SoundEffects/card-sound2.wav");
 
             LightSwordSound = LoadAudio("Audio/SoundEffects/light-sword-attack.wav");
             HeavySwordSound = LoadAudio("Audio/SoundEffects/heavy-sword-attack.wav");
