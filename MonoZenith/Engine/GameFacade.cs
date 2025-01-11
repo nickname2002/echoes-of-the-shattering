@@ -26,15 +26,6 @@ public class GameFacade
     /// ===== BUILD RELEASE VERSION =====
     /// + Make sure to set this flag to true before building the release version.
     /// + Make sure to add the Content folder to the build.
-    ///
-    /// == macOS
-    /// + Create a .pkg file. Make sure to bundle all necessary files in a folder first.
-    /// Ask ChatGPT how to do this.
-    ///
-    /// == Windows
-    ///
-    ///
-    /// == Linux 
     /// </summary>
     public static bool IsReleaseVersion = true;   // TODO: Set to true for release
 
