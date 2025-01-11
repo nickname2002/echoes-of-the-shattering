@@ -4,18 +4,16 @@
 APP_NAME="EchoesOfTheShattering"
 VERSION="1.0.0"
 IDENTIFIER="com.nickjordan.echoesoftheshattering"
-PLATFORM="osx-arm64"
 BUILD_DIR="$APP_NAME.app"
-PKG_NAME="$APP_NAME-$VERSION.pkg"
 ICON_PATH="AppIcon.icns"
 
 echo "Building the game..."
 
-# Stap 1: Build the game
-dotnet publish -c Release -r osx-arm64 --self-contained -o ./EchoesOfTheShattering.app/Contents/MacOS
+# Stap 1: Build de game
+dotnet publish -c Release -r osx-arm64 --self-contained -o "$BUILD_DIR/Contents/MacOS"
 
 # Stap 2: Maak de binary uitvoerbaar
-chmod +x EchoesOfTheShattering.app/Contents/MacOS/MonoZenith
+chmod +x "$BUILD_DIR/Contents/MacOS/MonoZenith"
 
 echo "Finished building the game."
 
@@ -28,30 +26,18 @@ cat <<EOF > "$BUILD_DIR/Contents/Info.plist"
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
     <dict>
-        <!-- Verwijst naar de uitvoerbare binary -->
         <key>CFBundleExecutable</key>
-        <string>MonoZenith</string>
-
-        <!-- Unieke identifier voor de app -->
+        <string>EchoesOfTheShattering</string>
         <key>CFBundleIdentifier</key>
-        <string>com.nickjordan.EchoesOfTheShattering</string>
-
-        <!-- App-naam -->
+        <string>$IDENTIFIER</string>
         <key>CFBundleName</key>
-        <string>Echoes of the Shattering</string>
-
-        <!-- App-versie -->
+        <string>$APP_NAME</string>
         <key>CFBundleVersion</key>
-        <string>1.0.0</string>
-
+        <string>$VERSION</string>
         <key>CFBundleShortVersionString</key>
-        <string>1.0.0</string>
-
-        <!-- Verwijzing naar het icoon -->
+        <string>$VERSION</string>
         <key>CFBundleIconFile</key>
-        <string>AppIcon.icns</string>
-
-        <!-- Retina-ondersteuning -->
+        <string>$ICON_PATH</string>
         <key>NSHighResolutionCapable</key>
         <true/>
     </dict>
@@ -60,6 +46,25 @@ EOF
 
 echo "Finished creating the Info.plist file."
 
-# TODO: Package the standalone app into a .pkg file
+# Stap 4: Fix permissies en verwijder quarantine flags
+echo "Fixing permissions and removing quarantine flags..."
 
-echo "Finished the packaging process."
+chmod -R 755 "$BUILD_DIR"
+xattr -rc "$BUILD_DIR"
+xattr -dr com.apple.quarantine "$BUILD_DIR"
+
+echo "Permissions and quarantine flags fixed."
+
+# Stap 5: Sign de app
+echo "Signing the app..."
+
+codesign --force --deep --sign - "$BUILD_DIR"
+
+echo "Finished signing the app."
+
+# Stap 6: Zip de app correct
+echo "Zipping the app..."
+
+ditto -c -k --sequesterRsrc --keepParent "$BUILD_DIR" "$APP_NAME.zip"
+
+echo "Finished zipping the app."

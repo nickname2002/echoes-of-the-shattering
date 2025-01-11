@@ -73,7 +73,7 @@ public class LevelManager
         ConfigureLevels();
         
         // TODO: Unlock needed levels for testing purposes using following helper methods:
-        SetAllLevelsUnlocked();
+        // SetAllLevelsUnlocked();
         // SetUnlockedUpUntil("Sorceress Sellen");
     }
     
@@ -93,7 +93,6 @@ public class LevelManager
     
     public static void SetRewardCollected(Level level)
     {
-        Console.WriteLine("Reward collected from: " + level.Enemy.Name);
         level.RewardCollected = true;
         if (level.SecondPhase != null)
         {
