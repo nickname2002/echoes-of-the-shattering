@@ -22,13 +22,29 @@ public class GameFacade
     private const float ClickCooldown = 0;
     public float CurrentClickCooldown;
 
+    /// <summary>
+    /// ===== BUILD RELEASE VERSION =====
+    /// + Make sure to set this flag to true before building the release version.
+    /// + Make sure to add the Content folder to the build.
+    ///
+    /// == macOS
+    /// + Create a .pkg file. Make sure to bundle all necessary files in a folder first.
+    /// Ask ChatGPT how to do this.
+    ///
+    /// == Windows
+    ///
+    ///
+    /// == Linux 
+    /// </summary>
+    public static bool IsReleaseVersion = true;   // TODO: Set to true for release
+
     public Color BackgroundColor => this._backgroundColor;
     public int ScreenWidth => this._screenDimensions.Item1;
     public int ScreenHeight => this._screenDimensions.Item2;
     public bool ScreenResizable => this._screenResizable;
     public bool ScreenFullScreen => this._screenFullScreen;
     public string WindowTitle => this._windowTitle;
-    
+
     public bool ControllerConnected { get; set; }
     public bool HasLeftStick { get; set; }
     public bool HasRightStick { get; set; }
@@ -56,7 +72,7 @@ public class GameFacade
         this._content = content;
         this.CurrentClickCooldown = 0.0f;
     }
-    
+
     /// <summary>
     /// Set the background color.
     /// </summary>
@@ -75,7 +91,7 @@ public class GameFacade
     {
         this._screenDimensions = (w, h);
     }
-    
+
     /// <summary>
     /// Set whether the screen is resizable.
     /// </summary>
@@ -84,7 +100,7 @@ public class GameFacade
     {
         this._screenResizable = resizable;
     }
-    
+
     /// <summary>
     /// Set whether the screen is full screen.
     /// </summary>
@@ -93,7 +109,7 @@ public class GameFacade
     {
         this._screenFullScreen = fullScreen;
     }
-    
+
     /// <summary>
     /// Set the window title.
     /// </summary>
@@ -102,7 +118,7 @@ public class GameFacade
     {
         this._windowTitle = t;
     }
-    
+
     /// <summary>
     /// Get whether a keyboard key is pressed.
     /// </summary>
@@ -113,7 +129,7 @@ public class GameFacade
         KeyboardState state = Keyboard.GetState();
         return state.IsKeyDown(key);
     }
-    
+
     /// <summary>
     /// Get whether a mouse button is pressed and set cooldown if so.
     /// </summary>
@@ -123,7 +139,7 @@ public class GameFacade
     {
         // If there is still cooldown active, return false
         if (CurrentClickCooldown > 0.0f) return false;
-        
+
         var mouseState = Mouse.GetState();
         bool isButtonPressed = button switch
         {
@@ -141,7 +157,7 @@ public class GameFacade
 
         return isButtonPressed;
     }
-    
+
     /// <summary>
     /// Get the mouse position.
     /// </summary>
@@ -151,7 +167,7 @@ public class GameFacade
         var mouseState = Mouse.GetState();
         return mouseState.Position;
     }
-    
+
     /// <summary>
     /// Get the mouse wheel value.
     /// </summary>
@@ -161,7 +177,7 @@ public class GameFacade
         var mouseSate = Mouse.GetState();
         return mouseSate.ScrollWheelValue;
     }
-    
+
     /// <summary>
     /// Gets the absolute path to a file inside the Content directory.
     /// </summary>
@@ -169,13 +185,16 @@ public class GameFacade
     /// <returns>The absolute path to the file.</returns>
     public static string GetContentPath(string relativeFilePath)
     {
+        if (IsReleaseVersion)
+            return GetContentPathRelease(relativeFilePath);
+
         // Set the working directory to the MonoZenith directory (if necessary)
         string currentDirectory = Directory.GetCurrentDirectory();
-        
+
         // Make sure to remove the part past MonoZenith
         string monoZenithDirectory = currentDirectory.Substring(
             0, currentDirectory.IndexOf("MonoZenith", StringComparison.Ordinal) + "MonoZenith".Length);
-        
+
         Directory.SetCurrentDirectory(monoZenithDirectory);
 
         // Combine the content folder with the provided relative path
@@ -184,7 +203,29 @@ public class GameFacade
 
         return fullPath;
     }
-    
+
+    /// <summary>
+    /// Gets the absolute path to a file inside the Content directory for the release version.
+    /// </summary>
+    /// <param name="relativeFilePath">The relative path to the file inside the Content folder.</param>
+    /// <returns>The absolute path to the file.</returns>
+    /// <exception cref="FileNotFoundException">Thrown when the file is not found.</exception>
+    public static string GetContentPathRelease(string relativeFilePath)
+    {
+        // Vind de root directory van het project, ongeacht het platform
+        string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+        string contentDirectory = Path.Combine(baseDirectory, "Content");
+
+        // Combineer de content directory met het relatieve pad
+        string fullPath = Path.Combine(contentDirectory, relativeFilePath);
+
+        // Controleer of het bestand bestaat
+        if (!File.Exists(fullPath))
+            throw new FileNotFoundException($"Content file not found: {fullPath}");
+
+        return fullPath;
+    }
+
     /// <summary>
     /// Load a font from a file.
     /// </summary>
@@ -209,7 +250,7 @@ public class GameFacade
 
         return fontBakeResult.CreateSpriteFont(_graphicsDeviceManager.GraphicsDevice);
     }
-    
+
     /// <summary>
     /// Draw text to the screen.
     /// </summary>
@@ -219,12 +260,12 @@ public class GameFacade
     /// <param name="c">Color</param>
     /// <param name="scale">Scale</param>
     /// <param name="angle">Rotational angle</param>
-    public void DrawText(string content, Vector2 pos, SpriteFont font, Color c, float scale=1, float angle=0)
+    public void DrawText(string content, Vector2 pos, SpriteFont font, Color c, float scale = 1, float angle = 0)
     {
         float rotationAngle = MathHelper.ToRadians(angle);
         _spriteBatch.DrawString(font, content, pos, c, rotationAngle, Vector2.Zero, scale, SpriteEffects.None, 0);
     }
-    
+
     /* Source: https://community.monogame.net/t/loading-png-jpg-etc-directly/7403 */
     /// <summary>
     /// Load an image from a file.
@@ -238,7 +279,7 @@ public class GameFacade
         fs.Dispose();
         return spriteAtlas;
     }
-    
+
     /* Source: https://www.industrian.net/tutorials/texture2d-and-drawing-sprites/ */
     /// <summary>
     /// Draw an image to the screen.
@@ -251,31 +292,31 @@ public class GameFacade
     /// <param name="alpha">Alpha</param>
     /// <param name="color">Color</param>
     public void DrawImage(
-        Texture2D texture, 
-        Vector2 pos, 
-        float scale=1, 
-        float angle=0, 
-        bool flipped=false, 
-        float alpha=1.0f,
-        Color color=default)
+        Texture2D texture,
+        Vector2 pos,
+        float scale = 1,
+        float angle = 0,
+        bool flipped = false,
+        float alpha = 1.0f,
+        Color color = default)
     {
         float rotationAngle = MathHelper.ToRadians(angle);
-    
+
         // Flip image if needed
         var effect = SpriteEffects.None;
         if (flipped)
             effect = SpriteEffects.FlipHorizontally;
-    
+
         _spriteBatch.Draw(
-            texture, 
-            pos, 
-            null, 
-            new Color(color == default ? Color.White : color, alpha), 
-            rotationAngle, 
-            Vector2.Zero, scale, 
+            texture,
+            pos,
+            null,
+            new Color(color == default ? Color.White : color, alpha),
+            rotationAngle,
+            Vector2.Zero, scale,
             effect, 0);
     }
-    
+
     /// <summary>
     /// Draw a rectangle to the screen.
     /// </summary>
