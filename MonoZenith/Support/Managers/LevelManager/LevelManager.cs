@@ -73,7 +73,7 @@ public class LevelManager
         ConfigureLevels();
         
         // TODO: Unlock needed levels for testing purposes using following helper methods:
-        SetAllLevelsUnlocked();
+        // SetAllLevelsUnlocked();
         // SetUnlockedUpUntil("Sorceress Sellen");
     }
     
@@ -210,7 +210,7 @@ public class LevelManager
             ["Gatekeeper Gostoc"] = new(DataManager.GetInstance().CardPoisonPot, "Poison Pot", typeof(PoisonPotCard)),
             ["Godrick the Grafted"] = null,
             ["Godrick the Grafted (2nd phase)"] = new(DataManager.GetInstance().CardCommandKneel, "I Command Thee, Kneel!", typeof(ICommandTheeKneelCard)),
-            ["Thops"] = new(DataManager.GetInstance().CardWarmingStone, "Warming Stone", typeof(WarmingStoneCard)),
+            ["Thops"] = new(DataManager.GetInstance().CardThopsBarrier, "Thops' Barrier", typeof(ThopsBarrierCard)),
             ["Red Wolf of Radagon"] = new(DataManager.GetInstance().CardGlintPhalanx, "Glintblade Phalanx", typeof(GlintbladePhalanxCard)),
             ["Rennala, Queen of the Full Moon"] = null,
             ["Rennala, Queen of the Full Moon (2nd phase)"] = new(DataManager.GetInstance().CardCometAzur, "Comet Azur", typeof(CometAzurCard)),
@@ -219,7 +219,6 @@ public class LevelManager
             ["Starscourge Radahn"] = null,
             ["Starscourge Radahn (2nd phase)"] = new(DataManager.GetInstance().CardStarcallerCry, "Starcaller Cry", typeof(StarcallerCryCard)),
             ["Bloody Finger Hunter Yura"] = new(DataManager.GetInstance().CardUnsheathe, "Unsheathe", typeof(UnsheatheCard)),
-            ["Morgott, The Omen King"] = new(DataManager.GetInstance().CardWarmingStone, "Warming Stone", typeof(WarmingStoneCard)),
             ["Dung Eater"] = null, 
             ["Rykard, Lord of Blasphemy"] = null,
             ["Mohg, Lord of Blood"] = new(DataManager.GetInstance().CardBloodboon, "Bloodboon Ritual", typeof(BloodboonRitualCard)),
