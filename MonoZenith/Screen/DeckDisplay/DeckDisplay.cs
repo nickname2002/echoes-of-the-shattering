@@ -123,6 +123,7 @@ namespace MonoZenith.Screen.DeckDisplay
             new CardAmountComponent(new MoonlightGreatswordCard(), "Tarnished, Consort of the Stars"),
             
             // Item cards
+            new CardAmountComponent(new WarmingStoneCard(), "Tree Sentinel"),
             new CardAmountComponent(new LarvalTearCard(), "Sir Gideon Ofnir, The All-Knowing"),
             new CardAmountComponent(new BaldachinBlessingCard(), "Fia, The Deathbed Companion"),
         };
