@@ -187,7 +187,8 @@ namespace MonoZenith
                     return;
                 }
 
-                if (GameOverManager is { Winner: HumanPlayer, TransitionComplete: true })
+                if (GameOverManager is { Winner: HumanPlayer, TransitionComplete: true }
+                    && Reward != null)
                 {
                     GameOverManager.UpdateRewardPanel(deltaTime);
                     return;

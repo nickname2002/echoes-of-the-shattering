@@ -39,7 +39,7 @@ public class GameOverManager
                     return;
                 }
                 
-                if (RewardCollected())
+                if (RewardCollected() || LevelHasNoReward())
                 {
                     BackToOverworld();
                     return;
@@ -53,6 +53,8 @@ public class GameOverManager
         _rewardPanel = new RewardPanel();
     }
 
+    private bool LevelHasNoReward() => GetGameState().CurrentLevel?.LevelReward == null;
+    
     private bool RewardCollected()
     {
         bool inSecondPhase = 
