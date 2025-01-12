@@ -38,6 +38,8 @@ public sealed class EndTurnButton : Button
         
         SetOnClickAction(() =>
         {
+            if (_gameState.TurnManager.CurrentPlayer is NpcPlayer) return;
+            
             _endPlayerTurnSound.Play();
             
             if (_gameState.TurnManager.CurrentPlayer == null) return;
