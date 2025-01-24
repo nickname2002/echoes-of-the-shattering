@@ -74,7 +74,7 @@ public class LevelManager
         
         // TODO: Unlock needed levels for testing purposes using following helper methods:
         // SetAllLevelsUnlocked();
-        // SetUnlockedUpUntil("Sir Gideon Ofnir, The All-Knowing");
+        // SetUnlockedUpUntil("Radagon of the Golden Order");
     }
     
     public Level GetLevelFromEnemy(string enemyName)

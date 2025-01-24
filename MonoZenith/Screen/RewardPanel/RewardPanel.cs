@@ -34,8 +34,7 @@ public class RewardPanel
         _collectRewardButton.SetOnClickAction(() =>
         {
             _reward = null;
-            // TODO: Assign reward to player when possible
-            LevelManager.SetRewardCollected(GetGameState().CurrentLevel);
+            LevelManager.SetRewardCollected(LevelManager.CurrentLevel);
             BackToOverworld();
         });
     }
