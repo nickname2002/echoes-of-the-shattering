@@ -175,10 +175,8 @@ namespace MonoZenith.Screen.DeckDisplay
             return filteredCards.GetRange(startIndex, endIndex - startIndex);
         }
         
-        private List<CardAmountComponent> GetUnlockedCards(List<CardAmountComponent> cards)
-        {
-            return cards.Where(card => card.IsUnlocked()).ToList();
-        }
+        private List<CardAmountComponent> GetUnlockedCards(List<CardAmountComponent> cards) => 
+            cards.Where(card => card.IsUnlocked()).ToList();
         
         public void DrawDeckContent()
         {

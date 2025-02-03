@@ -111,7 +111,7 @@ public class GameOverManager
     public void DrawRewardPanel() => _rewardPanel.Draw();
     
     public void DrawTransitionComponent() => _gameOverTransitionComponent.Draw();
-
+    
     /// <summary>
     /// Configure transition properties for transitioning from the level to the reward/main menu.
     /// </summary>
