@@ -1,40 +1,76 @@
-# MonoZenith
+# Echoes of the Shattering
 
-**MonoZenith** is a lightweight MonoGame wrapper designed to streamline game development using C#. It simplifies game development by providing abstractions and helper methods, allowing developers to focus on creating engaging gameplay experiences.
+**Echoes of the Shattering** is a single-player, turn-based card battle game that emphasizes **strategic decision-making, build customization, and player experimentation**. The game draws inspiration from the mechanics and atmosphere of *Elden Ring*, translating its depth and challenge into a card-based combat system.  
 
-<img src="https://github.com/nickname2002/MonoZenith/blob/main/MonoZenith/Content/Images/monozenith.png?raw=true" width="600" />
+As such, the game takes place in **The Lands Between**, allowing you to battle **friends and foes** from the legendary action-adventure RPG. Players will manage **stamina, buffs, shields, and healing** while utilizing an ever-evolving **deck of cards** that define their playstyle. The game encourages adaptability, rewarding players for crafting **unique builds** without penalizing experimentation.
+
+<img src="https://img.itch.zone/aW1nLzE5MzQ0MTcxLnBuZw==/original/nJyMmA.png" width="1000" />
 
 ## Table of Contents
-1. [Getting Started](#getting-started)
-2. [Features](#features)
-3. [Known Issues](#known-issues)
-4. [References](#references)
-5. [Maintenance](#maintenance)
 
-## Getting Started
+- [Getting Started](#getting-started)  
+  - [Cloning the Repository](#cloning-the-repository)  
+  - [Running the Game](#running-the-game)  
+    - [From the Terminal](#from-the-terminal)  
+    - [From an IDE (Visual Studio/Rider)](#from-an-ide-visual-studiorider)    
+- [Known Issues](#known-issues)  
+- [References](#references)  
+  - [Used Assets](#used-assets)  
+- [Maintenance](#maintenance)  
 
-1. Download the project from GitHub or fork it and clone to your local machine.
-2. Refer to the [wiki](https://github.com/nickname2002/MonoZenith/wiki) for comprehensive documentation and usage instructions.
+## Getting Started  
 
-## Features
+The game was built using the [**MonoZenith**](https://github.com/nickname2002/MonoZenith) framework. Being an abstraction layer on top of the cross-platform **MonoGame** framework, it allows the game to run on **Windows, macOS, and Linux**.  
 
-- Abstractions for MonoGame.
-- Debugging tools.
-- Asset loading.
-- UI components.
-- Collision detection.
-- Timers and particle system.
-- Controller support.
-- Tilemap reading.
+### Cloning the Repository  
 
-## Known Issues
-- There is no option for making the window resizable at runtime. 
+To clone this project, follow these steps:  
 
-## References
-- [MonoGame](https://monogame.net)
-- [SpriteFontPlus](https://github.com/rds1983/SpriteFontPlus)
+1. Click the green **"Code"** button at the top-right of the repository.  
+2. Click **"Download ZIP"**.  
+3. Extract the downloaded ZIP file.  
+4. Inside the **MonoZenith** folder, locate the solution file (`.sln`).  
+5. Open the solution with a code editor of your choice.  
+6. Follow the instructions below to run the game.  
 
-## Maintenance
+### Running the Game  
 
-This project is maintained by [Nick Jordan](mailto:nickjordan2002@gmail.com).
-For questions or suggestions, please feel free to contact me. Additionally, refer to the [wiki](https://github.com/nickname2002/MonoZenith/wiki) for more information.
+#### From the Terminal  
+
+Make sure your terminal is **inside the project's root directory** (where the `.sln` file is located), then run:  
+
+```sh
+dotnet run
+```
+
+#### From an IDE (Visual Studio/Rider)  
+
+Simply press the **Start** or **Run** button at the top of your IDE.  
+
+---
+
+## Known Issues  
+
+The game is currently in **beta**. Our primary focus is **balancing the gameplay** to make it as enjoyable as possible.  
+
+There are **no known bugs** at the moment. Any issues discovered during testing will be addressed as soon as possible.  
+
+---
+
+## References  
+
+### Used Assets  
+
+- [FromSoftware](https://www.fromsoftware.jp/ww/)  
+- [Osot-酒保](https://space.bilibili.com/62037719)  
+- [gaiiihal](https://www.instagram.com/gaiiihal/)  
+- [Jhyun Music](https://www.youtube.com/@JhyunMusic)  
+- [Arcane Bard Audio](https://www.youtube.com/@ArcaneBardAudio)  
+
+---
+
+## Maintenance  
+
+This project is currently maintained by **two developers** until the beta testing phase is finalized.  
+
+For any comments or questions, feel free to reach out via [email](mailto:nickjordan2002@gmail.com).  
